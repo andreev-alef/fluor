@@ -1,3 +1,6 @@
+db-creds.properties
+web-creds.properties
+
 # maven
 target/
 

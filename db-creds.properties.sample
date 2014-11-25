@@ -1,0 +1,3 @@
+postgres.url=jdbc:postgresql:fluor
+postgres.username=post
+postgres.password=post
