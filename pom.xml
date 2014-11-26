@@ -11,6 +11,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
+    <maven.properties.quiet>false</maven.properties.quiet>
   </properties>
 
   <dependencies>
@@ -48,6 +49,7 @@
               <goal>read-project-properties</goal>
             </goals>
             <configuration>
+              <quiet>${maven.properties.quiet}</quiet>
               <files>
                 <file>db-creds.properties</file>
                 <file>web-creds.properties</file>
