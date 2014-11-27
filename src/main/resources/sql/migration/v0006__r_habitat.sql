@@ -1,7 +1,7 @@
 CREATE TABLE r_habitat
 (
    id integer NOT NULL, 
-   name character varying(255) NOT NULL, 
+   name character varying(16) NOT NULL, 
    CONSTRAINT pk_r_habitat_id PRIMARY KEY (id)
 ) 
 WITH (
