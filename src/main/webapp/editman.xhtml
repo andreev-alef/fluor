@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+  <title>fluor</title>
+</h:head>
+
+<h:body>
+  <h:form>
+    <p:panel >
+   		<f:facet name="header" >
+	        Информация о пациенте
+        </f:facet>
+	    <h:commandButton value="Изменить информацию" />
+		<p:panelGrid columns="2">
+	    <p:panel >
+	   		<f:facet name="header" > Персональные данные
+				<p:selectBooleanCheckbox value="#{EditmanBean.selUmer}" />
+	 			<h:outputText value="пациент умер " />
+ 	        </f:facet>
+			<h:panelGrid columns="2" >
+	        	<p:outputLabel for="fam" value="Фамилия" />
+	        	<p:inputText id="fam" value="#{EditmanBean.firstName}" required="true" />
+	        	<p:outputLabel for="im" value="Имя" />
+		        <p:inputText id="im" value="#{EditmanBean.lastName}" required="true" />
+	        	<p:outputLabel for="ot" value="Отчество" />
+		        <p:inputText id="ot" value="#{EditmanBean.midlName}" />
+	        	<p:outputLabel for="dr" value="Дата рождения" />
+				<p:calendar id="dr" value="#{EditmanBean.datBirthay}" required="true" />
+	        	<p:outputLabel for="pol" value="Пол" />
+		        <p:selectOneMenu id="pol" value="#{EditmanBean.Sex}" required="true">
+		          <f:selectItem itemLabel="-- Выберите пол --" itemValue="#{null}"/>
+		        </p:selectOneMenu>
+	        	<p:outputLabel for="grj" value="Гражданство" />
+		        <p:selectOneMenu id="grj" value="#{EditmanBean.Nationality}">
+		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+		        </p:selectOneMenu>
+			</h:panelGrid>
+		</p:panel>
+		<p:panel >
+	   		<f:facet name="header" >
+		        Адрес проживания  на территории  Российской Федерации
+	        </f:facet>
+			<h:panelGrid columns="2">
+	        	<p:outputLabel for="reg"  value="Регион" />
+		        <p:selectOneMenu id="reg" value="#{EditmanBean.Region}">
+		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+		        </p:selectOneMenu>
+	        	<p:outputLabel for="np" value="Населенный пункт" />
+		        <p:selectOneMenu id="np" value="#{EditmanBean.Nasp}">
+		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+		        </p:selectOneMenu>
+	        	<p:outputLabel for="ul" value="Улица" />
+		        <p:selectOneMenu id="ul" value="#{EditmanBean.Street}">
+		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+		        </p:selectOneMenu>
+	        	<p:outputLabel for="dom" value="Дом" />
+		        <p:inputText id="dom" value="#{EditmanBean.Dom}" />
+	        	<p:outputLabel for="kp" value="Корпус" />
+		        <p:inputText id="kp" value="#{EditmanBean.Korp}" />
+	        	<p:outputLabel for="str" value="Строение" />
+		        <p:inputText id="str" value="#{EditmanBean.Str}" />
+	        	<p:outputLabel for="fl" value="Квартира" />
+		        <p:inputText id="fl" value="#{EditmanBean.Flat}" />
+	        	<p:outputLabel value="Житель" />
+		        <p:selectOneMenu  value="#{EditmanBean.Jitel}">
+		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+		          <f:selectItem itemLabel="ГОРОДСКОЙ" itemValue="1" noSelectionOption="true"/>
+		          <f:selectItem itemLabel="СЕЛЬСКИЙ" itemValue="2" noSelectionOption="true"/>
+		        </p:selectOneMenu>
+	        	<p:outputLabel for="tl" value="Телефон" />
+		        <p:inputText id="tl" value="#{EditmanBean.Telefon}" />
+			</h:panelGrid>
+		</p:panel>
+		</p:panelGrid>	   
+		<p:panel >
+	   		<f:facet name="header" >
+		        Медицинская организация, к которой прикреплен пациент по ОМС
+	        </f:facet>
+			<h:panelGrid columns="2">
+	        	<p:outputLabel for="npmo" value="Населенный пункт" />
+		        <p:selectOneMenu id="npmo" value="#{EditmanBean.NaspMO}">
+		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+		        </p:selectOneMenu>
+	        	<p:outputLabel for="mo" value="Наименование МО" />
+		        <p:selectOneMenu id="mo" value="#{EditmanBean.NameMO}">
+		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+		        </p:selectOneMenu>
+	        	<p:outputLabel for="clmo" value="Поликлиника" />
+		        <p:selectOneMenu id="clmo" value="#{EditmanBean.ClinicMO}">
+		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+		        </p:selectOneMenu>
+	        	<p:outputLabel for="adr" value="Адрес" />
+		        <p:inputText id="adr" value="#{EditmanBean.AdresMO}" />
+			</h:panelGrid>
+		</p:panel>
+		<p:panel >
+	   		<f:facet name="header" >
+		        Контингент населения
+	        </f:facet>
+			<h:panelGrid columns="2">
+	        	<p:outputLabel for="dg" value="Декретированная группа" />
+		        <p:selectOneMenu id="dg" value="#{EditmanBean.DekrGrp}">
+		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+		        </p:selectOneMenu>
+	        	<p:outputLabel for="mg" value="Медицинская группа" />
+		        <p:selectOneMenu id="mg" value="#{EditmanBean.MedGrp}">
+		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+		        </p:selectOneMenu>
+	        	<p:outputLabel for="rg" value="Группа риска (осмотр 2 раза в год)" />
+		        <p:selectOneMenu id="rg" value="#{EditmanBean.RiskGrp}">
+		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+		        </p:selectOneMenu>
+			</h:panelGrid>
+		</p:panel>
+		<h:panelGrid columns="2">
+		    <h:commandButton value="Сохранить" />
+		    <h:commandButton value="Отменить " />
+		</h:panelGrid>
+	   
+    </p:panel>
+
+    <p:panel >
+   		<f:facet name="header" >
+	        Обследования пациента
+        </f:facet>
+	    <h:commandButton value="Добавить обследование" />
+		<p:dataTable var="x-ray" >
+		    <p:column headerText="Дата">
+<!-- 		        <h:outputText value="#{x-ray.id}" /> -->
+		    </p:column>
+		 
+		    <p:column headerText="Населенный пункт">
+		    </p:column>
+		 
+		    <p:column headerText="МО">
+		    </p:column>
+		 
+		    <p:column headerText="Вид">
+		    </p:column>
+
+		    <p:column headerText="Результат">
+		    </p:column>
+		 
+		    <p:column headerText="Верификация">
+		    </p:column>
+		 
+		    <p:column headerText="Действия">
+		    </p:column>
+		 
+		</p:dataTable>
+    </p:panel>
+
+    <p><h:commandButton value="Вернуться к списку пациентов" /></p>
+
+  </h:form>
+</h:body>
+</html>

@@ -11,16 +11,36 @@ import javax.inject.Named;
 
 @Named
 @SessionScoped
-public class UserBean implements Serializable {
-	private static final long serialVersionUID = -229673017810787765L;
-	protected String firstName = "Duke";
-    protected String lastName = "Java";
-    protected Date dob;
-    protected String sex = "Unknown";
+public class EditmanBean implements Serializable {
     protected String email;
     protected String serviceLevel = "medium";
+	private static final long serialVersionUID = -229673017810787765L;
+	protected String firstName = "Фамилия";
+    protected String midlName = "Имя";
+    protected String lastName = "Отчество";
+    protected Date datBirthay = new Date();
+    protected String Region = "Кемеровская область";
+    protected String Nasp;
+    protected String Street;
+    protected String Dom;
+    protected String Korp;
+    protected String Str;
+    protected String Flat;
+    protected String Telefon;
+    protected int Jitel;
+    protected String Sex = "Unknown";
+    protected String Nationality = "Росия";
+    protected boolean selUmer;
+    protected boolean selMO;
+    protected String NaspMO;
+    protected String AdresMO;
+    protected String NameMO;
+    protected String ClinicMO;
+    protected int DekrGrp;
+    protected int MedGrp;
+    protected int RiskGrp;
     
-    public UserBean() {}
+    public EditmanBean() {}
 
     public String getFirstName() {
         return firstName;
@@ -38,20 +58,20 @@ public class UserBean implements Serializable {
         this.lastName = lastName;
     }
 
-    public Date getDob() {
-        return dob;
+    public String getMidlName() {
+        return lastName;
     }
 
-    public void setDob(Date dob) {
-        this.dob = dob;
+    public void setMidlName(String midlName) {
+        this.midlName = midlName;
     }
 
     public String getSex() {
-        return sex;
+        return Sex;
     }
 
     public void setSex(String sex) {
-        this.sex = sex;
+        this.Sex = sex;
     }
 
     public String getEmail() {
@@ -88,5 +108,21 @@ public class UserBean implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, doneMessage);
         return "done";
     }
+
+	public Date getDatBirthay() {
+		return datBirthay;
+	}
+
+	public void setDatBirthay(Date datBirthay) {
+		this.datBirthay = datBirthay;
+	}
+
+	public boolean isSelUmer() {
+		return selUmer;
+	}
+
+	public void setSelUmer(boolean selUmer) {
+		this.selUmer = selUmer;
+	}
 }
 
