@@ -12,35 +12,54 @@ import javax.inject.Named;
 @Named
 @SessionScoped
 public class EditmanBean implements Serializable {
-    protected String email;
-    protected String serviceLevel = "medium";
-	private static final long serialVersionUID = -229673017810787765L;
-	protected String firstName = "Фамилия";
-    protected String midlName = "Имя";
-    protected String lastName = "Отчество";
-    protected Date datBirthay = new Date();
-    protected String Region = "Кемеровская область";
-    protected String Nasp;
-    protected String Street;
-    protected String Dom;
-    protected String Korp;
-    protected String Str;
-    protected String Flat;
-    protected String Telefon;
-    protected int Jitel;
-    protected String Sex = "Unknown";
-    protected String Nationality = "Росия";
-    protected boolean selUmer;
-    protected boolean selMO;
-    protected String NaspMO;
-    protected String AdresMO;
-    protected String NameMO;
-    protected String ClinicMO;
-    protected int DekrGrp;
-    protected int MedGrp;
-    protected int RiskGrp;
+	public static final long serialVersionUID = -229673017810787765L;
+    private String email;
+    private String serviceLevel = "medium";
+	private String firstName = "Фамилия";
+    private String midlName = "Имя";
+    private String lastName = "Отчество";
+    private Date datBirthay = new Date();
+    private String Region = "Кемеровская область";
+    private String Nasp;
+    private String Street;
+    private String Dom;
+    private String Korp;
+    private String Str;
+    private String Flat;
+    private String Telefon;
+    private int Jitel;
+    private String Sex = "Unknown";
+    private String Nationality = "Росия";
+    private boolean selUmer;
+    private boolean selMO;
+    private String NaspMO;
+    private String AdresMO;
+    private String NameMO;
+    private String ClinicMO;
+    private int DekrGrp;
+    private int MedGrp;
+    private int RiskGrp;
     
     public EditmanBean() {}
+
+    public void validateEmail(FacesContext context, UIComponent toValidate,
+            Object value) throws ValidatorException {
+        String emailStr = (String) value;
+        if (-1 == emailStr.indexOf("@")) {
+            FacesMessage message = new FacesMessage("Invalid email address");
+            throw new ValidatorException(message);
+        }
+    }
+
+    public String addConfirmedUser() {
+        // This method would call a database or other service and add the 
+        // confirmed user information.
+        // For now, we just place an informative message in request scope
+        FacesMessage doneMessage = 
+                new FacesMessage("Successfully added new user");
+        FacesContext.getCurrentInstance().addMessage(null, doneMessage);
+        return "done";
+    }
 
     public String getFirstName() {
         return firstName;
@@ -50,20 +69,20 @@ public class EditmanBean implements Serializable {
         this.firstName = firstName;
     }
 
-    public String getLastName() {
+    public String getMidlName() {
+		return midlName;
+	}
+
+	public void setMidlName(String midlName) {
+		this.midlName = midlName;
+	}
+
+	public String getLastName() {
         return lastName;
     }
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public String getMidlName() {
-        return lastName;
-    }
-
-    public void setMidlName(String midlName) {
-        this.midlName = midlName;
     }
 
     public String getSex() {
@@ -90,25 +109,6 @@ public class EditmanBean implements Serializable {
         this.serviceLevel = serviceLevel;
     }
     
-    public void validateEmail(FacesContext context, UIComponent toValidate,
-            Object value) throws ValidatorException {
-        String emailStr = (String) value;
-        if (-1 == emailStr.indexOf("@")) {
-            FacesMessage message = new FacesMessage("Invalid email address");
-            throw new ValidatorException(message);
-        }
-    }
-
-    public String addConfirmedUser() {
-        // This method would call a database or other service and add the 
-        // confirmed user information.
-        // For now, we just place an informative message in request scope
-        FacesMessage doneMessage = 
-                new FacesMessage("Successfully added new user");
-        FacesContext.getCurrentInstance().addMessage(null, doneMessage);
-        return "done";
-    }
-
 	public Date getDatBirthay() {
 		return datBirthay;
 	}
@@ -123,6 +123,150 @@ public class EditmanBean implements Serializable {
 
 	public void setSelUmer(boolean selUmer) {
 		this.selUmer = selUmer;
+	}
+
+	public String getTelefon() {
+		return Telefon;
+	}
+
+	public void setTelefon(String telefon) {
+		Telefon = telefon;
+	}
+
+	public String getRegion() {
+		return Region;
+	}
+
+	public void setRegion(String region) {
+		Region = region;
+	}
+
+	public String getNasp() {
+		return Nasp;
+	}
+
+	public void setNasp(String nasp) {
+		Nasp = nasp;
+	}
+
+	public String getStreet() {
+		return Street;
+	}
+
+	public void setStreet(String street) {
+		Street = street;
+	}
+
+	public String getDom() {
+		return Dom;
+	}
+
+	public void setDom(String dom) {
+		Dom = dom;
+	}
+
+	public String getKorp() {
+		return Korp;
+	}
+
+	public void setKorp(String korp) {
+		Korp = korp;
+	}
+
+	public String getStr() {
+		return Str;
+	}
+
+	public void setStr(String str) {
+		Str = str;
+	}
+
+	public String getFlat() {
+		return Flat;
+	}
+
+	public void setFlat(String flat) {
+		Flat = flat;
+	}
+
+	public int getJitel() {
+		return Jitel;
+	}
+
+	public void setJitel(int jitel) {
+		Jitel = jitel;
+	}
+
+	public String getNationality() {
+		return Nationality;
+	}
+
+	public void setNationality(String nationality) {
+		Nationality = nationality;
+	}
+
+	public boolean isSelMO() {
+		return selMO;
+	}
+
+	public void setSelMO(boolean selMO) {
+		this.selMO = selMO;
+	}
+
+	public String getNaspMO() {
+		return NaspMO;
+	}
+
+	public void setNaspMO(String naspMO) {
+		NaspMO = naspMO;
+	}
+
+	public String getAdresMO() {
+		return AdresMO;
+	}
+
+	public void setAdresMO(String adresMO) {
+		AdresMO = adresMO;
+	}
+
+	public String getNameMO() {
+		return NameMO;
+	}
+
+	public void setNameMO(String nameMO) {
+		NameMO = nameMO;
+	}
+
+	public String getClinicMO() {
+		return ClinicMO;
+	}
+
+	public void setClinicMO(String clinicMO) {
+		ClinicMO = clinicMO;
+	}
+
+	public int getDekrGrp() {
+		return DekrGrp;
+	}
+
+	public void setDekrGrp(int dekrGrp) {
+		DekrGrp = dekrGrp;
+	}
+
+	public int getMedGrp() {
+		return MedGrp;
+	}
+
+	public void setMedGrp(int medGrp) {
+		MedGrp = medGrp;
+	}
+
+	public int getRiskGrp() {
+		return RiskGrp;
+	}
+
+	public void setRiskGrp(int riskGrp) {
+		RiskGrp = riskGrp;
 	}
 }
 
