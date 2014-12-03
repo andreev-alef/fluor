@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+  <title>Флюрокартотека</title>
+</h:head>
+
+<h:body>
+  <h:form>
+	
+	<h:panelGrid columns="10" focus="fam">
+       	<p:outputLabel for="fam" value="Фамилия" />
+       	<p:inputText id="fam" value="#{listmanBean.userFam}" required="true" requiredMessage="Фамилия обязательно."/>
+       	<p:outputLabel for="im" value="Имя" />
+        <p:inputText id="im" value="#{listmanBean.userIm}" required="true" />
+       	<p:outputLabel for="ot" value="Отчество" />
+        <p:inputText id="ot" value="#{listmanBean.userOt}" />
+       	<p:outputLabel for="dr" value="Дата рождения" />
+		<p:calendar id="dr" value="#{listmanBean.userDr}" />
+	    <p:commandButton value="Найти" />
+	    <p:commandButton value="Сбросить" />
+		<h:message style="color:red" />
+	</h:panelGrid>
+		<p:dataTable var="item" >
+		    <p:column headerText="Просмотр">
+				<p:link outcome="editman">
+					<f:param name="faces-redirect" value="true"/>
+<!-- 				<f:param name="refheaderid" value="#{refh.id}"/> -->
+					<h:panelGroup layout="block" />
+					<h:outputText value="Просмотр"/>
+				</p:link>   							
+ 		    </p:column>
+		 
+		    <p:column headerText="Фамилия">
+		        <h:outputText value="#{item.firstName}" />
+		    </p:column>
+		 
+		    <p:column headerText="Имя">
+		        <h:outputText value="#{item.lastName}" />
+		    </p:column>
+		 
+		    <p:column headerText="Отчество">
+		        <h:outputText value="#{item.midlName}" />
+		    </p:column>
+
+		    <p:column headerText="Дата рождения">
+		        <h:outputText value="#{item.datBirthay}" />
+		    </p:column>
+		 
+		    <p:column headerText="Пол">
+		        <h:outputText value="#{item.sex}" />
+		    </p:column>
+		 
+		    <p:column headerText="Населенный пункт">
+		        <h:outputText value="#{item.nasp}" />
+		    </p:column>
+		 
+		    <p:column headerText="Адрес">
+		        <h:outputText value="#{item.street}" />
+		    </p:column>
+		 
+		    <p:column headerText="Дата последнего обследования">
+				<p:commandLink update=":frmBrowse:pnlDlg" process="@this" actionListener="#{listRH.selectLsn}" oncomplete="PF('brw').show()" >
+	<!-- 			<f:attribute name="refheaderid" value="#{refh.id}"/> -->
+					<h:panelGroup layout="block" />
+					<h:outputText value="смотреть"/>
+				</p:commandLink>   
+		    </p:column>
+		 
+		    <p:column headerText="Результат">
+		        <h:outputText value="Норма" />
+		    </p:column>
+
+		    <p:column headerText="Верификация">
+		        <h:outputText value="неизвестно" />
+		    </p:column>
+		 
+		</p:dataTable>
+
+				<p:link outcome="editman">
+					<f:param name="faces-redirect" value="true"/>
+<!-- 				<f:param name="refheaderid" value="#{refh.id}"/> -->
+					<h:panelGroup layout="block" />
+					<h:outputText value="Просмотр"/>
+				</p:link>   							
+	<h:panelGrid columns="2">
+		<p:link outcome="editman">
+			<f:param name="faces-redirect" value="true"/>
+<!-- 				<f:param name="refheaderid" value="#{refh.id}"/> -->
+			<h:panelGroup layout="block" />
+			<h:outputText value="Добавить пациента"/>
+		</p:link>   							
+<!-- 	    <p:commandButton id="btnAdd" value="Добавить пациента" /> -->
+	    <p:commandButton id="btnRep" value="Отчетные формы" />
+	</h:panelGrid>
+  </h:form>
+
+  <h:form id="frmBrowse">  
+	<p:dialog id="dlg" widgetVar="brw" modal="true" header="Пациент" resizable="false" class="my_overley">
+		<p:outputPanel id="pnlDlg">
+		<p:dataTable var="item" >
+		    <p:column headerText="Дата обследования">
+<!-- 		        <h:outputText value="11.02.2014" /> -->
+		    </p:column>
+		    <p:column headerText="Вид">
+		        <h:outputText value="Флюр." />
+		    </p:column>
+		    <p:column headerText="Результат">
+		        <h:outputText value="Норма" />
+		    </p:column>
+		    <p:column headerText="Место проведения">
+		        <h:outputText value="ЛПУ 2" />
+		    </p:column>
+		</p:dataTable>
+		</p:outputPanel>
+    </p:dialog>
+  </h:form>
+
+</h:body>
+
+</html>

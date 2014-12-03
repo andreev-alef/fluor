@@ -15,9 +15,7 @@
   </servlet-mapping>
 
   <welcome-file-list>
-    <welcome-file>main.xhtml</welcome-file>
+    <welcome-file>listman.xhtml</welcome-file>
   </welcome-file-list>
-  <welcome-file-list>
-    <welcome-file>editman.xhtml</welcome-file>
-  </welcome-file-list>
+  
 </web-app>
