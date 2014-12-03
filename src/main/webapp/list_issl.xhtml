@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+  <h:form id="frmDialog">
+	<p:dialog id="dlg" widgetVar="dlgHeader" modal="true" header="Добавление обследования" resizable="false" >
+<!-- 		<p:commandButton value="Закрыть" oncomplete="PF('dlgHeader').hide()" class="button_link"/>  -->
+		<p:panel id="pnlDialog">
+		<h:panelGrid columns="2">
+	       	<h:outputText for="dob" value="Дата обследования" />
+			<p:calendar id="dob" value="#{EditmanBean.datBirthay}" required="true" />
+        	<h:outputText for="npmo" value="Населенный пункт" />
+	        <p:selectOneMenu id="npmo" value="#{EditmanBean.NaspMO}">
+	          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+	        </p:selectOneMenu>
+        	<h:outputText for="mo" value="Наименование МО" />
+	        <p:selectOneMenu id="mo" value="#{EditmanBean.NameMO}">
+	          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+	        </p:selectOneMenu>
+        	<h:outputText for="vo" value="Вид обследования" />
+	        <p:selectOneMenu id="vo" value="#{EditmanBean.ClinicMO}">
+	          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+	        </p:selectOneMenu>
+	       	<h:outputText for="rez" value="Результат" />
+	        <p:selectOneMenu id="rez" value="#{EditmanBean.MedGrp}">
+	          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+	        </p:selectOneMenu>
+	       	<h:outputText for="ap" value="Марка флюроаппарата" />
+	       	<p:inputText id="ap" value="#{EditmanBean.Telefon}" />
+	       	<h:outputText for="ver" value="Верификация диагноза" />
+	        <p:selectOneMenu id="ver" value="#{EditmanBean.MedGrp}">
+	          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+	        </p:selectOneMenu>
+		</h:panelGrid>
+		<h:panelGrid columns="2">
+	    <p:commandButton id="btnAdd" value="Сохранить" />
+	    <p:commandButton id="btnCancel" value="Отменить" />
+		</h:panelGrid>
+	
+		</p:panel>
+	</p:dialog>
+  </h:form>
+</h:body>
+</html>
+
+
+	
