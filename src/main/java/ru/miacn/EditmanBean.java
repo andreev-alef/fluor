@@ -13,11 +13,17 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import ru.miacn.persistence.ListConverter;
+import ru.miacn.persistence.RefCitizen;
 import ru.miacn.persistence.RefDecrGroup;
+import ru.miacn.persistence.RefExamMethods;
 import ru.miacn.persistence.RefExamType;
 import ru.miacn.persistence.RefGender;
 import ru.miacn.persistence.RefHabitat;
 import ru.miacn.persistence.RefMedGroup;
+import ru.miacn.persistence.RefMedicalOrgMain;
+import ru.miacn.persistence.RefMedicalOrgPoliclinic;
+import ru.miacn.persistence.RefMedicalOrgTer;
+import ru.miacn.persistence.RefResultType;
 import ru.miacn.persistence.RefSocGroup;
 
 @Named
@@ -58,6 +64,12 @@ public class EditmanBean implements Serializable {
 	private List<RefDecrGroup> decrList;
 	private List<RefMedGroup> medList;
 	private List<RefSocGroup> socList;
+	private List<RefCitizen> citizenList;
+	private List<RefExamMethods> exmList;
+	private List<RefMedicalOrgMain> moMainList;
+	private List<RefMedicalOrgPoliclinic> moPoliclinicList;
+	private List<RefMedicalOrgTer> moTerList;
+	private List<RefResultType> resulttypeList;
 	private RefGender selectedSex;
 	private ListConverter sexConverter;
 	private RefHabitat selectedJitel;
@@ -70,7 +82,19 @@ public class EditmanBean implements Serializable {
 	private ListConverter mgConverter;
 	private RefSocGroup selectedSg;
 	private ListConverter sgConverter;
-    
+	private RefCitizen selectedCitizen;
+	private ListConverter citizenConverter;
+	private RefExamMethods selectedExm;
+	private ListConverter exmConverter;
+	private RefMedicalOrgMain selectedMom;
+	private ListConverter momConverter;
+	private RefMedicalOrgPoliclinic selectedMop;
+	private ListConverter mopConverter;
+	private RefMedicalOrgTer selectedMot;
+	private ListConverter motConverter;
+	private RefResultType selectedResType;
+	private ListConverter restypeConverter;
+	    
 	@PostConstruct
 	private void init() {
 		setSexConverter(new ListConverter());
@@ -79,22 +103,57 @@ public class EditmanBean implements Serializable {
 		setDgConverter(new ListConverter());
 		setMgConverter(new ListConverter());
 		setSgConverter(new ListConverter());
+		setCitizenConverter(new ListConverter());
+		setExmConverter(new ListConverter());
+		setRestypeConverter(new ListConverter());
 		setSexList(em.createQuery("SELECT r FROM " + RefGender.class.getName() + " r ORDER BY r.name", RefGender.class).getResultList());
 		setJitelList(em.createQuery("SELECT r FROM " + RefHabitat.class.getName() + " r ORDER BY r.name", RefHabitat.class).getResultList());
 		setExtList(em.createQuery("SELECT r FROM " + RefExamType.class.getName() + " r ORDER BY r.name", RefExamType.class).getResultList());
 		setDecrList(em.createQuery("SELECT r FROM " + RefDecrGroup.class.getName() + " r ORDER BY r.name", RefDecrGroup.class).getResultList());
 		setMedList(em.createQuery("SELECT r FROM " + RefMedGroup.class.getName() + " r ORDER BY r.name", RefMedGroup.class).getResultList());
 		setSocList(em.createQuery("SELECT r FROM " + RefSocGroup.class.getName() + " r ORDER BY r.name", RefSocGroup.class).getResultList());
+		setCitizenList(em.createQuery("SELECT r FROM " + RefCitizen.class.getName() + " r ORDER BY r.name", RefCitizen.class).getResultList());
+		setExmList(em.createQuery("SELECT r FROM " + RefExamMethods.class.getName() + " r ORDER BY r.name", RefExamMethods.class).getResultList());
+		setResulttypeList(em.createQuery("SELECT r FROM " + RefResultType.class.getName() + " r ORDER BY r.name", RefResultType.class).getResultList());
 	}
 
 	public void sexSelected() {
 		if (selectedSex != null) {
 			TypedQuery<RefGender> query = em.createQuery("SELECT r FROM " + RefGender.class.getName() + " r WHERE r.id = :id ORDER BY r.name", RefGender.class);
-			
 			query.setParameter("id", selectedSex.getId());
 			setSexList(query.getResultList());
 		} else {
 			setSexList(new ArrayList<RefGender>());
+		}
+	}
+	
+	public void citizenSelected() {
+		if (selectedCitizen != null) {
+			TypedQuery<RefCitizen> query = em.createQuery("SELECT r FROM " + RefCitizen.class.getName() + " r WHERE r.id = :id ORDER BY r.name", RefCitizen.class);
+			query.setParameter("id", selectedCitizen.getId());
+			setCitizenList(query.getResultList());
+		} else {
+			setCitizenList(new ArrayList<RefCitizen>());
+		}
+	}
+	
+	public void exmSelected() {
+		if (selectedExm != null) {
+			TypedQuery<RefExamMethods> query = em.createQuery("SELECT r FROM " + RefExamMethods.class.getName() + " r WHERE r.id = :id ORDER BY r.name", RefExamMethods.class);
+			query.setParameter("id", selectedExm.getId());
+			setExmList(query.getResultList());
+		} else {
+			setExmList(new ArrayList<RefExamMethods>());
+		}
+	}
+	
+	public void reztypeSelected() {
+		if (selectedResType != null) {
+			TypedQuery<RefResultType> query = em.createQuery("SELECT r FROM " + RefResultType.class.getName() + " r WHERE r.id = :id ORDER BY r.name", RefResultType.class);
+			query.setParameter("id", selectedResType.getId());
+			setResulttypeList(query.getResultList());
+		} else {
+			setResulttypeList(new ArrayList<RefResultType>());
 		}
 	}
 	
@@ -493,6 +552,127 @@ public class EditmanBean implements Serializable {
 
 	public void setExtConverter(ListConverter extConverter) {
 		this.extConverter = extConverter;
+	}
+
+	public List<RefCitizen> getCitizenList() {
+		return citizenList;
+	}
+
+	public void setCitizenList(List<RefCitizen> citizenList) {
+		this.citizenList = citizenList;
+		citizenConverter.setList(citizenList);
+	}
+
+	public List<RefExamMethods> getExmList() {
+		return exmList;
+	}
+
+	public void setExmList(List<RefExamMethods> exmList) {
+		this.exmList = exmList;
+	}
+
+	public List<RefMedicalOrgMain> getMoMainList() {
+		return moMainList;
+	}
+
+	public void setMoMainList(List<RefMedicalOrgMain> moMainList) {
+		this.moMainList = moMainList;
+		momConverter.setList(moMainList);
+	}
+
+	public List<RefMedicalOrgPoliclinic> getMoPoliclinicList() {
+		return moPoliclinicList;
+	}
+
+	public void setMoPoliclinicList(List<RefMedicalOrgPoliclinic> moPoliclinicList) {
+		this.moPoliclinicList = moPoliclinicList;
+		mopConverter.setList(moPoliclinicList);
+	}
+
+	public List<RefMedicalOrgTer> getMoTerList() {
+		return moTerList;
+	}
+
+	public void setMoTerList(List<RefMedicalOrgTer> moTerList) {
+		this.moTerList = moTerList;
+		motConverter.setList(moTerList);
+	}
+
+	public List<RefResultType> getResulttypeList() {
+		return resulttypeList;
+	}
+
+	public void setResulttypeList(List<RefResultType> resulttypeList) {
+		this.resulttypeList = resulttypeList;
+		restypeConverter.setList(resulttypeList);
+	}
+
+	public RefCitizen getSelectedCitizen() {
+		return selectedCitizen;
+	}
+
+	public void setSelectedCitizen(RefCitizen selectedCitizen) {
+		this.selectedCitizen = selectedCitizen;
+	}
+
+	public ListConverter getCitizenConverter() {
+		return citizenConverter;
+	}
+
+	public void setCitizenConverter(ListConverter citizenConverter) {
+		this.citizenConverter = citizenConverter;
+	}
+
+	public RefExamMethods getSelectedExm() {
+		return selectedExm;
+	}
+
+	public void setSelectedExm(RefExamMethods selectedExm) {
+		this.selectedExm = selectedExm;
+	}
+
+	public ListConverter getExmConverter() {
+		return exmConverter;
+	}
+
+	public void setExmConverter(ListConverter exmConverter) {
+		this.exmConverter = exmConverter;
+	}
+
+	private void setRestypeConverter(ListConverter restypeConverter) {
+		this.restypeConverter = restypeConverter;
+	}
+
+	public RefMedicalOrgMain getSelectedMom() {
+		return selectedMom;
+	}
+
+	public void setSelectedMom(RefMedicalOrgMain selectedMom) {
+		this.selectedMom = selectedMom;
+	}
+
+	public RefMedicalOrgPoliclinic getSelectedMop() {
+		return selectedMop;
+	}
+
+	public void setSelectedMop(RefMedicalOrgPoliclinic selectedMop) {
+		this.selectedMop = selectedMop;
+	}
+
+	public RefMedicalOrgTer getSelectedMot() {
+		return selectedMot;
+	}
+
+	public void setSelectedMot(RefMedicalOrgTer selectedMot) {
+		this.selectedMot = selectedMot;
+	}
+
+	public RefResultType getSelectedResType() {
+		return selectedResType;
+	}
+
+	public void setSelectedResType(RefResultType selectedResType) {
+		this.selectedResType = selectedResType;
 	}
 
 	
