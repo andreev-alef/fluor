@@ -33,6 +33,12 @@
       <artifactId>primefaces</artifactId>
       <version>5.1</version>
     </dependency>
+
+    <dependency>
+      <groupId>net.sf.jasperreports</groupId>
+      <artifactId>jasperreports</artifactId>
+      <version>6.0.0</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -92,6 +98,16 @@
           <hostname>${wildfly.hostname}</hostname>
           <username>${wildfly.username}</username>
           <password>${wildfly.password}</password>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>com.alexnederlof</groupId>
+        <artifactId>jasperreports-plugin</artifactId>
+        <version>1.9</version>
+        <configuration>
+          <sourceDirectory>src/main/resources/jasper</sourceDirectory>
+          <outputDirectory>src/main/resources/jasper</outputDirectory> 
         </configuration>
       </plugin>
     </plugins>

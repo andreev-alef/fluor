@@ -1,5 +1,6 @@
 db-creds.properties
 web-creds.properties
+src/main/resources/jasper/*.jasper
 
 # maven
 target/
