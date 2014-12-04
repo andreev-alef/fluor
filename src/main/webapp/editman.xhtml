@@ -5,7 +5,7 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
-  <title>fluor</title>
+  <title>Флюрокартотека</title>
 </h:head>
 
 <h:body>
@@ -38,8 +38,10 @@
 		        </p:selectOneMenu>
 
 	        	<p:outputLabel for="grj" value="Гражданство" />
-		        <p:selectOneMenu id="grj" value="#{editmanBean.nationality}">
+		        <p:selectOneMenu id="grj" value="#{editmanBean.selectedCitizen}" converter="#{editmanBean.citizenConverter}">
+		          <p:ajax listener="#{editmanBean.citizenSelected}"  />
 		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+		          <f:selectItems value="#{editmanBean.citizenList}" var="r" itemLabel="#{r.name}" itemValue="#{r.id}" />
 		        </p:selectOneMenu>
 			</h:panelGrid>
 		</p:panel>
@@ -194,6 +196,8 @@
 		<h:panelGroup layout="block" />
 		<h:outputText value="Вернуться к списку пациентов"/>
 	</p:link>   							
+    <p:commandButton id="btnNF" value="Печать направления на флюорографию" >
+    </p:commandButton>
 	<p:commandLink update=":frmEdt:pnlDlg" process="@this" actionListener="#{listRH.selectLsn}" oncomplete="PF('edt').show()" >
 		<h:panelGroup layout="block" />
 		<h:outputText value="править"/>
@@ -211,13 +215,17 @@
 		<p:outputPanel id="pnlDlg">
         <h:panelGrid columns="2" cellpadding="5">
             <h:outputLabel for="dob" value="Дата обследования" />
-            <p:inputText id="dob" label="" />
+			<p:calendar id="dob" value="#{null}" />
  
             <h:outputLabel for="np" value="Медицинская организация" />
             <p:inputText id="np" label="" />
  
             <h:outputLabel for="vid" value="Вид обследования" />
-            <p:inputText id="vid" label="" />
+	        <p:selectOneMenu id="vid" value="#{editmanBean.selectedExt}" converter="#{editmanBean.extConverter}">
+	          <p:ajax listener="#{editmanBean.extSelected}"  />
+	          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+	          <f:selectItems value="#{editmanBean.extList}" var="r" itemLabel="#{r.name}" itemValue="#{r.id}" />
+	        </p:selectOneMenu>
 
             <h:outputLabel for="rez" value="Результат" />
             <p:inputText id="rez" label="" />
