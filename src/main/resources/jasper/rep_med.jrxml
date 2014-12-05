@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.0.0.final using JasperReports Library version 6.0.0  -->
-<!-- 2014-12-04T23:36:52 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rep_med" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b9c776c4-d915-44a2-8a12-2c08d2f00acf">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
@@ -30,6 +29,7 @@
 			<rightPen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
+	<style name="default" isDefault="true" fontName="DejaVu Sans"/>
 	<subDataset name="Dataset1" uuid="bf07598f-c673-4f80-b482-142fd8ecdebc">
 		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="fluor_adapter"/>
 		<queryString>
@@ -48,12 +48,16 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="30" splitType="Stretch">
+		<band height="38" splitType="Stretch">
 			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<staticText>
-				<reportElement key="" x="0" y="0" width="802" height="30" uuid="6a2403fc-9907-4cb2-bd3d-8b4dbb1bf7ca"/>
+				<reportElement key="" x="0" y="0" width="802" height="38" uuid="6a2403fc-9907-4cb2-bd3d-8b4dbb1bf7ca">
+					<property name="local_mesure_unitheight" value="pixel"/>
+				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="12"/>
+					<font size="12"/>
 				</textElement>
 				<text><![CDATA[ОТЧЕТЫ ПО ФЛЮОГРАФИЧЕСКИМ ОСМОТРАМ МЕДИЦИНСКИХ ГРУПП  НАСЕЛЕНИЯ С КРАТНОСТЬЮ ПРОВЕДЕНИЯ 
 ФЛЮОРОГРАФИИ 1 РАЗ В  ГОД ]]></text>
@@ -82,7 +86,6 @@
 							<staticText>
 								<reportElement x="0" y="0" width="19" height="159" uuid="3e0d98eb-6a7c-4665-be9c-a1f68ba754eb"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Times New Roman"/>
 									<paragraph firstLineIndent="0" leftIndent="3"/>
 								</textElement>
 								<text><![CDATA[№ п/п]]></text>
@@ -99,9 +102,7 @@
 								</box>
 								<staticText>
 									<reportElement x="0" y="0" width="19" height="20" uuid="c66e8b24-3f7d-4e23-bc6b-b5b51a66f649"/>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font fontName="Times New Roman"/>
-									</textElement>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 									<text><![CDATA[1]]></text>
 								</staticText>
 							</jr:columnHeader>
@@ -115,9 +116,7 @@
 								</box>
 								<textField>
 									<reportElement x="0" y="0" width="19" height="30" uuid="77ecb355-d3ce-4cd2-8e11-502c62cb4a10"/>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font fontName="Times New Roman"/>
-									</textElement>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 									<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
@@ -134,7 +133,6 @@
 							<staticText>
 								<reportElement x="0" y="0" width="121" height="159" uuid="60d7ddf1-c8df-4c47-92e5-07494fe4e909"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Times New Roman"/>
 									<paragraph firstLineIndent="0" leftIndent="3"/>
 								</textElement>
 								<text><![CDATA[Контингенты населения, подлежащих флюорографическим осмотрам]]></text>
@@ -151,9 +149,7 @@
 								</box>
 								<staticText>
 									<reportElement x="0" y="0" width="60" height="20" uuid="498a0959-5771-48b2-9ba7-6679aed7de52"/>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font fontName="Times New Roman"/>
-									</textElement>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 									<text><![CDATA[2]]></text>
 								</staticText>
 							</jr:columnHeader>
@@ -168,7 +164,6 @@
 								<textField>
 									<reportElement x="0" y="0" width="121" height="30" uuid="5dfd671d-68f6-47f0-9d2f-68dbb8f6b24f"/>
 									<textElement verticalAlignment="Middle">
-										<font fontName="Times New Roman"/>
 										<paragraph leftIndent="3"/>
 									</textElement>
 									<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
@@ -193,7 +188,6 @@
 									<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Times New Roman"/>
 									<paragraph firstLineIndent="0" leftIndent="3"/>
 								</textElement>
 								<text><![CDATA[Всего лиц, подлежащих ]]></text>
@@ -201,7 +195,6 @@
 							<staticText>
 								<reportElement x="0" y="30" width="35" height="128" uuid="feaca45f-5793-46d6-941c-30aafe845a5c"/>
 								<textElement textAlignment="Left" verticalAlignment="Middle" rotation="Left">
-									<font fontName="Times New Roman"/>
 									<paragraph firstLineIndent="0" leftIndent="3"/>
 								</textElement>
 								<text><![CDATA[На начало периода]]></text>
@@ -215,7 +208,6 @@
 									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 								</box>
 								<textElement textAlignment="Left" verticalAlignment="Middle" rotation="Left">
-									<font fontName="Times New Roman"/>
 									<paragraph firstLineIndent="0" leftIndent="3"/>
 								</textElement>
 								<text><![CDATA[На конец периода]]></text>
@@ -232,9 +224,7 @@
 								</box>
 								<staticText>
 									<reportElement x="0" y="0" width="35" height="20" uuid="b7f810d9-33c1-4bbf-83f1-a3a16b93fd5d"/>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font fontName="Times New Roman"/>
-									</textElement>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 									<text><![CDATA[3]]></text>
 								</staticText>
 							</jr:columnHeader>
@@ -248,9 +238,7 @@
 								</box>
 								<textField>
 									<reportElement x="0" y="0" width="35" height="30" uuid="39464007-a0db-4066-88cd-2e91d843a5d2"/>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font fontName="Times New Roman"/>
-									</textElement>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
@@ -265,9 +253,7 @@
 								</box>
 								<staticText>
 									<reportElement x="0" y="0" width="38" height="20" uuid="94031a4b-1c97-4e47-9ccd-aead839a1e17"/>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font fontName="Times New Roman"/>
-									</textElement>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 									<text><![CDATA[4]]></text>
 								</staticText>
 							</jr:columnHeader>
@@ -281,9 +267,7 @@
 								</box>
 								<textField>
 									<reportElement x="0" y="0" width="38" height="30" uuid="e7880a7f-7ebd-4a13-af34-bab217730886"/>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font fontName="Times New Roman"/>
-									</textElement>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
@@ -299,7 +283,6 @@
 							<staticText>
 								<reportElement x="0" y="0" width="35" height="159" uuid="d768b1d0-e647-4192-96f7-fe768419d192"/>
 								<textElement textAlignment="Left" verticalAlignment="Middle" rotation="Left">
-									<font fontName="Times New Roman"/>
 									<paragraph firstLineIndent="0" leftIndent="3"/>
 								</textElement>
 								<text><![CDATA[План на год (в лицах)]]></text>
@@ -316,9 +299,7 @@
 								</box>
 								<staticText>
 									<reportElement x="0" y="0" width="35" height="20" uuid="7dbdb616-8ec7-48b6-aa63-fc44e0f7dbb8"/>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font fontName="Times New Roman"/>
-									</textElement>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 									<text><![CDATA[5]]></text>
 								</staticText>
 							</jr:columnHeader>
@@ -332,9 +313,7 @@
 								</box>
 								<textField>
 									<reportElement x="0" y="0" width="35" height="30" uuid="4194621b-db2a-4682-bf7a-0d0fc936772e"/>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font fontName="Times New Roman"/>
-									</textElement>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
@@ -350,7 +329,6 @@
 							<staticText>
 								<reportElement x="0" y="0" width="41" height="159" uuid="c3b41c47-e1d6-413f-8ebd-4959a3c1c19e"/>
 								<textElement verticalAlignment="Middle" rotation="Left">
-									<font fontName="Times New Roman"/>
 									<paragraph firstLineIndent="0" leftIndent="3"/>
 								</textElement>
 								<text><![CDATA[План на год (в исследованиях)]]></text>
@@ -367,9 +345,7 @@
 										<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 										<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 									</box>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font fontName="Times New Roman"/>
-									</textElement>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 									<text><![CDATA[6]]></text>
 								</staticText>
 							</jr:columnHeader>
@@ -383,9 +359,7 @@
 								</box>
 								<textField>
 									<reportElement x="0" y="0" width="41" height="30" uuid="ac5f81d7-a74d-48b1-b452-1f6c32ce7f30"/>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font fontName="Times New Roman"/>
-									</textElement>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
@@ -401,7 +375,6 @@
 							<staticText>
 								<reportElement x="0" y="0" width="76" height="30" uuid="1639b180-742c-418f-912c-c17bf07b2b9a"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Times New Roman"/>
 									<paragraph firstLineIndent="0" leftIndent="3"/>
 								</textElement>
 								<text><![CDATA[Осмотрено физических лиц]]></text>
@@ -415,7 +388,6 @@
 									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 								</box>
 								<textElement verticalAlignment="Middle" rotation="Left">
-									<font fontName="Times New Roman"/>
 									<paragraph firstLineIndent="0" leftIndent="3"/>
 								</textElement>
 								<text><![CDATA[Флюорографически]]></text>
@@ -429,7 +401,6 @@
 									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 								</box>
 								<textElement verticalAlignment="Middle" rotation="Left">
-									<font fontName="Times New Roman"/>
 									<paragraph firstLineIndent="0" leftIndent="3"/>
 								</textElement>
 								<text><![CDATA[Рентгенологически]]></text>
@@ -446,9 +417,7 @@
 										<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 										<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 									</box>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font fontName="Times New Roman"/>
-									</textElement>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 									<text><![CDATA[7]]></text>
 								</staticText>
 							</jr:columnHeader>
@@ -462,9 +431,7 @@
 								</box>
 								<textField>
 									<reportElement x="0" y="0" width="35" height="30" uuid="2431bf0b-719d-4ce0-81cb-44d110b49075"/>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font fontName="Times New Roman"/>
-									</textElement>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
@@ -479,9 +446,7 @@
 										<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 										<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 									</box>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font fontName="Times New Roman"/>
-									</textElement>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 									<text><![CDATA[8]]></text>
 								</staticText>
 							</jr:columnHeader>
@@ -495,9 +460,7 @@
 								</box>
 								<textField>
 									<reportElement x="0" y="0" width="41" height="30" uuid="8e02db2a-dffe-4331-94f0-26d90c0adba8"/>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font fontName="Times New Roman"/>
-									</textElement>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
@@ -513,7 +476,6 @@
 							<staticText>
 								<reportElement x="0" y="0" width="73" height="30" uuid="5ccc8efe-fb7b-470a-a0dd-426b2b334e20"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Times New Roman"/>
 									<paragraph firstLineIndent="0" leftIndent="3"/>
 								</textElement>
 								<text><![CDATA[Проведено исследований ]]></text>
@@ -527,7 +489,6 @@
 									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 								</box>
 								<textElement verticalAlignment="Middle" rotation="Left">
-									<font fontName="Times New Roman"/>
 									<paragraph firstLineIndent="0" leftIndent="3"/>
 								</textElement>
 								<text><![CDATA[Флюорографически]]></text>
@@ -541,7 +502,6 @@
 									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 								</box>
 								<textElement verticalAlignment="Middle" rotation="Left">
-									<font fontName="Times New Roman"/>
 									<paragraph firstLineIndent="0" leftIndent="3"/>
 								</textElement>
 								<text><![CDATA[Рентгенологически]]></text>
@@ -558,9 +518,7 @@
 										<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 										<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 									</box>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font fontName="Times New Roman"/>
-									</textElement>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 									<text><![CDATA[9]]></text>
 								</staticText>
 							</jr:columnHeader>
@@ -574,9 +532,7 @@
 								</box>
 								<textField>
 									<reportElement x="0" y="0" width="35" height="30" uuid="ee8526ac-aeae-40ab-b038-6175f5caa3f2"/>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font fontName="Times New Roman"/>
-									</textElement>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
@@ -591,9 +547,7 @@
 										<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 										<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 									</box>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font fontName="Times New Roman"/>
-									</textElement>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 									<text><![CDATA[10]]></text>
 								</staticText>
 							</jr:columnHeader>
@@ -607,9 +561,7 @@
 								</box>
 								<textField>
 									<reportElement x="0" y="0" width="38" height="30" uuid="c9afd810-914e-4a61-a948-a7bf99860f67"/>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font fontName="Times New Roman"/>
-									</textElement>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
@@ -631,7 +583,6 @@
 									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 								</box>
 								<textElement verticalAlignment="Middle" rotation="Left">
-									<font fontName="Times New Roman"/>
 									<paragraph firstLineIndent="0" leftIndent="3"/>
 								</textElement>
 								<text><![CDATA[% выполнения плана на год в лицах]]></text>
@@ -654,9 +605,7 @@
 										<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 										<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 									</box>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font fontName="Times New Roman"/>
-									</textElement>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 									<text><![CDATA[11]]></text>
 								</staticText>
 							</jr:columnHeader>
@@ -670,9 +619,7 @@
 								</box>
 								<textField>
 									<reportElement x="0" y="0" width="35" height="30" uuid="5a51f5e2-7ad5-4bba-a93e-a41c7fd9c148"/>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font fontName="Times New Roman"/>
-									</textElement>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
@@ -688,7 +635,6 @@
 							<staticText>
 								<reportElement x="0" y="0" width="35" height="159" uuid="125e1006-a4d8-4043-b9ad-08a05e2da8fb"/>
 								<textElement verticalAlignment="Middle" rotation="Left">
-									<font fontName="Times New Roman"/>
 									<paragraph firstLineIndent="0" leftIndent="3"/>
 								</textElement>
 								<text><![CDATA[%выполнения  плана  исследований ]]></text>
@@ -711,9 +657,7 @@
 										<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 										<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 									</box>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font fontName="Times New Roman"/>
-									</textElement>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 									<text><![CDATA[12]]></text>
 								</staticText>
 							</jr:columnHeader>
@@ -727,9 +671,7 @@
 								</box>
 								<textField>
 									<reportElement x="0" y="0" width="35" height="30" uuid="1bdf192b-10c7-4be9-9265-8a366f741bdb"/>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font fontName="Times New Roman"/>
-									</textElement>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
@@ -745,7 +687,6 @@
 							<staticText>
 								<reportElement x="0" y="0" width="35" height="159" uuid="c53dd46b-1283-485a-af95-2ed97628c4df"/>
 								<textElement textAlignment="Left" verticalAlignment="Middle" rotation="Left">
-									<font fontName="Times New Roman"/>
 									<paragraph firstLineIndent="0" leftIndent="3"/>
 								</textElement>
 								<text><![CDATA[% охвата  от  подлежащего населения ]]></text>
@@ -768,9 +709,7 @@
 										<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 										<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 									</box>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font fontName="Times New Roman"/>
-									</textElement>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 									<text><![CDATA[13]]></text>
 								</staticText>
 							</jr:columnHeader>
@@ -784,9 +723,7 @@
 								</box>
 								<textField>
 									<reportElement x="0" y="0" width="35" height="30" uuid="69a75d25-6782-4b1b-84b5-1dbf63ccce39"/>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font fontName="Times New Roman"/>
-									</textElement>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
@@ -802,7 +739,6 @@
 							<staticText>
 								<reportElement x="0" y="0" width="41" height="159" uuid="1e123d9a-9047-4f88-b00d-18dccb18918c"/>
 								<textElement verticalAlignment="Middle" rotation="Left">
-									<font fontName="Times New Roman"/>
 									<paragraph firstLineIndent="0" leftIndent="3"/>
 								</textElement>
 								<text><![CDATA[Вызвано на  дообследование чел.]]></text>
@@ -825,9 +761,7 @@
 										<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 										<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 									</box>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font fontName="Times New Roman"/>
-									</textElement>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 									<text><![CDATA[14]]></text>
 								</staticText>
 							</jr:columnHeader>
@@ -841,9 +775,7 @@
 								</box>
 								<textField>
 									<reportElement x="0" y="0" width="41" height="30" uuid="f03c42e5-cfb2-4192-a095-6a4c0afdd09f"/>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font fontName="Times New Roman"/>
-									</textElement>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
@@ -862,7 +794,6 @@
 									<bottomPen lineWidth="1.0"/>
 								</box>
 								<textElement textAlignment="Center">
-									<font fontName="Times New Roman"/>
 									<paragraph firstLineIndent="0" leftIndent="3"/>
 								</textElement>
 								<text><![CDATA[Дообследовано (чел.)]]></text>
@@ -873,7 +804,6 @@
 									<rightPen lineWidth="1.0"/>
 								</box>
 								<textElement verticalAlignment="Middle" rotation="Left">
-									<font fontName="Times New Roman"/>
 									<paragraph firstLineIndent="0" leftIndent="3"/>
 								</textElement>
 								<text><![CDATA[Абсолютное  число]]></text>
@@ -881,7 +811,6 @@
 							<staticText>
 								<reportElement x="35" y="30" width="41" height="129" uuid="5a7ce014-a842-4c07-a335-05edb39117df"/>
 								<textElement verticalAlignment="Middle" rotation="Left">
-									<font fontName="Times New Roman"/>
 									<paragraph firstLineIndent="0" leftIndent="3"/>
 								</textElement>
 								<text><![CDATA[% дообследования в лицах]]></text>
@@ -904,9 +833,7 @@
 										<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 										<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 									</box>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font fontName="Times New Roman"/>
-									</textElement>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 									<text><![CDATA[15]]></text>
 								</staticText>
 							</jr:columnHeader>
@@ -920,9 +847,7 @@
 								</box>
 								<textField>
 									<reportElement x="0" y="0" width="35" height="30" uuid="f510976b-8ed7-4cdd-bc95-b4b7ac98812c"/>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font fontName="Times New Roman"/>
-									</textElement>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
@@ -943,9 +868,7 @@
 										<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 										<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 									</box>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font fontName="Times New Roman"/>
-									</textElement>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 									<text><![CDATA[16]]></text>
 								</staticText>
 							</jr:columnHeader>
@@ -959,9 +882,7 @@
 								</box>
 								<textField>
 									<reportElement x="0" y="0" width="41" height="30" uuid="f92a335f-c792-4d35-989b-b6e31a8d58ce"/>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font fontName="Times New Roman"/>
-									</textElement>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
@@ -980,7 +901,6 @@
 									<bottomPen lineWidth="1.0"/>
 								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Times New Roman"/>
 									<paragraph firstLineIndent="0" leftIndent="3"/>
 								</textElement>
 								<text><![CDATA[Выявлено патологии (чел.)]]></text>
@@ -991,7 +911,6 @@
 									<bottomPen lineWidth="1.0"/>
 								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Times New Roman"/>
 									<paragraph firstLineIndent="0" leftIndent="3"/>
 								</textElement>
 								<text><![CDATA[В  том числе]]></text>
@@ -1002,7 +921,6 @@
 									<bottomPen lineWidth="1.0"/>
 								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Times New Roman"/>
 									<paragraph firstLineIndent="0" leftIndent="3"/>
 								</textElement>
 								<text><![CDATA[Туберкулез]]></text>
@@ -1014,7 +932,6 @@
 									<rightPen lineWidth="1.0"/>
 								</box>
 								<textElement verticalAlignment="Middle" rotation="Left">
-									<font fontName="Times New Roman"/>
 									<paragraph firstLineIndent="0" leftIndent="3"/>
 								</textElement>
 								<text><![CDATA[Всего]]></text>
@@ -1026,7 +943,6 @@
 									<rightPen lineWidth="1.0"/>
 								</box>
 								<textElement verticalAlignment="Middle" rotation="Left">
-									<font fontName="Times New Roman"/>
 									<paragraph firstLineIndent="0" leftIndent="3"/>
 								</textElement>
 								<text><![CDATA[Активный]]></text>
@@ -1038,7 +954,6 @@
 									<rightPen lineWidth="1.0"/>
 								</box>
 								<textElement verticalAlignment="Middle" rotation="Left">
-									<font fontName="Times New Roman"/>
 									<paragraph firstLineIndent="0" leftIndent="3"/>
 								</textElement>
 								<text><![CDATA[Неактивный]]></text>
@@ -1051,7 +966,6 @@
 									<rightPen lineWidth="1.0"/>
 								</box>
 								<textElement verticalAlignment="Middle" rotation="Left">
-									<font fontName="Times New Roman"/>
 									<paragraph firstLineIndent="0" leftIndent="3"/>
 								</textElement>
 								<text><![CDATA[Прочие]]></text>
@@ -1074,9 +988,7 @@
 										<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 										<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 									</box>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font fontName="Times New Roman"/>
-									</textElement>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 									<text><![CDATA[17]]></text>
 								</staticText>
 							</jr:columnHeader>
@@ -1090,9 +1002,7 @@
 								</box>
 								<textField>
 									<reportElement x="0" y="0" width="28" height="30" uuid="b0a518cd-df21-4809-9207-1bc4ce76ed29"/>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font fontName="Times New Roman"/>
-									</textElement>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
@@ -1115,9 +1025,7 @@
 												<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 												<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 											</box>
-											<textElement textAlignment="Center" verticalAlignment="Middle">
-												<font fontName="Times New Roman"/>
-											</textElement>
+											<textElement textAlignment="Center" verticalAlignment="Middle"/>
 											<text><![CDATA[18]]></text>
 										</staticText>
 									</jr:columnHeader>
@@ -1131,9 +1039,7 @@
 										</box>
 										<textField>
 											<reportElement x="0" y="0" width="35" height="30" uuid="f6fa6024-7ffd-474a-8420-2aafbf626fb0"/>
-											<textElement textAlignment="Center" verticalAlignment="Middle">
-												<font fontName="Times New Roman"/>
-											</textElement>
+											<textElement textAlignment="Center" verticalAlignment="Middle"/>
 										</textField>
 									</jr:detailCell>
 								</jr:column>
@@ -1154,9 +1060,7 @@
 												<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 												<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 											</box>
-											<textElement textAlignment="Center" verticalAlignment="Middle">
-												<font fontName="Times New Roman"/>
-											</textElement>
+											<textElement textAlignment="Center" verticalAlignment="Middle"/>
 											<text><![CDATA[19]]></text>
 										</staticText>
 									</jr:columnHeader>
@@ -1170,9 +1074,7 @@
 										</box>
 										<textField>
 											<reportElement x="0" y="0" width="38" height="30" uuid="64d1c906-f376-4977-b51f-5071101a179e"/>
-											<textElement textAlignment="Center" verticalAlignment="Middle">
-												<font fontName="Times New Roman"/>
-											</textElement>
+											<textElement textAlignment="Center" verticalAlignment="Middle"/>
 										</textField>
 									</jr:detailCell>
 								</jr:column>
@@ -1194,9 +1096,7 @@
 											<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 											<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 										</box>
-										<textElement textAlignment="Center" verticalAlignment="Middle">
-											<font fontName="Times New Roman"/>
-										</textElement>
+										<textElement textAlignment="Center" verticalAlignment="Middle"/>
 										<text><![CDATA[20]]></text>
 									</staticText>
 								</jr:columnHeader>
@@ -1210,9 +1110,7 @@
 									</box>
 									<textField>
 										<reportElement x="0" y="0" width="37" height="30" uuid="4fb114cd-1fb4-480c-8eb8-2dd5eed9f133"/>
-										<textElement textAlignment="Center" verticalAlignment="Middle">
-											<font fontName="Times New Roman"/>
-										</textElement>
+										<textElement textAlignment="Center" verticalAlignment="Middle"/>
 									</textField>
 								</jr:detailCell>
 							</jr:column>
