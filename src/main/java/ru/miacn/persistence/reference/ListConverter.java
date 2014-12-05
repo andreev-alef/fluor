@@ -1,4 +1,4 @@
-package ru.miacn.persistence;
+package ru.miacn.persistence.reference;
 
 import java.util.List;
 
