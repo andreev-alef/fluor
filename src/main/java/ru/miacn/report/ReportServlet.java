@@ -17,7 +17,7 @@ public class ReportServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
-			HtmlReport rep;
+			JasperReport rep;
 			String id = (req.getParameter("id") != null) ? req.getParameter("id") : "";
 			
 			switch (id) {
@@ -34,7 +34,7 @@ public class ReportServlet extends HttpServlet {
 				throw new ServletException("Specify 'id' parameter with value 1, 2 or 3.");
 			}
 			
-			rep.printReport(resp.getOutputStream());
+			rep.printReport(resp.getOutputStream(), ReportType.html);
 		} catch (JRException | SQLException | NamingException e) {
 			e.printStackTrace();
 		}
