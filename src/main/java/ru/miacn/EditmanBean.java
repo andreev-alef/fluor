@@ -69,7 +69,7 @@ public class EditmanBean implements Serializable {
 	private List<RefMedicalOrgMain> moMainList;
 	private List<RefMedicalOrgPoliclinic> moPoliclinicList;
 	private List<RefMedicalOrgTer> moTerList;
-	private List<RefResultType> resulttypeList;
+	private List<RefResultType> restypeList;
 	private RGender selectedSex;
 	private ListConverter sexConverter;
 	private RefHabitat selectedJitel;
@@ -114,7 +114,7 @@ public class EditmanBean implements Serializable {
 		setSocList(em.createQuery("SELECT r FROM " + RefSocGroup.class.getName() + " r ORDER BY r.name", RefSocGroup.class).getResultList());
 		setCitizenList(em.createQuery("SELECT r FROM " + RCitizen.class.getName() + " r ORDER BY r.name", RCitizen.class).getResultList());
 		setExmList(em.createQuery("SELECT r FROM " + RefExamMethods.class.getName() + " r ORDER BY r.name", RefExamMethods.class).getResultList());
-		setResulttypeList(em.createQuery("SELECT r FROM " + RefResultType.class.getName() + " r ORDER BY r.name", RefResultType.class).getResultList());
+		setRestypeList(em.createQuery("SELECT r FROM " + RefResultType.class.getName() + " r ORDER BY r.name", RefResultType.class).getResultList());
 	}
 
 	public void sexSelected() {
@@ -151,9 +151,9 @@ public class EditmanBean implements Serializable {
 		if (selectedResType != null) {
 			TypedQuery<RefResultType> query = em.createQuery("SELECT r FROM " + RefResultType.class.getName() + " r WHERE r.id = :id ORDER BY r.name", RefResultType.class);
 			query.setParameter("id", selectedResType.getId());
-			setResulttypeList(query.getResultList());
+			setRestypeList(query.getResultList());
 		} else {
-			setResulttypeList(new ArrayList<RefResultType>());
+			setRestypeList(new ArrayList<RefResultType>());
 		}
 	}
 	
@@ -598,13 +598,13 @@ public class EditmanBean implements Serializable {
 		motConverter.setList(moTerList);
 	}
 
-	public void setResulttypeList(List<RefResultType> resulttypeList) {
-		this.resulttypeList = resulttypeList;
-		restypeConverter.setList(resulttypeList);
+	public void setRestypeList(List<RefResultType> restypeList) {
+		this.restypeList = restypeList;
+		restypeConverter.setList(restypeList);
 	}
 
-	public List<RefResultType> getResulttypeList() {
-		return resulttypeList;
+	public List<RefResultType> getRestypeList() {
+		return restypeList;
 	}
 
 	public RCitizen getSelectedCitizen() {
@@ -638,9 +638,6 @@ public class EditmanBean implements Serializable {
 	public void setExmConverter(ListConverter exmConverter) {
 		this.exmConverter = exmConverter;
 	}
-	private void setRestypeConverter(ListConverter restypeConverter) {
-		this.restypeConverter = restypeConverter;
-	}
 
 	public RefMedicalOrgMain getSelectedMom() {
 		return selectedMom;
@@ -672,6 +669,35 @@ public class EditmanBean implements Serializable {
 
 	public void setSelectedResType(RefResultType selectedResType) {
 		this.selectedResType = selectedResType;
+	}
+
+//	
+//	public List<RefResultType> getMedList() {
+//		return medList;
+//	}
+//
+//	public void setMedList(List<RefResultType> medList) {
+//		this.medList = medList;
+//		mgConverter.setList(medList);
+//	}
+//	
+//	public RefResultType getSelectedMg() {
+//		return selectedMg;
+//	}
+//	
+//	public void setSelectedMg(RefResultType selectedMg) {
+//		this.selectedMg = selectedMg;
+//	}
+//	
+//	public ListConverter getMgConverter() {
+//		return mgConverter;
+//	}
+//	
+	private void setRestypeConverter(ListConverter restypeConverter) {
+		this.restypeConverter = restypeConverter;
+	}
+	public ListConverter getRestypeConverter() {
+		return restypeConverter;
 	}
 
 	

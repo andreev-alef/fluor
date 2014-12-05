@@ -228,7 +228,11 @@
 	        </p:selectOneMenu>
 
             <h:outputLabel for="rez" value="Результат" />
-            <p:inputText id="rez" label="" />
+	        <p:selectOneMenu id="rez" value="#{editmanBean.selectedResType}" converter="#{editmanBean.restypeConverter}">
+	          <p:ajax listener="#{editmanBean.reztypeSelected}"  />
+	          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+	          <f:selectItems value="#{editmanBean.restypeList}" var="r" itemLabel="#{r.name}" itemValue="#{r.id}" />
+	        </p:selectOneMenu>
             
             <h:outputLabel for="mf" value="Марка флюроаппарата" />
             <p:inputText id="mf" label="" />
