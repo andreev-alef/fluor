@@ -1,4 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
@@ -9,6 +10,8 @@
 </h:head>
 
 <h:body>
+<h:outputScript library="js" name="locale.js" />
+<p:outputPanel class="content">
   <h:form id="frmInf">
     <p:panel id="pnlInf" >
    		<f:facet name="header" >
@@ -29,7 +32,7 @@
 	        	<p:outputLabel for="ot" value="Отчество" />
 		        <p:inputText id="ot" value="#{editmanBean.midlName}" />
 	        	<p:outputLabel for="dr" value="Дата рождения" />
-				<p:calendar id="dr" value="#{editmanBean.datBirthay}" required="true" />
+				<p:calendar id="dr" value="#{editmanBean.datBirthay}" required="true" locale="ru"/>
 	        	<p:outputLabel for="sex" value="Пол" />
 		        <p:selectOneMenu id="sex" value="#{editmanBean.selectedSex}" converter="#{editmanBean.sexConverter}">
 		          <p:ajax listener="#{editmanBean.sexSelected}"  />
@@ -212,13 +215,14 @@
 	</h:panelGrid>
 
   </h:form>
+</p:outputPanel>  
   
   <h:form id="frmEdt">
 	<p:dialog id="dlg" widgetVar="edt" modal="true" header="Редактировать обследование" resizable="false" class="my_overley">
 		<p:outputPanel id="pnlDlg">
         <h:panelGrid columns="2" cellpadding="5">
             <h:outputLabel for="dob" value="Дата обследования" />
-			<p:calendar id="dob" value="#{null}" />
+			<p:calendar id="dob" value="#{null}" locale="ru"/>
  
         	<p:outputLabel for="npmo" value="Населенный пункт" />
 	        <p:selectOneMenu id="npmo" value="#{editmanBean.naspMO}">
@@ -278,6 +282,5 @@
 		</p:outputPanel>
     </p:dialog>
   </h:form>
-  
 </h:body>
 </html>

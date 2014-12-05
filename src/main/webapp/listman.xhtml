@@ -9,8 +9,10 @@
 </h:head>
 
 <h:body>
+<h:outputScript library="js" name="locale.js" />
+<p:outputPanel class="content">
+
   <h:form>
-	
 	<h:panelGrid columns="10" focus="fam">
        	<p:outputLabel for="fam" value="Фамилия" />
        	<p:inputText id="fam" value="#{listmanBean.userFam}" required="true" requiredMessage="Фамилия обязательно."/>
@@ -19,7 +21,7 @@
        	<p:outputLabel for="ot" value="Отчество" />
         <p:inputText id="ot" value="#{listmanBean.userOt}" />
        	<p:outputLabel for="dr" value="Дата рождения" />
-		<p:calendar id="dr" value="#{listmanBean.userDr}" />
+		<p:calendar id="dr" value="#{listmanBean.userDr}" locale="ru"/>
 	    <p:commandButton value="Найти" />
 	    <p:commandButton value="Сбросить" />
 		<h:message style="color:red" />
@@ -178,9 +180,9 @@
 			</h:panelGrid>
 			<h:panelGrid columns="4">
 		       	<p:outputLabel value="Период:   с" />
-				<p:calendar id="dn" value="#{null}" />
+				<p:calendar id="dn" value="#{null}" locale="ru"/>
 		       	<p:outputLabel value="по" />
-				<p:calendar id="dk" value="#{null}" />
+				<p:calendar id="dk" value="#{null}" locale="ru"/>
 			</h:panelGrid>
 		    <p:commandButton id="btnDo" value="Применить" />
 		    <p:commandButton id="btnCancel" value="Сбросить" />
@@ -230,9 +232,9 @@
 		</h:panelGrid>
 		<h:panelGrid columns="4">
 	       	<p:outputLabel value="Период:   с" />
-			<p:calendar id="dn" value="#{null}" />
+			<p:calendar id="dn" value="#{null}" locale="ru"/>
 	       	<p:outputLabel value="по" />
-			<p:calendar id="dk" value="#{null}" />
+			<p:calendar id="dk" value="#{null}" locale="ru"/>
 		</h:panelGrid>
        	<p:outputLabel value="Отчеты:" />
 		<h:panelGrid columns="2">
@@ -252,7 +254,7 @@
 		</p:outputPanel>
     </p:dialog>
   </h:form>
-
+</p:outputPanel>
 </h:body>
 
 </html>
