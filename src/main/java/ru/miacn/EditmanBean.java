@@ -12,17 +12,17 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-import ru.miacn.persistence.ListConverter;
-import ru.miacn.persistence.RefDecrGroup;
-import ru.miacn.persistence.RefExamMethods;
-import ru.miacn.persistence.RefExamType;
-import ru.miacn.persistence.RefHabitat;
-import ru.miacn.persistence.RefMedGroup;
-import ru.miacn.persistence.RefMedicalOrgMain;
-import ru.miacn.persistence.RefMedicalOrgPoliclinic;
-import ru.miacn.persistence.RefMedicalOrgTer;
-import ru.miacn.persistence.RefResultType;
-import ru.miacn.persistence.RefSocGroup;
+import ru.miacn.persistence.reference.ListConverter;
+import ru.miacn.persistence.reference.RDecrGroup;
+import ru.miacn.persistence.reference.RExamMethod;
+import ru.miacn.persistence.reference.RExamType;
+import ru.miacn.persistence.reference.RHabitat;
+import ru.miacn.persistence.reference.RMedGroup;
+import ru.miacn.persistence.reference.RMedicalOrgMain;
+import ru.miacn.persistence.reference.RMedicalOrgPoliclinic;
+import ru.miacn.persistence.reference.RMedicalOrgTer;
+import ru.miacn.persistence.reference.RResultType;
+import ru.miacn.persistence.reference.RSocGroup;
 import ru.miacn.persistence.reference.RCitizen;
 import ru.miacn.persistence.reference.RGender;
 
@@ -59,40 +59,40 @@ public class EditmanBean implements Serializable {
     private int riskGrp;
 
 	private List<RGender> sexList;
-	private List<RefHabitat> jitelList;
-	private List<RefExamType> extList;
-	private List<RefDecrGroup> decrList;
-	private List<RefMedGroup> medList;
-	private List<RefSocGroup> socList;
+	private List<RHabitat> jitelList;
+	private List<RExamType> extList;
+	private List<RDecrGroup> decrList;
+	private List<RMedGroup> medList;
+	private List<RSocGroup> socList;
 	private List<RCitizen> citizenList;
-	private List<RefExamMethods> exmList;
-	private List<RefMedicalOrgMain> moMainList;
-	private List<RefMedicalOrgPoliclinic> moPoliclinicList;
-	private List<RefMedicalOrgTer> moTerList;
-	private List<RefResultType> restypeList;
+	private List<RExamMethod> exmList;
+	private List<RMedicalOrgMain> moMainList;
+	private List<RMedicalOrgPoliclinic> moPoliclinicList;
+	private List<RMedicalOrgTer> moTerList;
+	private List<RResultType> restypeList;
 	private RGender selectedSex;
 	private ListConverter sexConverter;
-	private RefHabitat selectedJitel;
+	private RHabitat selectedJitel;
 	private ListConverter jitConverter;
-	private RefExamType selectedExt;
+	private RExamType selectedExt;
 	private ListConverter extConverter;
-	private RefDecrGroup selectedDg;
+	private RDecrGroup selectedDg;
 	private ListConverter dgConverter;
-	private RefMedGroup selectedMg;
+	private RMedGroup selectedMg;
 	private ListConverter mgConverter;
-	private RefSocGroup selectedSg;
+	private RSocGroup selectedSg;
 	private ListConverter sgConverter;
 	private RCitizen selectedCitizen;
 	private ListConverter citizenConverter;
-	private RefExamMethods selectedExm;
+	private RExamMethod selectedExm;
 	private ListConverter exmConverter;
-	private RefMedicalOrgMain selectedMom;
+	private RMedicalOrgMain selectedMom;
 	private ListConverter momConverter;
-	private RefMedicalOrgPoliclinic selectedMop;
+	private RMedicalOrgPoliclinic selectedMop;
 	private ListConverter mopConverter;
-	private RefMedicalOrgTer selectedMot;
+	private RMedicalOrgTer selectedMot;
 	private ListConverter motConverter;
-	private RefResultType selectedResType;
+	private RResultType selectedResType;
 	private ListConverter restypeConverter;
 	    
 	@PostConstruct
@@ -106,15 +106,15 @@ public class EditmanBean implements Serializable {
 		setCitizenConverter(new ListConverter());
 		setExmConverter(new ListConverter());
 		setRestypeConverter(new ListConverter());
-		setSexList(em.createQuery("SELECT r FROM " + RGender.class.getName() + " r ORDER BY r.name", RGender.class).getResultList());
-		setJitelList(em.createQuery("SELECT r FROM " + RefHabitat.class.getName() + " r ORDER BY r.name", RefHabitat.class).getResultList());
-		setExtList(em.createQuery("SELECT r FROM " + RefExamType.class.getName() + " r ORDER BY r.name", RefExamType.class).getResultList());
-		setDecrList(em.createQuery("SELECT r FROM " + RefDecrGroup.class.getName() + " r ORDER BY r.name", RefDecrGroup.class).getResultList());
-		setMedList(em.createQuery("SELECT r FROM " + RefMedGroup.class.getName() + " r ORDER BY r.name", RefMedGroup.class).getResultList());
-		setSocList(em.createQuery("SELECT r FROM " + RefSocGroup.class.getName() + " r ORDER BY r.name", RefSocGroup.class).getResultList());
-		setCitizenList(em.createQuery("SELECT r FROM " + RCitizen.class.getName() + " r ORDER BY r.name", RCitizen.class).getResultList());
-		setExmList(em.createQuery("SELECT r FROM " + RefExamMethods.class.getName() + " r ORDER BY r.name", RefExamMethods.class).getResultList());
-		setRestypeList(em.createQuery("SELECT r FROM " + RefResultType.class.getName() + " r ORDER BY r.name", RefResultType.class).getResultList());
+		setSexList(em.createQuery("SELECT r FROM " + RGender.class.getName() + " r ORDER BY r.id", RGender.class).getResultList());
+		setJitelList(em.createQuery("SELECT r FROM " + RHabitat.class.getName() + " r ORDER BY r.id", RHabitat.class).getResultList());
+		setExtList(em.createQuery("SELECT r FROM " + RExamType.class.getName() + " r ORDER BY r.id", RExamType.class).getResultList());
+		setCitizenList(em.createQuery("SELECT r FROM " + RCitizen.class.getName() + " r ORDER BY r.id", RCitizen.class).getResultList());
+		setExmList(em.createQuery("SELECT r FROM " + RExamMethod.class.getName() + " r ORDER BY r.id", RExamMethod.class).getResultList());
+		setRestypeList(em.createQuery("SELECT r FROM " + RResultType.class.getName() + " r ORDER BY r.id", RResultType.class).getResultList());
+		setDecrList(em.createQuery("SELECT r FROM " + RDecrGroup.class.getName() + " r ORDER BY r.id", RDecrGroup.class).getResultList());
+		setMedList(em.createQuery("SELECT r FROM " + RMedGroup.class.getName() + " r ORDER BY r.id", RMedGroup.class).getResultList());
+		setSocList(em.createQuery("SELECT r FROM " + RSocGroup.class.getName() + " r ORDER BY r.id", RSocGroup.class).getResultList());
 	}
 
 	public void sexSelected() {
@@ -139,21 +139,21 @@ public class EditmanBean implements Serializable {
 	
 	public void exmSelected() {
 		if (selectedExm != null) {
-			TypedQuery<RefExamMethods> query = em.createQuery("SELECT r FROM " + RefExamMethods.class.getName() + " r WHERE r.id = :id ORDER BY r.name", RefExamMethods.class);
+			TypedQuery<RExamMethod> query = em.createQuery("SELECT r FROM " + RExamMethod.class.getName() + " r WHERE r.id = :id ORDER BY r.name", RExamMethod.class);
 			query.setParameter("id", selectedExm.getId());
 			setExmList(query.getResultList());
 		} else {
-			setExmList(new ArrayList<RefExamMethods>());
+			setExmList(new ArrayList<RExamMethod>());
 		}
 	}
 	
 	public void reztypeSelected() {
 		if (selectedResType != null) {
-			TypedQuery<RefResultType> query = em.createQuery("SELECT r FROM " + RefResultType.class.getName() + " r WHERE r.id = :id ORDER BY r.name", RefResultType.class);
+			TypedQuery<RResultType> query = em.createQuery("SELECT r FROM " + RResultType.class.getName() + " r WHERE r.id = :id ORDER BY r.name", RResultType.class);
 			query.setParameter("id", selectedResType.getId());
 			setRestypeList(query.getResultList());
 		} else {
-			setRestypeList(new ArrayList<RefResultType>());
+			setRestypeList(new ArrayList<RResultType>());
 		}
 	}
 	
@@ -376,29 +376,29 @@ public class EditmanBean implements Serializable {
 
 	public void jitelSelected() {
 		if (selectedSex != null) {
-			TypedQuery<RefHabitat> query = em.createQuery("SELECT r FROM " + RefHabitat.class.getName() + " r WHERE r.id = :id ORDER BY r.name", RefHabitat.class);
+			TypedQuery<RHabitat> query = em.createQuery("SELECT r FROM " + RHabitat.class.getName() + " r WHERE r.id = :id ORDER BY r.name", RHabitat.class);
 			
 			query.setParameter("id", selectedJitel.getId());
 			setJitelList(query.getResultList());
 		} else {
-			setJitelList(new ArrayList<RefHabitat>());
+			setJitelList(new ArrayList<RHabitat>());
 		}
 	}
 	
-	public List<RefHabitat> getJitelList() {
+	public List<RHabitat> getJitelList() {
 		return jitelList;
 	}
 	
-	public void setJitelList(List<RefHabitat> jitelList) {
+	public void setJitelList(List<RHabitat> jitelList) {
 		this.jitelList = jitelList;
 		jitConverter.setList(jitelList);
 	}
 	
-	public RefHabitat getSelectedJitel() {
+	public RHabitat getSelectedJitel() {
 		return selectedJitel;
 	}
 	
-	public void setSelectedJitel(RefHabitat selectedJitel) {
+	public void setSelectedJitel(RHabitat selectedJitel) {
 		this.selectedJitel = selectedJitel;
 	}
 
@@ -412,29 +412,29 @@ public class EditmanBean implements Serializable {
 //
 	public void dgSelected() {
 		if (selectedDg != null) {
-			TypedQuery<RefDecrGroup> query = em.createQuery("SELECT r FROM " + RefDecrGroup.class.getName() + " r WHERE r.id = :id ORDER BY r.name", RefDecrGroup.class);
+			TypedQuery<RDecrGroup> query = em.createQuery("SELECT r FROM " + RDecrGroup.class.getName() + " r WHERE r.id = :id ORDER BY r.name", RDecrGroup.class);
 			
 			query.setParameter("id", selectedDg.getId());
 			setDecrList(query.getResultList());
 		} else {
-			setDecrList(new ArrayList<RefDecrGroup>());
+			setDecrList(new ArrayList<RDecrGroup>());
 		}
 	}
 	
-	public List<RefDecrGroup> getDecrList() {
+	public List<RDecrGroup> getDecrList() {
 		return decrList;
 	}
 	
-	public void setDecrList(List<RefDecrGroup> decrList) {
+	public void setDecrList(List<RDecrGroup> decrList) {
 		this.decrList = decrList;
 		dgConverter.setList(decrList);
 	}
 	
-	public RefDecrGroup getSelectedDg() {
+	public RDecrGroup getSelectedDg() {
 		return selectedDg;
 	}
 	
-	public void setSelectedDg(RefDecrGroup selectedDg) {
+	public void setSelectedDg(RDecrGroup selectedDg) {
 		this.selectedDg = selectedDg;
 	}
 
@@ -448,29 +448,29 @@ public class EditmanBean implements Serializable {
 	//
 	public void mgSelected() {
 		if (selectedMg != null) {
-			TypedQuery<RefMedGroup> query = em.createQuery("SELECT r FROM " + RefMedGroup.class.getName() + " r WHERE r.id = :id ORDER BY r.name", RefMedGroup.class);
+			TypedQuery<RMedGroup> query = em.createQuery("SELECT r FROM " + RMedGroup.class.getName() + " r WHERE r.id = :id ORDER BY r.name", RMedGroup.class);
 			
 			query.setParameter("id", selectedMg.getId());
 			setMedList(query.getResultList());
 		} else {
-			setMedList(new ArrayList<RefMedGroup>());
+			setMedList(new ArrayList<RMedGroup>());
 		}
 	}
 	
-	public List<RefMedGroup> getMedList() {
+	public List<RMedGroup> getMedList() {
 		return medList;
 	}
 	
-	public void setMedList(List<RefMedGroup> medList) {
+	public void setMedList(List<RMedGroup> medList) {
 		this.medList = medList;
 		mgConverter.setList(medList);
 	}
 	
-	public RefMedGroup getSelectedMg() {
+	public RMedGroup getSelectedMg() {
 		return selectedMg;
 	}
 	
-	public void setSelectedMg(RefMedGroup selectedMg) {
+	public void setSelectedMg(RMedGroup selectedMg) {
 		this.selectedMg = selectedMg;
 	}
 
@@ -484,29 +484,29 @@ public class EditmanBean implements Serializable {
 	//
 	public void sgSelected() {
 		if (selectedSg != null) {
-			TypedQuery<RefSocGroup> query = em.createQuery("SELECT r FROM " + RefSocGroup.class.getName() + " r WHERE r.id = :id ORDER BY r.name", RefSocGroup.class);
+			TypedQuery<RSocGroup> query = em.createQuery("SELECT r FROM " + RSocGroup.class.getName() + " r WHERE r.id = :id ORDER BY r.name", RSocGroup.class);
 			
 			query.setParameter("id", selectedSg.getId());
 			setSocList(query.getResultList());
 		} else {
-			setSocList(new ArrayList<RefSocGroup>());
+			setSocList(new ArrayList<RSocGroup>());
 		}
 	}
 	
-	public List<RefSocGroup> getSocList() {
+	public List<RSocGroup> getSocList() {
 		return socList;
 	}
 	
-	public void setSocList(List<RefSocGroup> socList) {
+	public void setSocList(List<RSocGroup> socList) {
 		this.socList = socList;
 		sgConverter.setList(socList);
 	}
 	
-	public RefSocGroup getSelectedSg() {
+	public RSocGroup getSelectedSg() {
 		return selectedSg;
 	}
 	
-	public void setSelectedSg(RefSocGroup selectedSg) {
+	public void setSelectedSg(RSocGroup selectedSg) {
 		this.selectedSg = selectedSg;
 	}
 
@@ -520,29 +520,29 @@ public class EditmanBean implements Serializable {
 	//
 	public void extSelected() {
 		if (selectedExt != null) {
-			TypedQuery<RefExamType> query = em.createQuery("SELECT r FROM " + RefExamType.class.getName() + " r WHERE r.id = :id ORDER BY r.name", RefExamType.class);
+			TypedQuery<RExamType> query = em.createQuery("SELECT r FROM " + RExamType.class.getName() + " r WHERE r.id = :id ORDER BY r.name", RExamType.class);
 			
 			query.setParameter("id", selectedExt.getId());
 			setExtList(query.getResultList());
 		} else {
-			setExtList(new ArrayList<RefExamType>());
+			setExtList(new ArrayList<RExamType>());
 		}
 	}
 	
-	public List<RefExamType> getExtList() {
+	public List<RExamType> getExtList() {
 		return extList;
 	}
 	
-	public void setExtList(List<RefExamType> extList) {
+	public void setExtList(List<RExamType> extList) {
 		this.extList = extList;
 		extConverter.setList(extList);
 	}
 	
-	public RefExamType getSelectedExt() {
+	public RExamType getSelectedExt() {
 		return selectedExt;
 	}
 	
-	public void setSelectedExt(RefExamType selectedExt) {
+	public void setSelectedExt(RExamType selectedExt) {
 		this.selectedExt = selectedExt;
 	}
 
@@ -563,46 +563,46 @@ public class EditmanBean implements Serializable {
 		citizenConverter.setList(citizenList);
 	}
 
-	public List<RefExamMethods> getExmList() {
+	public List<RExamMethod> getExmList() {
 		return exmList;
 	}
 
-	public void setExmList(List<RefExamMethods> exmList) {
+	public void setExmList(List<RExamMethod> exmList) {
 		this.exmList = exmList;
 	}
 
-	public List<RefMedicalOrgMain> getMoMainList() {
+	public List<RMedicalOrgMain> getMoMainList() {
 		return moMainList;
 	}
 
-	public void setMoMainList(List<RefMedicalOrgMain> moMainList) {
+	public void setMoMainList(List<RMedicalOrgMain> moMainList) {
 		this.moMainList = moMainList;
 		momConverter.setList(moMainList);
 	}
 
-	public List<RefMedicalOrgPoliclinic> getMoPoliclinicList() {
+	public List<RMedicalOrgPoliclinic> getMoPoliclinicList() {
 		return moPoliclinicList;
 	}
 
-	public void setMoPoliclinicList(List<RefMedicalOrgPoliclinic> moPoliclinicList) {
+	public void setMoPoliclinicList(List<RMedicalOrgPoliclinic> moPoliclinicList) {
 		this.moPoliclinicList = moPoliclinicList;
 		mopConverter.setList(moPoliclinicList);
 	}
 
-	public List<RefMedicalOrgTer> getMoTerList() {
+	public List<RMedicalOrgTer> getMoTerList() {
 		return moTerList;
 	}
 
-	public void setMoTerList(List<RefMedicalOrgTer> moTerList) {
+	public void setMoTerList(List<RMedicalOrgTer> moTerList) {
 		this.moTerList = moTerList;
 		motConverter.setList(moTerList);
 	}
 
-	public List<RefResultType> getRestypeList() {
+	public List<RResultType> getRestypeList() {
 		return restypeList;
 	}
 
-	public void setRestypeList(List<RefResultType> restypeList) {
+	public void setRestypeList(List<RResultType> restypeList) {
 		this.restypeList = restypeList;
 		restypeConverter.setList(restypeList);
 	}
@@ -623,11 +623,11 @@ public class EditmanBean implements Serializable {
 		this.citizenConverter = citizenConverter;
 	}
 
-	public RefExamMethods getSelectedExm() {
+	public RExamMethod getSelectedExm() {
 		return selectedExm;
 	}
 
-	public void setSelectedExm(RefExamMethods selectedExm) {
+	public void setSelectedExm(RExamMethod selectedExm) {
 		this.selectedExm = selectedExm;
 	}
 
@@ -639,53 +639,53 @@ public class EditmanBean implements Serializable {
 		this.exmConverter = exmConverter;
 	}
 
-	public RefMedicalOrgMain getSelectedMom() {
+	public RMedicalOrgMain getSelectedMom() {
 		return selectedMom;
 	}
 
-	public void setSelectedMom(RefMedicalOrgMain selectedMom) {
+	public void setSelectedMom(RMedicalOrgMain selectedMom) {
 		this.selectedMom = selectedMom;
 	}
 
-	public RefMedicalOrgPoliclinic getSelectedMop() {
+	public RMedicalOrgPoliclinic getSelectedMop() {
 		return selectedMop;
 	}
 
-	public void setSelectedMop(RefMedicalOrgPoliclinic selectedMop) {
+	public void setSelectedMop(RMedicalOrgPoliclinic selectedMop) {
 		this.selectedMop = selectedMop;
 	}
 
-	public RefMedicalOrgTer getSelectedMot() {
+	public RMedicalOrgTer getSelectedMot() {
 		return selectedMot;
 	}
 
-	public void setSelectedMot(RefMedicalOrgTer selectedMot) {
+	public void setSelectedMot(RMedicalOrgTer selectedMot) {
 		this.selectedMot = selectedMot;
 	}
 
-	public RefResultType getSelectedResType() {
+	public RResultType getSelectedResType() {
 		return selectedResType;
 	}
 
-	public void setSelectedResType(RefResultType selectedResType) {
+	public void setSelectedResType(RResultType selectedResType) {
 		this.selectedResType = selectedResType;
 	}
 
 //	
-//	public List<RefResultType> getMedList() {
+//	public List<RResultType> getMedList() {
 //		return medList;
 //	}
 //
-//	public void setMedList(List<RefResultType> medList) {
+//	public void setMedList(List<RResultType> medList) {
 //		this.medList = medList;
 //		mgConverter.setList(medList);
 //	}
 //	
-//	public RefResultType getSelectedMg() {
+//	public RResultType getSelectedMg() {
 //		return selectedMg;
 //	}
 //	
-//	public void setSelectedMg(RefResultType selectedMg) {
+//	public void setSelectedMg(RResultType selectedMg) {
 //		this.selectedMg = selectedMg;
 //	}
 //	

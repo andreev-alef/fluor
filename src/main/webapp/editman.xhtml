@@ -34,14 +34,14 @@
 		        <p:selectOneMenu id="sex" value="#{editmanBean.selectedSex}" converter="#{editmanBean.sexConverter}">
 		          <p:ajax listener="#{editmanBean.sexSelected}"  />
 		          <f:selectItem itemLabel="Выберите пол" itemValue="#{null}" />
-		          <f:selectItems value="#{editmanBean.sexList}" var="r" itemLabel="#{r.name}" itemValue="#{r.id}" />
+		          <f:selectItems value="#{editmanBean.sexList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r.id}" />
 		        </p:selectOneMenu>
 
 	        	<p:outputLabel for="grj" value="Гражданство" />
 		        <p:selectOneMenu id="grj" value="#{editmanBean.selectedCitizen}" converter="#{editmanBean.citizenConverter}">
 		          <p:ajax listener="#{editmanBean.citizenSelected}"  />
 		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
-		          <f:selectItems value="#{editmanBean.citizenList}" var="r" itemLabel="#{r.name}" itemValue="#{r.id}" />
+		          <f:selectItems value="#{editmanBean.citizenList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r.id}" />
 		        </p:selectOneMenu>
 			</h:panelGrid>
 		</p:panel>
@@ -79,7 +79,7 @@
 		        <p:selectOneMenu id="jit"  value="#{editmanBean.selectedJitel}" converter="#{editmanBean.jitConverter}">
 		          <p:ajax listener="#{editmanBean.jitelSelected}"  />
 		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
-		          <f:selectItems value="#{editmanBean.jitelList}" var="r" itemLabel="#{r.name}" itemValue="#{r.id}" />
+		          <f:selectItems value="#{editmanBean.jitelList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r.id}" />
 		        </p:selectOneMenu>
 
 	        	<p:outputLabel for="tl" value="Телефон" />
@@ -93,9 +93,12 @@
 	        </f:facet>
 			<h:panelGrid columns="2">
 	        	<p:outputLabel for="npmo" value="Населенный пункт" />
-		        <p:selectOneMenu id="npmo" value="#{editmanBean.naspMO}">
+		        <p:selectOneMenu id="npmo"  value="#{editmanBean.selectedJitel}" converter="#{editmanBean.jitConverter}">
+		          <p:ajax listener="#{editmanBean.jitelSelected}"  />
 		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+		          <f:selectItems value="#{editmanBean.moTerList}" var="r" itemLabel="#{r.name}" itemValue="#{r.id}" />
 		        </p:selectOneMenu>
+
 	        	<p:outputLabel for="mo" value="Наименование МО" />
 		        <p:selectOneMenu id="mo" value="#{editmanBean.nameMO}">
 		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
@@ -117,21 +120,21 @@
 		        <p:selectOneMenu id="dg" value="#{editmanBean.selectedDg}" converter="#{editmanBean.dgConverter}">
 		          <p:ajax listener="#{editmanBean.dgSelected}"  />
 		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
-		          <f:selectItems value="#{editmanBean.decrList}" var="r" itemLabel="#{r.name}" itemValue="#{r.id}" />
+		          <f:selectItems value="#{editmanBean.decrList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r.id}" />
 		        </p:selectOneMenu>
 
 	        	<p:outputLabel for="mg" value="Медицинская группа" />
 		        <p:selectOneMenu id="mg" value="#{editmanBean.selectedMg}" converter="#{editmanBean.mgConverter}">
 		          <p:ajax listener="#{editmanBean.mgSelected}"  />
 		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
-		          <f:selectItems value="#{editmanBean.medList}" var="r" itemLabel="#{r.name}" itemValue="#{r.id}" />
+		          <f:selectItems value="#{editmanBean.medList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r.id}" />
 		        </p:selectOneMenu>
 
 	        	<p:outputLabel for="rg" value="Группа риска (осмотр 2 раза в год)" />
 		        <p:selectOneMenu id="rg" value="#{editmanBean.selectedSg}" converter="#{editmanBean.sgConverter}">
 		          <p:ajax listener="#{editmanBean.sgSelected}"  />
 		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
-		          <f:selectItems value="#{editmanBean.medList}" var="r" itemLabel="#{r.name}" itemValue="#{r.id}" />
+		          <f:selectItems value="#{editmanBean.socList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r.id}" />
 		        </p:selectOneMenu>
 			</h:panelGrid>
 		</p:panel>
@@ -217,6 +220,11 @@
             <h:outputLabel for="dob" value="Дата обследования" />
 			<p:calendar id="dob" value="#{null}" />
  
+        	<p:outputLabel for="npmo" value="Населенный пункт" />
+	        <p:selectOneMenu id="npmo" value="#{editmanBean.naspMO}">
+	          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+	        </p:selectOneMenu>
+	        
             <h:outputLabel for="np" value="Медицинская организация" />
             <p:inputText id="np" label="" />
  
@@ -224,14 +232,14 @@
 	        <p:selectOneMenu id="vid" value="#{editmanBean.selectedExt}" converter="#{editmanBean.extConverter}">
 	          <p:ajax listener="#{editmanBean.extSelected}"  />
 	          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
-	          <f:selectItems value="#{editmanBean.extList}" var="r" itemLabel="#{r.name}" itemValue="#{r.id}" />
+	          <f:selectItems value="#{editmanBean.extList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r.id}" />
 	        </p:selectOneMenu>
 
             <h:outputLabel for="rez" value="Результат" />
 	        <p:selectOneMenu id="rez" value="#{editmanBean.selectedResType}" converter="#{editmanBean.restypeConverter}">
 	          <p:ajax listener="#{editmanBean.reztypeSelected}"  />
 	          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
-	          <f:selectItems value="#{editmanBean.restypeList}" var="r" itemLabel="#{r.name}" itemValue="#{r.id}" />
+	          <f:selectItems value="#{editmanBean.restypeList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r.id}" />
 	        </p:selectOneMenu>
             
             <h:outputLabel for="mf" value="Марка флюроаппарата" />
