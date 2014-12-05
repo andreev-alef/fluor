@@ -6,7 +6,7 @@ import javax.persistence.IdClass;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "reg_medical_org_ter")
+@Table(name = "r_medical_org_ter")
 @IdClass(RefMedicalOrgTerPk.class)
 public class RefMedicalOrgTer {
 	@Id

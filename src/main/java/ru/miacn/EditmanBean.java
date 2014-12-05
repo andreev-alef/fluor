@@ -598,13 +598,13 @@ public class EditmanBean implements Serializable {
 		motConverter.setList(moTerList);
 	}
 
+	public List<RefResultType> getRestypeList() {
+		return restypeList;
+	}
+
 	public void setRestypeList(List<RefResultType> restypeList) {
 		this.restypeList = restypeList;
 		restypeConverter.setList(restypeList);
-	}
-
-	public List<RefResultType> getRestypeList() {
-		return restypeList;
 	}
 
 	public RCitizen getSelectedCitizen() {
