@@ -16,7 +16,7 @@ import net.sf.jasperreports.engine.JRResultSetDataSource;
 
 public class ReportMedGroup extends JasperReport {
 	public ReportMedGroup() {
-		super("rep_med.jasper");
+		super("rep_med");
 	}
 	
 	@Override

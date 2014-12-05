@@ -16,7 +16,7 @@ import net.sf.jasperreports.engine.JRResultSetDataSource;
 
 public class ReportSocGroup extends JasperReport {
 	public ReportSocGroup() {
-		super("rep_soc.jasper");
+		super("rep_soc");
 	}
 	
 	@Override

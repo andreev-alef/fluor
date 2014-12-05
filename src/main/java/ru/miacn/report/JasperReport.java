@@ -17,18 +17,24 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.HtmlExporter;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.export.Exporter;
 import net.sf.jasperreports.export.ExporterInput;
 import net.sf.jasperreports.export.ExporterOutput;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 
 public abstract class JasperReport {
 	private static final String jasperResourcePath = getJasperResourcePath();
 	private String resName;
 	
-	public JasperReport(String jasperResourceName) {
-		resName = jasperResourceName;
+	public JasperReport(String jasperResourceNamePrefix) {
+		resName = jasperResourceNamePrefix;
+	}
+	
+	public String getReportName() {
+		return resName;
 	}
 	
 	private static String getJasperResourcePath() {
@@ -56,7 +62,7 @@ public abstract class JasperReport {
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void printReport(OutputStream servlet, Map<String, Object> params, ReportType type) throws JRException, IOException {
-		try (InputStream reportStream = JasperReport.class.getResourceAsStream(jasperResourcePath + resName)) {
+		try (InputStream reportStream = JasperReport.class.getResourceAsStream(jasperResourcePath + resName + ".jasper")) {
 			Exporter exporter;
 			ExporterOutput output;
 			
@@ -65,6 +71,10 @@ public abstract class JasperReport {
 				exporter = new HtmlExporter();
 				output = new SimpleHtmlExporterOutput(servlet);
 				params.put(JRParameter.IS_IGNORE_PAGINATION, true);
+				break;
+			case pdf:
+				exporter = new JRPdfExporter();
+				output = new SimpleOutputStreamExporterOutput(servlet);
 				break;
 			default:
 				throw new JRException("Unsupported report type.");
