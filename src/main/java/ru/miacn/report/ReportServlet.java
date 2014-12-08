@@ -17,8 +17,9 @@ public class ReportServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
-			HtmlReport rep;
+			JasperReport rep;
 			String id = (req.getParameter("id") != null) ? req.getParameter("id") : "";
+			ReportType type = (req.getParameter("pdf") != null) ? ReportType.pdf : ReportType.html;
 			
 			switch (id) {
 			case "1":
@@ -34,7 +35,19 @@ public class ReportServlet extends HttpServlet {
 				throw new ServletException("Specify 'id' parameter with value 1, 2 or 3.");
 			}
 			
-			rep.printReport(resp.getOutputStream());
+			switch (type) {
+			case html:
+				resp.setContentType("text/html");
+				break;
+			case pdf:
+				resp.setContentType("application/pdf");
+				resp.addHeader("Content-Disposition", "filename=" + rep.getReportName() + ".pdf");
+				break;
+			default:
+				break;
+			}
+			
+			rep.printReport(resp.getOutputStream(), type);
 		} catch (JRException | SQLException | NamingException e) {
 			e.printStackTrace();
 		}

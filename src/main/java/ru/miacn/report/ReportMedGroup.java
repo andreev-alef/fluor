@@ -14,20 +14,20 @@ import javax.naming.NamingException;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRResultSetDataSource;
 
-public class ReportMedGroup extends HtmlReport {
+public class ReportMedGroup extends JasperReport {
 	public ReportMedGroup() {
-		super("rep_med.jasper");
+		super("rep_med");
 	}
 	
 	@Override
-	public void printReport(OutputStream output) throws JRException, IOException, SQLException, NamingException {
+	public void printReport(OutputStream output, ReportType type) throws JRException, IOException, SQLException, NamingException {
 		Map<String, Object> params = new HashMap<>();
 		try (Connection conn = getConnection();
 				Statement stm = conn.createStatement();
 				ResultSet rs = stm.executeQuery("SELECT id, name FROM r_med_group")) {
 			params.put("p_table_data", new JRResultSetDataSource(rs));
 			
-			super.printReport(output, params);
+			super.printReport(output, params, type);
 		}
 	}
 }
