@@ -65,9 +65,7 @@
 		    </p:column>
 		 
 		    <p:column headerText="Дата последнего обследования">
-				<p:commandLink update=":frmBrowse:pnlDlg" process="@this" actionListener="#{listRH.selectLsn}" oncomplete="PF('brw').show()" >
-	<!-- 			<f:attribute name="refheaderid" value="#{refh.id}"/> -->
-					<h:panelGroup layout="block" />
+				<p:commandLink update=":frmBrowseExam:browseExamId" oncomplete="PF('browseExamVar').show()" >
 					<h:outputText value="смотреть"/>
 				</p:commandLink>   
 		    </p:column>
@@ -84,28 +82,19 @@
 
 	<h:panelGrid columns="1">
 		<p:link outcome="editman">
-			<f:param name="faces-redirect" value="true"/>
-		<!-- 	<f:param name="id" value="#{id}"/> -->
-			<h:panelGroup layout="block" />
 			<h:outputText value="Просмотр"/>
 		</p:link>   							
-		<p:link outcome="editman">
-			<f:param name="faces-redirect" value="true"/>
-<!--		<f:param name="refheaderid" value="#{refh.id}"/> -->
-			<h:panelGroup layout="block" />
+		<p:link outcome="editman" >
+			<f:param name="editable" value="true"/>
 			<h:outputText value="Добавить пациента"/>
 		</p:link>   							
-		<p:commandLink update=":frmPrint:pnlDlg" process="@this" actionListener="#{listRH.selectLsn}" oncomplete="PF('print').show()" >
-<!--		<f:attribute name="refheaderid" value="#{refh.id}"/> -->
-			<h:panelGroup layout="block" />
+		<p:commandLink update=":frmPrint:pnlDlg" oncomplete="PF('print').show()" >
 			<h:outputText value="Отчетные формы"/>
 		</p:commandLink>   
-		<p:commandLink update=":frmFind:pnlDlg" process="@this" actionListener="#{listRH.selectLsn}" oncomplete="PF('find').show()" >
-			<h:panelGroup layout="block" />
+		<p:commandLink update=":frmFind:pnlDlg" oncomplete="PF('find').show()" >
 			<h:outputText value="Фильтр записей"/>
 		</p:commandLink>   
-		<p:commandLink update=":frmBrowse:pnlDlg" process="@this" actionListener="#{listRH.selectLsn}" oncomplete="PF('brw').show()" >
-			<h:panelGroup layout="block" />
+		<p:commandLink update=":frmBrowseExam:browseExamId" oncomplete="PF('browseExamVar').show()" >
 			<h:outputText value="смотреть"/>
 		</p:commandLink>   
 	</h:panelGrid>
@@ -190,25 +179,9 @@
     </p:dialog>
   </h:form>
 
-  <h:form id="frmBrowse">  
-	<p:dialog id="dlg" widgetVar="brw" modal="true" header="Пациент" resizable="false" class="my_overley">
-		<p:outputPanel id="pnlDlg">
-		<p:dataTable var="item" >
-		    <p:column headerText="Дата обследования">
-<!-- 		        <h:outputText value="11.02.2014" /> -->
-		    </p:column>
-		    <p:column headerText="Вид">
-		        <h:outputText value="Флюр." />
-		    </p:column>
-		    <p:column headerText="Результат">
-		        <h:outputText value="Норма" />
-		    </p:column>
-		    <p:column headerText="Место проведения">
-		        <h:outputText value="ЛПУ 2" />
-		    </p:column>
-		</p:dataTable>
-	    <p:commandButton id="btnNF" value="Печать направления на флюорографию" />
-		</p:outputPanel>
+  <h:form id="frmBrowseExam">  
+	<p:dialog id="browseExamId" widgetVar="browseExamVar" modal="true" header="Пациент" resizable="false">
+	  <ui:include src="WEB-INF/templates/examination.xhtml"/>
     </p:dialog>
   </h:form>
 

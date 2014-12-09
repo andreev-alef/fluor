@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui">
+  <h:body>
+      <h:form id="frmExam">
+        <p:panel header="Обследования пациента">
+          <p:commandLink update="examTable" oncomplete="PF('edtExamVar').show()">
+            <h:outputText value="Добавить обследование" rendered="#{param['editable'] == 'true'}" />
+          </p:commandLink>
+          <p:dataTable id="examTable">
+            <p:column headerText="Дата">
+            </p:column>
+            <p:column headerText="Населенный пункт">
+            </p:column>
+            <p:column headerText="МО">
+            </p:column>
+            <p:column headerText="Вид">
+            </p:column>
+            <p:column headerText="Результат">
+            </p:column>
+            <p:column headerText="Верификация">
+            </p:column>
+            <p:column headerText="Действия" rendered="#{param['editable'] == 'true'}">
+              <h:panelGrid columns="2">
+                <p:commandLink update="examTable" oncomplete="PF('edtExamVar').show()">
+                  <h:outputText value="править" />
+                </p:commandLink>
+                <p:commandLink update="examTable" oncomplete="PF('delExamVar').show()">
+                  <h:outputText value="удалить" />
+                </p:commandLink>
+              </h:panelGrid>
+            </p:column>
+          </p:dataTable>
+        </p:panel>
+        <h:panelGrid columns="1">
+          <p:link outcome="listman">
+            <h:outputText value="Вернуться к списку пациентов" />
+          </p:link>
+          <p:commandButton value="Печать направления на флюорографию" />
+          <p:commandLink update="examTable" oncomplete="PF('edtExamVar').show()" rendered="#{param['editable'] == 'true'}">
+            <h:outputText value="править" />
+          </p:commandLink>
+          <p:commandLink update="examTable" oncomplete="PF('delExamVar').show()" rendered="#{param['editable'] == 'true'}">
+            <h:outputText value="удалить" />
+          </p:commandLink>
+        </h:panelGrid>
+        
+      <p:dialog id="edtExamId" widgetVar="edtExamVar" modal="true" header="Редактировать обследование" resizable="false">
+        <p:outputPanel>
+          <h:panelGrid columns="2" cellpadding="5">
+            <h:outputLabel for="dob" value="Дата обследования" />
+            <p:calendar id="dob" locale="ru" />
+            <p:outputLabel for="npmo" value="Населенный пункт" />
+            <p:selectOneMenu id="npmo" value="#{editmanBean.naspMO}">
+              <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+            </p:selectOneMenu>
+            <h:outputLabel for="np" value="Медицинская организация" />
+            <p:inputText id="np" label="" />
+            <h:outputLabel for="vid" value="Вид обследования" />
+            <p:selectOneMenu id="vid" value="#{editmanBean.selectedExt}" converter="#{editmanBean.extConverter}">
+              <p:ajax listener="#{editmanBean.extSelected}" />
+              <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+              <f:selectItems value="#{editmanBean.extList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r.id}" />
+            </p:selectOneMenu>
+            <h:outputLabel for="rez" value="Результат" />
+            <p:selectOneMenu id="rez" value="#{editmanBean.selectedResType}" converter="#{editmanBean.restypeConverter}">
+              <p:ajax listener="#{editmanBean.reztypeSelected}" />
+              <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+              <f:selectItems value="#{editmanBean.restypeList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r.id}" />
+            </p:selectOneMenu>
+            <h:outputLabel for="mf" value="Марка флюроаппарата" />
+            <p:inputText id="mf" label="" />
+            <h:outputLabel for="ver" value="Верификация диагноза" />
+            <p:inputText id="ver" label="" />
+            <h:commandButton value="Сохранить" />
+            <h:commandButton value="Отменить " />
+          </h:panelGrid>
+        </p:outputPanel>
+      </p:dialog>
+      
+      <p:dialog id="delExamId" widgetVar="delExamVar" modal="true" header="Удалить обследование" resizable="false">
+        <p:outputPanel>
+          <h:panelGrid columns="2">
+            <h:outputLabel for="p1" value="Дата обследования" />
+            <h:outputText id="p1" value="xxxx" />
+            <h:outputLabel for="p2" value="Медицинская организация" />
+            <h:outputText id="p2" value="xxxx" />
+            <h:outputLabel for="p3" value="Вид обследования" />
+            <h:outputText id="p3" value="xxxx" />
+            <h:outputLabel for="p4" value="Результат" />
+            <h:outputText id="p4" value="xxxx" />
+            <h:outputLabel for="p5" value="Марка флюроаппарата" />
+            <h:outputText id="p5" value="xxxx" />
+            <h:outputLabel for="p6" value="Верификация диагноза" />
+            <h:outputText id="p6" value="xxxx" />
+          </h:panelGrid>
+          <h:commandButton value="Удалить" />
+        </p:outputPanel>
+      </p:dialog>
+      </h:form>
+  </h:body>
+</html>
