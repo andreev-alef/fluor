@@ -1,10 +1,9 @@
 package ru.miacn.persistence.reference;
 
-import java.util.List;
-
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -13,8 +12,9 @@ public class RMedicalOrgTer {
 	@EmbeddedId
 	private RMedicalOrgTerPK id;
 	private String name;
-	@OneToMany(mappedBy = "rMedicalOrgTer")
-	private List<RMedicalOrgMain> rMedicalOrgMains;
+	@ManyToOne
+	@JoinColumn(name = "reg_id", insertable = false, updatable = false)
+	private RMedicalOrgRegion rMedicalOrgRegion;
 
 	public RMedicalOrgTerPK getId() {
 		return this.id;
@@ -32,25 +32,11 @@ public class RMedicalOrgTer {
 		this.name = name;
 	}
 
-	public List<RMedicalOrgMain> getRMedicalOrgMains() {
-		return this.rMedicalOrgMains;
+	public RMedicalOrgRegion getRMedicalOrgRegion() {
+		return this.rMedicalOrgRegion;
 	}
 
-	public void setRMedicalOrgMains(List<RMedicalOrgMain> rMedicalOrgMains) {
-		this.rMedicalOrgMains = rMedicalOrgMains;
-	}
-
-	public RMedicalOrgMain addRMedicalOrgMain(RMedicalOrgMain rMedicalOrgMain) {
-		getRMedicalOrgMains().add(rMedicalOrgMain);
-		rMedicalOrgMain.setRMedicalOrgTer(this);
-
-		return rMedicalOrgMain;
-	}
-
-	public RMedicalOrgMain removeRMedicalOrgMain(RMedicalOrgMain rMedicalOrgMain) {
-		getRMedicalOrgMains().remove(rMedicalOrgMain);
-		rMedicalOrgMain.setRMedicalOrgTer(null);
-
-		return rMedicalOrgMain;
+	public void setRMedicalOrgRegion(RMedicalOrgRegion rMedicalOrgRegion) {
+		this.rMedicalOrgRegion = rMedicalOrgRegion;
 	}
 }

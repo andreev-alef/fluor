@@ -99,4 +99,7 @@ INSERT INTO r_medical_org_region (kod_okato, reg_id, name, okrname, okrug) VALUE
 INSERT INTO r_medical_org_region (kod_okato, reg_id, name, okrname, okrug) VALUES ('55000', 84, 'г. Байконур', NULL,  0);
 INSERT INTO r_medical_org_region (kod_okato, reg_id, name, okrname, okrug) VALUES ('35000', 85, 'Республика Крым', NULL, 9);
 INSERT INTO r_medical_org_region (kod_okato, reg_id, name, okrname, okrug) VALUES ('67000', 86, 'г. Севастополь', NULL, 9);
-  
+
+ALTER TABLE r_medical_org_ter
+  ADD CONSTRAINT fk FOREIGN KEY (reg_id) REFERENCES r_medical_org_region (reg_id)
+   ON UPDATE NO ACTION ON DELETE NO ACTION;

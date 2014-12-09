@@ -21,6 +21,7 @@ import ru.miacn.persistence.reference.RHabitat;
 import ru.miacn.persistence.reference.RMedGroup;
 import ru.miacn.persistence.reference.RMedicalOrgMain;
 import ru.miacn.persistence.reference.RMedicalOrgPoliclinic;
+import ru.miacn.persistence.reference.RMedicalOrgRegion;
 import ru.miacn.persistence.reference.RMedicalOrgTer;
 import ru.miacn.persistence.reference.RResultType;
 import ru.miacn.persistence.reference.RSocGroup;
@@ -67,6 +68,7 @@ public class EditmanBean implements Serializable {
 	private List<RSocGroup> socList;
 	private List<RCitizen> citizenList;
 	private List<RExamMethod> exmList;
+	private List<RMedicalOrgRegion> moRegionList;
 	private List<RMedicalOrgTer> moTerList;
 	private List<RMedicalOrgMain> moMainList;
 	private List<RMedicalOrgPoliclinic> moPoliclinicList;
@@ -93,6 +95,8 @@ public class EditmanBean implements Serializable {
 	private ListConverter mopConverter;
 	private RMedicalOrgTer selectedMot;
 	private ListConverter motConverter;
+	private RMedicalOrgRegion selectedMor;
+	private ListConverter morConverter;
 	private RResultType selectedResType;
 	private ListConverter restypeConverter;
 	    
@@ -110,6 +114,7 @@ public class EditmanBean implements Serializable {
 		setMomConverter(new ListConverter());
 		setMotConverter(new ListConverter());
 		setMopConverter(new ListConverter());
+		setMorConverter(new ListConverter());
 		setSexList(em.createQuery("SELECT r FROM " + RGender.class.getName() + " r ORDER BY r.id", RGender.class).getResultList());
 		setJitelList(em.createQuery("SELECT r FROM " + RHabitat.class.getName() + " r ORDER BY r.id", RHabitat.class).getResultList());
 		setExtList(em.createQuery("SELECT r FROM " + RExamType.class.getName() + " r ORDER BY r.id", RExamType.class).getResultList());
@@ -119,7 +124,8 @@ public class EditmanBean implements Serializable {
 		setDecrList(em.createQuery("SELECT r FROM " + RDecrGroup.class.getName() + " r ORDER BY r.id", RDecrGroup.class).getResultList());
 		setMedList(em.createQuery("SELECT r FROM " + RMedGroup.class.getName() + " r ORDER BY r.id", RMedGroup.class).getResultList());
 		setSocList(em.createQuery("SELECT r FROM " + RSocGroup.class.getName() + " r ORDER BY r.id", RSocGroup.class).getResultList());
-		setMoTerList(em.createQuery("SELECT r FROM " + RMedicalOrgTer.class.getName() + " r ORDER BY r.name", RMedicalOrgTer.class).getResultList());
+		//setMoTerList(em.createQuery("SELECT r FROM " + RMedicalOrgTer.class.getName() + " r ORDER BY r.name", RMedicalOrgTer.class).getResultList());
+		setMoRegionList(em.createQuery("SELECT r FROM " + RMedicalOrgRegion.class.getName() + " r ORDER BY r.id", RMedicalOrgRegion.class).getResultList());
 	}
 
 	public void sexSelected() {
@@ -767,6 +773,43 @@ public class EditmanBean implements Serializable {
 			setMoMainList(new ArrayList<RMedicalOrgMain>());
 		}
 	}
+
+	@SuppressWarnings("unchecked")
+	public void morSelected() {
+		if (selectedMor != null) {
+//			TypedQuery<RMedicalOrgMain> query = em.createQuery("SELECT r FROM " + RMedicalOrgMain.class.getName() + " r WHERE r.terid = :t_id and r.regid = :r_id ORDER BY r.name", RMedicalOrgMain.class);
+			Query query = em.createNativeQuery("SELECT * FROM r_medical_org_ter r WHERE r.reg_id = :r_id ORDER BY r.name", RMedicalOrgTer.class);
+			query.setParameter("r_id", selectedMor.getRegId());
+			setMoTerList(query.getResultList());
+		} else {
+			setMoTerList(new ArrayList<RMedicalOrgTer>());
+		}
+	}
+
+	public RMedicalOrgRegion getSelectedMor() {
+		return selectedMor;
+	}
+
+	public void setSelectedMor(RMedicalOrgRegion selectedMor) {
+		this.selectedMor = selectedMor;
+	}
+
+	public ListConverter getMorConverter() {
+		return morConverter;
+	}
+
+	public void setMorConverter(ListConverter morConverter) {
+		this.morConverter = morConverter;
+	}
 	
+	public List<RMedicalOrgRegion> getMoRegionList() {
+		return moRegionList;
+	}
+
+	private void setMoRegionList(List<RMedicalOrgRegion>  moRegionList) {
+		this.moRegionList = moRegionList;
+		morConverter.setList(moRegionList);
+	}
+
 }
 

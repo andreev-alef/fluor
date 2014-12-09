@@ -95,10 +95,17 @@
 		        Медицинская организация, к которой прикреплен пациент по ОМС
 	        </f:facet>
 			<h:panelGrid columns="2">
+	        	<p:outputLabel for="regmo"  value="Регион" />
+		        <p:selectOneMenu id="regmo"  value="#{editmanBean.selectedMor}" converter="#{editmanBean.morConverter}">
+		          <p:ajax listener="#{editmanBean.morSelected}" update="npmo" />
+		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+		          <f:selectItems value="#{editmanBean.moRegionList}" var="r" itemLabel="#{r.regId} - #{r.name}" itemValue="#{r}" />
+		        </p:selectOneMenu>
 	        	<p:outputLabel for="npmo" value="Населенный пункт" />
 		        <p:selectOneMenu id="npmo"  value="#{editmanBean.selectedMot}" converter="#{editmanBean.motConverter}">
 		          <p:ajax listener="#{editmanBean.motSelected}" update="mo" />
 		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+                  <f:selectItem itemLabel="#{editmanBean.moTerList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
 		          <f:selectItems value="#{editmanBean.moTerList}" var="r" itemLabel="#{r.id.terId} - #{r.name}" itemValue="#{r}" />
 		        </p:selectOneMenu>
 
@@ -228,14 +235,27 @@
             <h:outputLabel for="dob" value="Дата обследования" />
 			<p:calendar id="dob" value="#{null}" locale="ru"/>
  
-        	<p:outputLabel for="npmo" value="Населенный пункт" />
-	        <p:selectOneMenu id="npmo" value="#{editmanBean.naspMO}">
+        	<p:outputLabel for="regmo"  value="Регион" />
+	        <p:selectOneMenu id="regmo"  value="#{editmanBean.selectedMor}" converter="#{editmanBean.morConverter}">
+	          <p:ajax listener="#{editmanBean.morSelected}" update="npmo" />
 	          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+	          <f:selectItems value="#{editmanBean.moRegionList}" var="r" itemLabel="#{r.regId} - #{r.name}" itemValue="#{r}" />
 	        </p:selectOneMenu>
-	        
-            <h:outputLabel for="np" value="Медицинская организация" />
-            <p:inputText id="np" label="" />
- 
+
+        	<p:outputLabel for="npmo" value="Населенный пункт" />
+	        <p:selectOneMenu id="npmo"  value="#{editmanBean.selectedMot}" converter="#{editmanBean.motConverter}">
+	          <p:ajax listener="#{editmanBean.motSelected}" update="mo" />
+	          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+                 <f:selectItem itemLabel="#{editmanBean.moTerList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
+	          <f:selectItems value="#{editmanBean.moTerList}" var="r" itemLabel="#{r.id.terId} - #{r.name}" itemValue="#{r}" />
+	        </p:selectOneMenu>
+
+        	<p:outputLabel for="mo" value="Наименование МО" />
+	        <p:selectOneMenu id="mo" value="#{editmanBean.selectedMom}" converter="#{editmanBean.momConverter}">
+                 <f:selectItem itemLabel="#{editmanBean.moMainList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
+	          <f:selectItems value="#{editmanBean.moMainList}" var="r" itemLabel="#{r.id.lpuId} - #{r.name}" itemValue="#{r}" />
+	        </p:selectOneMenu>
+
             <h:outputLabel for="vid" value="Вид обследования" />
 	        <p:selectOneMenu id="vid" value="#{editmanBean.selectedExt}" converter="#{editmanBean.extConverter}">
 	          <p:ajax listener="#{editmanBean.extSelected}"  />
@@ -251,10 +271,14 @@
 	        </p:selectOneMenu>
             
             <h:outputLabel for="mf" value="Марка флюроаппарата" />
-            <p:inputText id="mf" label="" />
+		        <p:selectOneMenu id="mf" >
+		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+		        </p:selectOneMenu>
 
             <h:outputLabel for="ver" value="Верификация диагноза" />
-            <p:inputText id="ver" label="" />
+		        <p:selectOneMenu id="ver" >
+		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+		        </p:selectOneMenu>
             
 		    <h:commandButton value="Сохранить" />
 		    <h:commandButton value="Отменить " />
