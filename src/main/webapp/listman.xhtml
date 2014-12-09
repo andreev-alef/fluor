@@ -5,229 +5,251 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
-  <title>Флюрокартотека</title>
+	<title>Флюрокартотека</title>
 </h:head>
 
 <h:body>
-<h:outputScript library="js" name="locale.js" />
-<p:outputPanel class="content">
+	<h:outputScript library="js" name="locale.js" />
+	<p:outputPanel class="content">
 
-  <h:form>
-	<h:panelGrid columns="10" focus="fam">
-       	<p:outputLabel for="fam" value="Фамилия" />
-       	<p:inputText id="fam" value="#{listmanBean.userFam}" required="true" requiredMessage="Фамилия обязательно."/>
-       	<p:outputLabel for="im" value="Имя" />
-        <p:inputText id="im" value="#{listmanBean.userIm}" required="true" />
-       	<p:outputLabel for="ot" value="Отчество" />
-        <p:inputText id="ot" value="#{listmanBean.userOt}" />
-       	<p:outputLabel for="dr" value="Дата рождения" />
-		<p:calendar id="dr" value="#{listmanBean.userDr}" locale="ru"/>
-	    <p:commandButton value="Найти" />
-	    <p:commandButton value="Сбросить" />
-		<h:message style="color:red" />
-	</h:panelGrid>
-		<p:dataTable var="item" >
-		    <p:column headerText="Просмотр">
+		<h:form>
+			<h:panelGrid columns="10" focus="fam">
+				<p:outputLabel for="fam" value="Фамилия" />
+				<p:inputText id="fam" value="#{listmanBean.userFam}" required="true"
+					requiredMessage="Фамилия обязательно." />
+				<p:outputLabel for="im" value="Имя" />
+				<p:inputText id="im" value="#{listmanBean.userIm}" required="true" />
+				<p:outputLabel for="ot" value="Отчество" />
+				<p:inputText id="ot" value="#{listmanBean.userOt}" />
+				<p:outputLabel for="dr" value="Дата рождения" />
+				<p:calendar id="dr" value="#{listmanBean.userDr}" locale="ru" />
+				<p:commandButton value="Найти" />
+				<p:commandButton value="Сбросить" />
+				<h:message style="color:red" />
+			</h:panelGrid>
+			<p:dataTable value="#{Patient.items}" var="item">
+				<p:column headerText="Просмотр">
+					<p:link outcome="editman">
+						<f:param name="faces-redirect" value="true" />
+						<!-- 				<f:param name="refheaderid" value="#{refh.id}"/> -->
+						<h:panelGroup layout="block" />
+						<h:outputText value="Просмотр" />
+					</p:link>
+				</p:column>
+
+				<p:column headerText="Фамилия">
+					<h:outputText value="#{item.last_name}" />
+				</p:column>
+				
+				<p:column headerText="Имя">
+					<h:outputText value="#{item.lastName}" />
+				</p:column>
+
+				<p:column headerText="Отчество">
+					<h:outputText value="#{item.midlName}" />
+				</p:column>
+
+				<p:column headerText="Дата рождения">
+					<h:outputText value="#{item.datBirthay}" />
+				</p:column>
+
+				<p:column headerText="Пол">
+					<h:outputText value="#{item.sex}" />
+				</p:column>
+
+				<p:column headerText="Населенный пункт">
+					<h:outputText value="#{item.nasp}" />
+				</p:column>
+
+				<p:column headerText="Адрес">
+					<h:outputText value="#{item.street}" />
+				</p:column>
+
+				<p:column headerText="Дата последнего обследования">
+					<p:commandLink update=":frmBrowse:pnlDlg" process="@this"
+						actionListener="#{listRH.selectLsn}" oncomplete="PF('brw').show()">
+						<!-- 			<f:attribute name="refheaderid" value="#{refh.id}"/> -->
+						<h:panelGroup layout="block" />
+						<h:outputText value="смотреть" />
+					</p:commandLink>
+				</p:column>
+
+				<p:column headerText="Результат">
+					<h:outputText value="Норма" />
+				</p:column>
+
+				<p:column headerText="Верификация">
+					<h:outputText value="неизвестно" />
+				</p:column>
+
+			</p:dataTable>
+
+			<h:panelGrid columns="1">
 				<p:link outcome="editman">
-					<f:param name="faces-redirect" value="true"/>
-<!-- 				<f:param name="refheaderid" value="#{refh.id}"/> -->
-					<h:panelGroup layout="block" />
 					<h:outputText value="Просмотр"/>
 				</p:link>   							
- 		    </p:column>
-		 
-		    <p:column headerText="Фамилия">
-		        <h:outputText value="#{item.firstName}" />
-		    </p:column>
-		 
-		    <p:column headerText="Имя">
-		        <h:outputText value="#{item.lastName}" />
-		    </p:column>
-		 
-		    <p:column headerText="Отчество">
-		        <h:outputText value="#{item.midlName}" />
-		    </p:column>
-
-		    <p:column headerText="Дата рождения">
-		        <h:outputText value="#{item.datBirthay}" />
-		    </p:column>
-		 
-		    <p:column headerText="Пол">
-		        <h:outputText value="#{item.sex}" />
-		    </p:column>
-		 
-		    <p:column headerText="Населенный пункт">
-		        <h:outputText value="#{item.nasp}" />
-		    </p:column>
-		 
-		    <p:column headerText="Адрес">
-		        <h:outputText value="#{item.street}" />
-		    </p:column>
-		 
-		    <p:column headerText="Дата последнего обследования">
+				<p:link outcome="editman" >
+					<f:param name="editable" value="true"/>
+					<h:outputText value="Добавить пациента"/>
+				</p:link>   							
+				<p:commandLink update=":frmPrint:pnlDlg" oncomplete="PF('print').show()" >
+					<h:outputText value="Отчетные формы"/>
+				</p:commandLink>   
+				<p:commandLink update=":frmFind:pnlDlg" oncomplete="PF('find').show()" >
+					<h:outputText value="Фильтр записей"/>
+				</p:commandLink>   
 				<p:commandLink update=":frmBrowseExam:browseExamId" oncomplete="PF('browseExamVar').show()" >
 					<h:outputText value="смотреть"/>
 				</p:commandLink>   
-		    </p:column>
-		 
-		    <p:column headerText="Результат">
-		        <h:outputText value="Норма" />
-		    </p:column>
-
-		    <p:column headerText="Верификация">
-		        <h:outputText value="неизвестно" />
-		    </p:column>
-		 
-		</p:dataTable>
-
-	<h:panelGrid columns="1">
-		<p:link outcome="editman">
-			<h:outputText value="Просмотр"/>
-		</p:link>   							
-		<p:link outcome="editman" >
-			<f:param name="editable" value="true"/>
-			<h:outputText value="Добавить пациента"/>
-		</p:link>   							
-		<p:commandLink update=":frmPrint:pnlDlg" oncomplete="PF('print').show()" >
-			<h:outputText value="Отчетные формы"/>
-		</p:commandLink>   
-		<p:commandLink update=":frmFind:pnlDlg" oncomplete="PF('find').show()" >
-			<h:outputText value="Фильтр записей"/>
-		</p:commandLink>   
-		<p:commandLink update=":frmBrowseExam:browseExamId" oncomplete="PF('browseExamVar').show()" >
-			<h:outputText value="смотреть"/>
-		</p:commandLink>   
-	</h:panelGrid>
-  </h:form>
-
-  <h:form id="frmFind">  
-	<p:dialog id="dlg" widgetVar="find" modal="true" header="Фильтр записей" resizable="false" class="my_overley">
-		<p:outputPanel id="pnlDlg">
-	      	<p:outputLabel value="Адрес проживания" />
-			<h:panelGrid columns="2">
-		       	<p:outputLabel for="reg" value="Регион" />
-		        <p:selectOneMenu id="reg" value="#{editmanBean.naspMO}">
-		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
-		        </p:selectOneMenu>
-		       	<p:outputLabel for="np" value="Населенный пункт" />
-		        <p:selectOneMenu id="np" value="#{editmanBean.naspMO}">
-		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
-		        </p:selectOneMenu>
-		       	<p:outputLabel for="ul" value="Улица" />
-		        <p:selectOneMenu id="ul" value="#{editmanBean.naspMO}">
-		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
-		        </p:selectOneMenu>
 			</h:panelGrid>
-	      	<p:outputLabel value="МО прикрепления" />
-			<h:panelGrid columns="2">
-		       	<p:outputLabel for="npmo" value="Населенный пункт" />
-		        <p:selectOneMenu id="npmo" value="#{editmanBean.naspMO}">
-		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
-		        </p:selectOneMenu>
-		       	<p:outputLabel for="nmo" value="ЛПУ" />
-		        <p:selectOneMenu id="nmo" value="#{editmanBean.naspMO}">
-		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
-		        </p:selectOneMenu>
-		       	<p:outputLabel for="p" value="Поликлиника" />
-		        <p:selectOneMenu id="p" value="#{editmanBean.naspMO}">
-		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
-		        </p:selectOneMenu>
-			</h:panelGrid>
-	      	<p:outputLabel value="Контингенты населения" />
-			<h:panelGrid columns="2">
-		       	<p:outputLabel for="soc" value="Социальная группа" />
-		        <p:selectOneMenu id="soc" value="#{editmanBean.naspMO}">
-		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
-		        </p:selectOneMenu>
-		       	<p:outputLabel for="dec" value="Декретированная группа" />
-		        <p:selectOneMenu id="dec" value="#{editmanBean.naspMO}">
-		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
-		        </p:selectOneMenu>
-		       	<p:outputLabel for="med" value="Медицинская группа" />
-		        <p:selectOneMenu id="med" value="#{editmanBean.naspMO}">
-		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
-		        </p:selectOneMenu>
-			</h:panelGrid>
-	      	<p:outputLabel value="Обследования" />
-			<h:panelGrid columns="2">
-		       	<p:outputLabel for="npo" value="Населенный пункт" />
-		        <p:selectOneMenu id="npo" value="#{editmanBean.naspMO}">
-		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
-		        </p:selectOneMenu>
-		       	<p:outputLabel for="lpu" value="ЛПУ" />
-		        <p:selectOneMenu id="lpu" value="#{editmanBean.naspMO}">
-		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
-		        </p:selectOneMenu>
-		       	<p:outputLabel for="rez" value="Результат" />
-		        <p:selectOneMenu id="rez" value="#{editmanBean.naspMO}">
-		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
-		        </p:selectOneMenu>
-		       	<p:outputLabel for="ver" value="Верификация" />
-		        <p:selectOneMenu id="ver" value="#{editmanBean.naspMO}">
-		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
-		        </p:selectOneMenu>
-			</h:panelGrid>
-			<h:panelGrid columns="4">
-		       	<p:outputLabel value="Период:   с" />
-				<p:calendar id="dn" value="#{null}" locale="ru"/>
-		       	<p:outputLabel value="по" />
-				<p:calendar id="dk" value="#{null}" locale="ru"/>
-			</h:panelGrid>
-		    <p:commandButton id="btnDo" value="Применить" />
-		    <p:commandButton id="btnCancel" value="Сбросить" />
-		</p:outputPanel>
-    </p:dialog>
-  </h:form>
+		</h:form>
 
-  <h:form id="frmBrowseExam">  
-	<p:dialog id="browseExamId" widgetVar="browseExamVar" modal="true" header="Пациент" resizable="false">
-	  <ui:include src="WEB-INF/templates/examination.xhtml"/>
-    </p:dialog>
-  </h:form>
+		<h:form id="frmFind">
+			<p:dialog id="dlg" widgetVar="find" modal="true"
+				header="Фильтр записей" resizable="false" class="my_overley">
+				<p:outputPanel id="pnlDlg">
+					<p:outputLabel value="Адрес проживания" />
+					<h:panelGrid columns="2">
+						<p:outputLabel for="reg" value="Регион" />
+						<p:selectOneMenu id="reg" value="#{editmanBean.naspMO}">
+							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+						</p:selectOneMenu>
+						<p:outputLabel for="np" value="Населенный пункт" />
+						<p:selectOneMenu id="np" value="#{editmanBean.naspMO}">
+							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+						</p:selectOneMenu>
+						<p:outputLabel for="ul" value="Улица" />
+						<p:selectOneMenu id="ul" value="#{editmanBean.naspMO}">
+							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+					<p:outputLabel value="МО прикрепления" />
+					<h:panelGrid columns="2">
+			        	<p:outputLabel for="regmo"  value="Регион" />
+				        <p:selectOneMenu id="regmo"  value="#{editmanBean.selectedMor}" converter="#{editmanBean.morConverter}">
+				          <p:ajax listener="#{editmanBean.morSelected}" update="npmo" />
+				          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+				          <f:selectItems value="#{editmanBean.moRegionList}" var="r" itemLabel="#{r.regId} - #{r.name}" itemValue="#{r}" />
+				        </p:selectOneMenu>
+						<p:outputLabel for="npmo" value="Населенный пункт" />
+						<p:selectOneMenu id="npmo" value="#{editmanBean.naspMO}">
+							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+						</p:selectOneMenu>
+						<p:outputLabel for="nmo" value="ЛПУ" />
+						<p:selectOneMenu id="nmo" value="#{editmanBean.naspMO}">
+							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+						</p:selectOneMenu>
+						<p:outputLabel for="p" value="Поликлиника" />
+						<p:selectOneMenu id="p" value="#{editmanBean.naspMO}">
+							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+					<p:outputLabel value="Контингенты населения" />
+					<h:panelGrid columns="2">
+			        	<p:outputLabel for="dg" value="Декретированная группа" />
+				        <p:selectOneMenu id="dg" value="#{editmanBean.selectedDg}" converter="#{editmanBean.dgConverter}">
+				          <p:ajax listener="#{editmanBean.dgSelected}"  />
+				          <f:selectItem itemLabel="-- отсутствует --" itemValue="#{null}" />
+				          <f:selectItems value="#{editmanBean.decrList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
+				        </p:selectOneMenu>
+		
+			        	<p:outputLabel for="mg" value="Медицинская группа" />
+				        <p:selectOneMenu id="mg" value="#{editmanBean.selectedMg}" converter="#{editmanBean.mgConverter}">
+				          <p:ajax listener="#{editmanBean.mgSelected}"  />
+				          <f:selectItem itemLabel="-- отсутствует --" itemValue="#{null}" />
+				          <f:selectItems value="#{editmanBean.medList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
+				        </p:selectOneMenu>
+		
+			        	<p:outputLabel for="rg" value="Социальная группа" />
+				        <p:selectOneMenu id="rg" value="#{editmanBean.selectedSg}" converter="#{editmanBean.sgConverter}">
+				          <p:ajax listener="#{editmanBean.sgSelected}"  />
+				          <f:selectItem itemLabel="-- отсутствует --" itemValue="#{null}" />
+				          <f:selectItems value="#{editmanBean.socList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
+				        </p:selectOneMenu>
+					</h:panelGrid>
+					<p:outputLabel value="Обследования" />
+					<h:panelGrid columns="2">
+						<p:outputLabel for="npo" value="Населенный пункт" />
+						<p:selectOneMenu id="npo" value="#{editmanBean.naspMO}">
+							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+						</p:selectOneMenu>
+						<p:outputLabel for="lpu" value="ЛПУ" />
+						<p:selectOneMenu id="lpu" value="#{editmanBean.naspMO}">
+							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+						</p:selectOneMenu>
+						<p:outputLabel for="rez" value="Результат" />
+						<p:selectOneMenu id="rez" value="#{editmanBean.naspMO}">
+							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+						</p:selectOneMenu>
+						<p:outputLabel for="ver" value="Верификация" />
+						<p:selectOneMenu id="ver" value="#{editmanBean.naspMO}">
+							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+					<h:panelGrid columns="4">
+						<p:outputLabel value="Период:   с" />
+						<p:calendar id="dn" value="#{null}" locale="ru" />
+						<p:outputLabel value="по" />
+						<p:calendar id="dk" value="#{null}" locale="ru" />
+					</h:panelGrid>
+					<p:commandButton id="btnDo" value="Применить" />
+					<p:commandButton id="btnCancel" value="Сбросить" />
+				</p:outputPanel>
+			</p:dialog>
+		</h:form>
 
-  <h:form id="frmPrint">  
-	<p:dialog id="dlg" widgetVar="print" modal="true" header="Отчетные формы" resizable="false" class="my_overley">
-		<p:outputPanel id="pnlDlg">
-       	<p:outputLabel value="Уровень отчета" />
-		<h:panelGrid columns="2">
-	       	<p:outputLabel for="np" value="Населенный пункт" />
-	        <p:selectOneMenu id="np" value="#{editmanBean.naspMO}">
-	          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
-	        </p:selectOneMenu>
-	       	<p:outputLabel for="mo" value="Медицинская организация" />
-	        <p:selectOneMenu id="mo" value="#{editmanBean.naspMO}">
-	          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
-	        </p:selectOneMenu>
-	       	<p:outputLabel for="p" value="Подразделение" />
-	        <p:selectOneMenu id="p" value="#{editmanBean.naspMO}">
-	          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
-	        </p:selectOneMenu>
-		</h:panelGrid>
-		<h:panelGrid columns="4">
-	       	<p:outputLabel value="Период:   с" />
-			<p:calendar id="dn" value="#{null}" locale="ru"/>
-	       	<p:outputLabel value="по" />
-			<p:calendar id="dk" value="#{null}" locale="ru"/>
-		</h:panelGrid>
-       	<p:outputLabel value="Отчеты:" />
-		<h:panelGrid columns="2">
-	       	<p:outputLabel value="1. Флюороосмотры социальных групп населения" />
-			<p:link value="Сформировать" href="report?id=1">
-    			<f:param name="id" value="1" />
-			</p:link>
-	       	<p:outputLabel value="2. Флюороосмотры декретированных групп населения" />
-			<p:link value="Сформировать" href="report?id=3">
-    			<f:param name="id" value="3" />
-			</p:link>
-	       	<p:outputLabel value="3. Флюороосмотры медицинских групп населения" />
-			<p:link value="Сформировать" href="report?id=2">
-    			<f:param name="id" value="2" />
-			</p:link>
-		</h:panelGrid>
-		</p:outputPanel>
-    </p:dialog>
-  </h:form>
-</p:outputPanel>
+		<h:form id="frmBrowseExam">  
+			<p:dialog id="browseExamId" widgetVar="browseExamVar" modal="true" header="Пациент" resizable="false">
+			  <ui:include src="WEB-INF/templates/examination.xhtml"/>
+			</p:dialog>
+		</h:form>
+
+		<h:form id="frmPrint">
+			<p:dialog id="dlg" widgetVar="print" modal="true"
+				header="Отчетные формы" resizable="false" class="my_overley">
+				<p:outputPanel id="pnlDlg">
+					<p:outputLabel value="Уровень отчета" />
+					<h:panelGrid columns="2">
+						<p:outputLabel for="np" value="Населенный пункт" />
+						<p:selectOneMenu id="np" value="#{editmanBean.naspMO}">
+							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+						</p:selectOneMenu>
+						<p:outputLabel for="mo" value="Медицинская организация" />
+						<p:selectOneMenu id="mo" value="#{editmanBean.naspMO}">
+							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+						</p:selectOneMenu>
+						<p:outputLabel for="p" value="Подразделение" />
+						<p:selectOneMenu id="p" value="#{editmanBean.naspMO}">
+							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+					<h:panelGrid columns="4">
+						<p:outputLabel value="Период:   с" />
+						<p:calendar id="dn" value="#{null}" locale="ru" />
+						<p:outputLabel value="по" />
+						<p:calendar id="dk" value="#{null}" locale="ru" />
+					</h:panelGrid>
+					<p:outputLabel value="Отчеты:" />
+					<h:panelGrid columns="2">
+						<p:outputLabel value="1. Флюороосмотры социальных групп населения" />
+						<p:link value="Сформировать" href="report?id=1">
+							<f:param name="id" value="1" />
+						</p:link>
+						<p:outputLabel
+							value="2. Флюороосмотры декретированных групп населения" />
+						<p:link value="Сформировать" href="report?id=3">
+							<f:param name="id" value="3" />
+						</p:link>
+						<p:outputLabel
+							value="3. Флюороосмотры медицинских групп населения" />
+						<p:link value="Сформировать" href="report?id=2">
+							<f:param name="id" value="2" />
+						</p:link>
+					</h:panelGrid>
+				</p:outputPanel>
+			</p:dialog>
+		</h:form>
+	</p:outputPanel>
 </h:body>
 
 </html>

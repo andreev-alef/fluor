@@ -8,10 +8,9 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class RMedicalOrgTerPK implements Serializable {
 	private static final long serialVersionUID = -8334882766482579109L;
-
-	@Column(name = "reg_id")
+	@Column(name="reg_id", insertable=false, updatable=false)
 	private Integer regId;
-	@Column(name = "ter_id")
+	@Column(name="ter_id")
 	private Integer terId;
 
 	public Integer getRegId() {
@@ -38,9 +37,10 @@ public class RMedicalOrgTerPK implements Serializable {
 		if (!(other instanceof RMedicalOrgTerPK)) {
 			return false;
 		}
-		RMedicalOrgTerPK castOther = (RMedicalOrgTerPK) other;
-		return this.regId.equals(castOther.regId)
-				&& this.terId.equals(castOther.terId);
+		RMedicalOrgTerPK castOther = (RMedicalOrgTerPK)other;
+		return 
+			this.regId.equals(castOther.regId)
+			&& this.terId.equals(castOther.terId);
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class RMedicalOrgTerPK implements Serializable {
 		int hash = 17;
 		hash = hash * prime + this.regId.hashCode();
 		hash = hash * prime + this.terId.hashCode();
-
+		
 		return hash;
 	}
 }

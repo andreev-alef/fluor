@@ -10,6 +10,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import ru.miacn.persistence.reference.ListConverter;
@@ -20,6 +21,7 @@ import ru.miacn.persistence.reference.RHabitat;
 import ru.miacn.persistence.reference.RMedGroup;
 import ru.miacn.persistence.reference.RMedicalOrgMain;
 import ru.miacn.persistence.reference.RMedicalOrgPoliclinic;
+import ru.miacn.persistence.reference.RMedicalOrgRegion;
 import ru.miacn.persistence.reference.RMedicalOrgTer;
 import ru.miacn.persistence.reference.RResultType;
 import ru.miacn.persistence.reference.RSocGroup;
@@ -66,9 +68,10 @@ public class EditmanBean implements Serializable {
 	private List<RSocGroup> socList;
 	private List<RCitizen> citizenList;
 	private List<RExamMethod> exmList;
+	private List<RMedicalOrgRegion> moRegionList;
+	private List<RMedicalOrgTer> moTerList;
 	private List<RMedicalOrgMain> moMainList;
 	private List<RMedicalOrgPoliclinic> moPoliclinicList;
-	private List<RMedicalOrgTer> moTerList;
 	private List<RResultType> restypeList;
 	private RGender selectedSex;
 	private ListConverter sexConverter;
@@ -92,6 +95,8 @@ public class EditmanBean implements Serializable {
 	private ListConverter mopConverter;
 	private RMedicalOrgTer selectedMot;
 	private ListConverter motConverter;
+	private RMedicalOrgRegion selectedMor;
+	private ListConverter morConverter;
 	private RResultType selectedResType;
 	private ListConverter restypeConverter;
 	    
@@ -106,6 +111,10 @@ public class EditmanBean implements Serializable {
 		setCitizenConverter(new ListConverter());
 		setExmConverter(new ListConverter());
 		setRestypeConverter(new ListConverter());
+		setMomConverter(new ListConverter());
+		setMotConverter(new ListConverter());
+		setMopConverter(new ListConverter());
+		setMorConverter(new ListConverter());
 		setSexList(em.createQuery("SELECT r FROM " + RGender.class.getName() + " r ORDER BY r.id", RGender.class).getResultList());
 		setJitelList(em.createQuery("SELECT r FROM " + RHabitat.class.getName() + " r ORDER BY r.id", RHabitat.class).getResultList());
 		setExtList(em.createQuery("SELECT r FROM " + RExamType.class.getName() + " r ORDER BY r.id", RExamType.class).getResultList());
@@ -115,6 +124,8 @@ public class EditmanBean implements Serializable {
 		setDecrList(em.createQuery("SELECT r FROM " + RDecrGroup.class.getName() + " r ORDER BY r.id", RDecrGroup.class).getResultList());
 		setMedList(em.createQuery("SELECT r FROM " + RMedGroup.class.getName() + " r ORDER BY r.id", RMedGroup.class).getResultList());
 		setSocList(em.createQuery("SELECT r FROM " + RSocGroup.class.getName() + " r ORDER BY r.id", RSocGroup.class).getResultList());
+		//setMoTerList(em.createQuery("SELECT r FROM " + RMedicalOrgTer.class.getName() + " r ORDER BY r.name", RMedicalOrgTer.class).getResultList());
+		setMoRegionList(em.createQuery("SELECT r FROM " + RMedicalOrgRegion.class.getName() + " r ORDER BY r.id", RMedicalOrgRegion.class).getResultList());
 	}
 
 	public void sexSelected() {
@@ -593,7 +604,7 @@ public class EditmanBean implements Serializable {
 		return moTerList;
 	}
 
-	public void setMoTerList(List<RMedicalOrgTer> moTerList) {
+	private void setMoTerList(List<RMedicalOrgTer>  moTerList) {
 		this.moTerList = moTerList;
 		motConverter.setList(moTerList);
 	}
@@ -693,13 +704,112 @@ public class EditmanBean implements Serializable {
 //		return mgConverter;
 //	}
 //	
-	private void setRestypeConverter(ListConverter restypeConverter) {
-		this.restypeConverter = restypeConverter;
-	}
 	public ListConverter getRestypeConverter() {
 		return restypeConverter;
 	}
+	private void setRestypeConverter(ListConverter restypeConverter) {
+		this.restypeConverter = restypeConverter;
+	}
 
+	public ListConverter getMotConverter() {
+		return motConverter;
+	}
+
+	public void setMotConverter(ListConverter motConverter) {
+		this.motConverter = motConverter;
+	}
+
+	public ListConverter getMomConverter() {
+		return momConverter;
+	}
+
+	public void setMomConverter(ListConverter momConverter) {
+		this.momConverter = momConverter;
+	}
+
+	public ListConverter getMopConverter() {
+		return mopConverter;
+	}
+
+	public void setMopConverter(ListConverter mopConverter) {
+		this.mopConverter = mopConverter;
+	}
+
+	@SuppressWarnings("unchecked")
+	public void momSelected() {
+		if (selectedMom != null) {
+			Query query = em.createNativeQuery("SELECT * FROM r_medical_org_policlinic r WHERE r.ter_id = :t_id and r.reg_id = :r_id  and r.lpu_id = :l_id ORDER BY r.pol_id", RMedicalOrgPoliclinic.class);
+			query.setParameter("r_id", selectedMom.getId().getRegId());
+			query.setParameter("t_id", selectedMom.getId().getTerId());
+			query.setParameter("l_id", selectedMom.getId().getLpuId());
+			setMoPoliclinicList(query.getResultList());
+		} else {
+			setMoPoliclinicList(new ArrayList<RMedicalOrgPoliclinic>());
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public void mopSelected() {
+		if (selectedMom != null) {
+			Query query = em.createNativeQuery("SELECT * FROM r_medical_org_policlinic r WHERE r.ter_id = :t_id and r.reg_id = :r_id  and r.lpu_id = :l_id ORDER BY r.pol_id", RMedicalOrgPoliclinic.class);
+			query.setParameter("r_id", selectedMom.getId().getRegId());
+			query.setParameter("t_id", selectedMom.getId().getTerId());
+			query.setParameter("l_id", selectedMom.getId().getLpuId());
+			setMoPoliclinicList(query.getResultList());
+		} else {
+			setMoPoliclinicList(new ArrayList<RMedicalOrgPoliclinic>());
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public void motSelected() {
+		if (selectedMot != null) {
+//			TypedQuery<RMedicalOrgMain> query = em.createQuery("SELECT r FROM " + RMedicalOrgMain.class.getName() + " r WHERE r.terid = :t_id and r.regid = :r_id ORDER BY r.name", RMedicalOrgMain.class);
+			Query query = em.createNativeQuery("SELECT * FROM r_medical_org_main r WHERE r.ter_id = :t_id and r.reg_id = :r_id ORDER BY r.lpu_id", RMedicalOrgMain.class);
+			query.setParameter("t_id", selectedMot.getId().getTerId());
+			query.setParameter("r_id", selectedMot.getId().getRegId());
+			setMoMainList(query.getResultList());
+		} else {
+			setMoMainList(new ArrayList<RMedicalOrgMain>());
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public void morSelected() {
+		if (selectedMor != null) {
+//			TypedQuery<RMedicalOrgMain> query = em.createQuery("SELECT r FROM " + RMedicalOrgMain.class.getName() + " r WHERE r.terid = :t_id and r.regid = :r_id ORDER BY r.name", RMedicalOrgMain.class);
+			Query query = em.createNativeQuery("SELECT * FROM r_medical_org_ter r WHERE r.reg_id = :r_id ORDER BY r.name", RMedicalOrgTer.class);
+			query.setParameter("r_id", selectedMor.getRegId());
+			setMoTerList(query.getResultList());
+		} else {
+			setMoTerList(new ArrayList<RMedicalOrgTer>());
+		}
+	}
+
+	public RMedicalOrgRegion getSelectedMor() {
+		return selectedMor;
+	}
+
+	public void setSelectedMor(RMedicalOrgRegion selectedMor) {
+		this.selectedMor = selectedMor;
+	}
+
+	public ListConverter getMorConverter() {
+		return morConverter;
+	}
+
+	public void setMorConverter(ListConverter morConverter) {
+		this.morConverter = morConverter;
+	}
 	
+	public List<RMedicalOrgRegion> getMoRegionList() {
+		return moRegionList;
+	}
+
+	private void setMoRegionList(List<RMedicalOrgRegion>  moRegionList) {
+		this.moRegionList = moRegionList;
+		morConverter.setList(moRegionList);
+	}
+
 }
 
