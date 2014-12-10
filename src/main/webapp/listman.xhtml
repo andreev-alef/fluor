@@ -96,6 +96,13 @@
 			</h:panelGrid>
 		</h:form>
 
+		<h:form id="frmBrowseExam">  
+			<p:dialog id="browseExamId" widgetVar="browseExamVar" modal="true" header="Пациент" resizable="false">
+			  <ui:include src="WEB-INF/templates/examination.xhtml"/>
+			</p:dialog>
+		</h:form>
+
+
 		<h:form id="frmFind">
 			<p:dialog id="dlg" widgetVar="find" modal="true"
 				header="Фильтр записей" resizable="false" class="my_overley">
@@ -187,12 +194,6 @@
 					<p:commandButton id="btnDo" value="Применить" />
 					<p:commandButton id="btnCancel" value="Сбросить" />
 				</p:outputPanel>
-			</p:dialog>
-		</h:form>
-
-		<h:form id="frmBrowseExam">  
-			<p:dialog id="browseExamId" widgetVar="browseExamVar" modal="true" header="Пациент" resizable="false">
-			  <ui:include src="WEB-INF/templates/examination.xhtml"/>
 			</p:dialog>
 		</h:form>
 

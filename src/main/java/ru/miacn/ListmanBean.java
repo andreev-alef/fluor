@@ -15,6 +15,7 @@ import javax.persistence.PersistenceContext;
 import ru.miacn.persistence.model.Patient;
 import ru.miacn.utils.JpaUtils;
 
+
 @Named
 @SessionScoped
 public class ListmanBean implements Serializable {
