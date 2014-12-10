@@ -10,3 +10,7 @@ target/
 .classpath
 .project
 .tern-project
+
+# dbeaver
+.dbeaver-data-sources.xml
+Scripts/
