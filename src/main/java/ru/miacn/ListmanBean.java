@@ -2,121 +2,113 @@ package ru.miacn;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import ru.miacn.persistence.model.Patient;
+import ru.miacn.utils.JpaUtils;
 
 @Named
 @SessionScoped
 public class ListmanBean implements Serializable {
 	public static final long serialVersionUID = -229673017810787765L;
-	private String userFam = "inЛист";
-	private String userIm = "inБин";
-	private String userOt = "inЖава";
-	private Date userDr;
-	private String firstName = "Лист";
-    private String midlName = "Бин";
-    private String lastName = "Жава";
-    private Date datBirthay = new Date();
-    private String sex = "М";
-    private String nasp;
-    private String street;
+	
+	private String srcFam;
+	private String srcIm;
+	private String srcOt;
+	private Date srcDr;
+	private List<Patient> patients;
+	
+	@PersistenceContext
+	private EntityManager em;
 
     @PostConstruct
     public void init() {
-    	setFirstName("Иванов");
-    	setMidlName("Петр");
-    	setLastName("Семенович");
+    	clearSearch();
     }
     
-    public String getFirstName() {
-        return firstName;
+	public void search() {
+    	String sql = ""
+    			+ "SELECT * "
+    			+ "FROM patient p "
+    			+ "JOIN r_gender g ON (g.id = p.sex_id) "
+    			+ "WHERE p._ver_active = TRUE ";
+    	Map<String, Object> params = new HashMap<>();
+    	
+    	if (!getSrcFam().isEmpty()) {
+    		sql += "AND p.last_name ILIKE :last_name ";
+    		params.put("last_name", getSrcFam() + "%");
+    	}
+    	if (!getSrcIm().isEmpty()) {
+    		sql += "AND p.first_name ILIKE :first_name ";
+    		params.put("first_name", getSrcIm() + "%");
+    	}
+    	if (!getSrcOt().isEmpty()) {
+    		sql += "AND p.father_name ILIKE :father_name ";
+    		params.put("father_name", getSrcOt() + "%");
+    	}
+    	if (getSrcDr() != null) {
+    		sql += "AND p.dat_birth = :dat_birth ";
+    		params.put("dat_birth", getSrcDr());
+    	}
+    	sql += "LIMIT 32 ";
+    	
+    	setPatients(JpaUtils.getNativeResultList(em, sql, params, Patient.class));
     }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    
+    public void clearSearch() {
+    	setSrcFam("");
+    	setSrcIm("");
+    	setSrcOt("");
+    	setSrcDr(null);
+    	
+    	search();
     }
-
-    public String getMidlName() {
-		return midlName;
+    
+    public String getSrcFam() {
+		return srcFam;
 	}
 
-	public void setMidlName(String midlName) {
-		this.midlName = midlName;
+	public void setSrcFam(String srcFam) {
+		this.srcFam = srcFam;
 	}
 
-	public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-	public Date getDatBirthay() {
-		return datBirthay;
+	public String getSrcIm() {
+		return srcIm;
 	}
 
-	public void setDatBirthay(Date datBirthay) {
-		this.datBirthay = datBirthay;
+	public void setSrcIm(String srcIm) {
+		this.srcIm = srcIm;
 	}
 
-	public String getStreet() {
-		return street;
+	public String getSrcOt() {
+		return srcOt;
 	}
 
-	public void setStreet(String street) {
-		this.street = street;
+	public void setSrcOt(String srcOt) {
+		this.srcOt = srcOt;
 	}
 
-	public String getNasp() {
-		return nasp;
+	public Date getSrcDr() {
+		return srcDr;
 	}
 
-	public void setNasp(String nasp) {
-		this.nasp = nasp;
+	public void setSrcDr(Date srcDr) {
+		this.srcDr = srcDr;
 	}
 
-	public String getSex() {
-		return sex;
+	public List<Patient> getPatients() {
+		return patients;
 	}
 
-	public void setSex(String sex) {
-		this.sex = sex;
+	public void setPatients(List<Patient> patients) {
+		this.patients = patients;
 	}
-
-	public String getUserFam() {
-		return userFam;
-	}
-
-	public void setUserFam(String userFam) {
-		this.userFam = userFam;
-	}
-
-	public String getUserIm() {
-		return userIm;
-	}
-
-	public void setUserIm(String userIm) {
-		this.userIm = userIm;
-	}
-
-	public String getUserOt() {
-		return userOt;
-	}
-
-	public void setUserOt(String userOt) {
-		this.userOt = userOt;
-	}
-
-	public Date getUserDr() {
-		return userDr;
-	}
-
-	public void setUserDr(Date userDr) {
-		this.userDr = userDr;
-	}
-
 }
-

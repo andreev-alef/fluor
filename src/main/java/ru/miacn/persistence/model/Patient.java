@@ -9,9 +9,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import ru.miacn.persistence.reference.RGender;
 import ru.miacn.persistence.reference.RMedicalOrgPoliclinic;
 
 @Entity
@@ -33,9 +36,11 @@ public class Patient {
 	@NotNull
 	private Integer citizenId;
 	@Column(name = "dat_birth")
+	@Temporal(TemporalType.DATE)
 	@NotNull
 	private Date datBirth;
 	@Column(name = "dat_death")
+	@Temporal(TemporalType.DATE)
 	private Date datDeath;
 	@Column(name = "decr_group_id")
 	private Integer decrGroupId;
@@ -50,13 +55,14 @@ public class Patient {
 	@NotNull
 	@Size(max = nameFieldSize)
 	private String lastName;
+	@OneToOne
+	@JoinColumn(name = "sex_id")
+	@NotNull
+	private RGender gender;
 	@Embedded
 	private Address address;
 	@Column(name = "med_group_id")
 	private Integer medGroupId;
-	@Column(name = "sex_id")
-	@NotNull
-	private Integer sexId;
 	@Column(name = "soc_group_id")
 	private Integer socGroupId;
 	private String tel;
@@ -160,6 +166,14 @@ public class Patient {
 		this.lastName = lastName;
 	}
 
+	public RGender getGender() {
+		return gender;
+	}
+
+	public void setGender(RGender gender) {
+		this.gender = gender;
+	}
+
 	public Address getAddress() {
 		return address;
 	}
@@ -174,14 +188,6 @@ public class Patient {
 
 	public void setMedGroupId(Integer medGroupId) {
 		this.medGroupId = medGroupId;
-	}
-
-	public Integer getSexId() {
-		return this.sexId;
-	}
-
-	public void setSexId(Integer sexId) {
-		this.sexId = sexId;
 	}
 
 	public Integer getSocGroupId() {

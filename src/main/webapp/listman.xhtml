@@ -13,65 +13,58 @@
 	<p:outputPanel class="content">
 
 		<h:form>
-			<h:panelGrid columns="10" focus="fam">
+			<h:panelGrid id="searchParams" columns="10" focus="fam">
 				<p:outputLabel for="fam" value="Фамилия" />
-				<p:inputText id="fam" value="#{listmanBean.userFam}" required="true"
-					requiredMessage="Фамилия обязательно." />
+				<p:inputText id="fam" value="#{listmanBean.srcFam}" />
 				<p:outputLabel for="im" value="Имя" />
-				<p:inputText id="im" value="#{listmanBean.userIm}" required="true" />
+				<p:inputText id="im" value="#{listmanBean.srcIm}" />
 				<p:outputLabel for="ot" value="Отчество" />
-				<p:inputText id="ot" value="#{listmanBean.userOt}" />
+				<p:inputText id="ot" value="#{listmanBean.srcOt}" />
 				<p:outputLabel for="dr" value="Дата рождения" />
-				<p:calendar id="dr" value="#{listmanBean.userDr}" locale="ru" />
-				<p:commandButton value="Найти" />
-				<p:commandButton value="Сбросить" />
-				<h:message style="color:red" />
+				<p:calendar id="dr" value="#{listmanBean.srcDr}" locale="ru" pattern="dd.MM.yyyy" />
+				<p:commandButton value="Найти" action="#{listmanBean.search()}" update="patientTable" />
+				<p:commandButton value="Сбросить" action="#{listmanBean.clearSearch()}" update="searchParams patientTable" />
 			</h:panelGrid>
-			<p:dataTable value="#{Patient.items}" var="item">
+	
+			<p:dataTable id="patientTable" value="#{listmanBean.patients}" var="v">
 				<p:column headerText="Просмотр">
-					<p:link outcome="editman">
-						<f:param name="faces-redirect" value="true" />
-						<!-- 				<f:param name="refheaderid" value="#{refh.id}"/> -->
-						<h:panelGroup layout="block" />
-						<h:outputText value="Просмотр" />
+					<p:link value="Просмотр" outcome="editman">
+						<f:param name="patId" value="#{v.id}"/>
 					</p:link>
 				</p:column>
 
 				<p:column headerText="Фамилия">
-					<h:outputText value="#{item.last_name}" />
+					<h:outputText value="#{v.lastName}" />
 				</p:column>
 				
 				<p:column headerText="Имя">
-					<h:outputText value="#{item.lastName}" />
+					<h:outputText value="#{v.firstName}" />
 				</p:column>
 
 				<p:column headerText="Отчество">
-					<h:outputText value="#{item.midlName}" />
+					<h:outputText value="#{v.fatherName}" />
 				</p:column>
 
 				<p:column headerText="Дата рождения">
-					<h:outputText value="#{item.datBirthay}" />
+					<h:outputText value="#{v.datBirth}">
+					  <f:convertDateTime locale="ru" />
+					</h:outputText>
 				</p:column>
 
 				<p:column headerText="Пол">
-					<h:outputText value="#{item.sex}" />
+					<h:outputText value="#{v.gender.name}" />
 				</p:column>
 
 				<p:column headerText="Населенный пункт">
-					<h:outputText value="#{item.nasp}" />
+					<h:outputText value="#{v.address.livCity}" />
 				</p:column>
 
 				<p:column headerText="Адрес">
-					<h:outputText value="#{item.street}" />
+					<h:outputText value="#{v.address.livStreet}" />
 				</p:column>
 
 				<p:column headerText="Дата последнего обследования">
-					<p:commandLink update=":frmBrowse:pnlDlg" process="@this"
-						actionListener="#{listRH.selectLsn}" oncomplete="PF('brw').show()">
-						<!-- 			<f:attribute name="refheaderid" value="#{refh.id}"/> -->
-						<h:panelGroup layout="block" />
-						<h:outputText value="смотреть" />
-					</p:commandLink>
+					<p:commandLink oncomplete="PF('brw').show()" />
 				</p:column>
 
 				<p:column headerText="Результат">
@@ -81,7 +74,6 @@
 				<p:column headerText="Верификация">
 					<h:outputText value="неизвестно" />
 				</p:column>
-
 			</p:dataTable>
 
 			<h:panelGrid columns="1">
