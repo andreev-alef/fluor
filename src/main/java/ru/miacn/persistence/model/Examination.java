@@ -9,26 +9,35 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 import ru.miacn.persistence.reference.RMedicalOrgPoliclinic;
 
 @Entity
-public class Examination {
+public class Examination  {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+
 	@NotNull
 	private Date dat;
-	@Column(name = "follow_up")
-	@NotNull
+
+	@Column(name="follow_up")
 	private Boolean followUp;
-	@Column(name = "method_id")
-	@NotNull
+
+	@Column(name="method_id")
 	private Integer methodId;
-	@Column(name = "result_id")
+
+	@Column(name="result_id")
 	private Integer resultId;
+
+	//bi-directional many-to-one association to Patient
+	@ManyToOne
+	private Patient patient;
+
+	//bi-directional many-to-one association to RMedicalOrgPoliclinic
 	@OneToOne
 	@JoinColumns({
 			@JoinColumn(name = "med_city_id", referencedColumnName = "ter_id"),
@@ -78,11 +87,20 @@ public class Examination {
 		this.resultId = resultId;
 	}
 
+	public Patient getPatient() {
+		return this.patient;
+	}
+
+	public void setPatient(Patient patient) {
+		this.patient = patient;
+	}
+
 	public RMedicalOrgPoliclinic getRMedicalOrgPoliclinic() {
 		return this.rMedicalOrgPoliclinic;
 	}
 
-	public void setRMedicalOrgPoliclinic(RMedicalOrgPoliclinic RMedicalOrgPoliclinic) {
-		this.rMedicalOrgPoliclinic = RMedicalOrgPoliclinic;
+	public void setRMedicalOrgPoliclinic(RMedicalOrgPoliclinic rMedicalOrgPoliclinic) {
+		this.rMedicalOrgPoliclinic = rMedicalOrgPoliclinic;
 	}
+
 }

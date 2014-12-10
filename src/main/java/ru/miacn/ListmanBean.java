@@ -2,10 +2,14 @@ package ru.miacn;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
+
+import ru.miacn.persistence.model.Patient;
+
 
 @Named
 @SessionScoped
@@ -22,6 +26,7 @@ public class ListmanBean implements Serializable {
     private String sex = "М";
     private String nasp;
     private String street;
+	private List<Patient> patientList;
 
     @PostConstruct
     public void init() {

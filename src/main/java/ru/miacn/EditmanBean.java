@@ -574,12 +574,14 @@ public class EditmanBean implements Serializable {
 		citizenConverter.setList(citizenList);
 	}
 
+	
 	public List<RExamMethod> getExmList() {
 		return exmList;
 	}
 
 	public void setExmList(List<RExamMethod> exmList) {
 		this.exmList = exmList;
+		exmConverter.setList(exmList);
 	}
 
 	public List<RMedicalOrgMain> getMoMainList() {

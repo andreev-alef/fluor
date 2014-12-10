@@ -11,16 +11,20 @@
           <p:commandLink update="examTable" oncomplete="PF('edtExamVar').show()">
             <h:outputText value="Добавить обследование" rendered="#{param['editable'] == 'true'}" />
           </p:commandLink>
-          <p:dataTable id="examTable">
+          <p:dataTable id="examTable" var="item" value="#{examinationBean.examList}">
             <p:column headerText="Дата">
+				<h:outputText value="#{item.dat}" />
             </p:column>
             <p:column headerText="Населенный пункт">
+				<h:outputText value="#{item.RMedicalOrgPoliclinic.id.terId}" />
             </p:column>
             <p:column headerText="МО">
+				<h:outputText value="#{item.RMedicalOrgPoliclinic.id.lpuId}" />
             </p:column>
             <p:column headerText="Вид">
             </p:column>
             <p:column headerText="Результат">
+				<h:outputText value="#{item.resultId}" />
             </p:column>
             <p:column headerText="Верификация">
             </p:column>
