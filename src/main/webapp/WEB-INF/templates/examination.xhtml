@@ -95,7 +95,6 @@
 
             <h:outputLabel for="rez" value="Результат" />
 	        <p:selectOneMenu id="rez" value="#{editmanBean.selectedResType}" converter="#{editmanBean.restypeConverter}">
-	          <p:ajax listener="#{editmanBean.reztypeSelected}"  />
 	          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
 	          <f:selectItems value="#{editmanBean.restypeList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
 	        </p:selectOneMenu>

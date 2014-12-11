@@ -14,8 +14,12 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import ru.miacn.persistence.reference.RCitizen;
+import ru.miacn.persistence.reference.RDecrGroup;
 import ru.miacn.persistence.reference.RGender;
+import ru.miacn.persistence.reference.RMedGroup;
 import ru.miacn.persistence.reference.RMedicalOrgPoliclinic;
+import ru.miacn.persistence.reference.RSocGroup;
 
 @Entity
 public class Patient {
@@ -32,9 +36,10 @@ public class Patient {
 	@Column(name = "_ver_parent_id")
 	@NotNull
 	private Integer verParentId;
-	@Column(name = "citizen_id")
+	@OneToOne
+	@JoinColumn(name = "citizen_id")
 	@NotNull
-	private Integer citizenId;
+	private RCitizen citizen;
 	@Column(name = "dat_birth")
 	@Temporal(TemporalType.DATE)
 	@NotNull
@@ -42,8 +47,9 @@ public class Patient {
 	@Column(name = "dat_death")
 	@Temporal(TemporalType.DATE)
 	private Date datDeath;
-	@Column(name = "decr_group_id")
-	private Integer decrGroupId;
+	@OneToOne
+	@JoinColumn(name = "decr_group_id")
+	private RDecrGroup decrGroup;
 	@Column(name = "father_name")
 	@Size(max = nameFieldSize)
 	private String fatherName;
@@ -61,10 +67,12 @@ public class Patient {
 	private RGender gender;
 	@Embedded
 	private Address address;
-	@Column(name = "med_group_id")
-	private Integer medGroupId;
-	@Column(name = "soc_group_id")
-	private Integer socGroupId;
+	@OneToOne
+	@JoinColumn(name = "med_group_id")
+	private RMedGroup medGroup;
+	@OneToOne
+	@JoinColumn(name = "soc_group_id")
+	private RSocGroup socGroup;
 	private String tel;
 	@OneToOne
 	@JoinColumns({
@@ -74,7 +82,17 @@ public class Patient {
 			@JoinColumn(name = "med_reg_id", referencedColumnName = "reg_id") })
 	private RMedicalOrgPoliclinic rMedicalOrgPoliclinic;
 
-	public static int getNameFieldSize() {
+	public Patient() {
+		citizen =  new RCitizen();
+		decrGroup = new RDecrGroup();
+		gender = new RGender();
+		address = new Address();
+		medGroup = new RMedGroup();
+		socGroup = new RSocGroup();
+		rMedicalOrgPoliclinic = new RMedicalOrgPoliclinic();
+	}
+	
+	public int getNameFieldSize() {
 		return nameFieldSize;
 	}
 
@@ -110,12 +128,12 @@ public class Patient {
 		this.verParentId = verParentId;
 	}
 
-	public Integer getCitizenId() {
-		return this.citizenId;
+	public RCitizen getCitizen() {
+		return citizen;
 	}
 
-	public void setCitizenId(Integer citizenId) {
-		this.citizenId = citizenId;
+	public void setCitizen(RCitizen citizen) {
+		this.citizen = citizen;
 	}
 
 	public Date getDatBirth() {
@@ -134,12 +152,12 @@ public class Patient {
 		this.datDeath = datDeath;
 	}
 
-	public Integer getDecrGroupId() {
-		return this.decrGroupId;
+	public RDecrGroup getDecrGroup() {
+		return decrGroup;
 	}
 
-	public void setDecrGroupId(Integer decrGroupId) {
-		this.decrGroupId = decrGroupId;
+	public void setDecrGroup(RDecrGroup decrGroup) {
+		this.decrGroup = decrGroup;
 	}
 
 	public String getFatherName() {
@@ -182,20 +200,20 @@ public class Patient {
 		this.address = address;
 	}
 
-	public Integer getMedGroupId() {
-		return this.medGroupId;
+	public RMedGroup getMedGroup() {
+		return medGroup;
 	}
 
-	public void setMedGroupId(Integer medGroupId) {
-		this.medGroupId = medGroupId;
+	public void setMedGroup(RMedGroup medGroup) {
+		this.medGroup = medGroup;
 	}
 
-	public Integer getSocGroupId() {
-		return this.socGroupId;
+	public RSocGroup getSocGroup() {
+		return socGroup;
 	}
 
-	public void setSocGroupId(Integer socGroupId) {
-		this.socGroupId = socGroupId;
+	public void setSocGroup(RSocGroup socGroup) {
+		this.socGroup = socGroup;
 	}
 
 	public String getTel() {

@@ -5,11 +5,14 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
-	<title>Флюрокартотека</title>
+  <title>Флюрокартотека</title>
+  <h:outputScript library="js" name="locale.js" />
+  <f:metadata>
+    <f:viewAction action="#{listmanBean.search()}" />
+  </f:metadata>
 </h:head>
 
 <h:body>
-	<h:outputScript library="js" name="locale.js" />
 	<p:outputPanel class="content">
 
 		<h:form>
@@ -116,15 +119,15 @@
 					<p:outputLabel value="Адрес проживания" />
 					<h:panelGrid columns="2">
 						<p:outputLabel for="reg" value="Регион" />
-						<p:selectOneMenu id="reg" value="#{editmanBean.naspMO}">
+						<p:selectOneMenu id="reg">
 							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
 						</p:selectOneMenu>
 						<p:outputLabel for="np" value="Населенный пункт" />
-						<p:selectOneMenu id="np" value="#{editmanBean.naspMO}">
+						<p:selectOneMenu id="np">
 							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
 						</p:selectOneMenu>
 						<p:outputLabel for="ul" value="Улица" />
-						<p:selectOneMenu id="ul" value="#{editmanBean.naspMO}">
+						<p:selectOneMenu id="ul">
 							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
 						</p:selectOneMenu>
 					</h:panelGrid>
@@ -137,37 +140,34 @@
 				          <f:selectItems value="#{editmanBean.moRegionList}" var="r" itemLabel="#{r.regId} - #{r.name}" itemValue="#{r}" />
 				        </p:selectOneMenu>
 						<p:outputLabel for="npmo" value="Населенный пункт" />
-						<p:selectOneMenu id="npmo" value="#{editmanBean.naspMO}">
+						<p:selectOneMenu id="npmo">
 							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
 						</p:selectOneMenu>
 						<p:outputLabel for="nmo" value="ЛПУ" />
-						<p:selectOneMenu id="nmo" value="#{editmanBean.naspMO}">
+						<p:selectOneMenu id="nmo">
 							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
 						</p:selectOneMenu>
 						<p:outputLabel for="p" value="Поликлиника" />
-						<p:selectOneMenu id="p" value="#{editmanBean.naspMO}">
+						<p:selectOneMenu id="p">
 							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
 						</p:selectOneMenu>
 					</h:panelGrid>
 					<p:outputLabel value="Контингенты населения" />
 					<h:panelGrid columns="2">
 			        	<p:outputLabel for="dg" value="Декретированная группа" />
-				        <p:selectOneMenu id="dg" value="#{editmanBean.selectedDg}" converter="#{editmanBean.dgConverter}">
-				          <p:ajax listener="#{editmanBean.dgSelected}"  />
+				        <p:selectOneMenu id="dg" converter="#{editmanBean.dgConverter}">
 				          <f:selectItem itemLabel="-- отсутствует --" itemValue="#{null}" />
 				          <f:selectItems value="#{editmanBean.decrList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
 				        </p:selectOneMenu>
 		
 			        	<p:outputLabel for="mg" value="Медицинская группа" />
-				        <p:selectOneMenu id="mg" value="#{editmanBean.selectedMg}" converter="#{editmanBean.mgConverter}">
-				          <p:ajax listener="#{editmanBean.mgSelected}"  />
+				        <p:selectOneMenu id="mg" converter="#{editmanBean.mgConverter}">
 				          <f:selectItem itemLabel="-- отсутствует --" itemValue="#{null}" />
 				          <f:selectItems value="#{editmanBean.medList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
 				        </p:selectOneMenu>
 		
 			        	<p:outputLabel for="rg" value="Социальная группа" />
-				        <p:selectOneMenu id="rg" value="#{editmanBean.selectedSg}" converter="#{editmanBean.sgConverter}">
-				          <p:ajax listener="#{editmanBean.sgSelected}"  />
+				        <p:selectOneMenu id="rg" converter="#{editmanBean.sgConverter}">
 				          <f:selectItem itemLabel="-- отсутствует --" itemValue="#{null}" />
 				          <f:selectItems value="#{editmanBean.socList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
 				        </p:selectOneMenu>
@@ -175,19 +175,19 @@
 					<p:outputLabel value="Обследования" />
 					<h:panelGrid columns="2">
 						<p:outputLabel for="npo" value="Населенный пункт" />
-						<p:selectOneMenu id="npo" value="#{editmanBean.naspMO}">
+						<p:selectOneMenu id="npo">
 							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
 						</p:selectOneMenu>
 						<p:outputLabel for="lpu" value="ЛПУ" />
-						<p:selectOneMenu id="lpu" value="#{editmanBean.naspMO}">
+						<p:selectOneMenu id="lpu">
 							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
 						</p:selectOneMenu>
 						<p:outputLabel for="rez" value="Результат" />
-						<p:selectOneMenu id="rez" value="#{editmanBean.naspMO}">
+						<p:selectOneMenu id="rez">
 							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
 						</p:selectOneMenu>
 						<p:outputLabel for="ver" value="Верификация" />
-						<p:selectOneMenu id="ver" value="#{editmanBean.naspMO}">
+						<p:selectOneMenu id="ver">
 							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
 						</p:selectOneMenu>
 					</h:panelGrid>
@@ -210,15 +210,15 @@
 					<p:outputLabel value="Уровень отчета" />
 					<h:panelGrid columns="2">
 						<p:outputLabel for="np" value="Населенный пункт" />
-						<p:selectOneMenu id="np" value="#{editmanBean.naspMO}">
+						<p:selectOneMenu id="np">
 							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
 						</p:selectOneMenu>
 						<p:outputLabel for="mo" value="Медицинская организация" />
-						<p:selectOneMenu id="mo" value="#{editmanBean.naspMO}">
+						<p:selectOneMenu id="mo">
 							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
 						</p:selectOneMenu>
 						<p:outputLabel for="p" value="Подразделение" />
-						<p:selectOneMenu id="p" value="#{editmanBean.naspMO}">
+						<p:selectOneMenu id="p">
 							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
 						</p:selectOneMenu>
 					</h:panelGrid>

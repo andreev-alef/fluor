@@ -11,6 +11,11 @@ public class RGender {
 	private Integer id;
 	private String name;
 
+	@Override
+	public boolean equals(Object obj) {
+		return (obj instanceof RGender) && (((RGender) obj).id == this.id);
+	}
+	
 	public Integer getId() {
 		return this.id;
 	}

@@ -22,6 +22,11 @@ public class RMedicalOrgRegion {
 	@OneToMany(mappedBy = "rMedicalOrgRegion")
 	private List<RMedicalOrgTer> rMedicalOrgTers;
 
+	@Override
+	public boolean equals(Object obj) {
+		return (obj instanceof RMedicalOrgRegion) && (((RMedicalOrgRegion) obj).regId == this.regId);
+	}
+	
 	public Integer getRegId() {
 		return this.regId;
 	}

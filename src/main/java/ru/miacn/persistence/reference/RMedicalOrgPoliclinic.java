@@ -21,6 +21,23 @@ public class RMedicalOrgPoliclinic {
 			@JoinColumn(name = "ter_id", referencedColumnName = "ter_id", insertable = false, updatable = false) })
 	private RMedicalOrgMain rMedicalOrgMain;
 
+	public RMedicalOrgPoliclinic() {
+		id = new RMedicalOrgPoliclinicPK();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof RMedicalOrgPoliclinic) {
+			RMedicalOrgPoliclinicPK pk = ((RMedicalOrgPoliclinic) obj).id;
+			
+			return (pk.getRegId() == id.getRegId())
+					&& (pk.getTerId() == id.getTerId())
+					&& (pk.getLpuId() == id.getLpuId())
+					&& (pk.getPolId() == id.getPolId());
+		}
+		return false;
+	}
+	
 	public RMedicalOrgPoliclinicPK getId() {
 		return this.id;
 	}
