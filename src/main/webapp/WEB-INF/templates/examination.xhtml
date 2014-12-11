@@ -5,26 +5,32 @@
   xmlns:f="http://java.sun.com/jsf/core"
   xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:p="http://primefaces.org/ui">
+   <ui:define name="metadata">
+   		<f:viewParam name="patientid" value="1" />
+   </ui:define>
   <h:body>
       <h:form id="frmExam">
         <p:panel header="Обследования пациента">
           <p:commandLink update="examTable" oncomplete="PF('edtExamVar').show()">
             <h:outputText value="Добавить обследование" rendered="#{param['editable'] == 'true'}" />
           </p:commandLink>
-          <p:dataTable id="examTable" var="item" value="#{examinationBean.examList}">
+          <p:dataTable id="examTable" var="item" value="#{examinationBean.examinations}" >
             <p:column headerText="Дата">
-				<h:outputText value="#{item.dat}" />
+				<h:outputText value="#{item.dat}" >
+					<f:convertDateTime pattern="dd.MM.yyyy"/>
+				</h:outputText>
             </p:column>
             <p:column headerText="Населенный пункт">
-				<h:outputText value="#{item.RMedicalOrgPoliclinic.id.terId}" />
+				<h:outputText value="#{item.RMedicalOrgTer.name}" />
             </p:column>
             <p:column headerText="МО">
-				<h:outputText value="#{item.RMedicalOrgPoliclinic.id.lpuId}" />
+				<h:outputText value="#{item.RMedicalOrgMain.name}" />
             </p:column>
             <p:column headerText="Вид">
+				<h:outputText value="#{item.RExamType.name}" />
             </p:column>
             <p:column headerText="Результат">
-				<h:outputText value="#{item.resultId}" />
+				<h:outputText value="#{item.RResultType.name}" />
             </p:column>
             <p:column headerText="Верификация">
             </p:column>

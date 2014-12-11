@@ -1,51 +1,81 @@
 package ru.miacn.persistence.model;
 
+import javax.persistence.*;
+
+import ru.miacn.persistence.reference.RExamMethod;
+import ru.miacn.persistence.reference.RExamType;
+import ru.miacn.persistence.reference.RMedicalOrgMain;
+import ru.miacn.persistence.reference.RMedicalOrgPoliclinic;
+import ru.miacn.persistence.reference.RMedicalOrgRegion;
+import ru.miacn.persistence.reference.RMedicalOrgTer;
+import ru.miacn.persistence.reference.RResultType;
+
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.validation.constraints.NotNull;
-
-import ru.miacn.persistence.reference.RMedicalOrgPoliclinic;
-
 @Entity
+@NamedQuery(name="Examination.findAll", query="SELECT e FROM Examination e")
 public class Examination  {
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 
-	@NotNull
+	@Temporal(TemporalType.DATE)
 	private Date dat;
 
 	@Column(name="follow_up")
 	private Boolean followUp;
 
-	@Column(name="method_id")
-	private Integer methodId;
-
-	@Column(name="result_id")
-	private Integer resultId;
-
 	//bi-directional many-to-one association to Patient
 	@ManyToOne
 	private Patient patient;
 
-	//bi-directional many-to-one association to RMedicalOrgPoliclinic
-	@OneToOne
+	//bi-directional many-to-one association to RExamMethod
+	@ManyToOne
+	@JoinColumn(name="method_id")
+	private RExamMethod rExamMethod;
+
+	//bi-directional many-to-one association to RExamType
+	@ManyToOne
+	@JoinColumn(name="type_id")
+	private RExamType rExamType;
+
+	//bi-directional many-to-one association to RMedicalOrgMain
+	@ManyToOne
 	@JoinColumns({
-			@JoinColumn(name = "med_city_id", referencedColumnName = "ter_id"),
-			@JoinColumn(name = "med_lpu_id", referencedColumnName = "lpu_id"),
-			@JoinColumn(name = "med_pol_id", referencedColumnName = "pol_id"),
-			@JoinColumn(name = "med_reg_id", referencedColumnName = "reg_id") })
-	@NotNull
+		@JoinColumn(name="med_city_id", referencedColumnName="ter_id", insertable = false, updatable = false),
+		@JoinColumn(name="med_lpu_id", referencedColumnName="lpu_id", insertable = false, updatable = false),
+		@JoinColumn(name="med_reg_id", referencedColumnName="reg_id", insertable = false, updatable = false)
+		})
+	private RMedicalOrgMain rMedicalOrgMain;
+
+	//bi-directional many-to-one association to RMedicalOrgPoliclinic
+	@ManyToOne
+	@JoinColumns({
+		@JoinColumn(name="med_city_id", referencedColumnName="ter_id", insertable = false, updatable = false),
+		@JoinColumn(name="med_lpu_id", referencedColumnName="lpu_id", insertable = false, updatable = false),
+		@JoinColumn(name="med_pol_id", referencedColumnName="pol_id", insertable = false, updatable = false),
+		@JoinColumn(name="med_reg_id", referencedColumnName="reg_id", insertable = false, updatable = false)
+		})
 	private RMedicalOrgPoliclinic rMedicalOrgPoliclinic;
+
+	//bi-directional many-to-one association to RMedicalOrgRegion
+	@ManyToOne
+	@JoinColumn(name="med_reg_id", insertable = false, updatable = false)
+	private RMedicalOrgRegion rMedicalOrgRegion;
+
+	//bi-directional many-to-one association to RMedicalOrgTer
+	@ManyToOne
+	@JoinColumns({
+		@JoinColumn(name="med_city_id", referencedColumnName="ter_id", insertable = false, updatable = false),
+		@JoinColumn(name="med_reg_id", referencedColumnName="reg_id", insertable = false, updatable = false)
+		})
+	private RMedicalOrgTer rMedicalOrgTer;
+
+	//bi-directional many-to-one association to RResultType
+	@ManyToOne
+	@JoinColumn(name="result_id")
+	private RResultType rResultType;
 
 	public Integer getId() {
 		return this.id;
@@ -71,22 +101,6 @@ public class Examination  {
 		this.followUp = followUp;
 	}
 
-	public Integer getMethodId() {
-		return this.methodId;
-	}
-
-	public void setMethodId(Integer methodId) {
-		this.methodId = methodId;
-	}
-
-	public Integer getResultId() {
-		return this.resultId;
-	}
-
-	public void setResultId(Integer resultId) {
-		this.resultId = resultId;
-	}
-
 	public Patient getPatient() {
 		return this.patient;
 	}
@@ -95,12 +109,60 @@ public class Examination  {
 		this.patient = patient;
 	}
 
+	public RExamMethod getRExamMethod() {
+		return this.rExamMethod;
+	}
+
+	public void setRExamMethod(RExamMethod rExamMethod) {
+		this.rExamMethod = rExamMethod;
+	}
+
+	public RExamType getRExamType() {
+		return this.rExamType;
+	}
+
+	public void setRExamType(RExamType rExamType) {
+		this.rExamType = rExamType;
+	}
+
+	public RMedicalOrgMain getRMedicalOrgMain() {
+		return this.rMedicalOrgMain;
+	}
+
+	public void setRMedicalOrgMain(RMedicalOrgMain rMedicalOrgMain) {
+		this.rMedicalOrgMain = rMedicalOrgMain;
+	}
+
 	public RMedicalOrgPoliclinic getRMedicalOrgPoliclinic() {
 		return this.rMedicalOrgPoliclinic;
 	}
 
 	public void setRMedicalOrgPoliclinic(RMedicalOrgPoliclinic rMedicalOrgPoliclinic) {
 		this.rMedicalOrgPoliclinic = rMedicalOrgPoliclinic;
+	}
+
+	public RMedicalOrgRegion getRMedicalOrgRegion() {
+		return this.rMedicalOrgRegion;
+	}
+
+	public void setRMedicalOrgRegion(RMedicalOrgRegion rMedicalOrgRegion) {
+		this.rMedicalOrgRegion = rMedicalOrgRegion;
+	}
+
+	public RMedicalOrgTer getRMedicalOrgTer() {
+		return this.rMedicalOrgTer;
+	}
+
+	public void setRMedicalOrgTer(RMedicalOrgTer rMedicalOrgTer) {
+		this.rMedicalOrgTer = rMedicalOrgTer;
+	}
+
+	public RResultType getRResultType() {
+		return this.rResultType;
+	}
+
+	public void setRResultType(RResultType rResultType) {
+		this.rResultType = rResultType;
 	}
 
 }

@@ -64,7 +64,11 @@
 				</p:column>
 
 				<p:column headerText="Дата последнего обследования">
-					<p:commandLink oncomplete="PF('brw').show()" />
+					<p:commandLink update=":frmBrowseExam:browseExamId" oncomplete="PF('browseExamVar').show()" action="#{examinationBean.allExam()}" >
+						<h:outputText value="смотреть"/>
+						<f:param name="editable" value="true"/>
+						<f:param name="patId" value="#{v.id}"/>
+					</p:commandLink>   
 				</p:column>
 
 				<p:column headerText="Результат">
@@ -90,8 +94,10 @@
 				<p:commandLink update=":frmFind:pnlDlg" oncomplete="PF('find').show()" >
 					<h:outputText value="Фильтр записей"/>
 				</p:commandLink>   
-				<p:commandLink update=":frmBrowseExam:browseExamId" oncomplete="PF('browseExamVar').show()" >
+				<p:commandLink update=":frmBrowseExam:browseExamId" oncomplete="PF('browseExamVar').show()" action="#{examinationBean.allExam()}" >
 					<h:outputText value="смотреть"/>
+					<f:param name="editable" value="true"/>
+					<f:param name="patId" value="#{v.id}"/>
 				</p:commandLink>   
 			</h:panelGrid>
 		</h:form>
