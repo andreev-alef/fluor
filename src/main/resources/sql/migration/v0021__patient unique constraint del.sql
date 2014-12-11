@@ -1,0 +1,1 @@
+ALTER TABLE patient DROP CONSTRAINT uc_patient_ver_parent_id_ver_active;
