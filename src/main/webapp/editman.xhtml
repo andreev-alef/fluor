@@ -17,7 +17,10 @@
 <p:outputPanel>
   <h:form id="frmInf">
     <p:panel header="Информация о пациенте">
-	    <p:commandButton value="Изменить информацию" />
+	    <p:button value="Изменить информацию" rendered="#{param['editable'] != 'true'}">
+	      <f:param name="editable" value="true"/>
+	      <f:param name="patId" value="#{editmanBean.patient.id}"/>
+	    </p:button>
 		<p:panelGrid columns="2">
 	    <p:panel header="Персональные данные">
 	   		<f:facet name="header">
@@ -137,7 +140,7 @@
 		        </p:selectOneMenu>
 			</h:panelGrid>
 		</p:panel>
-		<h:panelGrid columns="2">
+		<h:panelGrid columns="2" rendered="#{param['editable'] == 'true'}">
 		  <p:commandButton value="Сохранить" action="#{editmanBean.savePatient()}" />
 		  <p:button value="Возврат" outcome="listman" />
 		</h:panelGrid>

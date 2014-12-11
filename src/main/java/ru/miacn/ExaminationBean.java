@@ -22,8 +22,11 @@ public class ExaminationBean implements Serializable {
 	private EntityManager em;
 	
 	private List<Examination> examinations;
+	private int patientId;
 
 	public void loadExam(int patId) {
+		setPatientId(patId);
+		
     	String sql = ""
     		+ "SELECT * "
     		+ "FROM examination e "
@@ -31,7 +34,7 @@ public class ExaminationBean implements Serializable {
 			+ "ORDER BY e.dat desc ";
     	Map<String, Object> params = new HashMap<>();
     	
-   		params.put("id", patId);
+   		params.put("id", getPatientId());
     	
     	setExaminations(JpaUtils.getNativeResultList(em, sql, params, Examination.class));
     }
@@ -41,5 +44,13 @@ public class ExaminationBean implements Serializable {
 
 	public void setExaminations(List<Examination> examinations) {
 		this.examinations = examinations;
+	}
+
+	public int getPatientId() {
+		return patientId;
+	}
+
+	public void setPatientId(int patientId) {
+		this.patientId = patientId;
 	}
 }

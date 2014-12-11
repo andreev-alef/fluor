@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -37,6 +38,8 @@ public class EditmanBean implements Serializable {
 	public static final long serialVersionUID = -229673017810787765L;
 	@PersistenceContext
 	private EntityManager em;
+	@Inject
+	private ExaminationBean exam;
 	
 	private Patient patient;
 	
@@ -168,6 +171,8 @@ public class EditmanBean implements Serializable {
 	public void loadPatient(String idStr) {
 		if (idStr.isEmpty()) {
 			setPatient(new Patient());
+			
+			exam.loadExam(-1);
 		} else {
 			int id = Integer.parseInt(idStr);
 			
@@ -199,6 +204,8 @@ public class EditmanBean implements Serializable {
 					break;
 			}
 			setSelectedMop((id < moPoliclinicList.size()) ? moPoliclinicList.get(id) : null);
+			
+			exam.loadExam(getPatient().getId());
 		}
 	}
 	
