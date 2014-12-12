@@ -140,7 +140,7 @@
 		        </p:selectOneMenu>
 			</h:panelGrid>
 		</p:panel>
-		<h:panelGrid columns="2" rendered="#{param['editable'] == 'true'}">
+		<h:panelGrid columns="2">
 		  <p:commandButton value="Сохранить" action="#{editmanBean.savePatient()}" />
 		  <p:button value="Возврат" outcome="listman" />
 		</h:panelGrid>
