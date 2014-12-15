@@ -26,6 +26,11 @@ public class RMedicalOrgMain {
 	@OneToMany(mappedBy = "rMedicalOrgMain")
 	private List<RMedicalOrgPoliclinic> rMedicalOrgPoliclinics;
 
+	public RMedicalOrgMain() {
+		id = new RMedicalOrgMainPK();
+		rMedicalOrgTer = new RMedicalOrgTer();
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof RMedicalOrgMain) {

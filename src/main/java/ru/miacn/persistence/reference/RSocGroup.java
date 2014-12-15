@@ -11,6 +11,11 @@ public class RSocGroup {
 	private Integer id;
 	private String name;
 
+	@Override
+	public boolean equals(Object obj) {
+		return (obj instanceof RSocGroup) && (((RSocGroup) obj).id == this.id);
+	}
+	
 	public Integer getId() {
 		return this.id;
 	}

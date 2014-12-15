@@ -23,6 +23,7 @@ public class RMedicalOrgPoliclinic {
 
 	public RMedicalOrgPoliclinic() {
 		id = new RMedicalOrgPoliclinicPK();
+		rMedicalOrgMain = new RMedicalOrgMain();
 	}
 	
 	@Override

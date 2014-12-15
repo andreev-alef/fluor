@@ -11,6 +11,11 @@ public class RMedGroup {
 	private Integer id;
 	private String name;
 
+	@Override
+	public boolean equals(Object obj) {
+		return (obj instanceof RMedGroup) && (((RMedGroup) obj).id == this.id);
+	}
+	
 	public Integer getId() {
 		return this.id;
 	}
