@@ -20,12 +20,12 @@ import javax.transaction.Transactional;
 import ru.miacn.utils.JpaUtils;
 import ru.miacn.persistence.model.Examination;
 import ru.miacn.persistence.reference.ListConverter;
-import ru.miacn.persistence.reference.RExamType;
-import ru.miacn.persistence.reference.RMedicalOrgMain;
-import ru.miacn.persistence.reference.RMedicalOrgPoliclinic;
 import ru.miacn.persistence.reference.RMedicalOrgRegion;
 import ru.miacn.persistence.reference.RMedicalOrgTer;
+import ru.miacn.persistence.reference.RMedicalOrgMain;
 import ru.miacn.persistence.reference.RResultType;
+import ru.miacn.persistence.reference.RExamType;
+import ru.miacn.persistence.reference.RExamMethod;
 
 @Named
 @SessionScoped
@@ -55,9 +55,9 @@ public class ExaminationBean implements Serializable {
 	private RMedicalOrgMain selectedMom;
 	private ListConverter momConverter;
 	private List<RMedicalOrgMain> moMainList;
-	private RMedicalOrgPoliclinic selectedMop;
-	private ListConverter mopConverter;
-	private List<RMedicalOrgPoliclinic> moPoliclinicList;
+	private List<RExamMethod> exmList;
+	private ListConverter exmConverter;
+	private RExamMethod selectedExm;
 	
 	@PostConstruct
 	private void init() {
@@ -68,8 +68,8 @@ public class ExaminationBean implements Serializable {
 		setRestypeConverter(new ListConverter());
 		setMomConverter(new ListConverter());
 		setMotConverter(new ListConverter());
-		setMopConverter(new ListConverter());
 		setMorConverter(new ListConverter());
+		setExmConverter(new ListConverter());
 		
 		setExtList(em.createQuery("SELECT r FROM " + RExamType.class.getName() + " r ORDER BY r.id", RExamType.class).getResultList());
 		setRestypeList(em.createQuery("SELECT r FROM " + RResultType.class.getName() + " r ORDER BY r.id", RResultType.class).getResultList());
@@ -101,25 +101,24 @@ public class ExaminationBean implements Serializable {
 
 			int i;
 			for (i = 0; i < moRegionList.size(); i++) {
-				if (moRegionList.get(i).getRegId() == getSelectedExamination().getRMedicalOrgPoliclinic().getId().getRegId())
+				if (moRegionList.get(i).getRegId() == getSelectedExamination().getRMedicalOrgRegion().getRegId())
 					break;
 			}
 			setSelectedMor((i < moRegionList.size()) ? moRegionList.get(i) : null);
 			morSelected();
 			
 			for (i = 0; i < moTerList.size(); i++) {
-				if (moTerList.get(i).getId().getTerId() == getSelectedExamination().getRMedicalOrgPoliclinic().getId().getTerId())
+				if (moTerList.get(i).getId().getTerId() == getSelectedExamination().getRMedicalOrgTer().getId().getTerId())
 					break;
 			}
 			setSelectedMot((i < moTerList.size()) ? moTerList.get(i) : null);
 			motSelected();
 			
 			for (i = 0; i < moMainList.size(); i++) {
-				if (moMainList.get(i).getId().getLpuId() == getSelectedExamination().getRMedicalOrgPoliclinic().getId().getLpuId())
+				if (moMainList.get(i).getId().getLpuId() == getSelectedExamination().getRMedicalOrgMain().getId().getLpuId())
 					break;
 			}
 			setSelectedMom((i < moMainList.size()) ? moMainList.get(i) : null);
-			momSelected();
 		
 		}
     }
@@ -139,7 +138,7 @@ public class ExaminationBean implements Serializable {
 //        	selectedExamination.setDat(new Date());
 	    }
 
-//        if ((selectedMor != null) && (selectedMot != null) && (selectedMom != null) && (selectedMop != null)) {
+//        if ((selectedMor != null) && (selectedMot != null) && (selectedMom != null)) {
 //            selectedExamination.setRMedicalOrgPoliclinic(new RMedicalOrgPoliclinic());
 //            selectedExamination.getRMedicalOrgPoliclinic().getRMedicalOrgMain().getRMedicalOrgTer().getRMedicalOrgRegion().setRegId(selectedMor.getRegId());
 //            selectedExamination.getRMedicalOrgPoliclinic().getRMedicalOrgMain().getRMedicalOrgTer().setId(selectedMot.getId());
@@ -202,14 +201,14 @@ public class ExaminationBean implements Serializable {
 		this.selectedExt = selectedExt;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void extSelected() {
 		if (selectedExt != null) {
-			TypedQuery<RExamType> query = em.createQuery("SELECT r FROM " + RExamType.class.getName() + " r WHERE r.id = :id ORDER BY r.name", RExamType.class);
-			
-			query.setParameter("id", selectedExt.getId());
-			setExtList(query.getResultList());
+			Query query = em.createNativeQuery("SELECT * FROM r_exam_method r WHERE r.type_id = :r_id ORDER BY r.name", RExamMethod.class);
+			query.setParameter("r_id", selectedExt.getId());
+			setExmList(query.getResultList());
 		} else {
-			setExtList(new ArrayList<RExamType>());
+			setExmList(new ArrayList<RExamMethod>());
 		}
 	}
 	
@@ -258,15 +257,6 @@ public class ExaminationBean implements Serializable {
 		momConverter.setList(moMainList);
 	}
 
-	public List<RMedicalOrgPoliclinic> getMoPoliclinicList() {
-		return moPoliclinicList;
-	}
-
-	public void setMoPoliclinicList(List<RMedicalOrgPoliclinic> moPoliclinicList) {
-		this.moPoliclinicList = moPoliclinicList;
-		mopConverter.setList(moPoliclinicList);
-	}
-
 	public List<RMedicalOrgTer> getMoTerList() {
 		return moTerList;
 	}
@@ -282,14 +272,6 @@ public class ExaminationBean implements Serializable {
 
 	public void setSelectedMom(RMedicalOrgMain selectedMom) {
 		this.selectedMom = selectedMom;
-	}
-
-	public RMedicalOrgPoliclinic getSelectedMop() {
-		return selectedMop;
-	}
-
-	public void setSelectedMop(RMedicalOrgPoliclinic selectedMop) {
-		this.selectedMop = selectedMop;
 	}
 
 	public RMedicalOrgTer getSelectedMot() {
@@ -316,12 +298,29 @@ public class ExaminationBean implements Serializable {
 		this.momConverter = momConverter;
 	}
 
-	public ListConverter getMopConverter() {
-		return mopConverter;
+	public RMedicalOrgRegion getSelectedMor() {
+		return selectedMor;
 	}
 
-	public void setMopConverter(ListConverter mopConverter) {
-		this.mopConverter = mopConverter;
+	public void setSelectedMor(RMedicalOrgRegion selectedMor) {
+		this.selectedMor = selectedMor;
+	}
+
+	public ListConverter getMorConverter() {
+		return morConverter;
+	}
+
+	public void setMorConverter(ListConverter morConverter) {
+		this.morConverter = morConverter;
+	}
+	
+	public List<RMedicalOrgRegion> getMoRegionList() {
+		return moRegionList;
+	}
+
+	private void setMoRegionList(List<RMedicalOrgRegion>  moRegionList) {
+		this.moRegionList = moRegionList;
+		morConverter.setList(moRegionList);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -351,44 +350,29 @@ public class ExaminationBean implements Serializable {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	public void momSelected() {
-		if (selectedMom != null) {
-			Query query = em.createNativeQuery("SELECT * FROM r_medical_org_policlinic r WHERE r.ter_id = :t_id and r.reg_id = :r_id  and r.lpu_id = :l_id ORDER BY r.pol_id", RMedicalOrgPoliclinic.class);
-			
-			query.setParameter("r_id", selectedMom.getId().getRegId());
-			query.setParameter("t_id", selectedMom.getId().getTerId());
-			query.setParameter("l_id", selectedMom.getId().getLpuId());
-			
-			setMoPoliclinicList(query.getResultList());
-		} else {
-			setMoPoliclinicList(new ArrayList<RMedicalOrgPoliclinic>());
-		}
+	public List<RExamMethod> getExmList() {
+		return exmList;
 	}
 
-	public RMedicalOrgRegion getSelectedMor() {
-		return selectedMor;
+	public void setExmList(List<RExamMethod> exmList) {
+		this.exmList = exmList;
+		exmConverter.setList(exmList);
 	}
 
-	public void setSelectedMor(RMedicalOrgRegion selectedMor) {
-		this.selectedMor = selectedMor;
+	public ListConverter getExmConverter() {
+		return exmConverter;
 	}
 
-	public ListConverter getMorConverter() {
-		return morConverter;
+	public void setExmConverter(ListConverter exmConverter) {
+		this.exmConverter = exmConverter;
 	}
 
-	public void setMorConverter(ListConverter morConverter) {
-		this.morConverter = morConverter;
-	}
-	
-	public List<RMedicalOrgRegion> getMoRegionList() {
-		return moRegionList;
+	public RExamMethod getSelectedExm() {
+		return selectedExm;
 	}
 
-	private void setMoRegionList(List<RMedicalOrgRegion>  moRegionList) {
-		this.moRegionList = moRegionList;
-		morConverter.setList(moRegionList);
+	public void setSelectedExm(RExamMethod selectedExm) {
+		this.selectedExm = selectedExm;
 	}
 
 }

@@ -1,21 +1,26 @@
 package ru.miacn.persistence.model;
 
-import javax.persistence.*;
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import ru.miacn.persistence.reference.RExamMethod;
 import ru.miacn.persistence.reference.RExamType;
 import ru.miacn.persistence.reference.RMedicalOrgMain;
-import ru.miacn.persistence.reference.RMedicalOrgPoliclinic;
-import ru.miacn.persistence.reference.RMedicalOrgRegion;
-import ru.miacn.persistence.reference.RMedicalOrgTer;
 import ru.miacn.persistence.reference.RResultType;
 
-import java.util.Date;
-
 @Entity
-@NamedQuery(name="Examination.findAll", query="SELECT e FROM Examination e")
-public class Examination  {
-
+public class Examination {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
@@ -26,22 +31,18 @@ public class Examination  {
 	@Column(name="follow_up")
 	private Boolean followUp;
 
-	//bi-directional many-to-one association to Patient
 	@ManyToOne
 	private Patient patient;
 
-	//bi-directional many-to-one association to RExamMethod
-	@ManyToOne
+	@OneToOne
 	@JoinColumn(name="method_id")
 	private RExamMethod rExamMethod;
 
-	//bi-directional many-to-one association to RExamType
-	@ManyToOne
+	@OneToOne
 	@JoinColumn(name="type_id")
 	private RExamType rExamType;
 
-	//bi-directional many-to-one association to RMedicalOrgMain
-	@ManyToOne
+	@OneToOne
 	@JoinColumns({
 		@JoinColumn(name="med_city_id", referencedColumnName="ter_id", insertable = false, updatable = false),
 		@JoinColumn(name="med_lpu_id", referencedColumnName="lpu_id", insertable = false, updatable = false),
@@ -49,31 +50,7 @@ public class Examination  {
 		})
 	private RMedicalOrgMain rMedicalOrgMain;
 
-	//bi-directional many-to-one association to RMedicalOrgPoliclinic
-	@ManyToOne
-	@JoinColumns({
-		@JoinColumn(name="med_city_id", referencedColumnName="ter_id", insertable = false, updatable = false),
-		@JoinColumn(name="med_lpu_id", referencedColumnName="lpu_id", insertable = false, updatable = false),
-		@JoinColumn(name="med_pol_id", referencedColumnName="pol_id", insertable = false, updatable = false),
-		@JoinColumn(name="med_reg_id", referencedColumnName="reg_id", insertable = false, updatable = false)
-		})
-	private RMedicalOrgPoliclinic rMedicalOrgPoliclinic;
-
-	//bi-directional many-to-one association to RMedicalOrgRegion
-	@ManyToOne
-	@JoinColumn(name="med_reg_id", insertable = false, updatable = false)
-	private RMedicalOrgRegion rMedicalOrgRegion;
-
-	//bi-directional many-to-one association to RMedicalOrgTer
-	@ManyToOne
-	@JoinColumns({
-		@JoinColumn(name="med_city_id", referencedColumnName="ter_id", insertable = false, updatable = false),
-		@JoinColumn(name="med_reg_id", referencedColumnName="reg_id", insertable = false, updatable = false)
-		})
-	private RMedicalOrgTer rMedicalOrgTer;
-
-	//bi-directional many-to-one association to RResultType
-	@ManyToOne
+	@OneToOne
 	@JoinColumn(name="result_id")
 	private RResultType rResultType;
 
@@ -133,30 +110,6 @@ public class Examination  {
 		this.rMedicalOrgMain = rMedicalOrgMain;
 	}
 
-	public RMedicalOrgPoliclinic getRMedicalOrgPoliclinic() {
-		return this.rMedicalOrgPoliclinic;
-	}
-
-	public void setRMedicalOrgPoliclinic(RMedicalOrgPoliclinic rMedicalOrgPoliclinic) {
-		this.rMedicalOrgPoliclinic = rMedicalOrgPoliclinic;
-	}
-
-	public RMedicalOrgRegion getRMedicalOrgRegion() {
-		return this.rMedicalOrgRegion;
-	}
-
-	public void setRMedicalOrgRegion(RMedicalOrgRegion rMedicalOrgRegion) {
-		this.rMedicalOrgRegion = rMedicalOrgRegion;
-	}
-
-	public RMedicalOrgTer getRMedicalOrgTer() {
-		return this.rMedicalOrgTer;
-	}
-
-	public void setRMedicalOrgTer(RMedicalOrgTer rMedicalOrgTer) {
-		this.rMedicalOrgTer = rMedicalOrgTer;
-	}
-
 	public RResultType getRResultType() {
 		return this.rResultType;
 	}
@@ -164,5 +117,4 @@ public class Examination  {
 	public void setRResultType(RResultType rResultType) {
 		this.rResultType = rResultType;
 	}
-
 }
