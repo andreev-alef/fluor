@@ -69,83 +69,8 @@ public class EditmanBean implements Serializable {
 	private ListConverter mopConverter;
 	private List<RMedicalOrgPoliclinic> moPoliclinicList;
 	
-	//TODO Move to other class. Ref in examination.xhtml
-		private List<RExamType> extList;
-		private ListConverter extConverter;
-		private RExamType selectedExt;
-	
-		public List<RExamType> getExtList() {
-			return extList;
-		}
-		
-		public void setExtList(List<RExamType> extList) {
-			this.extList = extList;
-			extConverter.setList(extList);
-		}
-		
-		public ListConverter getExtConverter() {
-			return extConverter;
-		}
-	
-		public void setExtConverter(ListConverter extConverter) {
-			this.extConverter = extConverter;
-		}
-	
-		public RExamType getSelectedExt() {
-			return selectedExt;
-		}
-		
-		public void setSelectedExt(RExamType selectedExt) {
-			this.selectedExt = selectedExt;
-		}
-	
-		public void extSelected() {
-			if (selectedExt != null) {
-				TypedQuery<RExamType> query = em.createQuery("SELECT r FROM " + RExamType.class.getName() + " r WHERE r.id = :id ORDER BY r.name", RExamType.class);
-				
-				query.setParameter("id", selectedExt.getId());
-				setExtList(query.getResultList());
-			} else {
-				setExtList(new ArrayList<RExamType>());
-			}
-		}
-		
-		private List<RResultType> restypeList;
-		private ListConverter restypeConverter;
-		private RResultType selectedResType;
-		
-		public List<RResultType> getRestypeList() {
-			return restypeList;
-		}
-	
-		public void setRestypeList(List<RResultType> restypeList) {
-			this.restypeList = restypeList;
-			restypeConverter.setList(restypeList);
-		}
-	
-		public ListConverter getRestypeConverter() {
-			return restypeConverter;
-		}
-		
-		public void setRestypeConverter(ListConverter restypeConverter) {
-			this.restypeConverter = restypeConverter;
-		}
-	
-		public RResultType getSelectedResType() {
-			return selectedResType;
-		}
-	
-		public void setSelectedResType(RResultType selectedResType) {
-			this.selectedResType = selectedResType;
-		}
-	//======================================================
-	
 	@PostConstruct
 	private void init() {
-		//TODO move
-			setExtConverter(new ListConverter());
-			setRestypeConverter(new ListConverter());
-		//==========================================
 		patient = new Patient();
 		
 		setSexConverter(new ListConverter());

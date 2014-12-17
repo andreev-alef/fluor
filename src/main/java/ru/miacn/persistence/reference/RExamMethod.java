@@ -16,6 +16,11 @@ public class RExamMethod {
 	@JoinColumn(name = "type_id")
 	private RExamType rExamType;
 
+	@Override
+	public boolean equals(Object obj) {
+		return (obj instanceof RExamMethod) && (((RExamMethod) obj).id == this.id);
+	}
+	
 	public Integer getId() {
 		return this.id;
 	}

@@ -145,6 +145,12 @@
 		  <p:button value="Возврат" outcome="listman" />
 		</h:panelGrid>
     </p:panel>
+        <h:panelGrid columns="1">
+          <p:link outcome="listman">
+            <h:outputText value="Вернуться к списку пациентов" />
+          </p:link>
+          <p:commandButton value="Печать направления на флюорографию" />
+        </h:panelGrid>
   </h:form>
 </p:outputPanel>
 

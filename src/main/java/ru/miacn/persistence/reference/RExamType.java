@@ -16,6 +16,11 @@ public class RExamType {
 	@OneToMany(mappedBy = "rExamType")
 	private List<RExamMethod> rExamMethods;
 
+	@Override
+	public boolean equals(Object obj) {
+		return (obj instanceof RExamType) && (((RExamType) obj).id == this.id);
+	}
+	
 	public Integer getId() {
 		return this.id;
 	}
