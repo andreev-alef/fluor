@@ -1,9 +1,7 @@
 package ru.miacn;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,15 +15,16 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
-import ru.miacn.utils.JpaUtils;
 import ru.miacn.persistence.model.Examination;
+import ru.miacn.persistence.model.Patient;
 import ru.miacn.persistence.reference.ListConverter;
+import ru.miacn.persistence.reference.RExamMethod;
+import ru.miacn.persistence.reference.RExamType;
+import ru.miacn.persistence.reference.RMedicalOrgMain;
 import ru.miacn.persistence.reference.RMedicalOrgRegion;
 import ru.miacn.persistence.reference.RMedicalOrgTer;
-import ru.miacn.persistence.reference.RMedicalOrgMain;
 import ru.miacn.persistence.reference.RResultType;
-import ru.miacn.persistence.reference.RExamType;
-import ru.miacn.persistence.reference.RExamMethod;
+import ru.miacn.utils.JpaUtils;
 
 @Named
 @SessionScoped
@@ -61,8 +60,7 @@ public class ExaminationBean implements Serializable {
 	
 	@PostConstruct
 	private void init() {
-		selectedExamination = new Examination();
-//		setSelectedExamination(new Examination());
+		setSelectedExamination(new Examination());
 		
 		setExtConverter(new ListConverter());
 		setRestypeConverter(new ListConverter());
@@ -92,23 +90,24 @@ public class ExaminationBean implements Serializable {
     }
 
 	public void findExam(int exId) {
-		setSelectedExamination(new Examination());			
 		if (exId == 0){
-			selectedExamination.setDat(new Date());
-		}
-		if (exId != 0){
+			setSelectedExamination(new Examination());
+			getSelectedExamination().setPatient(new Patient());
+		} else {
 			setSelectedExamination(em.find(Examination.class, exId));
-
+		}
+		
+		if (getSelectedExamination().getRMedicalOrgMain() != null) {
 			int i;
 			for (i = 0; i < moRegionList.size(); i++) {
-				if (moRegionList.get(i).getRegId() == getSelectedExamination().getRMedicalOrgRegion().getRegId())
+				if (moRegionList.get(i).getRegId() == getSelectedExamination().getRMedicalOrgMain().getRMedicalOrgTer().getRMedicalOrgRegion().getRegId())
 					break;
 			}
 			setSelectedMor((i < moRegionList.size()) ? moRegionList.get(i) : null);
 			morSelected();
 			
 			for (i = 0; i < moTerList.size(); i++) {
-				if (moTerList.get(i).getId().getTerId() == getSelectedExamination().getRMedicalOrgTer().getId().getTerId())
+				if (moTerList.get(i).getId().getTerId() == getSelectedExamination().getRMedicalOrgMain().getRMedicalOrgTer().getId().getTerId())
 					break;
 			}
 			setSelectedMot((i < moTerList.size()) ? moTerList.get(i) : null);
@@ -119,38 +118,32 @@ public class ExaminationBean implements Serializable {
 					break;
 			}
 			setSelectedMom((i < moMainList.size()) ? moMainList.get(i) : null);
-		
+		} else {
+			setSelectedMor(null);
+			setSelectedMot(null);
+			setSelectedMom(null);
 		}
     }
 
 	public void delExam() {
 		em.remove(em.merge(selectedExamination));
-		em.flush();
-		//em.refresh(selectedExamination);
-//		loadExam(selectedExamination.getPatient().getId());
-//		return "editman?faces-redirect=true";
+		loadExam(selectedExamination.getPatient().getId());
     }
 
 	public void saveExam() {
-        if (selectedExamination.getId() == null) {
-    		BigInteger id = (BigInteger) em.createNativeQuery("SELECT nextval('examination_id_seq')").getSingleResult();
-        	selectedExamination.setId(id.intValue());
-//        	selectedExamination.setDat(new Date());
-	    }
+		selectedExamination.getPatient().setId(getPatientId());
+		if ((selectedMor != null) && (selectedMot != null) && (selectedMom != null)) {
+			selectedExamination.setRMedicalOrgMain(new RMedicalOrgMain());
+			selectedExamination.getRMedicalOrgMain().getRMedicalOrgTer().getRMedicalOrgRegion().setRegId(selectedMor.getRegId());
+			selectedExamination.getRMedicalOrgMain().getRMedicalOrgTer().setId(selectedMot.getId());
+			selectedExamination.getRMedicalOrgMain().setId(selectedMom.getId());
+		} else {
+			selectedExamination.setRMedicalOrgMain(null);
+		}
+		selectedExamination.setFollowUp(false);
 
-//        if ((selectedMor != null) && (selectedMot != null) && (selectedMom != null)) {
-//            selectedExamination.setRMedicalOrgPoliclinic(new RMedicalOrgPoliclinic());
-//            selectedExamination.getRMedicalOrgPoliclinic().getRMedicalOrgMain().getRMedicalOrgTer().getRMedicalOrgRegion().setRegId(selectedMor.getRegId());
-//            selectedExamination.getRMedicalOrgPoliclinic().getRMedicalOrgMain().getRMedicalOrgTer().setId(selectedMot.getId());
-//            selectedExamination.getRMedicalOrgPoliclinic().getRMedicalOrgMain().setId(selectedMom.getId());
-//            selectedExamination.getRMedicalOrgPoliclinic().setId(selectedMop.getId());
-//	    } else {
-//	            patient.setRMedicalOrgPoliclinic(null);
-//	    }
-
-        em.merge(selectedExamination);
-		em.flush();
-		em.refresh(selectedExamination);
+		em.persist(em.merge(selectedExamination));
+		loadExam(selectedExamination.getPatient().getId());
     }
 
 	public List<Examination> getExaminations() {
@@ -172,6 +165,7 @@ public class ExaminationBean implements Serializable {
 	public Examination getSelectedExamination() {
 		return selectedExamination;
 	}
+	
 	public void setSelectedExamination(Examination selectedExamination) {
 		this.selectedExamination = selectedExamination;
 	}
@@ -374,5 +368,4 @@ public class ExaminationBean implements Serializable {
 	public void setSelectedExm(RExamMethod selectedExm) {
 		this.selectedExm = selectedExm;
 	}
-
 }

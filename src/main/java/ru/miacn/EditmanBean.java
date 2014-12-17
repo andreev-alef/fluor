@@ -13,14 +13,12 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
 import ru.miacn.persistence.model.Patient;
 import ru.miacn.persistence.reference.ListConverter;
 import ru.miacn.persistence.reference.RCitizen;
 import ru.miacn.persistence.reference.RDecrGroup;
-import ru.miacn.persistence.reference.RExamType;
 import ru.miacn.persistence.reference.RGender;
 import ru.miacn.persistence.reference.RHabitat;
 import ru.miacn.persistence.reference.RMedGroup;
@@ -28,7 +26,6 @@ import ru.miacn.persistence.reference.RMedicalOrgMain;
 import ru.miacn.persistence.reference.RMedicalOrgPoliclinic;
 import ru.miacn.persistence.reference.RMedicalOrgRegion;
 import ru.miacn.persistence.reference.RMedicalOrgTer;
-import ru.miacn.persistence.reference.RResultType;
 import ru.miacn.persistence.reference.RSocGroup;
 
 @Named

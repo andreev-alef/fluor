@@ -44,9 +44,9 @@ public class Examination {
 
 	@OneToOne
 	@JoinColumns({
-		@JoinColumn(name="med_city_id", referencedColumnName="ter_id", insertable = false, updatable = false),
-		@JoinColumn(name="med_lpu_id", referencedColumnName="lpu_id", insertable = false, updatable = false),
-		@JoinColumn(name="med_reg_id", referencedColumnName="reg_id", insertable = false, updatable = false)
+		@JoinColumn(name="med_city_id", referencedColumnName="ter_id"),
+		@JoinColumn(name="med_lpu_id", referencedColumnName="lpu_id"),
+		@JoinColumn(name="med_reg_id", referencedColumnName="reg_id")
 		})
 	private RMedicalOrgMain rMedicalOrgMain;
 
