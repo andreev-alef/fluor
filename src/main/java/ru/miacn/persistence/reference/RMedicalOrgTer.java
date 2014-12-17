@@ -16,6 +16,11 @@ public class RMedicalOrgTer {
 	@JoinColumn(name = "reg_id", insertable = false, updatable = false)
 	private RMedicalOrgRegion rMedicalOrgRegion;
 
+	public RMedicalOrgTer() {
+		id = new RMedicalOrgTerPK();
+		rMedicalOrgRegion = new RMedicalOrgRegion();
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof RMedicalOrgTer) {

@@ -24,7 +24,7 @@
 				<p:outputLabel for="ot" value="Отчество" />
 				<p:inputText id="ot" value="#{listmanBean.srcOt}" />
 				<p:outputLabel for="dr" value="Дата рождения" />
-				<p:calendar id="dr" value="#{listmanBean.srcDr}" locale="ru" pattern="dd.MM.yyyy" />
+				<p:calendar id="dr" value="#{listmanBean.srcDr}" locale="#{applicationBean.locale.language}" pattern="#{applicationBean.dateFormat.toPattern()}" />
 				<p:commandButton value="Найти" action="#{listmanBean.search()}" update="patientTable" />
 				<p:commandButton value="Сбросить" action="#{listmanBean.clearSearch()}" update="searchParams patientTable" />
 			</h:panelGrid>
@@ -50,7 +50,7 @@
 
 				<p:column headerText="Дата рождения">
 					<h:outputText value="#{v.datBirth}">
-					  <f:convertDateTime locale="ru" />
+					  <f:convertDateTime locale="#{applicationBean.locale.language}" />
 					</h:outputText>
 				</p:column>
 
@@ -224,21 +224,27 @@
 						<p:calendar id="dk" value="#{null}" locale="ru" />
 					</h:panelGrid>
 					<p:outputLabel value="Отчеты:" />
-					<h:panelGrid columns="2">
+					<h:panelGrid columns="3">
 						<p:outputLabel value="1. Флюороосмотры социальных групп населения" />
 						<p:link value="Сформировать" href="report?id=1">
 							<f:param name="id" value="1" />
+						</p:link>
+						<p:link value="pdf" href="report?id=1&amp;pdf">
+							<f:param name="id" value="1" />
+							<f:param name="pdf" value="true" />
 						</p:link>
 						<p:outputLabel
 							value="2. Флюороосмотры декретированных групп населения" />
 						<p:link value="Сформировать" href="report?id=3">
 							<f:param name="id" value="3" />
 						</p:link>
+						<p:row />
 						<p:outputLabel
 							value="3. Флюороосмотры медицинских групп населения" />
 						<p:link value="Сформировать" href="report?id=2">
 							<f:param name="id" value="2" />
 						</p:link>
+						<p:row />
 					</h:panelGrid>
 				</p:outputPanel>
 			</p:dialog>

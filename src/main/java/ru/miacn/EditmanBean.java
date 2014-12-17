@@ -32,8 +32,8 @@ import ru.miacn.persistence.reference.RResultType;
 import ru.miacn.persistence.reference.RSocGroup;
 
 @Named
-@SessionScoped
 @Transactional
+@SessionScoped
 public class EditmanBean implements Serializable {
 	public static final long serialVersionUID = -229673017810787765L;
 	@PersistenceContext
@@ -103,35 +103,48 @@ public class EditmanBean implements Serializable {
 			
 			setPatient(em.find(Patient.class, id));
 			
-			for (id = 0; id < moRegionList.size(); id++) {
-				if (moRegionList.get(id).getRegId() == getPatient().getRMedicalOrgPoliclinic().getId().getRegId())
-					break;
+			if (getPatient().getRMedicalOrgPoliclinic() != null) {
+				for (id = 0; id < moRegionList.size(); id++) {
+					if (moRegionList.get(id).getRegId() == getPatient().getRMedicalOrgPoliclinic().getId().getRegId())
+						break;
+				}
+				setSelectedMor((id < moRegionList.size()) ? moRegionList.get(id) : null);
+				morSelected();
+				
+				for (id = 0; id < moTerList.size(); id++) {
+					if (moTerList.get(id).getId().getTerId() == getPatient().getRMedicalOrgPoliclinic().getId().getTerId())
+						break;
+				}
+				setSelectedMot((id < moTerList.size()) ? moTerList.get(id) : null);
+				motSelected();
+				
+				for (id = 0; id < moMainList.size(); id++) {
+					if (moMainList.get(id).getId().getLpuId() == getPatient().getRMedicalOrgPoliclinic().getId().getLpuId())
+						break;
+				}
+				setSelectedMom((id < moMainList.size()) ? moMainList.get(id) : null);
+				momSelected();
+				
+				for (id = 0; id < moPoliclinicList.size(); id++) {
+					if (moPoliclinicList.get(id).getId().getPolId() == getPatient().getRMedicalOrgPoliclinic().getId().getPolId())
+						break;
+				}
+				setSelectedMop((id < moPoliclinicList.size()) ? moPoliclinicList.get(id) : null);
+			} else {
+				setSelectedMor(null);
+				setSelectedMot(null);
+				setSelectedMom(null);
+				setSelectedMop(null);
 			}
-			setSelectedMor((id < moRegionList.size()) ? moRegionList.get(id) : null);
-			morSelected();
-			
-			for (id = 0; id < moTerList.size(); id++) {
-				if (moTerList.get(id).getId().getTerId() == getPatient().getRMedicalOrgPoliclinic().getId().getTerId())
-					break;
-			}
-			setSelectedMot((id < moTerList.size()) ? moTerList.get(id) : null);
-			motSelected();
-			
-			for (id = 0; id < moMainList.size(); id++) {
-				if (moMainList.get(id).getId().getLpuId() == getPatient().getRMedicalOrgPoliclinic().getId().getLpuId())
-					break;
-			}
-			setSelectedMom((id < moMainList.size()) ? moMainList.get(id) : null);
-			momSelected();
-			
-			for (id = 0; id < moPoliclinicList.size(); id++) {
-				if (moPoliclinicList.get(id).getId().getPolId() == getPatient().getRMedicalOrgPoliclinic().getId().getPolId())
-					break;
-			}
-			setSelectedMop((id < moPoliclinicList.size()) ? moPoliclinicList.get(id) : null);
 			
 			exam.loadExam(getPatient().getId());
 		}
+	}
+	
+	public String savePatientAndRedirect() {
+		savePatient();
+		
+		return "listman.xhtml?faces-redirect=true";
 	}
 	
 	public void savePatient() {
@@ -146,6 +159,16 @@ public class EditmanBean implements Serializable {
 			patient.setId(id.intValue());
 		}
 		patient.setVerActive(true);
+		
+		if ((selectedMor != null) && (selectedMot != null) && (selectedMom != null) && (selectedMop != null)) {
+			patient.setRMedicalOrgPoliclinic(new RMedicalOrgPoliclinic());
+			patient.getRMedicalOrgPoliclinic().getRMedicalOrgMain().getRMedicalOrgTer().getRMedicalOrgRegion().setRegId(selectedMor.getRegId());
+			patient.getRMedicalOrgPoliclinic().getRMedicalOrgMain().getRMedicalOrgTer().setId(selectedMot.getId());
+			patient.getRMedicalOrgPoliclinic().getRMedicalOrgMain().setId(selectedMom.getId());
+			patient.getRMedicalOrgPoliclinic().setId(selectedMop.getId());
+		} else {
+			patient.setRMedicalOrgPoliclinic(null);
+		}
 		em.persist(patient);
 	}
 
