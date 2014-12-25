@@ -32,7 +32,7 @@ import ru.miacn.utils.JpaUtils;
 public class ExaminationBean implements Serializable {
 	private static final long serialVersionUID = 5513014259706142020L;
 
-	@PersistenceContext
+	@PersistenceContext(unitName = "fluor-PU")
 	private EntityManager em;
 	
 	private int patientId;
