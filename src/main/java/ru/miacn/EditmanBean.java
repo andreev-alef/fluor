@@ -1,8 +1,6 @@
 package ru.miacn;
 
-import java.io.IOException;
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -10,8 +8,6 @@ import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -23,6 +19,7 @@ import ru.miacn.fias.FiasEditor;
 import ru.miacn.fias.FiasElement;
 import ru.miacn.persistence.model.Address;
 import ru.miacn.persistence.model.Patient;
+import ru.miacn.persistence.model.PatientId;
 import ru.miacn.persistence.reference.ListConverter;
 import ru.miacn.persistence.reference.RCitizen;
 import ru.miacn.persistence.reference.RDecrGroup;
@@ -144,7 +141,7 @@ public class EditmanBean implements Serializable {
 				setSelectedMop(null);
 			}
 			
-			exam.loadExam(getPatient().getId());
+			exam.loadExam(getPatient().getPatientId().getId());
 			setFiasValues();
 		}
 	}
@@ -181,15 +178,15 @@ public class EditmanBean implements Serializable {
 	}
 	
 	public void savePatient() {
-		BigInteger id = (BigInteger) em.createNativeQuery("SELECT nextval('patient_id_seq')").getSingleResult();
-		
 		if (patient.getId() == null) {
-			patient.setId(id.intValue());
-			patient.setVerParentId(patient.getId());
+			PatientId pid = new PatientId();
+			em.persist(pid);
+			
+			patient.setPatientId(pid);
 			patient.setVerCreationDate(new Date());
 		} else {
-			em.createNativeQuery("UPDATE patient SET _ver_active = FALSE WHERE _ver_parent_id = " + patient.getVerParentId()).executeUpdate();
-			patient.setId(id.intValue());
+			em.createNativeQuery("UPDATE patient SET _ver_active = FALSE WHERE _ver_parent_id = " + patient.getPatientId().getId()).executeUpdate();
+			patient.setId(null);
 		}
 		patient.setVerActive(true);
 		getFiasValues();

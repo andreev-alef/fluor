@@ -16,7 +16,7 @@ import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
 import ru.miacn.persistence.model.Examination;
-import ru.miacn.persistence.model.Patient;
+import ru.miacn.persistence.model.PatientId;
 import ru.miacn.persistence.reference.ListConverter;
 import ru.miacn.persistence.reference.RExamMethod;
 import ru.miacn.persistence.reference.RExamType;
@@ -92,7 +92,7 @@ public class ExaminationBean implements Serializable {
 	public void findExam(int exId) {
 		if (exId == 0){
 			setSelectedExamination(new Examination());
-			getSelectedExamination().setPatient(new Patient());
+			getSelectedExamination().setPatientId(new PatientId());
 		} else {
 			setSelectedExamination(em.find(Examination.class, exId));
 		}
@@ -127,11 +127,11 @@ public class ExaminationBean implements Serializable {
 
 	public void delExam() {
 		em.remove(em.merge(selectedExamination));
-		loadExam(selectedExamination.getPatient().getId());
+		loadExam(selectedExamination.getPatientId().getId());
     }
 
 	public void saveExam() {
-		selectedExamination.getPatient().setId(getPatientId());
+		selectedExamination.getPatientId().setId(getPatientId());
 		if ((selectedMor != null) && (selectedMot != null) && (selectedMom != null)) {
 			selectedExamination.setRMedicalOrgMain(new RMedicalOrgMain());
 			selectedExamination.getRMedicalOrgMain().getRMedicalOrgTer().getRMedicalOrgRegion().setRegId(selectedMor.getRegId());
@@ -143,7 +143,7 @@ public class ExaminationBean implements Serializable {
 		selectedExamination.setFollowUp(false);
 
 		em.persist(em.merge(selectedExamination));
-		loadExam(selectedExamination.getPatient().getId());
+		loadExam(selectedExamination.getPatientId().getId());
     }
 
 	public List<Examination> getExaminations() {

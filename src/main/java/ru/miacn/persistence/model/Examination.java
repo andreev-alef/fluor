@@ -32,7 +32,8 @@ public class Examination {
 	private Boolean followUp;
 
 	@ManyToOne
-	private Patient patient;
+	@JoinColumn(name="patient_id")
+	private PatientId patientId;
 
 	@OneToOne
 	@JoinColumn(name="method_id")
@@ -78,12 +79,12 @@ public class Examination {
 		this.followUp = followUp;
 	}
 
-	public Patient getPatient() {
-		return this.patient;
+	public PatientId getPatientId() {
+		return this.patientId;
 	}
 
-	public void setPatient(Patient patient) {
-		this.patient = patient;
+	public void setPatientId(PatientId patientId) {
+		this.patientId = patientId;
 	}
 
 	public RExamMethod getRExamMethod() {
