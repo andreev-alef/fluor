@@ -1,0 +1,7 @@
+/*Структура. Таблица с пациенатами*/
+.patient__table--str tr th:first-child{max-width: 100px;}
+.patient__table--str tr th:first-child + *{padding-left: 10px;}
+.patient__table--str tr td:first-child + *{padding-left: 10px;}
+.patient__table--str tr th:first-child + * + * + * + *{max-width: 72px; text-align: center;}
+.patient__table--str tr th:first-child + * + * + * + * + *{text-align: center;}
+.patient__table--str tr th:first-child + * + * + * + * + * + * + * + *{max-width: 137px; text-align: center;}

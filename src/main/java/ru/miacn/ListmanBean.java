@@ -30,7 +30,7 @@ public class ListmanBean implements Serializable {
 	private Date srcDr;
 	private List<Patient> patients;
 	
-	@PersistenceContext
+	@PersistenceContext(unitName = "fluor-PU")
 	private EntityManager em;
 	@Inject
 	private FilterBean fpar;

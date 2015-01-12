@@ -14,147 +14,233 @@
 </h:head>
 
 <h:body>
-<p:outputPanel>
+<h:outputStylesheet library="css" name="reset.css"/>
+<h:outputStylesheet library="css" name="fl-custom.css"/>  
+<p:outputPanel class="editman">
   <h:form id="frmInf">
-    <p:panel header="Информация о пациенте">
-	    <p:button value="Изменить информацию" rendered="#{param['editable'] != 'true'}">
+    <p:panel header="Информация о пациенте" class="blok-out">
+      
+            <p:outputPanel class="blok-button--within--padding">
+	    <p:button value="Изменить информацию" rendered="#{param['editable'] != 'true'}" icon="ui-icon-Editor" class="button-link button-link--blue button-link--button">
 	      <f:param name="editable" value="true"/>
 	      <f:param name="patId" value="#{editmanBean.patient.id}"/>
 	    </p:button>
-		<p:panelGrid columns="2">
-	    <p:panel header="Персональные данные">
+	    </p:outputPanel>
+	    
+	    <p:panel header="Персональные данные" class="blok dva-bloka__one">
 	   		<f:facet name="header">
-	   		  Контингент населения
-			  <p:selectBooleanCheckbox itemLabel="пациент умер" />
+	   		  Персональные данные
+			  <p:selectBooleanCheckbox itemLabel="пациент умер" class="align-right--float"/>
  	        </f:facet>
- 	        
-			<h:panelGrid columns="2" >
+			
+			<p:panelGrid class="invis personal-data--str">
+			<p:row>
+			<p:column>
 	        	<p:outputLabel for="fam" value="Фамилия" />
+			</p:column>
+			<p:column colspan="3">
 	        	<p:inputText id="fam" value="#{editmanBean.patient.lastName}" maxlength="#{editmanBean.patient.nameFieldSize}" required="true" />
-	        	
+	        	</p:column>
+			</p:row>
+			
+			<p:row>
+			<p:column>
 	        	<p:outputLabel for="im" value="Имя" />
-		        <p:inputText id="im" value="#{editmanBean.patient.firstName}" maxlength="#{editmanBean.patient.nameFieldSize}" required="true" />
-		        
+			</p:column>
+			<p:column colspan="3">			  
+			<p:inputText id="im" value="#{editmanBean.patient.firstName}" maxlength="#{editmanBean.patient.nameFieldSize}" required="true" />
+		        </p:column>
+			</p:row>
+			
+			<p:row>
+			<p:column>  
 	        	<p:outputLabel for="ot" value="Отчество" />
-		        <p:inputText id="ot" value="#{editmanBean.patient.fatherName}" maxlength="#{editmanBean.patient.nameFieldSize}" />
-		        
+			</p:column>
+		        <p:column colspan="3">
+			<p:inputText id="ot" value="#{editmanBean.patient.fatherName}" maxlength="#{editmanBean.patient.nameFieldSize}" />
+		        </p:column>
+			</p:row>
+			
+			<p:row>
+			<p:column>   
 	        	<p:outputLabel for="dr" value="Дата рождения" />
-				<p:calendar id="dr" value="#{editmanBean.patient.datBirth}" required="true" locale="ru" />
-				
+			</p:column>
+			<p:column>
+				<p:calendar id="dr" value="#{editmanBean.patient.datBirth}" required="true" locale="ru" pattern="#{applicationBean.dateFormat.toPattern()}"/>
+			</p:column>
+			<p:column>
 	        	<p:outputLabel for="sex" value="Пол" />
-		        <p:selectOneMenu id="sex" value="#{editmanBean.patient.gender}" converter="#{editmanBean.sexConverter}">
+			</p:column>
+			<p:column>
+		        <p:selectOneMenu id="sex" value="#{editmanBean.patient.gender}" converter="#{editmanBean.sexConverter}" class="my-select">
 		          <f:selectItem itemLabel="Выберите пол" itemValue="#{null}" />
 		          <f:selectItems value="#{editmanBean.sexList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
 		        </p:selectOneMenu>
-
+			</p:column>
+			</p:row>
+			
+			<p:row>
+			<p:column> 
 	        	<p:outputLabel for="grj" value="Гражданство" />
-		        <p:selectOneMenu id="grj" value="#{editmanBean.patient.citizen}" converter="#{editmanBean.citizenConverter}">
+			</p:column>
+			<p:column colspan="3">
+		        <p:selectOneMenu id="grj" value="#{editmanBean.patient.citizen}" converter="#{editmanBean.citizenConverter}" class="my-select">
 		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
 		          <f:selectItems value="#{editmanBean.citizenList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
 		        </p:selectOneMenu>
-			</h:panelGrid>
+			</p:column>
+			</p:row>
+			</p:panelGrid>
 		</p:panel>
 		
-		<p:panel header="Адрес проживания  на территории  Российской Федерации">
-			<h:panelGrid columns="2">
+		<p:panel header="Адрес проживания в Российской Федерации" class="blok dva-bloka__two ">
+			<p:panelGrid class="invis adress--str">
+			  
+			<p:row>
+			<p:column>  
 	        	<p:outputLabel for="reg" value="Регион" />
+			</p:column>
+			<p:column colspan="3">
 		        <p:autoComplete id="reg" value="#{editmanBean.patient.address.livReg}" />
-		        
+		        </p:column>
+			</p:row>
+			  
+			<p:row>
+			<p:column>  
 	        	<p:outputLabel for="np" value="Населенный пункт" />
+			</p:column>
+			<p:column colspan="3">
 		        <p:autoComplete id="np" value="#{editmanBean.patient.address.livCity}" />
-		        
+		        </p:column>
+			</p:row>
+			
+			<p:row>
+			<p:column> 
 	        	<p:outputLabel for="ul" value="Улица" />
+			</p:column>
+			<p:column colspan="3">
 		        <p:autoComplete id="ul" value="#{editmanBean.patient.address.livStreet}" />
-
+			</p:column>
+			</p:row>
+			
+			<p:row>
+			<p:column> 			
 	        	<p:outputLabel for="dom" value="Дом" />
+			</p:column>
+			<p:column> 
 		        <p:inputText id="dom" value="#{editmanBean.patient.address.livHouse}" />
-
+			</p:column>
+			<p:column>
 	        	<p:outputLabel for="kp" value="Корпус" />
+			</p:column>
+			<p:column>
 		        <p:inputText id="kp" value="#{editmanBean.patient.address.livFacility}" />
-
+			</p:column>
+			</p:row>
+			
+			<p:row>
+			<p:column> 
 	        	<p:outputLabel for="str" value="Строение" />
+			</p:column>
+			<p:column> 
 		        <p:inputText id="str" value="#{editmanBean.patient.address.livBuilding}" />
-
+			</p:column>
+			<p:column>
 	        	<p:outputLabel for="fl" value="Квартира" />
+			</p:column>
+			<p:column>
 		        <p:inputText id="fl" value="#{editmanBean.patient.address.livFlat}" />
-
+                        </p:column>
+			</p:row>
+			
+			<p:row>
+			<p:column> 
 	        	<p:outputLabel for="tl" value="Телефон" />
+			</p:column>
+			<p:column colspan="3"> 
 		        <p:inputText id="tl" value="#{editmanBean.patient.tel}" />
-			</h:panelGrid>
-		</p:panel>
-		</p:panelGrid>	   
+			</p:column>
+			</p:row>
+			
+			</p:panelGrid>
+		</p:panel>		   
 		
-		<p:panel header="Медицинская организация, к которой прикреплен пациент по ОМС">
-			<h:panelGrid columns="2">
+		<p:panel header="Медицинская организация, к которой прикреплен пациент по ОМС" class="blok odin-blok">
+			<h:panelGrid columns="2" class="invis oms--str">
 	        	<p:outputLabel for="regmo"  value="Регион" />
-		        <p:selectOneMenu id="regmo"  value="#{editmanBean.selectedMor}" converter="#{editmanBean.morConverter}">
+		        <p:selectOneMenu id="regmo"  value="#{editmanBean.selectedMor}" converter="#{editmanBean.morConverter}" class="my-select"> 
 		          <p:ajax listener="#{editmanBean.morSelected}" update="npmo" />
 		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
 		          <f:selectItems value="#{editmanBean.moRegionList}" var="r" itemLabel="#{r.regId} - #{r.name}" itemValue="#{r}" />
 		        </p:selectOneMenu>
 		        
 	        	<p:outputLabel for="npmo" value="Населенный пункт" />
-		        <p:selectOneMenu id="npmo"  value="#{editmanBean.selectedMot}" converter="#{editmanBean.motConverter}">
+		        <p:selectOneMenu id="npmo"  value="#{editmanBean.selectedMot}" converter="#{editmanBean.motConverter}" class="my-select">
 		          <p:ajax listener="#{editmanBean.motSelected}" update="mo" />
                   <f:selectItem itemLabel="#{editmanBean.moTerList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
 		          <f:selectItems value="#{editmanBean.moTerList}" var="r" itemLabel="#{r.id.terId} - #{r.name}" itemValue="#{r}" />
 		        </p:selectOneMenu>
 		        
 	        	<p:outputLabel for="mo" value="Наименование МО" />
-		        <p:selectOneMenu id="mo" value="#{editmanBean.selectedMom}" converter="#{editmanBean.momConverter}">
+		        <p:selectOneMenu id="mo" value="#{editmanBean.selectedMom}" converter="#{editmanBean.momConverter}" class="my-select">
 		          <p:ajax listener="#{editmanBean.momSelected}" update="clmo" />
                   <f:selectItem itemLabel="#{editmanBean.moMainList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
 		          <f:selectItems value="#{editmanBean.moMainList}" var="r" itemLabel="#{r.id.lpuId} - #{r.name}" itemValue="#{r}" />
 		        </p:selectOneMenu>
 		        
 	        	<p:outputLabel for="clmo" value="Поликлиника" />
-		        <p:selectOneMenu id="clmo" value="#{editmanBean.selectedMop}" converter="#{editmanBean.mopConverter}">
+		        <p:selectOneMenu id="clmo" value="#{editmanBean.selectedMop}" converter="#{editmanBean.mopConverter}" class="my-select">
 		          <p:ajax update="adrmo" />
                   <f:selectItem itemLabel="#{editmanBean.moPoliclinicList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
 		          <f:selectItems value="#{editmanBean.moPoliclinicList}" var="r" itemLabel="#{r.id.polId} - #{r.name}" itemValue="#{r}" />
-		        </p:selectOneMenu>
-		        
-	        	<p:outputLabel for="adrmo" value="Адрес" />
-				<p:outputLabel id="adrmo" value="#{editmanBean.selectedMom.addr}" />
+		        </p:selectOneMenu>	        
+			
+	        	<p:outputLabel for="adrmo" value="Адрес:" />		
+				<p:outputLabel id="adrmo" value="#{editmanBean.selectedMom.addr}" class="select-onlyread--label"/>			
 			</h:panelGrid>
 		</p:panel>
 		
-		<p:panel header="Контингент населения">
-			<h:panelGrid columns="2">
+		<p:panel header="Контингент населения" class="blok odin-blok">
+			<h:panelGrid columns="2" class="invis rguppa--str">
 	        	<p:outputLabel for="dg" value="Декретированная группа" />
-		        <p:selectOneMenu id="dg" value="#{editmanBean.patient.decrGroup}" converter="#{editmanBean.dgConverter}">
+		        <p:selectOneMenu id="dg" value="#{editmanBean.patient.decrGroup}" converter="#{editmanBean.dgConverter}" class="my-select">
 		          <f:selectItem itemLabel="-- отсутствует --" itemValue="#{null}" />
 		          <f:selectItems value="#{editmanBean.decrList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
 		        </p:selectOneMenu>
 
 	        	<p:outputLabel for="mg" value="Медицинская группа" />
-		        <p:selectOneMenu id="mg" value="#{editmanBean.patient.medGroup}" converter="#{editmanBean.mgConverter}">
+		        <p:selectOneMenu id="mg" value="#{editmanBean.patient.medGroup}" converter="#{editmanBean.mgConverter}" class="my-select">
 		          <f:selectItem itemLabel="-- отсутствует --" itemValue="#{null}" />
 		          <f:selectItems value="#{editmanBean.medList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
 		        </p:selectOneMenu>
 
 	        	<p:outputLabel for="rg" value="Группа риска (осмотр 2 раза в год)" />
-		        <p:selectOneMenu id="rg" value="#{editmanBean.patient.socGroup}" converter="#{editmanBean.sgConverter}">
+		        <p:selectOneMenu id="rg" value="#{editmanBean.patient.socGroup}" converter="#{editmanBean.sgConverter}" class="my-select">
 		          <f:selectItem itemLabel="-- отсутствует --" itemValue="#{null}" />
 		          <f:selectItems value="#{editmanBean.socList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
 		        </p:selectOneMenu>
 			</h:panelGrid>
 		</p:panel>
-		<h:panelGrid columns="2">
-		  <p:commandButton value="Сохранить" action="#{editmanBean.savePatientAndRedirect()}" />
-		  <p:button value="Возврат" outcome="listman" />
-		</h:panelGrid>
+		
+		<p:outputPanel class="blok-button--within--down">
+		  <p:commandButton value="Сохранить" action="#{editmanBean.savePatientAndRedirect()}" class="button-volume button-volume--mini" icon="ui-icon-save"/>
+		  <p:button value="Отменить" outcome="listman" class="button-volume button-volume--mini margin-left--big" icon="ui-icon-undo"/>
+		</p:outputPanel>
     </p:panel>
-        <h:panelGrid columns="1">
-          <p:link outcome="listman">
+  
+      <p:outputPanel class="align-center--text" style="position: absolute; bottom: 0; height: 80px; left:25%">       
+          <p:link outcome="listman" class="button-volume button-volume--link">
+	    <p:outputPanel class="ui-icon ui-icon-Left"/>
             <h:outputText value="Вернуться к списку пациентов" />
           </p:link>
-          <p:commandButton value="Печать направления на флюорографию" />
-        </h:panelGrid>
+          <p:commandButton value="Печать направления на флюорографию" class="button-volume button-volume--big margin-left--big" icon="ui-icon-Letter"/>
+      </p:outputPanel>
   </h:form>
-</p:outputPanel>
-
+<p:panel style="padding-bottom: 100px;" >
+<p:panel  header="Обследования пациента" class="blok-out" >
 <ui:include src="WEB-INF/templates/examination.xhtml" />
-
+</p:panel>
+</p:panel>
+</p:outputPanel>
 </h:body>
 </html>

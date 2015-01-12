@@ -2,13 +2,15 @@ package ru.miacn.persistence.model;
 
 import java.util.Date;
 
-import javax.faces.bean.ManagedBean;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -23,12 +25,12 @@ import ru.miacn.persistence.reference.RMedGroup;
 import ru.miacn.persistence.reference.RMedicalOrgPoliclinic;
 import ru.miacn.persistence.reference.RSocGroup;
 
-@ManagedBean
 @Entity
 public class Patient {
 	private static final int nameFieldSize = 64;
 	
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	@Column(name = "_ver_active")
 	@NotNull
@@ -36,9 +38,10 @@ public class Patient {
 	@Column(name = "_ver_creation_date")
 	@NotNull
 	private Date verCreationDate;
-	@Column(name = "_ver_parent_id")
+	@ManyToOne
+	@JoinColumn(name="_ver_parent_id")
 	@NotNull
-	private Integer verParentId;
+	private PatientId patientId;
 	@OneToOne
 	@JoinColumn(name = "citizen_id")
 	@NotNull
@@ -127,12 +130,12 @@ public class Patient {
 		this.verCreationDate = verCreationDate;
 	}
 
-	public Integer getVerParentId() {
-		return this.verParentId;
+	public PatientId getPatientId() {
+		return this.patientId;
 	}
 
-	public void setVerParentId(Integer verParentId) {
-		this.verParentId = verParentId;
+	public void setPatientId(PatientId patientId) {
+		this.patientId = patientId;
 	}
 
 	public RCitizen getCitizen() {
