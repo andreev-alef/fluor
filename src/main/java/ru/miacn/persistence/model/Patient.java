@@ -5,13 +5,17 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
 import ru.miacn.persistence.reference.RCitizen;
@@ -26,6 +30,7 @@ public class Patient {
 	private static final int nameFieldSize = 64;
 	
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	@Column(name = "_ver_active")
 	@NotNull
@@ -33,9 +38,10 @@ public class Patient {
 	@Column(name = "_ver_creation_date")
 	@NotNull
 	private Date verCreationDate;
-	@Column(name = "_ver_parent_id")
+	@ManyToOne
+	@JoinColumn(name="_ver_parent_id")
 	@NotNull
-	private Integer verParentId;
+	private PatientId patientId;
 	@OneToOne
 	@JoinColumn(name = "citizen_id")
 	@NotNull
@@ -43,6 +49,7 @@ public class Patient {
 	@Column(name = "dat_birth")
 	@Temporal(TemporalType.DATE)
 	@NotNull
+	@Past
 	private Date datBirth;
 	@Column(name = "dat_death")
 	@Temporal(TemporalType.DATE)
@@ -52,14 +59,17 @@ public class Patient {
 	private RDecrGroup decrGroup;
 	@Column(name = "father_name")
 	@Size(max = nameFieldSize)
+	@FIOAnnotation
 	private String fatherName;
 	@Column(name = "first_name")
 	@NotNull
 	@Size(max = nameFieldSize)
+	@FIOAnnotation
 	private String firstName;
 	@Column(name = "last_name")
 	@NotNull
-	@Size(max = nameFieldSize)
+	@Size(min=3,max = nameFieldSize)
+	@FIOAnnotation
 	private String lastName;
 	@OneToOne
 	@JoinColumn(name = "sex_id")
@@ -120,12 +130,12 @@ public class Patient {
 		this.verCreationDate = verCreationDate;
 	}
 
-	public Integer getVerParentId() {
-		return this.verParentId;
+	public PatientId getPatientId() {
+		return this.patientId;
 	}
 
-	public void setVerParentId(Integer verParentId) {
-		this.verParentId = verParentId;
+	public void setPatientId(PatientId patientId) {
+		this.patientId = patientId;
 	}
 
 	public RCitizen getCitizen() {

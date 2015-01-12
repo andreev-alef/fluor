@@ -1,10 +1,10 @@
 package ru.miacn;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -15,7 +15,11 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 
+import ru.miacn.fias.FiasEditor;
+import ru.miacn.fias.FiasElement;
+import ru.miacn.persistence.model.Address;
 import ru.miacn.persistence.model.Patient;
+import ru.miacn.persistence.model.PatientId;
 import ru.miacn.persistence.reference.ListConverter;
 import ru.miacn.persistence.reference.RCitizen;
 import ru.miacn.persistence.reference.RDecrGroup;
@@ -33,10 +37,12 @@ import ru.miacn.persistence.reference.RSocGroup;
 @SessionScoped
 public class EditmanBean implements Serializable {
 	public static final long serialVersionUID = -229673017810787765L;
-	@PersistenceContext
+	@PersistenceContext(unitName = "fluor-PU")
 	private EntityManager em;
 	@Inject
 	private ExaminationBean exam;
+	@Inject
+	private FiasEditor fias;
 	
 	private Patient patient;
 	
@@ -95,6 +101,7 @@ public class EditmanBean implements Serializable {
 			setPatient(new Patient());
 			
 			exam.loadExam(-1);
+			setFiasValues();
 		} else {
 			int id = Integer.parseInt(idStr);
 			
@@ -134,10 +141,36 @@ public class EditmanBean implements Serializable {
 				setSelectedMop(null);
 			}
 			
-			exam.loadExam(getPatient().getId());
+			exam.loadExam(getPatient().getPatientId().getId());
+			setFiasValues();
 		}
 	}
 	
+	private void setFiasValues() {
+		if (getPatient().getAddress() == null)
+			getPatient().setAddress(new Address());
+		
+		Address addr = getPatient().getAddress();
+		
+		if (addr.getLivRegId() != null)
+			fias.setRegion(fias.getElementById(addr.getLivRegId()));
+		else
+			fias.setRegion(new FiasElement("", addr.getLivReg()));
+		if (addr.getLivCityId() != null)
+			fias.setGorod(fias.getElementById(addr.getLivCityId()));
+		else
+			fias.setGorod(new FiasElement("", addr.getLivCity()));
+		if (addr.getLivStreetId() != null)
+			fias.setUlica(fias.getElementById(addr.getLivStreetId()));
+		else
+			fias.setUlica(new FiasElement("", addr.getLivStreet()));
+		
+		fias.setDom(addr.getLivHouse());
+		fias.setKorp(addr.getLivFacility());
+		fias.setStr(addr.getLivBuilding());
+		fias.setKv(addr.getLivFlat());
+	}
+
 	public String savePatientAndRedirect() {
 		savePatient();
 		
@@ -145,17 +178,18 @@ public class EditmanBean implements Serializable {
 	}
 	
 	public void savePatient() {
-		BigInteger id = (BigInteger) em.createNativeQuery("SELECT nextval('patient_id_seq')").getSingleResult();
-		
 		if (patient.getId() == null) {
-			patient.setId(id.intValue());
-			patient.setVerParentId(patient.getId());
+			PatientId pid = new PatientId();
+			em.persist(pid);
+			
+			patient.setPatientId(pid);
 			patient.setVerCreationDate(new Date());
 		} else {
-			em.createNativeQuery("UPDATE patient SET _ver_active = FALSE WHERE _ver_parent_id = " + patient.getVerParentId()).executeUpdate();
-			patient.setId(id.intValue());
+			em.createNativeQuery("UPDATE patient SET _ver_active = FALSE WHERE _ver_parent_id = " + patient.getPatientId().getId()).executeUpdate();
+			patient.setId(null);
 		}
 		patient.setVerActive(true);
+		getFiasValues();
 		
 		if ((selectedMor != null) && (selectedMot != null) && (selectedMom != null) && (selectedMop != null)) {
 			patient.setRMedicalOrgPoliclinic(new RMedicalOrgPoliclinic());
@@ -167,6 +201,31 @@ public class EditmanBean implements Serializable {
 			patient.setRMedicalOrgPoliclinic(null);
 		}
 		em.persist(patient);
+	}
+
+	private void getFiasValues() {
+		Address addr = getPatient().getAddress();
+		
+		if (!fias.getRegion().getAoid().isEmpty())
+			addr.setLivRegId(UUID.fromString(fias.getRegion().getAoid()));
+		else
+			addr.setLivRegId(null);
+		addr.setLivReg(fias.getRegion().getFormalname());
+		if (!fias.getGorod().getAoid().isEmpty())
+			addr.setLivCityId(UUID.fromString(fias.getGorod().getAoid()));
+		else
+			addr.setLivCityId(null);
+		addr.setLivCity(fias.getGorod().getFormalname());
+		if (!fias.getUlica().getAoid().isEmpty())
+			addr.setLivStreetId(UUID.fromString(fias.getUlica().getAoid()));
+		else
+			addr.setLivStreetId(null);
+		addr.setLivStreet(fias.getUlica().getFormalname());
+		
+		addr.setLivHouse(fias.getDom());
+		addr.setLivFacility(fias.getKorp());
+		addr.setLivBuilding(fias.getStr());
+		addr.setLivFlat(fias.getKv());
 	}
 
 	public Patient getPatient() {

@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:cc="http://java.sun.com/jsf/composite"
+  xmlns:p="http://primefaces.org/ui">
+  <cc:interface>
+  </cc:interface>
+  
+  <cc:implementation>
+    <h:panelGrid columns="2">
+      <p:outputLabel for="fias_reg" value="Регион" />
+      <p:autoComplete id="fias_reg" value="#{fiasEditor.region}" completeMethod="#{fiasEditor.filterRegion}" converter="#{fiasEditor.regionConverter}" var="r" itemLabel="#{r.formalname}" itemValue="#{r}">
+        <p:ajax />
+        <p:ajax event="itemSelect" />
+      </p:autoComplete>
+      
+      <p:outputLabel for="fias_gorod" value="Населенный пункт" />
+      <p:autoComplete id="fias_gorod" value="#{fiasEditor.gorod}" completeMethod="#{fiasEditor.filterGorod}" converter="#{fiasEditor.gorodConverter}" var="r" itemLabel="#{r.formalname}" itemValue="#{r}">
+        <p:ajax />
+        <p:ajax event="itemSelect" />
+      </p:autoComplete>
+      
+      <p:outputLabel for="fias_ulica" value="Улица" />
+      <p:autoComplete id="fias_ulica" value="#{fiasEditor.ulica}" completeMethod="#{fiasEditor.filterUlica}" converter="#{fiasEditor.ulicaConverter}" var="r" itemLabel="#{r.formalname}" itemValue="#{r}">
+        <p:ajax />
+        <p:ajax event="itemSelect" />
+      </p:autoComplete>
+      
+      <p:outputLabel for="fias_dom" value="Дом" />
+      <p:inputText id="fias_dom" value="#{fiasEditor.dom}" />
+      
+      <p:outputLabel for="fias_korp" value="Корпус" />
+      <p:inputText id="fias_korp" value="#{fiasEditor.korp}" />
+      
+      <p:outputLabel for="fias_str" value="Строение" />
+      <p:inputText id="fias_str" value="#{fiasEditor.str}" />
+      
+      <p:outputLabel for="fias_kv" value="Квартира" />
+      <p:inputText id="fias_kv" value="#{fiasEditor.kv}" />
+    </h:panelGrid>
+  </cc:implementation>
+</html>
