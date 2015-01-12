@@ -6,17 +6,22 @@
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
   <title>Флюрокартотека</title>
-  <h:outputScript library="js" name="locale.js" />
+  <h:outputScript library="js" name="locale.js" />  
   <f:metadata>
     <f:viewAction action="#{listmanBean.search()}" />
   </f:metadata>
 </h:head>
 
-<h:body>
-	<p:outputPanel class="content">
-
+<h:body class="listman">
+  <h:outputStylesheet library="css" name="reset.css"/>
+  <h:outputStylesheet library="css" name="fl-custom.css"/>
+  
+  <h:outputText value="&lt;!--[if IE]&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;/fluor/javax.faces.resource/ie.css.xhtml?ln=css&quot;/&gt;&lt;![endif]--&gt;" escape="false" />
+  
+	<p:outputPanel >
 		<h:form>
-			<h:panelGrid id="searchParams" columns="10" focus="fam">
+		  <p:outputPanel class="search-panel">		    
+			<h:panelGrid id="searchParams" columns="10" focus="fam" class="invis search-panel--str">
 				<p:outputLabel for="fam" value="Фамилия" />
 				<p:inputText id="fam" value="#{listmanBean.srcFam}" />
 				<p:outputLabel for="im" value="Имя" />
@@ -25,13 +30,21 @@
 				<p:inputText id="ot" value="#{listmanBean.srcOt}" />
 				<p:outputLabel for="dr" value="Дата рождения" />
 				<p:calendar id="dr" value="#{listmanBean.srcDr}" locale="#{applicationBean.locale.language}" pattern="#{applicationBean.dateFormat.toPattern()}" />
-				<p:commandButton value="Найти" action="#{listmanBean.search()}" update="patientTable" />
-				<p:commandButton value="Сбросить" action="#{listmanBean.clearSearch()}" update="searchParams patientTable" />
+				<p:commandButton id="search" value="Найти" action="#{listmanBean.search()}" update="patientTable" class="button-volume button-volume--mini " icon="ui-icon-search"/>
+			        <p:commandButton value="Показать всех" action="#{listmanBean.clearSearch()}" update="searchParams patientTable" class="button-volume button-volume--mini" icon="ui-icon-all"/>
 			</h:panelGrid>
-	
-			<p:dataTable id="patientTable" value="#{listmanBean.patients}" var="v">
-				<p:column headerText="Просмотр">
-					<p:link value="Просмотр" outcome="editman">
+		  </p:outputPanel>
+		  <p:outputPanel class="blok-button--above-table">	
+		    	      <p:commandLink update=":frmFind:pnlDlg" oncomplete="PF('find').show()" class="button-link button-link--blue">
+				<p:outputPanel class="ui-icon ui-icon-filter"/>
+				<h:outputText value="Фильтр записей"/>
+			      </p:commandLink>
+		  </p:outputPanel>	      
+		  
+			<p:dataTable id="patientTable" value="#{listmanBean.patients}" var="v" class="my-table my-table--auto patient__table patient__table--str">
+				<p:column headerText="&#160; Информация &#160; о пациенте">
+				       <p:outputPanel class="ui-icon ui-icon-open"/>
+				       <p:link value="Смотреть" outcome="editman">					        
 						<f:param name="patId" value="#{v.id}"/>
 					</p:link>
 				</p:column>
@@ -54,7 +67,7 @@
 					</h:outputText>
 				</p:column>
 
-				<p:column headerText="Пол">
+				<p:column headerText="Пол &#160; &#160;">
 					<h:outputText value="#{v.gender.name}" />
 				</p:column>
 
@@ -67,7 +80,7 @@
 				</p:column>
 
 				<p:column headerText="Дата последнего обследования">
-					<p:commandLink value="смотреть" update=":browseExamId" oncomplete="PF('browseExamVar').show()" action="#{examinationBean.loadExam(v.id)}" />
+					<p:commandLink value="смотреть" update=":browseExamId" oncomplete="PF('browseExamVar').show()" action="#{examinationBean.loadExam(v.id)}" class="link-only"/>
 				</p:column>
 
 				<p:column headerText="Результат">
@@ -77,169 +90,217 @@
 				<p:column headerText="Верификация">
 					<h:outputText value="неизвестно" />
 				</p:column>
+							
 			</p:dataTable>
+			
+			<p:outputPanel class="white-gradient">			  
+			</p:outputPanel>
 
-			<h:panelGrid columns="1">
-				<p:link outcome="editman">
+		      <p:outputPanel class="blok-button--within--down">			
+				<p:link outcome="editman" style="display: none">
 					<h:outputText value="Просмотр"/>
 				</p:link>   							
-				<p:link outcome="editman" >
+				<p:link outcome="editman" class="button-volume button-volume--link">
+				        <p:outputPanel class="ui-icon ui-icon-User-Add"/>
 					<f:param name="editable" value="true"/>
-					<h:outputText value="Добавить пациента"/>
+					<h:outputText value="Добавить пациента"/>											     
 				</p:link>   							
-				<p:commandLink update=":frmPrint:pnlDlg" oncomplete="PF('print').show()" >
+				<p:commandLink update=":frmPrint:pnlDlg" oncomplete="PF('print').show()" class="button-volume button-volume--link margin-left--big" >
+					<p:outputPanel class="ui-icon ui-icon-reports"/>
 					<h:outputText value="Отчетные формы"/>
-				</p:commandLink>   
-				<p:commandLink update=":frmFind:pnlDlg" oncomplete="PF('find').show()" >
-					<h:outputText value="Фильтр записей"/>
-				</p:commandLink>   
-			</h:panelGrid>
+				</p:commandLink>
+		      </p:outputPanel>
 		</h:form>
 
-		<p:dialog id="browseExamId" widgetVar="browseExamVar" modal="true" header="Пациент" resizable="false">
+		<p:dialog id="browseExamId" widgetVar="browseExamVar" modal="true" header="Пациент #{v.lastName}" resizable="false" class="my-overlay">
+		  <p:commandButton value="Закрыть" oncomplete="PF('browseExamVar').hide()" icon="ui-icon-close" class="button-link button-link--white"/> 
 		  <ui:include src="WEB-INF/templates/examination.xhtml"/>
 		</p:dialog>
 
-
-		<h:form id="frmFind">
+             	<h:form id="frmFind">
 			<p:dialog id="dlg" widgetVar="find" modal="true"
-				header="Фильтр записей" resizable="false" class="my_overley">
-				<p:outputPanel id="pnlDlg">
-					<p:outputLabel value="Адрес проживания" />
-					<h:panelGrid columns="2">
+				header="Фильтр записей" resizable="false" class="my-overlay filtr--str">			
+			  <p:commandButton value="Закрыть" oncomplete="PF('find').hide()" icon="ui-icon-close" class="button-link button-link--white"/>
+				<p:outputPanel id="pnlDlg" class="move-up">
+				  <p:scrollPanel mode="native" style="max-height:850px"> 
+				    <p:panel header="Адрес проживания" class="blok-overlay">				
+					<h:panelGrid columns="2" class="invis">
 						<p:outputLabel for="reg" value="Регион" />
-						<p:selectOneMenu id="reg">
+						<p:selectOneMenu id="reg" class="my-select">
 							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
 						</p:selectOneMenu>
 						<p:outputLabel for="np" value="Населенный пункт" />
-						<p:selectOneMenu id="np">
+						<p:selectOneMenu id="np" class="my-select">
 							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
 						</p:selectOneMenu>
 						<p:outputLabel for="ul" value="Улица" />
-						<p:selectOneMenu id="ul">
+						<p:selectOneMenu id="ul" class="my-select">
 							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
 						</p:selectOneMenu>
 					</h:panelGrid>
-					<p:outputLabel value="МО прикрепления" />
-					<h:panelGrid columns="2">
+				    </p:panel>
+				    <p:panel header="МО прикрепления" class="blok-overlay">				
+					<h:panelGrid columns="2" class="invis">
 			        	<p:outputLabel for="regmo"  value="Регион" />
-				        <p:selectOneMenu id="regmo"  value="#{editmanBean.selectedMor}" converter="#{editmanBean.morConverter}">
+				        <p:selectOneMenu id="regmo"  value="#{editmanBean.selectedMor}" converter="#{editmanBean.morConverter}" class="my-select">
 				          <p:ajax listener="#{editmanBean.morSelected}" update="npmo" />
 				          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
 				          <f:selectItems value="#{editmanBean.moRegionList}" var="r" itemLabel="#{r.regId} - #{r.name}" itemValue="#{r}" />
 				        </p:selectOneMenu>
 						<p:outputLabel for="npmo" value="Населенный пункт" />
-						<p:selectOneMenu id="npmo">
+						<p:selectOneMenu id="npmo" class="my-select">
 							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
 						</p:selectOneMenu>
 						<p:outputLabel for="nmo" value="ЛПУ" />
-						<p:selectOneMenu id="nmo">
+						<p:selectOneMenu id="nmo" class="my-select">
 							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
 						</p:selectOneMenu>
 						<p:outputLabel for="p" value="Поликлиника" />
-						<p:selectOneMenu id="p">
+						<p:selectOneMenu id="p" class="my-select">
 							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
 						</p:selectOneMenu>
 					</h:panelGrid>
-					<p:outputLabel value="Контингенты населения" />
-					<h:panelGrid columns="2">
+				    </p:panel>
+				    <p:panel header="Контингенты населения" class="blok-overlay">					
+					<h:panelGrid columns="2" class="invis">
 			        	<p:outputLabel for="dg" value="Декретированная группа" />
-				        <p:selectOneMenu id="dg" converter="#{editmanBean.dgConverter}">
+				        <p:selectOneMenu id="dg" converter="#{editmanBean.dgConverter}" class="my-select">
 				          <f:selectItem itemLabel="-- отсутствует --" itemValue="#{null}" />
 				          <f:selectItems value="#{editmanBean.decrList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
 				        </p:selectOneMenu>
-		
+					
 			        	<p:outputLabel for="mg" value="Медицинская группа" />
-				        <p:selectOneMenu id="mg" converter="#{editmanBean.mgConverter}">
+				        <p:selectOneMenu id="mg" converter="#{editmanBean.mgConverter}" class="my-select">
 				          <f:selectItem itemLabel="-- отсутствует --" itemValue="#{null}" />
 				          <f:selectItems value="#{editmanBean.medList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
 				        </p:selectOneMenu>
 		
 			        	<p:outputLabel for="rg" value="Социальная группа" />
-				        <p:selectOneMenu id="rg" converter="#{editmanBean.sgConverter}">
+				        <p:selectOneMenu id="rg" converter="#{editmanBean.sgConverter}" class="my-select">
 				          <f:selectItem itemLabel="-- отсутствует --" itemValue="#{null}" />
 				          <f:selectItems value="#{editmanBean.socList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
 				        </p:selectOneMenu>
 					</h:panelGrid>
-					<p:outputLabel value="Обследования" />
-					<h:panelGrid columns="2">
+				    </p:panel>
+				    <p:panel header="Обследования" class="blok-overlay">					
+					<h:panelGrid columns="2" class="invis">
 						<p:outputLabel for="npo" value="Населенный пункт" />
-						<p:selectOneMenu id="npo">
+						<p:selectOneMenu id="npo" class="my-select">
 							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
 						</p:selectOneMenu>
 						<p:outputLabel for="lpu" value="ЛПУ" />
-						<p:selectOneMenu id="lpu">
+						<p:selectOneMenu id="lpu" class="my-select">
 							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
 						</p:selectOneMenu>
 						<p:outputLabel for="rez" value="Результат" />
-						<p:selectOneMenu id="rez">
+						<p:selectOneMenu id="rez" class="my-select">
 							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
 						</p:selectOneMenu>
 						<p:outputLabel for="ver" value="Верификация" />
-						<p:selectOneMenu id="ver">
+						<p:selectOneMenu id="ver" class="my-select">
 							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
-						</p:selectOneMenu>
+						</p:selectOneMenu>						
+						  <p:column>
+						    <p:outputLabel value="Период: c " />
+						  </p:column>
+						   <p:column>						    
+						    <p:calendar id="dn" value="#{null}" locale="ru" class="data"/>
+						    <p:outputLabel value="&#160;&#160; по &#160;" />
+						    <p:calendar id="dk" value="#{null}" locale="ru" class="data"/>
+						  </p:column>						
 					</h:panelGrid>
-					<h:panelGrid columns="4">
-						<p:outputLabel value="Период:   с" />
-						<p:calendar id="dn" value="#{null}" locale="ru" />
-						<p:outputLabel value="по" />
-						<p:calendar id="dk" value="#{null}" locale="ru" />
-					</h:panelGrid>
-					<p:commandButton id="btnDo" value="Применить" />
-					<p:commandButton id="btnCancel" value="Сбросить" />
-				</p:outputPanel>
+				    </p:panel >
+				    <p:outputPanel class="blok-button--within--down">
+					<p:commandButton id="btnDo" value="Применить" class="button-volume button-volume--mini" icon="ui-icon-save"/>
+					<p:commandButton id="btnCancel" value="Очистить поля" class="button-volume button-volume--mini margin-left--big" icon="ui-icon-clear"/>
+				    </p:outputPanel>
+				  </p:scrollPanel>
+			      </p:outputPanel>			   	
 			</p:dialog>
 		</h:form>
-
+             
 		<h:form id="frmPrint">
 			<p:dialog id="dlg" widgetVar="print" modal="true"
-				header="Отчетные формы" resizable="false" class="my_overley">
-				<p:outputPanel id="pnlDlg">
-					<p:outputLabel value="Уровень отчета" />
-					<h:panelGrid columns="2">
+				header="Отчетные формы" resizable="false" class="my-overlay">
+				<p:commandButton value="Закрыть" oncomplete="PF('print').hide()" icon="ui-icon-close" class="button-link button-link--white"/>
+				<p:outputPanel id="pnlDlg" class="move-up" >
+				  <p:panel header="Уровень отчета" class="blok-overlay">				
+					<h:panelGrid columns="2" class="invis report--str">
 						<p:outputLabel for="np" value="Населенный пункт" />
-						<p:selectOneMenu id="np">
+						<p:selectOneMenu id="np" class="my-select">
 							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
 						</p:selectOneMenu>
 						<p:outputLabel for="mo" value="Медицинская организация" />
-						<p:selectOneMenu id="mo">
+						<p:selectOneMenu id="mo" class="my-select">
 							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
 						</p:selectOneMenu>
 						<p:outputLabel for="p" value="Подразделение" />
-						<p:selectOneMenu id="p">
+						<p:selectOneMenu id="p" class="my-select">
 							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
 						</p:selectOneMenu>
 					</h:panelGrid>
-					<h:panelGrid columns="4">
-						<p:outputLabel value="Период:   с" />
-						<p:calendar id="dn" value="#{null}" locale="ru" />
-						<p:outputLabel value="по" />
-						<p:calendar id="dk" value="#{null}" locale="ru" />
+				  </p:panel>
+				  <p:panel header="Период" class="blok-overlay">
+					<h:panelGrid columns="2" class="invis report--str">
+					    <p:column>
+					        <p:outputLabel value="Сформировать отчет: с" />  
+					    </p:column>
+					    <p:column>						
+						<p:calendar id="dn" value="#{null}" locale="ru" class="data"/>
+						<p:outputLabel value="&#160; &#160; по " />
+						<p:calendar id="dk" value="#{null}" locale="ru" class="data"/>
+					    </p:column>
 					</h:panelGrid>
-					<p:outputLabel value="Отчеты:" />
-					<h:panelGrid columns="3">
+				   </p:panel>
+				  <p:panel header="Вид отчета" class="blok-overlay">					
+					<h:panelGrid columns="3" class="invis vid-reports--str">
 						<p:outputLabel value="1. Флюороосмотры социальных групп населения" />
-						<p:link value="Сформировать" href="report?id=1">
+						<p:outputPanel class="button-link button-link--blue"> 
+						<p:link class="ui-icon ui-icon-paper" href="report?id=1">
+							<f:param name="id" value="1" />
+						</p:link>	
+						<p:link value="Показать на экране" href="report?id=1">							
 							<f:param name="id" value="1" />
 						</p:link>
-						<p:link value="pdf" href="report?id=1&amp;pdf">
+						</p:outputPanel>
+						
+						<p:outputPanel class="button-link button-link--blue"> 
+						<p:link class="ui-icon ui-icon-pdf" href="report?id=1&amp;pdf">
+							<f:param name="id" value="1" />
+						</p:link>
+						<p:link value="Сформировать в PDF" href="report?id=1&amp;pdf">
 							<f:param name="id" value="1" />
 							<f:param name="pdf" value="true" />
 						</p:link>
+						</p:outputPanel>
+						
 						<p:outputLabel
 							value="2. Флюороосмотры декретированных групп населения" />
-						<p:link value="Сформировать" href="report?id=3">
+						
+						<p:outputPanel class="button-link button-link--blue"> 
+						<p:link class="ui-icon ui-icon-paper" href="report?id=3">
+							<f:param name="id" value="3" />
+						</p:link>						
+						<p:link value="Показать на экране" href="report?id=3">
 							<f:param name="id" value="3" />
 						</p:link>
-						<p:row />
+						</p:outputPanel>						
+						<p:row />						
+						
 						<p:outputLabel
 							value="3. Флюороосмотры медицинских групп населения" />
-						<p:link value="Сформировать" href="report?id=2">
+						
+						<p:outputPanel class="button-link button-link--blue">
+						<p:link class="ui-icon ui-icon-paper" href="report?id=2">
+							<f:param name="id" value="2" />
+						</p:link>  
+						<p:link value="Показать на экране" href="report?id=2">
 							<f:param name="id" value="2" />
 						</p:link>
+						</p:outputPanel>
 						<p:row />
 					</h:panelGrid>
+				  </p:panel>
 				</p:outputPanel>
 			</p:dialog>
 		</h:form>

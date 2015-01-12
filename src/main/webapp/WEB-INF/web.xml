@@ -32,4 +32,12 @@
 		<servlet-name>report</servlet-name>
 		<url-pattern>/report</url-pattern>
 	</servlet-mapping>
+	
+	<context-param>
+		<param-name>primefaces.THEME</param-name>
+		<param-value>none</param-value>
+	</context-param> 
+
+
+
 </web-app>
