@@ -28,7 +28,7 @@ import ru.miacn.persistence.reference.RSocGroup;
 @Transactional
 public class FilterBean implements Serializable{
 	private static final long serialVersionUID = 2296258073300711800L;
-	@PersistenceContext
+	@PersistenceContext(unitName = "fluor-PU")
 	private EntityManager em;
 
 	private ListConverter dgConverter;
