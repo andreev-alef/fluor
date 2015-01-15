@@ -1,0 +1,211 @@
+package ru.miacn;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.transaction.Transactional;
+
+import ru.miacn.persistence.reference.ListConverter;
+import ru.miacn.persistence.reference.RMedicalOrgMain;
+import ru.miacn.persistence.reference.RMedicalOrgPoliclinic;
+import ru.miacn.persistence.reference.RMedicalOrgRegion;
+import ru.miacn.persistence.reference.RMedicalOrgTer;
+
+@Named
+@SessionScoped
+@Transactional
+public class ReportBean  implements Serializable{
+	private static final long serialVersionUID = 1L;
+
+	@PersistenceContext(unitName = "fluor-PU")
+	private EntityManager em;
+
+	private ListConverter morConverter;
+	private List<RMedicalOrgRegion> moRegionList;
+	private RMedicalOrgRegion selectedMor;
+
+	private ListConverter motConverter;
+	private List<RMedicalOrgTer> moTerList;
+	private RMedicalOrgTer selectedMot;
+
+	private ListConverter momConverter;
+	private List<RMedicalOrgMain> moMainList;
+	private RMedicalOrgMain selectedMom;
+	
+	private ListConverter mopConverter;
+	private List<RMedicalOrgPoliclinic> moPoliclinicList;
+	private RMedicalOrgPoliclinic selectedMop;
+	private Date datStart;
+	private Date datEnd;
+	
+	@PostConstruct
+	private void init() {
+		setMorConverter(new ListConverter());
+		setMotConverter(new ListConverter());
+		setMomConverter(new ListConverter());
+		setMopConverter(new ListConverter());
+
+		setMoRegionList(em.createQuery("SELECT r FROM " + RMedicalOrgRegion.class.getName() + " r ORDER BY r.id", RMedicalOrgRegion.class).getResultList());
+	}
+
+	@SuppressWarnings("unchecked")
+	public void morSelected() {
+		if (selectedMor != null) {
+			Query query = em.createNativeQuery("SELECT * FROM r_medical_org_ter r WHERE r.reg_id = :r_id ORDER BY r.name", RMedicalOrgTer.class);
+			query.setParameter("r_id", selectedMor.getRegId());
+			setMoTerList(query.getResultList());
+		} else {
+			setMoTerList(new ArrayList<RMedicalOrgTer>());
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public void motSelected() {
+		if (selectedMot != null) {
+			Query query = em.createNativeQuery("SELECT * FROM r_medical_org_main r WHERE r.ter_id = :t_id and r.reg_id = :r_id ORDER BY r.lpu_id", RMedicalOrgMain.class);
+			query.setParameter("t_id", selectedMot.getId().getTerId());
+			query.setParameter("r_id", selectedMot.getId().getRegId());
+			setMoMainList(query.getResultList());
+		} else {
+			setMoMainList(new ArrayList<RMedicalOrgMain>());
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public void momSelected() {
+		if (selectedMom != null) {
+			Query query = em.createNativeQuery("SELECT * FROM r_medical_org_policlinic r WHERE r.ter_id = :t_id and r.reg_id = :r_id  and r.lpu_id = :l_id ORDER BY r.pol_id", RMedicalOrgPoliclinic.class);
+			query.setParameter("r_id", selectedMom.getId().getRegId());
+			query.setParameter("t_id", selectedMom.getId().getTerId());
+			query.setParameter("l_id", selectedMom.getId().getLpuId());
+			setMoPoliclinicList(query.getResultList());
+		} else {
+			setMoPoliclinicList(new ArrayList<RMedicalOrgPoliclinic>());
+		}
+	}
+	
+	public ListConverter getMorConverter() {
+		return morConverter;
+	}
+
+	public void setMorConverter(ListConverter morConverter) {
+		this.morConverter = morConverter;
+	}
+
+	public List<RMedicalOrgRegion> getMoRegionList() {
+		return moRegionList;
+	}
+
+	public void setMoRegionList(List<RMedicalOrgRegion> moRegionList) {
+		this.moRegionList = moRegionList;
+		morConverter.setList(moRegionList);
+	}
+
+	public RMedicalOrgRegion getSelectedMor() {
+		return selectedMor;
+	}
+
+	public void setSelectedMor(RMedicalOrgRegion selectedMor) {
+		this.selectedMor = selectedMor;
+	}
+
+	public ListConverter getMotConverter() {
+		return motConverter;
+	}
+
+	public void setMotConverter(ListConverter motConverter) {
+		this.motConverter = motConverter;
+	}
+
+	public List<RMedicalOrgTer> getMoTerList() {
+		return moTerList;
+	}
+
+	public void setMoTerList(List<RMedicalOrgTer> moTerList) {
+		this.moTerList = moTerList;
+		motConverter.setList(moTerList);
+	}
+
+	public RMedicalOrgTer getSelectedMot() {
+		return selectedMot;
+	}
+
+	public void setSelectedMot(RMedicalOrgTer selectedMot) {
+		this.selectedMot = selectedMot;
+	}
+
+	public ListConverter getMomConverter() {
+		return momConverter;
+	}
+
+	public void setMomConverter(ListConverter momConverter) {
+		this.momConverter = momConverter;
+	}
+
+	public List<RMedicalOrgMain> getMoMainList() {
+		return moMainList;
+	}
+
+	public void setMoMainList(List<RMedicalOrgMain> moMainList) {
+		this.moMainList = moMainList;
+		momConverter.setList(moMainList);
+	}
+
+	public RMedicalOrgMain getSelectedMom() {
+		return selectedMom;
+	}
+
+	public void setSelectedMom(RMedicalOrgMain selectedMom) {
+		this.selectedMom = selectedMom;
+	}
+
+	public ListConverter getMopConverter() {
+		return mopConverter;
+	}
+
+	public void setMopConverter(ListConverter mopConverter) {
+		this.mopConverter = mopConverter;
+	}
+
+	public List<RMedicalOrgPoliclinic> getMoPoliclinicList() {
+		return moPoliclinicList;
+	}
+
+	public void setMoPoliclinicList(List<RMedicalOrgPoliclinic> moPoliclinicList) {
+		this.moPoliclinicList = moPoliclinicList;
+		mopConverter.setList(moPoliclinicList);
+	}
+
+	public RMedicalOrgPoliclinic getSelectedMop() {
+		return selectedMop;
+	}
+
+	public void setSelectedMop(RMedicalOrgPoliclinic selectedMop) {
+		this.selectedMop = selectedMop;
+	}
+
+	public Date getDatStart() {
+		return datStart;
+	}
+
+	public void setDatStart(Date datStart) {
+		this.datStart = datStart;
+	}
+
+	public Date getDatEnd() {
+		return datEnd;
+	}
+
+	public void setDatEnd(Date datEnd) {
+		this.datEnd = datEnd;
+	}
+	
+}
