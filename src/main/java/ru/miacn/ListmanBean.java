@@ -43,8 +43,9 @@ public class ListmanBean implements Serializable {
 	public void search() {
     	String sql = ""
     			+ "SELECT * "
+//    			+ "(select r.name from examination e LEFT JOIN r_result_type r ON (e.result_id = r.id) where p._ver_parent_id = e.patient_id order by e.dat desc limit 1) as result "
     			+ "FROM patient p "
-    			+ "JOIN r_gender g ON (g.id = p.sex_id) "
+    			+ "LEFT JOIN r_gender g ON (g.id = p.sex_id) "
     			+ "WHERE p._ver_active = TRUE ";
     	Map<String, Object> params = new HashMap<>();
     	
@@ -92,19 +93,19 @@ public class ListmanBean implements Serializable {
    			fpar.getDatStart() != null ||
    			fpar.getDatEnd() != null) {
 
-    		sql_join = "JOIN examination e ON (g.id = e.patient_id) ";
+    		sql_join = "JOIN examination e ON (p._ver_parent_id = e.patient_id) ";
 
     		if (fpar.getSelectedRegObs() != null) {
-        		sql_where += "AND e.med_reg_id = :med_reg_id ";
-        		params.put("med_reg_id", fpar.getSelectedRegObs().getRegId());
+        		sql_where += "AND e.med_reg_id = :reg_id ";
+        		params.put("reg_id", fpar.getSelectedRegObs().getRegId());
         	}
         	if (fpar.getSelectedTerObs() != null) {
-        		sql_where += "AND e.med_city_id = :med_city_id ";
-        		params.put("med_city_id", fpar.getSelectedTerObs().getId());
+        		sql_where += "AND e.med_city_id = :city_id ";
+        		params.put("city_id", fpar.getSelectedTerObs().getId().getTerId());
         	}
         	if (fpar.getSelectedLpuObs() != null) {
-        		sql_where += "AND e.med_lpu_id = :med_lpu_id ";
-        		params.put("med_lpu_id", fpar.getSelectedLpuObs().getId());
+        		sql_where += "AND e.med_lpu_id = :lpu_id ";
+        		params.put("lpu_id", fpar.getSelectedLpuObs().getId().getLpuId());
         	}
         	if (fpar.getSelectedRezType() != null) {
         		sql_where += "AND e.result_id = :res_id ";
@@ -120,24 +121,25 @@ public class ListmanBean implements Serializable {
 		sql += sql_join;
 
 		sql += "WHERE p._ver_active = TRUE ";
-    	if (fpar.getSelectedMor() != null) {
+
+		if (fpar.getSelectedMor() != null) {
     		sql += "AND p.med_reg_id = :med_reg_id ";
     		params.put("med_reg_id", fpar.getSelectedMor().getRegId());
     	}
 
     	if (fpar.getSelectedMot() != null) {
     		sql += "AND p.med_city_id = :med_city_id ";
-    		params.put("med_city_id", fpar.getSelectedMot().getId());
+    		params.put("med_city_id", fpar.getSelectedMot().getId().getTerId());
     	}
 
     	if (fpar.getSelectedMom() != null) {
     		sql += "AND p.med_lpu_id = :med_lpu_id ";
-    		params.put("med_lpu_id", fpar.getSelectedMom().getId());
+    		params.put("med_lpu_id", fpar.getSelectedMom().getId().getLpuId());
     	}
 
     	if (fpar.getSelectedMop() != null) {
     		sql += "AND p.med_pol_id = :med_pol_id ";
-    		params.put("med_pol_id", fpar.getSelectedMop().getId());
+    		params.put("med_pol_id", fpar.getSelectedMop().getId().getPolId());
     	}
 
     	if (fpar.getSelectedDg() != null) {

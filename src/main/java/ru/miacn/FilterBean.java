@@ -28,7 +28,7 @@ import ru.miacn.persistence.reference.RSocGroup;
 @Transactional
 public class FilterBean implements Serializable{
 	private static final long serialVersionUID = 2296258073300711800L;
-	@PersistenceContext
+	@PersistenceContext(unitName = "fluor-PU")
 	private EntityManager em;
 
 	private ListConverter dgConverter;
@@ -45,17 +45,23 @@ public class FilterBean implements Serializable{
 	private RResultType selectedRezType;
 	
 	private ListConverter morConverter;
+	private ListConverter mor2Converter;
 	private List<RMedicalOrgRegion> moRegionList;
+	private List<RMedicalOrgRegion> moRegionObsList;
 	private RMedicalOrgRegion selectedMor;
 	private RMedicalOrgRegion selectedRegObs;
 
 	private ListConverter motConverter;
+	private ListConverter mot2Converter;
 	private List<RMedicalOrgTer> moTerList;
+	private List<RMedicalOrgTer> moTerList2;
 	private RMedicalOrgTer selectedMot;
 	private RMedicalOrgTer selectedTerObs;
 
 	private ListConverter momConverter;
+	private ListConverter mom2Converter;
 	private List<RMedicalOrgMain> moMainList;
+	private List<RMedicalOrgMain> moMainList2;
 	private RMedicalOrgMain selectedMom;
 	private RMedicalOrgMain selectedLpuObs;
 	
@@ -63,7 +69,7 @@ public class FilterBean implements Serializable{
 	private List<RMedicalOrgPoliclinic> moPoliclinicList;
 	private RMedicalOrgPoliclinic selectedMop;
 	private Date datStart;
-	private Date datEnd = new Date();
+	private Date datEnd;
 	
 	@PostConstruct
 	private void init() {
@@ -75,11 +81,15 @@ public class FilterBean implements Serializable{
 		setMotConverter(new ListConverter());
 		setMomConverter(new ListConverter());
 		setMopConverter(new ListConverter());
+		setMor2Converter(new ListConverter());
+		setMot2Converter(new ListConverter());
+		setMom2Converter(new ListConverter());
 
 		setDecrList(em.createQuery("SELECT r FROM " + RDecrGroup.class.getName() + " r ORDER BY r.id", RDecrGroup.class).getResultList());
 		setMedList(em.createQuery("SELECT r FROM " + RMedGroup.class.getName() + " r ORDER BY r.id", RMedGroup.class).getResultList());
 		setSocList(em.createQuery("SELECT r FROM " + RSocGroup.class.getName() + " r ORDER BY r.id", RSocGroup.class).getResultList());
 		setMoRegionList(em.createQuery("SELECT r FROM " + RMedicalOrgRegion.class.getName() + " r ORDER BY r.id", RMedicalOrgRegion.class).getResultList());
+		setMoRegionObsList(em.createQuery("SELECT r FROM " + RMedicalOrgRegion.class.getName() + " r ORDER BY r.id", RMedicalOrgRegion.class).getResultList());
 		setRestypeList(em.createQuery("SELECT r FROM " + RResultType.class.getName() + " r ORDER BY r.id", RResultType.class).getResultList());
 	}
 
@@ -87,7 +97,10 @@ public class FilterBean implements Serializable{
 		setMoTerList(new ArrayList<RMedicalOrgTer>());
 		setMoMainList(new ArrayList<RMedicalOrgMain>());
 		setMoPoliclinicList(new ArrayList<RMedicalOrgPoliclinic>());
+		setMoTerList2(new ArrayList<RMedicalOrgTer>());
+		setMoMainList2(new ArrayList<RMedicalOrgMain>());
 		setSelectedMor(null);
+		setSelectedRegObs(null);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -102,6 +115,17 @@ public class FilterBean implements Serializable{
 	}
 
 	@SuppressWarnings("unchecked")
+	public void regobsSelected() {
+		if (selectedRegObs != null) {
+			Query query = em.createNativeQuery("SELECT * FROM r_medical_org_ter r WHERE r.reg_id = :r_id ORDER BY r.name", RMedicalOrgTer.class);
+			query.setParameter("r_id", selectedRegObs.getRegId());
+			setMoTerList2(query.getResultList());
+		} else {
+			setMoTerList2(new ArrayList<RMedicalOrgTer>());
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
 	public void motSelected() {
 		if (selectedMot != null) {
 			Query query = em.createNativeQuery("SELECT * FROM r_medical_org_main r WHERE r.ter_id = :t_id and r.reg_id = :r_id ORDER BY r.lpu_id", RMedicalOrgMain.class);
@@ -110,6 +134,18 @@ public class FilterBean implements Serializable{
 			setMoMainList(query.getResultList());
 		} else {
 			setMoMainList(new ArrayList<RMedicalOrgMain>());
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public void motobsSelected() {
+		if (selectedTerObs != null) {
+			Query query = em.createNativeQuery("SELECT * FROM r_medical_org_main r WHERE r.ter_id = :t_id and r.reg_id = :r_id ORDER BY r.lpu_id", RMedicalOrgMain.class);
+			query.setParameter("t_id", selectedTerObs.getId().getTerId());
+			query.setParameter("r_id", selectedTerObs.getId().getRegId());
+			setMoMainList2(query.getResultList());
+		} else {
+			setMoMainList2(new ArrayList<RMedicalOrgMain>());
 		}
 	}
 
@@ -185,6 +221,14 @@ public class FilterBean implements Serializable{
 		this.morConverter = morConverter;
 	}
 
+	public ListConverter getMor2Converter() {
+		return mor2Converter;
+	}
+
+	public void setMor2Converter(ListConverter mor2Converter) {
+		this.mor2Converter = mor2Converter;
+	}
+
 	public List<RMedicalOrgRegion> getMoRegionList() {
 		return moRegionList;
 	}
@@ -192,6 +236,15 @@ public class FilterBean implements Serializable{
 	public void setMoRegionList(List<RMedicalOrgRegion> moRegionList) {
 		this.moRegionList = moRegionList;
 		morConverter.setList(moRegionList);
+	}
+
+	public List<RMedicalOrgRegion> getMoRegionObsList() {
+		return moRegionObsList;
+	}
+
+	public void setMoRegionObsList(List<RMedicalOrgRegion> moRegionObsList) {
+		this.moRegionObsList = moRegionObsList;
+		mor2Converter.setList(moRegionObsList);
 	}
 
 	public RMedicalOrgRegion getSelectedMor() {
@@ -210,6 +263,14 @@ public class FilterBean implements Serializable{
 		this.motConverter = motConverter;
 	}
 
+	public ListConverter getMot2Converter() {
+		return mot2Converter;
+	}
+
+	public void setMot2Converter(ListConverter mot2Converter) {
+		this.mot2Converter = mot2Converter;
+	}
+
 	public List<RMedicalOrgTer> getMoTerList() {
 		return moTerList;
 	}
@@ -217,6 +278,15 @@ public class FilterBean implements Serializable{
 	public void setMoTerList(List<RMedicalOrgTer> moTerList) {
 		this.moTerList = moTerList;
 		motConverter.setList(moTerList);
+	}
+
+	public List<RMedicalOrgTer> getMoTerList2() {
+		return moTerList2;
+	}
+
+	public void setMoTerList2(List<RMedicalOrgTer> moTerList2) {
+		this.moTerList2 = moTerList2;
+		mot2Converter.setList(moTerList2);
 	}
 
 	public RMedicalOrgTer getSelectedMot() {
@@ -235,6 +305,14 @@ public class FilterBean implements Serializable{
 		this.momConverter = momConverter;
 	}
 
+	public ListConverter getMom2Converter() {
+		return mom2Converter;
+	}
+
+	public void setMom2Converter(ListConverter mom2Converter) {
+		this.mom2Converter = mom2Converter;
+	}
+
 	public List<RMedicalOrgMain> getMoMainList() {
 		return moMainList;
 	}
@@ -242,6 +320,15 @@ public class FilterBean implements Serializable{
 	public void setMoMainList(List<RMedicalOrgMain> moMainList) {
 		this.moMainList = moMainList;
 		momConverter.setList(moMainList);
+	}
+
+	public List<RMedicalOrgMain> getMoMainList2() {
+		return moMainList2;
+	}
+
+	public void setMoMainList2(List<RMedicalOrgMain> moMainList2) {
+		this.moMainList2 = moMainList2;
+		mom2Converter.setList(moMainList2);
 	}
 
 	public RMedicalOrgMain getSelectedMom() {

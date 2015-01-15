@@ -19,7 +19,7 @@
   <h:outputText value="&lt;!--[if IE]&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;/fluor/javax.faces.resource/ie.css.xhtml?ln=css&quot;/&gt;&lt;![endif]--&gt;" escape="false" />
   
 	<p:outputPanel >
-		<h:form>
+		<h:form id="frmList">
 		  <p:outputPanel class="search-panel">		    
 			<h:panelGrid id="searchParams" columns="10" focus="fam" class="invis search-panel--str">
 				<p:outputLabel for="fam" value="Фамилия" />
@@ -31,20 +31,20 @@
 				<p:outputLabel for="dr" value="Дата рождения" />
 				<p:calendar id="dr" value="#{listmanBean.srcDr}" locale="#{applicationBean.locale.language}" pattern="#{applicationBean.dateFormat.toPattern()}" />
 				<p:commandButton id="search" value="Найти" action="#{listmanBean.search()}" update="patientTable" class="button-volume button-volume--mini " icon="ui-icon-search"/>
-			        <p:commandButton value="Показать всех" action="#{listmanBean.clearSearch()}" update="searchParams patientTable" class="button-volume button-volume--mini" icon="ui-icon-all"/>
+			    <p:commandButton value="Показать всех" action="#{listmanBean.clearSearch()}" update="searchParams patientTable" class="button-volume button-volume--mini" icon="ui-icon-all"/>
 			</h:panelGrid>
 		  </p:outputPanel>
 		  <p:outputPanel class="blok-button--above-table">	
-		    	      <p:commandLink update=":frmFind:pnlDlg" oncomplete="PF('find').show()" class="button-link button-link--blue">
+    	      <p:commandLink update=":frmFind:pnlDlg" oncomplete="PF('find').show()" class="button-link button-link--blue">
 				<p:outputPanel class="ui-icon ui-icon-filter"/>
 				<h:outputText value="Фильтр записей"/>
-			      </p:commandLink>
+		      </p:commandLink>
 		  </p:outputPanel>	      
 		  
 			<p:dataTable id="patientTable" value="#{listmanBean.patients}" var="v" class="my-table my-table--auto patient__table patient__table--str">
 				<p:column headerText="&#160; Информация &#160; о пациенте">
-				       <p:outputPanel class="ui-icon ui-icon-open"/>
-				       <p:link value="Смотреть" outcome="editman">					        
+				   <p:outputPanel class="ui-icon ui-icon-open"/>
+				   <p:link value="Смотреть" outcome="editman">					        
 						<f:param name="patId" value="#{v.id}"/>
 					</p:link>
 				</p:column>
@@ -80,11 +80,11 @@
 				</p:column>
 
 				<p:column headerText="Дата последнего обследования">
-					<p:commandLink value="смотреть" update=":browseExamId" oncomplete="PF('browseExamVar').show()" action="#{examinationBean.loadExam(v.id)}" class="link-only"/>
+					<p:commandLink value="смотреть" update=":browseExamId" oncomplete="PF('browseExamVar').show()" action="#{examinationBean.loadExam(v.patientId.id)}" class="link-only"/>
 				</p:column>
 
 				<p:column headerText="Результат">
-					<h:outputText value="Норма" />
+					<h:outputText value="норма" />
 				</p:column>
 
 				<p:column headerText="Верификация">
@@ -101,7 +101,7 @@
 					<h:outputText value="Просмотр"/>
 				</p:link>   							
 				<p:link outcome="editman" class="button-volume button-volume--link">
-				        <p:outputPanel class="ui-icon ui-icon-User-Add"/>
+				    <p:outputPanel class="ui-icon ui-icon-User-Add"/>
 					<f:param name="editable" value="true"/>
 					<h:outputText value="Добавить пациента"/>											     
 				</p:link>   							
@@ -117,102 +117,128 @@
 		  <ui:include src="WEB-INF/templates/examination.xhtml"/>
 		</p:dialog>
 
-             	<h:form id="frmFind">
+       	<h:form id="frmFind">
+		    <p:messages />
 			<p:dialog id="dlg" widgetVar="find" modal="true"
 				header="Фильтр записей" resizable="false" class="my-overlay filtr--str">			
 			  <p:commandButton value="Закрыть" oncomplete="PF('find').hide()" icon="ui-icon-close" class="button-link button-link--white"/>
 				<p:outputPanel id="pnlDlg" class="move-up">
-				  <p:scrollPanel mode="native" style="max-height:850px"> 
+				  <p:scrollPanel mode="native" style="max-height:600px"> 
 				    <p:panel header="Адрес проживания" class="blok-overlay">				
 					<h:panelGrid columns="2" class="invis">
 						<p:outputLabel for="reg" value="Регион" />
 						<p:selectOneMenu id="reg" class="my-select">
-							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+							<f:selectItem itemLabel="-- Ничего не выбрано --" itemValue="#{null}" />
 						</p:selectOneMenu>
 						<p:outputLabel for="np" value="Населенный пункт" />
 						<p:selectOneMenu id="np" class="my-select">
-							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+							<f:selectItem itemLabel="-- Ничего не выбрано --" itemValue="#{null}" />
 						</p:selectOneMenu>
 						<p:outputLabel for="ul" value="Улица" />
 						<p:selectOneMenu id="ul" class="my-select">
-							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+							<f:selectItem itemLabel="-- Ничего не выбрано --" itemValue="#{null}" />
 						</p:selectOneMenu>
 					</h:panelGrid>
 				    </p:panel>
 				    <p:panel header="МО прикрепления" class="blok-overlay">				
 					<h:panelGrid columns="2" class="invis">
 			        	<p:outputLabel for="regmo"  value="Регион" />
-				        <p:selectOneMenu id="regmo"  value="#{editmanBean.selectedMor}" converter="#{editmanBean.morConverter}" class="my-select">
-				          <p:ajax listener="#{editmanBean.morSelected}" update="npmo" />
-				          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
-				          <f:selectItems value="#{editmanBean.moRegionList}" var="r" itemLabel="#{r.regId} - #{r.name}" itemValue="#{r}" />
+				        <p:selectOneMenu id="regmo"  value="#{filterBean.selectedMor}" converter="#{filterBean.morConverter}" class="my-select">
+				          <p:ajax listener="#{filterBean.morSelected}" update="npmo" />
+				          <f:selectItem itemLabel="-- Ничего не выбрано --" itemValue="#{null}" />
+				          <f:selectItems value="#{filterBean.moRegionList}" var="r" itemLabel="#{r.regId} - #{r.name}" itemValue="#{r}" />
 				        </p:selectOneMenu>
+
 						<p:outputLabel for="npmo" value="Населенный пункт" />
-						<p:selectOneMenu id="npmo" class="my-select">
-							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+						<p:selectOneMenu id="npmo" value="#{filterBean.selectedMot}" converter="#{filterBean.motConverter}" class="my-select">
+				          <p:ajax listener="#{filterBean.motSelected}" update="mo" />
+		                  <f:selectItem itemLabel="#{filterBean.moTerList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
+				          <f:selectItems value="#{filterBean.moTerList}" var="r" itemLabel="#{r.id.terId} - #{r.name}" itemValue="#{r}" />
 						</p:selectOneMenu>
-						<p:outputLabel for="nmo" value="ЛПУ" />
-						<p:selectOneMenu id="nmo" class="my-select">
-							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+
+						<p:outputLabel for="mo" value="ЛПУ" />
+						<p:selectOneMenu id="mo" value="#{filterBean.selectedMom}" converter="#{filterBean.momConverter}" class="my-select">
+				          <p:ajax listener="#{filterBean.momSelected}" update="clmo" />
+		                  <f:selectItem itemLabel="#{filterBean.moMainList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
+				          <f:selectItems value="#{filterBean.moMainList}" var="r" itemLabel="#{r.id.lpuId} - #{r.name}" itemValue="#{r}" />
 						</p:selectOneMenu>
-						<p:outputLabel for="p" value="Поликлиника" />
-						<p:selectOneMenu id="p" class="my-select">
-							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+
+						<p:outputLabel for="clmo" value="Поликлиника" />
+						<p:selectOneMenu id="clmo" value="#{filterBean.selectedMop}" converter="#{filterBean.mopConverter}" class="my-select">
+		                  <f:selectItem itemLabel="#{filterBean.moPoliclinicList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
+				          <f:selectItems value="#{filterBean.moPoliclinicList}" var="r" itemLabel="#{r.id.polId} - #{r.name}" itemValue="#{r}" />
 						</p:selectOneMenu>
 					</h:panelGrid>
 				    </p:panel>
 				    <p:panel header="Контингенты населения" class="blok-overlay">					
 					<h:panelGrid columns="2" class="invis">
 			        	<p:outputLabel for="dg" value="Декретированная группа" />
-				        <p:selectOneMenu id="dg" converter="#{editmanBean.dgConverter}" class="my-select">
-				          <f:selectItem itemLabel="-- отсутствует --" itemValue="#{null}" />
-				          <f:selectItems value="#{editmanBean.decrList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
+				        <p:selectOneMenu id="dg" value="#{filterBean.selectedDg}" converter="#{filterBean.dgConverter}" class="my-select">
+				          <f:selectItem  itemLabel="-- отсутствует --" itemValue="#{null}" noSelectionOption="true"/>
+				          <f:selectItems value="#{filterBean.decrList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
 				        </p:selectOneMenu>
 					
 			        	<p:outputLabel for="mg" value="Медицинская группа" />
-				        <p:selectOneMenu id="mg" converter="#{editmanBean.mgConverter}" class="my-select">
+				        <p:selectOneMenu id="mg" value="#{filterBean.selectedMg}" converter="#{filterBean.mgConverter}" class="my-select">
 				          <f:selectItem itemLabel="-- отсутствует --" itemValue="#{null}" />
-				          <f:selectItems value="#{editmanBean.medList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
+				          <f:selectItems value="#{filterBean.medList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
 				        </p:selectOneMenu>
 		
 			        	<p:outputLabel for="rg" value="Социальная группа" />
-				        <p:selectOneMenu id="rg" converter="#{editmanBean.sgConverter}" class="my-select">
+				        <p:selectOneMenu id="rg" value="#{filterBean.selectedSg}" converter="#{filterBean.sgConverter}" class="my-select">
 				          <f:selectItem itemLabel="-- отсутствует --" itemValue="#{null}" />
-				          <f:selectItems value="#{editmanBean.socList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
+				          <f:selectItems value="#{filterBean.socList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
 				        </p:selectOneMenu>
 					</h:panelGrid>
 				    </p:panel>
 				    <p:panel header="Обследования" class="blok-overlay">					
 					<h:panelGrid columns="2" class="invis">
-						<p:outputLabel for="npo" value="Населенный пункт" />
-						<p:selectOneMenu id="npo" class="my-select">
-							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
-						</p:selectOneMenu>
-						<p:outputLabel for="lpu" value="ЛПУ" />
-						<p:selectOneMenu id="lpu" class="my-select">
-							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
-						</p:selectOneMenu>
-						<p:outputLabel for="rez" value="Результат" />
-						<p:selectOneMenu id="rez" class="my-select">
-							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
-						</p:selectOneMenu>
+				        <p:outputLabel for="regobs" value="Регион" />
+					     <p:selectOneMenu id="regobs" value="#{filterBean.selectedRegObs}" converter="#{filterBean.mor2Converter}" class="my-select">
+							<p:ajax listener="#{filterBean.regobsSelected}" update="npobs" />
+							<f:selectItem itemLabel="#{filterBean.moRegionObsList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
+							<f:selectItems value="#{filterBean.moRegionObsList}" var="r" itemLabel="#{r.regId} - #{r.name}" itemValue="#{r}" />
+					     </p:selectOneMenu>
+
+				        <p:outputLabel for="npobs" value="Населенный пункт" />
+					    <p:selectOneMenu id="npobs" value="#{filterBean.selectedTerObs}" converter="#{filterBean.mot2Converter}" class="my-select">
+					      <p:ajax listener="#{filterBean.motobsSelected}" update="mobs" />
+				          <f:selectItem itemLabel="#{filterBean.moTerList2.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
+					      <f:selectItems value="#{filterBean.moTerList2}" var="r" itemLabel="#{r.id.terId} - #{r.name}" itemValue="#{r}" />
+					    </p:selectOneMenu>
+					    
+				        <p:outputLabel for="mobs" value="ЛПУ" />
+					    <p:selectOneMenu id="mobs" value="#{filterBean.selectedLpuObs}" converter="#{filterBean.mom2Converter}" class="my-select">
+				          <f:selectItem itemLabel="#{filterBean.moMainList2.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
+					      <f:selectItems value="#{filterBean.moMainList2}" var="r" itemLabel="#{r.id.lpuId} - #{r.name}" itemValue="#{r}" />
+					    </p:selectOneMenu>
+		    
+				        <h:outputLabel for="rez" value="Результат" />
+					    <p:selectOneMenu id="rez" value="#{filterBean.selectedRezType}"  converter="#{filterBean.restypeConverter}" class="my-select">
+				          <f:selectItem itemLabel="#{filterBean.restypeList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
+					      <f:selectItems value="#{filterBean.restypeList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
+					    </p:selectOneMenu>
+
 						<p:outputLabel for="ver" value="Верификация" />
 						<p:selectOneMenu id="ver" class="my-select">
-							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+							<f:selectItem itemLabel="-- Ничего не выбрано --" itemValue="#{null}" />
 						</p:selectOneMenu>						
-						  <p:column>
-						    <p:outputLabel value="Период: c " />
-						  </p:column>
-						   <p:column>						    
-						    <p:calendar id="dn" value="#{null}" locale="ru" class="data"/>
+						
+						<p:column>
+				   			<p:outputLabel value="Период: c " />
+						</p:column>
+						<p:column>						    
+						    <p:calendar id="dn" value="#{filterBean.datStart}" locale="ru" class="data"/>
 						    <p:outputLabel value="&#160;&#160; по &#160;" />
-						    <p:calendar id="dk" value="#{null}" locale="ru" class="data"/>
-						  </p:column>						
+						    <p:calendar id="dk" value="#{filterBean.datEnd}" locale="ru" class="data"/>
+						</p:column>						
 					</h:panelGrid>
 				    </p:panel >
 				    <p:outputPanel class="blok-button--within--down">
-					<p:commandButton id="btnDo" value="Применить" class="button-volume button-volume--mini" icon="ui-icon-save"/>
-					<p:commandButton id="btnCancel" value="Очистить поля" class="button-volume button-volume--mini margin-left--big" icon="ui-icon-clear"/>
+					<p:commandButton value="Применить" action="#{listmanBean.filter()}" update=":frmList:patientTable" oncomplete="PF('find').hide()" class="button-volume button-volume--mini" icon="ui-icon-save"/>
+					<p:commandButton value="Очистить поля" action="#{filterBean.clearFilter()}" update=":frmFind:pnlDlg" class="button-volume button-volume--mini margin-left--big" icon="ui-icon-clear">
+				       <p:ajax resetValues="true" update=":frmFind:pnlDlg" />
+					</p:commandButton>
 				    </p:outputPanel>
 				  </p:scrollPanel>
 			      </p:outputPanel>			   	
@@ -226,17 +252,31 @@
 				<p:outputPanel id="pnlDlg" class="move-up" >
 				  <p:panel header="Уровень отчета" class="blok-overlay">				
 					<h:panelGrid columns="2" class="invis report--str">
-						<p:outputLabel for="np" value="Населенный пункт" />
-						<p:selectOneMenu id="np" class="my-select">
-							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+			        	<p:outputLabel for="rep_reg"  value="Регион" />
+				        <p:selectOneMenu id="rep_reg"  value="#{filterBean.selectedMor}" converter="#{filterBean.morConverter}" class="my-select">
+				          <p:ajax listener="#{filterBean.morSelected}" update="rep_npmo" />
+				          <f:selectItem itemLabel="-- Ничего не выбрано --" itemValue="#{null}" />
+				          <f:selectItems value="#{filterBean.moRegionList}" var="r" itemLabel="#{r.regId} - #{r.name}" itemValue="#{r}" />
+				        </p:selectOneMenu>
+
+						<p:outputLabel for="rep_npmo" value="Населенный пункт" />
+						<p:selectOneMenu id="rep_npmo" value="#{filterBean.selectedMot}" converter="#{filterBean.motConverter}" class="my-select">
+				          <p:ajax listener="#{filterBean.motSelected}" update="rep_mo" />
+		                  <f:selectItem itemLabel="#{filterBean.moTerList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
+				          <f:selectItems value="#{filterBean.moTerList}" var="r" itemLabel="#{r.id.terId} - #{r.name}" itemValue="#{r}" />
 						</p:selectOneMenu>
-						<p:outputLabel for="mo" value="Медицинская организация" />
-						<p:selectOneMenu id="mo" class="my-select">
-							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+
+						<p:outputLabel for="rep_mo" value="ЛПУ" />
+						<p:selectOneMenu id="rep_mo" value="#{filterBean.selectedMom}" converter="#{filterBean.momConverter}" class="my-select">
+				          <p:ajax listener="#{filterBean.momSelected}" update="rep_clmo" />
+		                  <f:selectItem itemLabel="#{filterBean.moMainList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
+				          <f:selectItems value="#{filterBean.moMainList}" var="r" itemLabel="#{r.id.lpuId} - #{r.name}" itemValue="#{r}" />
 						</p:selectOneMenu>
-						<p:outputLabel for="p" value="Подразделение" />
-						<p:selectOneMenu id="p" class="my-select">
-							<f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
+
+						<p:outputLabel for="rep_clmo" value="Поликлиника" />
+						<p:selectOneMenu id="rep_clmo" value="#{filterBean.selectedMop}" converter="#{filterBean.mopConverter}" class="my-select">
+		                  <f:selectItem itemLabel="#{filterBean.moPoliclinicList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
+				          <f:selectItems value="#{filterBean.moPoliclinicList}" var="r" itemLabel="#{r.id.polId} - #{r.name}" itemValue="#{r}" />
 						</p:selectOneMenu>
 					</h:panelGrid>
 				  </p:panel>
@@ -246,9 +286,9 @@
 					        <p:outputLabel value="Сформировать отчет: с" />  
 					    </p:column>
 					    <p:column>						
-						<p:calendar id="dn" value="#{null}" locale="ru" class="data"/>
+						<p:calendar id="dn"  locale="ru" class="data"/>
 						<p:outputLabel value="&#160; &#160; по " />
-						<p:calendar id="dk" value="#{null}" locale="ru" class="data"/>
+						<p:calendar id="dk"  locale="ru" class="data"/>
 					    </p:column>
 					</h:panelGrid>
 				   </p:panel>
