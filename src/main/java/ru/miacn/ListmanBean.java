@@ -27,7 +27,7 @@ public class ListmanBean implements Serializable {
 	private static final String searchSql = ""
 			+ "SELECT DISTINCT ON (p._ver_parent_id) p.*, e.id AS last_exam_id "
 			+ "FROM patient p "
-			+ "JOIN examination e ON (e.patient_id = p._ver_parent_id) "
+			+ "LEFT JOIN examination e ON (e.patient_id = p._ver_parent_id) "
 			+ "WHERE p._ver_active = TRUE ";
 	
 	private String srcFam;
@@ -88,35 +88,28 @@ public class ListmanBean implements Serializable {
 		String sql_where = "";
 		Map<String, Object> params = new HashMap<>();
 		String sql = searchSql;
-    	if (fpar.getSelectedRegObs() != null ||
-   			fpar.getSelectedTerObs() != null ||
-   			fpar.getSelectedLpuObs() != null ||
-   			fpar.getSelectedRezType() != null ||
-   			fpar.getDatStart() != null ||
-   			fpar.getDatEnd() != null) {
 
-    		if (fpar.getSelectedRegObs() != null) {
-        		sql_where += "AND e.med_reg_id = :reg_id ";
-        		params.put("reg_id", fpar.getSelectedRegObs().getRegId());
-        	}
-        	if (fpar.getSelectedTerObs() != null) {
-        		sql_where += "AND e.med_city_id = :city_id ";
-        		params.put("city_id", fpar.getSelectedTerObs().getId().getTerId());
-        	}
-        	if (fpar.getSelectedLpuObs() != null) {
-        		sql_where += "AND e.med_lpu_id = :lpu_id ";
-        		params.put("lpu_id", fpar.getSelectedLpuObs().getId().getLpuId());
-        	}
-        	if (fpar.getSelectedRezType() != null) {
-        		sql_where += "AND e.result_id = :res_id ";
-        		params.put("res_id", fpar.getSelectedRezType().getId());
-        	}
-   			if ((fpar.getDatStart() != null && fpar.getDatEnd() != null) && fpar.getDatEnd().compareTo(fpar.getDatStart()) < 0) {
-        		sql_where += "AND e.dat between :dn and :dk ";
-        		params.put("dn", fpar.getDatStart());
-        		params.put("dk", fpar.getDatEnd());
-   			}
+		if (fpar.getSelectedRegObs() != null) {
+    		sql_where += "AND e.med_reg_id = :reg_id ";
+    		params.put("reg_id", fpar.getSelectedRegObs().getRegId());
     	}
+    	if (fpar.getSelectedTerObs() != null) {
+    		sql_where += "AND e.med_city_id = :city_id ";
+    		params.put("city_id", fpar.getSelectedTerObs().getId().getTerId());
+    	}
+    	if (fpar.getSelectedLpuObs() != null) {
+    		sql_where += "AND e.med_lpu_id = :lpu_id ";
+    		params.put("lpu_id", fpar.getSelectedLpuObs().getId().getLpuId());
+    	}
+    	if (fpar.getSelectedRezType() != null) {
+    		sql_where += "AND e.result_id = :res_id ";
+    		params.put("res_id", fpar.getSelectedRezType().getId());
+    	}
+		if ((fpar.getDatStart() != null && fpar.getDatEnd() != null) && fpar.getDatEnd().compareTo(fpar.getDatStart()) < 0) {
+    		sql_where += "AND e.dat between :dn and :dk ";
+    		params.put("dn", fpar.getDatStart());
+    		params.put("dk", fpar.getDatEnd());
+		}
 
 		if (fpar.getSelectedMor() != null) {
     		sql += "AND p.med_reg_id = :med_reg_id ";
@@ -153,37 +146,37 @@ public class ListmanBean implements Serializable {
     		params.put("soc_group_id", fpar.getSelectedSg().getId());
     	}
 
-    	if(fias.getRegion().getFormalname() != null){
+    	if(fias.getRegion() != null){
     		sql += "AND p.liv_reg = :reg ";
     		params.put("reg", fias.getRegion().getFormalname());
     	}
 
-    	if(fias.getGorod().getFormalname() != null){
+    	if(fias.getGorod() != null){
     		sql += "AND p.liv_city = :city ";
     		params.put("city", fias.getGorod().getFormalname());
     	}
     	
-    	if(fias.getUlica().getFormalname() != null){
+    	if(fias.getUlica() != null){
     		sql += "AND p.liv_street = :street ";
     		params.put("street", fias.getUlica().getFormalname());
     	}
     	
-    	if(fias.getDom() != null){
+    	if(!fias.getDom().isEmpty()){
     		sql += "AND p.liv_house = :dom ";
     		params.put("dom", fias.getDom());
     	}
     	
-    	if(fias.getKorp() != null){
+    	if(!fias.getKorp().isEmpty()){
     		sql += "AND p.liv_facility = :fac ";
     		params.put("fac", fias.getKorp());
     	}
     	
-    	if(fias.getStr() != null){
+    	if(!fias.getStr().isEmpty()){
     		sql += "AND p.liv_building = :building ";
     		params.put("building", fias.getStr());
     	}
     	
-    	if(fias.getKv() != null){
+    	if(!fias.getKv().isEmpty()){
     		sql += "AND p.liv_flat = :flat ";
     		params.put("flat", fias.getKv());
     	}
