@@ -22,7 +22,7 @@
   <h:form id="frmInf">
     <p:panel header="Информация о пациенте" class="blok-out">
       
-            <p:outputPanel class="blok-button--within--padding">
+        <p:outputPanel class="blok-button--within--padding">
 	    <p:button value="Изменить информацию" rendered="#{param['editable'] != 'true'}" icon="ui-icon-Editor" class="button-link button-link--blue button-link--button">
 	      <f:param name="editable" value="true"/>
 	      <f:param name="patId" value="#{editmanBean.patient.id}"/>
@@ -167,17 +167,18 @@
   
       <p:outputPanel class="align-center--text" style="position: absolute; bottom: 0; height: 80px; left:25%">       
           <p:link outcome="listman" class="button-volume button-volume--link">
-	    <p:outputPanel class="ui-icon ui-icon-Left"/>
+	    	<p:outputPanel class="ui-icon ui-icon-Left"/>
             <h:outputText value="Вернуться к списку пациентов" />
           </p:link>
           <p:commandButton value="Печать направления на флюорографию" class="button-volume button-volume--big margin-left--big" icon="ui-icon-Letter"/>
       </p:outputPanel>
-  </h:form>
-<p:panel style="padding-bottom: 100px;" >
-<p:panel  header="Обследования пациента" class="blok-out" >
-<ui:include src="WEB-INF/templates/examination.xhtml" />
-</p:panel>
-</p:panel>
+	</h:form>
+	
+	<p:panel style="padding-bottom: 100px;" >
+	<p:panel  header="Обследования пациента" class="blok-out" >
+	<ui:include src="WEB-INF/templates/examination.xhtml" />
+	</p:panel>
+	</p:panel>
 </p:outputPanel>
 </h:body>
 </html>

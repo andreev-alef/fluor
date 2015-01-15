@@ -6,8 +6,8 @@
   xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:p="http://primefaces.org/ui">
   <h:body>
-      <h:form id="frmExam">
-        <p:panel class="move-up">
+  <h:form id="frmExam">
+    <p:panel class="move-up">
 	<p:outputPanel class="blok-button--within">
 	  <p:outputPanel class="not-overlay button-link button-link--blue"> 
 	  <p:commandLink class="ui-icon ui-icon-Document-Add"  update=":frmEdtExamId:pnlExamEdtId" oncomplete="PF('edtExamVar').show()" action="#{examinationBean.findExam(0)}"/>
@@ -15,46 +15,46 @@
           </p:outputPanel>
 	</p:outputPanel>  
 	  <p:dataTable id="examTable" var="item" value="#{examinationBean.examinations}" class="my-table exam exam--str my-table--fixed" >
-            <p:column headerText="Дата"> 
-		<p:outputPanel class="move">  
+        <p:column headerText="Дата"> 
+			<p:outputPanel class="move">  
 			  <h:outputText value="#{item.dat}" >
 				<f:convertDateTime pattern="dd.MM.yyyy"/>
 			  </h:outputText>
-		</p:outputPanel>	  
-            </p:column>
+			</p:outputPanel>	  
+		</p:column>
 	    <p:column headerText="Населенный пункт">
-	         <p:outputPanel class="move">                
-			  <h:outputText value="#{item.RMedicalOrgMain.RMedicalOrgTer.name}" />
-		</p:outputPanel>	  
-            </p:column>	    
-            <p:column headerText="Медицинская организация">
-		<p:outputPanel class="move">
-			  <h:outputText value="#{item.RMedicalOrgMain.name}" />
+			<p:outputPanel class="move">                
+			<h:outputText value="#{item.RMedicalOrgMain.RMedicalOrgTer.name}" />
+			</p:outputPanel>	  
+         </p:column>	    
+         <p:column headerText="Медицинская организация">
+			<p:outputPanel class="move">
+		  	<h:outputText value="#{item.RMedicalOrgMain.name}" />
 	        </p:outputPanel>
-            </p:column>
-            <p:column headerText="Вид">
-		<p:outputPanel class="move">
+          </p:column>
+          <p:column headerText="Вид">
+			<p:outputPanel class="move">
 			  <h:outputText value="#{item.RExamType.name}" />
-		</p:outputPanel>	  
-            </p:column>
-            <p:column headerText="Результат">
-		<p:outputPanel class="move">
+			</p:outputPanel>	  
+          </p:column>
+          <p:column headerText="Результат">
+			<p:outputPanel class="move">
 			  <h:outputText value="#{item.RResultType.name}" />
-		</p:outputPanel>	  
-            </p:column>	    
-            <p:column headerText="Верификация">
-            </p:column>
-            <p:column headerText="Действия"  class="not-overlay align-center--text">
-		<p:outputPanel class="move">  
+			</p:outputPanel>	  
+          </p:column>	    
+          <p:column headerText="Верификация">
+          </p:column>
+          <p:column headerText="Действия"  class="not-overlay align-center--text">
+			<p:outputPanel class="move">  
 		    <p:commandLink id="update-exam" update=":frmEdtExamId:pnlExamEdtId" oncomplete="PF('edtExamVar').show()" action="#{examinationBean.findExam(item.id)}" class="ui-icon ui-icon-edit-exam"/>
 		    <p:tooltip for="update-exam" value="Редактировать" class="my-tooltip"/>
 		    <p:commandLink id="delete-exam" update=":frmDelExamId:pnlExamDelId" oncomplete="PF('delExamVar').show()" action="#{examinationBean.findExam(item.id)}" class="ui-icon ui-icon-delete-exam margin-left--mini"/>
 		    <p:tooltip for="delete-exam" value="Удалить" class="my-tooltip"/>
-		</p:outputPanel>
+			</p:outputPanel>
 	    </p:column>
-          </p:dataTable>
-        </p:panel>
-      </h:form>
+       </p:dataTable>
+      </p:panel>
+     </h:form>
       
       <h:form id="frmEdtExamId">
 	    <p:dialog id="edtExamId" widgetVar="edtExamVar" modal="true" header="Редактировать обследование" resizable="false" class="my-overlay">
@@ -131,12 +131,12 @@
               <h:outputLabel for="p6" value="Верификация диагноза" />
               <h:outputText id="p6" value="xxxx" />
             </h:panelGrid>
-	    <p:outputPanel class="blok-button--within--down">
-            <p:commandButton value="Удалить" update=":frmExam:examTable" action="#{examinationBean.delExam()}" oncomplete="PF('delExamVar').hide()" class="button-volume button-volume--mini" icon="ui-icon-delete"/>
-			<p:commandButton value="Отменить" oncomplete="PF('delExamVar').hide()" class="button-volume button-volume--mini margin-left--big" icon="ui-icon-undo"/>
+	    	<p:outputPanel class="blok-button--within--down">
+            	<p:commandButton value="Удалить" update=":frmExam:examTable" action="#{examinationBean.delExam()}" oncomplete="PF('delExamVar').hide()" class="button-volume button-volume--mini" icon="ui-icon-delete"/>
+				<p:commandButton value="Отменить" oncomplete="PF('delExamVar').hide()" class="button-volume button-volume--mini margin-left--big" icon="ui-icon-undo"/>
             </p:outputPanel>
-	  </p:dialog>
-        </p:outputPanel>
+	  	</p:dialog>
+       </p:outputPanel>
       </h:form>
   </h:body>
 </html>

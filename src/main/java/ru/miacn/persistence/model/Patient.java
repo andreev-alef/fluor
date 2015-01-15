@@ -241,4 +241,5 @@ public class Patient {
 	public void setRMedicalOrgPoliclinic(RMedicalOrgPoliclinic rMedicalOrgPoliclinic) {
 		this.rMedicalOrgPoliclinic = rMedicalOrgPoliclinic;
 	}
+
 }

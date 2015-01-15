@@ -14,6 +14,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
+import ru.miacn.fias.FiasEditor;
 import ru.miacn.orm.PatientOrm;
 import ru.miacn.utils.JpaUtils;
 
@@ -22,6 +23,12 @@ import ru.miacn.utils.JpaUtils;
 @Transactional
 public class ListmanBean implements Serializable {
 	public static final long serialVersionUID = -229673017810787765L;
+	
+	private static final String searchSql = ""
+			+ "SELECT DISTINCT ON (p._ver_parent_id) p.*, e.id AS last_exam_id "
+			+ "FROM patient p "
+			+ "JOIN examination e ON (e.patient_id = p._ver_parent_id) "
+			+ "WHERE p._ver_active = TRUE ";
 	
 	private String srcFam;
 	private String srcIm;
@@ -33,6 +40,8 @@ public class ListmanBean implements Serializable {
 	private EntityManager em;
 	@Inject
 	private FilterBean fpar;
+	@Inject
+	private FiasEditor fias;
 
     @PostConstruct
     public void init() {
@@ -40,11 +49,7 @@ public class ListmanBean implements Serializable {
     }
     
 	public void search() {
-    	String sql = ""
-    			+ "SELECT DISTINCT ON (p._ver_parent_id) p.*, e.id AS last_exam_id "
-    			+ "FROM patient p "
-    			+ "JOIN examination e ON (e.patient_id = p._ver_parent_id) "
-    			+ "WHERE p._ver_active = TRUE ";
+		String sql = searchSql;
     	Map<String, Object> params = new HashMap<>();
     	
     	if (!getSrcFam().isEmpty()) {
@@ -80,12 +85,9 @@ public class ListmanBean implements Serializable {
     }
     
 	public void filter() {
-		String sql_join = "";
 		String sql_where = "";
 		Map<String, Object> params = new HashMap<>();
-    	String sql = "SELECT * ";
-		sql += "FROM patient p " +
-    			"LEFT JOIN r_gender g ON (g.id = p.sex_id) ";
+		String sql = searchSql;
     	if (fpar.getSelectedRegObs() != null ||
    			fpar.getSelectedTerObs() != null ||
    			fpar.getSelectedLpuObs() != null ||
@@ -93,19 +95,17 @@ public class ListmanBean implements Serializable {
    			fpar.getDatStart() != null ||
    			fpar.getDatEnd() != null) {
 
-    		sql_join = "JOIN examination e ON (g.id = e.patient_id) ";
-
     		if (fpar.getSelectedRegObs() != null) {
-        		sql_where += "AND e.med_reg_id = :med_reg_id ";
-        		params.put("med_reg_id", fpar.getSelectedRegObs().getRegId());
+        		sql_where += "AND e.med_reg_id = :reg_id ";
+        		params.put("reg_id", fpar.getSelectedRegObs().getRegId());
         	}
         	if (fpar.getSelectedTerObs() != null) {
-        		sql_where += "AND e.med_city_id = :med_city_id ";
-        		params.put("med_city_id", fpar.getSelectedTerObs().getId());
+        		sql_where += "AND e.med_city_id = :city_id ";
+        		params.put("city_id", fpar.getSelectedTerObs().getId().getTerId());
         	}
         	if (fpar.getSelectedLpuObs() != null) {
-        		sql_where += "AND e.med_lpu_id = :med_lpu_id ";
-        		params.put("med_lpu_id", fpar.getSelectedLpuObs().getId());
+        		sql_where += "AND e.med_lpu_id = :lpu_id ";
+        		params.put("lpu_id", fpar.getSelectedLpuObs().getId().getLpuId());
         	}
         	if (fpar.getSelectedRezType() != null) {
         		sql_where += "AND e.result_id = :res_id ";
@@ -118,27 +118,24 @@ public class ListmanBean implements Serializable {
    			}
     	}
 
-		sql += sql_join;
-
-		sql += "WHERE p._ver_active = TRUE ";
-    	if (fpar.getSelectedMor() != null) {
+		if (fpar.getSelectedMor() != null) {
     		sql += "AND p.med_reg_id = :med_reg_id ";
     		params.put("med_reg_id", fpar.getSelectedMor().getRegId());
     	}
 
     	if (fpar.getSelectedMot() != null) {
     		sql += "AND p.med_city_id = :med_city_id ";
-    		params.put("med_city_id", fpar.getSelectedMot().getId());
+    		params.put("med_city_id", fpar.getSelectedMot().getId().getTerId());
     	}
 
     	if (fpar.getSelectedMom() != null) {
     		sql += "AND p.med_lpu_id = :med_lpu_id ";
-    		params.put("med_lpu_id", fpar.getSelectedMom().getId());
+    		params.put("med_lpu_id", fpar.getSelectedMom().getId().getLpuId());
     	}
 
     	if (fpar.getSelectedMop() != null) {
     		sql += "AND p.med_pol_id = :med_pol_id ";
-    		params.put("med_pol_id", fpar.getSelectedMop().getId());
+    		params.put("med_pol_id", fpar.getSelectedMop().getId().getPolId());
     	}
 
     	if (fpar.getSelectedDg() != null) {
@@ -156,6 +153,41 @@ public class ListmanBean implements Serializable {
     		params.put("soc_group_id", fpar.getSelectedSg().getId());
     	}
 
+    	if(fias.getRegion().getFormalname() != null){
+    		sql += "AND p.liv_reg = :reg ";
+    		params.put("reg", fias.getRegion().getFormalname());
+    	}
+
+    	if(fias.getGorod().getFormalname() != null){
+    		sql += "AND p.liv_city = :city ";
+    		params.put("city", fias.getGorod().getFormalname());
+    	}
+    	
+    	if(fias.getUlica().getFormalname() != null){
+    		sql += "AND p.liv_street = :street ";
+    		params.put("street", fias.getUlica().getFormalname());
+    	}
+    	
+    	if(fias.getDom() != null){
+    		sql += "AND p.liv_house = :dom ";
+    		params.put("dom", fias.getDom());
+    	}
+    	
+    	if(fias.getKorp() != null){
+    		sql += "AND p.liv_facility = :fac ";
+    		params.put("fac", fias.getKorp());
+    	}
+    	
+    	if(fias.getStr() != null){
+    		sql += "AND p.liv_building = :building ";
+    		params.put("building", fias.getStr());
+    	}
+    	
+    	if(fias.getKv() != null){
+    		sql += "AND p.liv_flat = :flat ";
+    		params.put("flat", fias.getKv());
+    	}
+    	
     	sql += sql_where;
     	sql += "LIMIT 32 ";
     	
