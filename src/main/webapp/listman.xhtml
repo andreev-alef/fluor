@@ -80,7 +80,7 @@
 				</p:column>
 
 				<p:column headerText="Дата последнего обследования">
-					<p:commandLink value="смотреть" update=":browseExamId" oncomplete="PF('browseExamVar').show()" action="#{examinationBean.loadExam(v.id)}" class="link-only"/>
+					<p:commandLink value="смотреть" update=":browseExamId" oncomplete="PF('browseExamVar').show()" action="#{examinationBean.loadExam(v.patientId.id)}" class="link-only"/>
 				</p:column>
 
 				<p:column headerText="Результат">
