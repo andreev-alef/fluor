@@ -10,36 +10,74 @@
   </cc:interface>
   
   <cc:implementation>
-    <h:panelGrid columns="2">
-      <p:outputLabel for="fias_reg" value="Регион" />
-      <p:autoComplete id="fias_reg" value="#{fiasEditor.region}" completeMethod="#{fiasEditor.filterRegion}" converter="#{fiasEditor.regionConverter}" var="r" itemLabel="#{r.formalname}" itemValue="#{r}">
-        <p:ajax />
-        <p:ajax event="itemSelect" />
-      </p:autoComplete>
+    <p:panelGrid class="invis adress--str">
+      <p:row>
+        <p:column>
+          <p:outputLabel for="fias_reg" value="Регион" />
+        </p:column>
+        <p:column colspan="3">
+          <p:autoComplete id="fias_reg" value="#{fiasEditor.region}" completeMethod="#{fiasEditor.filterRegion}" converter="#{fiasEditor.regionConverter}" var="r" itemLabel="#{r.formalname}" itemValue="#{r}">
+            <p:ajax />
+            <p:ajax event="itemSelect" />
+          </p:autoComplete>
+        </p:column>
+      </p:row>
       
-      <p:outputLabel for="fias_gorod" value="Населенный пункт" />
-      <p:autoComplete id="fias_gorod" value="#{fiasEditor.gorod}" completeMethod="#{fiasEditor.filterGorod}" converter="#{fiasEditor.gorodConverter}" var="r" itemLabel="#{r.formalname}" itemValue="#{r}">
-        <p:ajax />
-        <p:ajax event="itemSelect" />
-      </p:autoComplete>
+      <p:row>
+        <p:column>
+          <p:outputLabel for="fias_gorod" value="Населенный пункт" />
+        </p:column>
+        <p:column colspan="3">
+          <p:autoComplete id="fias_gorod" value="#{fiasEditor.gorod}" completeMethod="#{fiasEditor.filterGorod}" converter="#{fiasEditor.gorodConverter}" var="r" itemLabel="#{r.formalname}" itemValue="#{r}">
+            <p:ajax />
+            <p:ajax event="itemSelect" />
+          </p:autoComplete>
+        </p:column>
+      </p:row>
       
-      <p:outputLabel for="fias_ulica" value="Улица" />
-      <p:autoComplete id="fias_ulica" value="#{fiasEditor.ulica}" completeMethod="#{fiasEditor.filterUlica}" converter="#{fiasEditor.ulicaConverter}" var="r" itemLabel="#{r.formalname}" itemValue="#{r}">
-        <p:ajax />
-        <p:ajax event="itemSelect" />
-      </p:autoComplete>
+      <p:row>
+        <p:column>
+          <p:outputLabel for="fias_ulica" value="Улица" />
+        </p:column>
+        <p:column colspan="3">
+          <p:autoComplete id="fias_ulica" value="#{fiasEditor.ulica}" completeMethod="#{fiasEditor.filterUlica}" converter="#{fiasEditor.ulicaConverter}" var="r" itemLabel="#{r.formalname}" itemValue="#{r}">
+            <p:ajax />
+            <p:ajax event="itemSelect" />
+          </p:autoComplete>
+        </p:column>
+      </p:row>
       
-      <p:outputLabel for="fias_dom" value="Дом" />
-      <p:inputText id="fias_dom" value="#{fiasEditor.dom}" />
+      <p:row>
+        <p:column>
+          <p:outputLabel for="fias_dom" value="Дом" />
+        </p:column>
+        <p:column>
+          <p:inputText id="fias_dom" value="#{fiasEditor.dom}" />
+        </p:column>
+        
+        <p:column>
+          <p:outputLabel for="fias_korp" value="Корпус" />
+        </p:column>
+        <p:column>
+          <p:inputText id="fias_korp" value="#{fiasEditor.korp}" />
+        </p:column>
+      </p:row>
       
-      <p:outputLabel for="fias_korp" value="Корпус" />
-      <p:inputText id="fias_korp" value="#{fiasEditor.korp}" />
-      
-      <p:outputLabel for="fias_str" value="Строение" />
-      <p:inputText id="fias_str" value="#{fiasEditor.str}" />
-      
-      <p:outputLabel for="fias_kv" value="Квартира" />
-      <p:inputText id="fias_kv" value="#{fiasEditor.kv}" />
-    </h:panelGrid>
+      <p:row>
+        <p:column>
+          <p:outputLabel for="fias_str" value="Строение" />
+        </p:column>
+        <p:column>
+          <p:inputText id="fias_str" value="#{fiasEditor.str}" />
+        </p:column>
+        
+        <p:column>
+          <p:outputLabel for="fias_kv" value="Квартира" />
+        </p:column>
+        <p:column>
+          <p:inputText id="fias_kv" value="#{fiasEditor.kv}" />
+        </p:column>
+      </p:row>
+    </p:panelGrid>
   </cc:implementation>
 </html>
