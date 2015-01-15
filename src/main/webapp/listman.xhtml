@@ -80,11 +80,14 @@
 				</p:column>
 
 				<p:column headerText="Дата последнего обследования">
+					<h:outputText value="#{v.exam.dat}">
+					  <f:convertDateTime locale="#{applicationBean.locale.language}" />
+					</h:outputText>
 					<p:commandLink value="смотреть" update=":browseExamId" oncomplete="PF('browseExamVar').show()" action="#{examinationBean.loadExam(v.patientId.id)}" class="link-only"/>
 				</p:column>
 
 				<p:column headerText="Результат">
-					<h:outputText value="Норма" />
+					<h:outputText value="#{v.exam.RResultType.name}" />
 				</p:column>
 
 				<p:column headerText="Верификация">

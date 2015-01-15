@@ -14,9 +14,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
-import ru.miacn.persistence.model.Patient;
+import ru.miacn.orm.PatientOrm;
 import ru.miacn.utils.JpaUtils;
-
 
 @Named
 @SessionScoped
@@ -28,7 +27,7 @@ public class ListmanBean implements Serializable {
 	private String srcIm;
 	private String srcOt;
 	private Date srcDr;
-	private List<Patient> patients;
+	private List<PatientOrm> patients;
 	
 	@PersistenceContext(unitName = "fluor-PU")
 	private EntityManager em;
@@ -42,9 +41,9 @@ public class ListmanBean implements Serializable {
     
 	public void search() {
     	String sql = ""
-    			+ "SELECT * "
+    			+ "SELECT DISTINCT ON (p._ver_parent_id) p.*, e.id AS last_exam_id "
     			+ "FROM patient p "
-    			+ "JOIN r_gender g ON (g.id = p.sex_id) "
+    			+ "JOIN examination e ON (e.patient_id = p._ver_parent_id) "
     			+ "WHERE p._ver_active = TRUE ";
     	Map<String, Object> params = new HashMap<>();
     	
@@ -64,9 +63,11 @@ public class ListmanBean implements Serializable {
     		sql += "AND p.dat_birth = :dat_birth ";
     		params.put("dat_birth", getSrcDr());
     	}
-    	sql += "LIMIT 32 ";
+    	sql += ""
+    			+ "ORDER BY p._ver_parent_id, e.dat desc "
+    			+ "LIMIT 32 ";
     	
-    	setPatients(JpaUtils.getNativeResultList(em, sql, params, Patient.class));
+    	setPatients(JpaUtils.getNativeResultList(em, sql, params, PatientOrm.class));
     }
     
     public void clearSearch() {
@@ -158,7 +159,7 @@ public class ListmanBean implements Serializable {
     	sql += sql_where;
     	sql += "LIMIT 32 ";
     	
-    	setPatients(JpaUtils.getNativeResultList(em, sql, params, Patient.class));
+    	setPatients(JpaUtils.getNativeResultList(em, sql, params, PatientOrm.class));
     	fpar.clearFilter();
 	}
 
@@ -194,11 +195,11 @@ public class ListmanBean implements Serializable {
 		this.srcDr = srcDr;
 	}
 
-	public List<Patient> getPatients() {
+	public List<PatientOrm> getPatients() {
 		return patients;
 	}
 
-	public void setPatients(List<Patient> patients) {
+	public void setPatients(List<PatientOrm> patients) {
 		this.patients = patients;
 	}
 }
