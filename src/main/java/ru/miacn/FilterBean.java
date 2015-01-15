@@ -7,12 +7,15 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 
+import ru.miacn.fias.FiasEditor;
+import ru.miacn.fias.FiasElement;
 import ru.miacn.persistence.reference.ListConverter;
 import ru.miacn.persistence.reference.RDecrGroup;
 import ru.miacn.persistence.reference.RMedGroup;
@@ -30,6 +33,8 @@ public class FilterBean implements Serializable{
 	private static final long serialVersionUID = 2296258073300711800L;
 	@PersistenceContext(unitName = "fluor-PU")
 	private EntityManager em;
+	@Inject
+	private FiasEditor fias;
 
 	private ListConverter dgConverter;
 	private List<RDecrGroup> decrList;
@@ -101,6 +106,14 @@ public class FilterBean implements Serializable{
 		setMoMainList2(new ArrayList<RMedicalOrgMain>());
 		setSelectedMor(null);
 		setSelectedRegObs(null);
+
+		fias.setRegion(new FiasElement("", null));
+		fias.setGorod(new FiasElement("", null));
+		fias.setUlica(new FiasElement("", null));
+		fias.setDom(null);
+		fias.setKorp(null);
+		fias.setStr(null);
+		fias.setKv(null);
 	}
 	
 	@SuppressWarnings("unchecked")
