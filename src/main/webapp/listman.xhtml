@@ -3,7 +3,8 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fias="http://java.sun.com/jsf/composite/components">
 <h:head>
   <title>Флюрокартотека</title>
   <h:outputScript library="js" name="locale.js" />  
@@ -125,21 +126,9 @@
 				<p:outputPanel id="pnlDlg" class="move-up">
 				  <p:scrollPanel mode="native" style="max-height:600px"> 
 				    <p:panel header="Адрес проживания" class="blok-overlay">				
-					<h:panelGrid columns="2" class="invis">
-						<p:outputLabel for="reg" value="Регион" />
-						<p:selectOneMenu id="reg" class="my-select">
-							<f:selectItem itemLabel="-- Ничего не выбрано --" itemValue="#{null}" />
-						</p:selectOneMenu>
-						<p:outputLabel for="np" value="Населенный пункт" />
-						<p:selectOneMenu id="np" class="my-select">
-							<f:selectItem itemLabel="-- Ничего не выбрано --" itemValue="#{null}" />
-						</p:selectOneMenu>
-						<p:outputLabel for="ul" value="Улица" />
-						<p:selectOneMenu id="ul" class="my-select">
-							<f:selectItem itemLabel="-- Ничего не выбрано --" itemValue="#{null}" />
-						</p:selectOneMenu>
-					</h:panelGrid>
+						<fias:fias_addr />
 				    </p:panel>
+
 				    <p:panel header="МО прикрепления" class="blok-overlay">				
 					<h:panelGrid columns="2" class="invis">
 			        	<p:outputLabel for="regmo"  value="Регион" />

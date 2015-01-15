@@ -14,6 +14,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
+import ru.miacn.fias.FiasEditor;
 import ru.miacn.persistence.model.Patient;
 import ru.miacn.utils.JpaUtils;
 
@@ -34,6 +35,8 @@ public class ListmanBean implements Serializable {
 	private EntityManager em;
 	@Inject
 	private FilterBean fpar;
+	@Inject
+	private FiasEditor fias;
 
     @PostConstruct
     public void init() {
@@ -157,6 +160,41 @@ public class ListmanBean implements Serializable {
     		params.put("soc_group_id", fpar.getSelectedSg().getId());
     	}
 
+    	if(fias.getRegion().getFormalname() != null){
+    		sql += "AND p.liv_reg = :reg ";
+    		params.put("reg", fias.getRegion().getFormalname());
+    	}
+
+    	if(fias.getGorod().getFormalname() != null){
+    		sql += "AND p.liv_city = :city ";
+    		params.put("city", fias.getGorod().getFormalname());
+    	}
+    	
+    	if(fias.getUlica().getFormalname() != null){
+    		sql += "AND p.liv_street = :street ";
+    		params.put("street", fias.getUlica().getFormalname());
+    	}
+    	
+    	if(fias.getDom() != null){
+    		sql += "AND p.liv_house = :dom ";
+    		params.put("dom", fias.getDom());
+    	}
+    	
+    	if(fias.getKorp() != null){
+    		sql += "AND p.liv_facility = :fac ";
+    		params.put("fac", fias.getKorp());
+    	}
+    	
+    	if(fias.getStr() != null){
+    		sql += "AND p.liv_building = :building ";
+    		params.put("building", fias.getStr());
+    	}
+    	
+    	if(fias.getKv() != null){
+    		sql += "AND p.liv_flat = :flat ";
+    		params.put("flat", fias.getKv());
+    	}
+    	
     	sql += sql_where;
     	sql += "LIMIT 32 ";
     	

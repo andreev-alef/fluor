@@ -22,7 +22,7 @@
   <h:form id="frmInf">
     <p:panel header="Информация о пациенте" class="blok-out">
       
-            <p:outputPanel class="blok-button--within--padding">
+        <p:outputPanel class="blok-button--within--padding">
 	    <p:button value="Изменить информацию" rendered="#{param['editable'] != 'true'}" icon="ui-icon-Editor" class="button-link button-link--blue button-link--button">
 	      <f:param name="editable" value="true"/>
 	      <f:param name="patId" value="#{editmanBean.patient.id}"/>
