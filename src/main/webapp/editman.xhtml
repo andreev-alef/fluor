@@ -12,6 +12,7 @@
   <h:outputScript library="js" name="locale.js" />
   <f:metadata>
     <f:viewAction action="#{editmanBean.loadPatient(param['patId'])}" />
+    <f:viewParam name="editable" value="#{editmanBean.editMode}" />
   </f:metadata>
 </h:head>
 
@@ -21,14 +22,6 @@
 <p:outputPanel class="editman">
   <h:form id="frmInf">
     <p:panel header="Информация о пациенте" class="blok-out">
-      
-        <p:outputPanel class="blok-button--within--padding">
-	    <p:button value="Изменить информацию" rendered="#{param['editable'] != 'true'}" icon="ui-icon-Editor" class="button-link button-link--blue button-link--button">
-	      <f:param name="editable" value="true"/>
-	      <f:param name="patId" value="#{editmanBean.patient.id}"/>
-	    </p:button>
-	    </p:outputPanel>
-	    
 	    <p:panel header="Персональные данные" class="blok dva-bloka__one">
 	   		<f:facet name="header">
 	   		  Персональные данные
@@ -158,9 +151,9 @@
 			</h:panelGrid>
 		</p:panel>
 		
-		<p:outputPanel class="blok-button--within--down">
+		<p:outputPanel rendered="#{editmanBean.editMode}" class="blok-button--within--down">
 		  <p:messages autoUpdate="true" />
-		  <p:commandButton value="Сохранить" action="#{editmanBean.savePatientAndRedirect()}" class="button-volume button-volume--mini" icon="ui-icon-save"/>
+		  <p:commandButton value="Сохранить" ajax="false" action="#{editmanBean.savePatientAndRedirect()}" class="button-volume button-volume--mini" icon="ui-icon-save"/>
 		  <p:button value="Отменить" outcome="listman" class="button-volume button-volume--mini margin-left--big" icon="ui-icon-undo"/>
 		</p:outputPanel>
     </p:panel>

@@ -58,6 +58,8 @@ public class ExaminationBean implements Serializable {
 	private ListConverter exmConverter;
 	private RExamMethod selectedExm;
 	
+	private boolean editMode;
+	
 	@PostConstruct
 	private void init() {
 		setSelectedExamination(new Examination());
@@ -74,8 +76,9 @@ public class ExaminationBean implements Serializable {
 		setMoRegionList(em.createQuery("SELECT r FROM " + RMedicalOrgRegion.class.getName() + " r ORDER BY r.id", RMedicalOrgRegion.class).getResultList());
 	}
 
-	public void loadExam(int patId) {
+	public void loadExam(int patId, boolean editMode) {
 		setPatientId(patId);
+		setEditMode(editMode);
 		
     	String sql = ""
     		+ "SELECT * "
@@ -127,7 +130,7 @@ public class ExaminationBean implements Serializable {
 
 	public void delExam() {
 		em.remove(em.merge(selectedExamination));
-		loadExam(selectedExamination.getPatientId().getId());
+		loadExam(selectedExamination.getPatientId().getId(), isEditMode());
     }
 
 	public void saveExam() {
@@ -143,7 +146,7 @@ public class ExaminationBean implements Serializable {
 		selectedExamination.setFollowUp(false);
 
 		em.persist(em.merge(selectedExamination));
-		loadExam(selectedExamination.getPatientId().getId());
+		loadExam(selectedExamination.getPatientId().getId(), isEditMode());
     }
 
 	public List<Examination> getExaminations() {
@@ -367,5 +370,13 @@ public class ExaminationBean implements Serializable {
 
 	public void setSelectedExm(RExamMethod selectedExm) {
 		this.selectedExm = selectedExm;
+	}
+
+	public boolean isEditMode() {
+		return editMode;
+	}
+
+	public void setEditMode(boolean editMode) {
+		this.editMode = editMode;
 	}
 }
