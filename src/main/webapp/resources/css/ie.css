@@ -1,4 +1,4 @@
-/*Структура. Таблица с пациенатами*/
+/*РЎС‚СЂСѓРєС‚СѓСЂР°. РўР°Р±Р»РёС†Р° СЃ РїР°С†РёРµРЅР°С‚Р°РјРё*/
 .patient__table--str tr th:first-child{max-width: 100px;}
 .patient__table--str tr th:first-child + *{padding-left: 10px;}
 .patient__table--str tr td:first-child + *{padding-left: 10px;}

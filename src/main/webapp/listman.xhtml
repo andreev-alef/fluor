@@ -43,17 +43,19 @@
 		  </p:outputPanel>	      
 		  
 			<p:dataTable id="patientTable" value="#{listmanBean.patients}" var="v" class="my-table my-table--auto patient__table patient__table--str">
-				<p:column headerText="&#160; Информация &#160; о пациенте">
-				   <p:outputPanel class="ui-icon ui-icon-open"/>
-				   <p:link value="Смотреть" outcome="editman">					        
+				<p:column headerText="&#160; Информация &#160; о пациенте">				   
+				   
+				    <p:link id="view" class="ui-icon ui-icon-open" outcome="editman">					        
 						<f:param name="patId" value="#{v.id}"/>
 						<f:param name="editable" value="false"/>
-					</p:link>
-				   <p:outputPanel class="ui-icon ui-icon-open"/>
-				   <p:link value="Редактировать" outcome="editman">					        
+				    </p:link>
+				    <p:tooltip for="view" value="Просмотр" class="my-tooltip"/>
+				   
+				    <p:link id="edit" class="ui-icon ui-icon-Editor" outcome="editman">					        
 						<f:param name="patId" value="#{v.id}"/>
 						<f:param name="editable" value="true"/>
-					</p:link>
+				    </p:link>
+				    <p:tooltip for="edit" value="Редактирование" class="my-tooltip"/>
 				</p:column>
 
 				<p:column headerText="Фамилия">
@@ -87,10 +89,12 @@
 				</p:column>
 
 				<p:column headerText="Дата последнего обследования">
-					<h:outputText value="#{v.exam.dat}">
+				  <p:commandLink value="#{v.exam.dat}" id="data-exam" update=":browseExamId" oncomplete="PF('browseExamVar').show()" action="#{examinationBean.loadExam(v.patientId.id, false)}" class="link-only">
+					<h:outputText>
 					  <f:convertDateTime locale="#{applicationBean.locale.language}" />
 					</h:outputText>
-					<p:commandLink value="смотреть" update=":browseExamId" oncomplete="PF('browseExamVar').show()" action="#{examinationBean.loadExam(v.patientId.id, false)}" class="link-only"/>
+				  </p:commandLink>
+				  <p:tooltip for="data-exam" value="Просмотр исследований" class="my-tooltip"/>
 				</p:column>
 
 				<p:column headerText="Результат">
@@ -106,19 +110,24 @@
 			<p:outputPanel class="white-gradient">			  
 			</p:outputPanel>
 
-		      <p:outputPanel class="blok-button--within--down">			
-				<p:link outcome="editman" style="display: none">
-					<h:outputText value="Просмотр"/>
-				</p:link>   							
+		      <p:outputPanel class="blok-button--within--down">		
+				 							
 				<p:link outcome="editman" class="button-volume button-volume--link">
 				    <p:outputPanel class="ui-icon ui-icon-User-Add"/>
 					<f:param name="editable" value="true"/>
 					<h:outputText value="Добавить пациента"/>											     
-				</p:link>   							
+				</p:link>
+				
 				<p:commandLink update=":frmPrint:pnlDlg" oncomplete="PF('print').show()" class="button-volume button-volume--link margin-left--big" >
 					<p:outputPanel class="ui-icon ui-icon-reports"/>
 					<h:outputText value="Отчетные формы"/>
 				</p:commandLink>
+				
+				<p:commandLink class="button-volume button-volume--link margin-left--big" >
+					<p:outputPanel class="ui-icon ui-icon ui-icon-xls"/>
+					<h:outputText value="Загрузить из файла"/>
+				</p:commandLink>
+				
 		      </p:outputPanel>
 		</h:form>
 
@@ -133,10 +142,13 @@
 				header="Фильтр записей" resizable="false" class="my-overlay filtr--str">			
 			  <p:commandButton value="Закрыть" oncomplete="PF('find').hide()" icon="ui-icon-close" class="button-link button-link--white"/>
 				<p:outputPanel id="pnlDlg" class="move-up">
-				  <p:scrollPanel mode="native" style="max-height:600px"> 
-				    <p:panel header="Адрес проживания" class="blok-overlay">				
+				  <p:scrollPanel mode="native" style="max-height: 600px">				
+				    <p:panel header="Адрес проживания" class="blok-overlay">
+				      <p:outputPanel style="padding-left: 40px">
 						<fias:fias_addr />
+				      </p:outputPanel>	
 				    </p:panel>
+				
 
 				    <p:panel header="МО прикрепления пациентa по ОМС" class="blok-overlay">				
 					<h:panelGrid columns="2" class="invis">
@@ -293,6 +305,7 @@
 				  <p:panel header="Вид отчета" class="blok-overlay">					
 					<h:panelGrid columns="3" class="invis vid-reports--str">
 						<p:outputLabel value="1. Флюороосмотры социальных групп населения" />
+						
 						<p:outputPanel class="button-link button-link--blue"> 
 						<p:link class="ui-icon ui-icon-paper" href="report?id=1">
 							<f:param name="id" value="1" />
@@ -312,6 +325,8 @@
 						</p:link>
 						</p:outputPanel>
 						
+						
+						
 						<p:outputLabel value="2. Флюороосмотры декретированных групп населения" />
 						
 						<p:outputPanel class="button-link button-link--blue"> 
@@ -321,10 +336,19 @@
 						<p:link value="Показать на экране" href="report?id=3">
 							<f:param name="id" value="3" />
 						</p:link>
-						</p:outputPanel>						
+						</p:outputPanel>
+						
+						<p:outputPanel class="button-link button-link--blue"> 
+						<p:link class="ui-icon ui-icon-pdf" href="report?id=3&amp;pdf">
+							<f:param name="id" value="3" />
+						</p:link>
+						<p:link value="Сформировать в PDF" href="report?id=3&amp;pdf">
+							<f:param name="id" value="3" />
+							<f:param name="pdf" value="true" />
+						</p:link>
+						</p:outputPanel>
 
-
-						<p:row />						
+												
 						
 						<p:outputLabel value="3. Флюороосмотры медицинских групп населения" />
 						
@@ -338,16 +362,16 @@
 						</p:outputPanel>
 						
 						<p:outputPanel class="button-link button-link--blue"> 
-						<p:link class="ui-icon ui-icon-pdf" href="report?id=3&amp;pdf">
-							<f:param name="id" value="3" />
+						<p:link class="ui-icon ui-icon-pdf" href="report?id=2&amp;pdf">
+							<f:param name="id" value="2" />
 						</p:link>
-						<p:link value="Сформировать в PDF" href="report?id=3&amp;pdf">
-							<f:param name="id" value="3" />
+						<p:link value="Сформировать в PDF" href="report?id=2&amp;pdf">
+							<f:param name="id" value="2" />
 							<f:param name="pdf" value="true" />
 						</p:link>
 						</p:outputPanel>
 						
-						<p:row />
+						
 					</h:panelGrid>
 				  </p:panel>
 				</p:outputPanel>

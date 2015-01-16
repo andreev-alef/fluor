@@ -1,4 +1,4 @@
-html {height: 100%;}
+п»їhtml {height: 100%;}
 
 body{	font:15px Arial, Helvetica, sans-serif;		
 	-webkit-font-smoothing: antialiased;
@@ -26,7 +26,7 @@ body{	font:15px Arial, Helvetica, sans-serif;
 	background-repeat: repeat-x;
 	}	
 
-/*Таблицы для форматирования*/
+/*РўР°Р±Р»РёС†С‹ РґР»СЏ С„РѕСЂРјР°С‚РёСЂРѕРІР°РЅРёСЏ*/
 .invis {
 	background:none;
 	text-align:right;
@@ -42,17 +42,22 @@ body{	font:15px Arial, Helvetica, sans-serif;
 		padding:4px 4px;
 		}	
 	
-	/*Таблицы для форматирования в оверлее*/	
+	/*РўР°Р±Р»РёС†С‹ РґР»СЏ С„РѕСЂРјР°С‚РёСЂРѕРІР°РЅРёСЏ РІ РѕРІРµСЂР»РµРµ*/	
 	.invis--overlay > tbody td, .invis--overlay > tbody .ui-panelgrid-cell {
 		padding:7px 4px;
 		}
-	/*Таблицы для форматирования при удалении*/	
+	/*РўР°Р±Р»РёС†С‹ РґР»СЏ С„РѕСЂРјР°С‚РёСЂРѕРІР°РЅРёСЏ РїСЂРё СѓРґР°Р»РµРЅРёРё*/	
 	.invis--delete > tbody td:last-child{
 		color: #F00;
 	}
+	
+	/*РўР°Р±Р»РёС†С‹ РґР»СЏ С„РѕСЂРјР°С‚РёСЂРѕРІР°РЅРёСЏ СЃР»РѕР¶РЅС‹Рµ*/
+        .invis--colspan {
+		width: 100%;
+		max-width: 100%;
+		}
 
-
-/*Белый градиент*/		
+/*Р‘РµР»С‹Р№ РіСЂР°РґРёРµРЅС‚*/		
 .white-gradient {
 	height: 38px;
 	margin: 0 1.5em;
@@ -64,7 +69,7 @@ body{	font:15px Arial, Helvetica, sans-serif;
 	background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%); /* w3c */
 }
 		
-/*Таблица видимая*/
+/*РўР°Р±Р»РёС†Р° РІРёРґРёРјР°СЏ*/
 .my-table table{
 	font:15px Helvetica Neue Light,Arial,Tahoma,sans-serif;
 	background-color: #ffffff;
@@ -92,7 +97,7 @@ body{	font:15px Arial, Helvetica, sans-serif;
 			.my-table tbody tr:hover {
 				background-color: #D9EEFD;
 				}			
-	/*Таблица - шапка*/		
+	/*РўР°Р±Р»РёС†Р° - С€Р°РїРєР°*/		
 		.my-table thead th{			
 			color: #ffffff;  
 			padding: 8px 4px;
@@ -100,7 +105,7 @@ body{	font:15px Arial, Helvetica, sans-serif;
 			text-align: left;
 			box-sizing: border-box;
 			}
-	/*Способ расчета размера таблицы*/		
+	/*РЎРїРѕСЃРѕР± СЂР°СЃС‡РµС‚Р° СЂР°Р·РјРµСЂР° С‚Р°Р±Р»РёС†С‹*/		
 	.my-table--auto table {
 		table-layout: auto;
 		}
@@ -108,7 +113,7 @@ body{	font:15px Arial, Helvetica, sans-serif;
 		table-layout: fixed;
 		}		
 		
-/*Блоки внешние*/
+/*Р‘Р»РѕРєРё РІРЅРµС€РЅРёРµ*/
 .blok-out {
 	width:1000px;	
 	margin: auto;	
@@ -137,7 +142,7 @@ body{	font:15px Arial, Helvetica, sans-serif;
 			border: 1px #d7d7d7 solid;
 			}
 
-/*Блоки внутри*/
+/*Р‘Р»РѕРєРё РІРЅСѓС‚СЂРё*/
 .blok {
 	box-sizing: border-box;
 	width: 100%;
@@ -168,7 +173,7 @@ body{	font:15px Arial, Helvetica, sans-serif;
 		padding-top: 1em;
 		}
 		
-/*Блок в оверлее*/
+/*Р‘Р»РѕРє РІ РѕРІРµСЂР»РµРµ*/
 .blok-overlay .ui-panel-titlebar{		
 		padding: 7px 15px;
 		color: #ffffff;
@@ -184,7 +189,7 @@ body{	font:15px Arial, Helvetica, sans-serif;
 		padding: 7px 10px 10px 10px;
 		}		
 
-/*Блок с кнопками */
+/*Р‘Р»РѕРє СЃ РєРЅРѕРїРєР°РјРё */
 .blok-button--above-table {
 	padding: 0.5em 1.5em;
 	text-align: right;
@@ -202,7 +207,7 @@ body{	font:15px Arial, Helvetica, sans-serif;
 	text-align:center;
 	}
 	
-/*Оверлей*/
+/*РћРІРµСЂР»РµР№*/
 .my-overlay {
 	background-color:#FFF;
 	border-radius: 5px;
@@ -238,16 +243,16 @@ body{	font:15px Arial, Helvetica, sans-serif;
 .my-overlay .not-overlay {
 	display: none;
 	}	
-	/*Затемнение фона*/
+	/*Р—Р°С‚РµРјРЅРµРЅРёРµ С„РѕРЅР°*/
 	.ui-widget-overlay {
 		background-color:rgba(45,89,114,.30);	
 		}
-/*Подсказка*/		
+/*РџРѕРґСЃРєР°Р·РєР°*/		
 .my-tooltip {
 	background-color: #FFFFFF;
 	}
 	
-/*Панель поиска */
+/*РџР°РЅРµР»СЊ РїРѕРёСЃРєР° */
 .search-panel {
 	margin-right: 283px;
 	box-sizing: border-box;
@@ -258,7 +263,7 @@ body{	font:15px Arial, Helvetica, sans-serif;
 	box-sizing: border-box;
 	}    
 
-/*Таблица с пациентами*/
+/*РўР°Р±Р»РёС†Р° СЃ РїР°С†РёРµРЅС‚Р°РјРё*/
 .patient__table {
     overflow-x: auto;
     margin:  0.5em 1.5em 0 1.5em;   
@@ -267,65 +272,27 @@ body{	font:15px Arial, Helvetica, sans-serif;
 	padding: 4px 4px;
     }
  
- /*Таблица с пациентами шапка*/
+ /*РўР°Р±Р»РёС†Р° СЃ РїР°С†РёРµРЅС‚Р°РјРё С€Р°РїРєР°*/
 	.patient__table thead th {
 		border-color: #78A4CA;
 		background-color: #78A4CA;
 		border-bottom: 2px solid #fff;
-		}
-    
-	/*Таблица с пациентами столбец просмотра*/
-		.patient__table thead th:first-child{      
-			border-right: 2px solid #ffffff;
-			text-align: center;
-			}
-			
-		.patient__table table td:first-child {
-			border: 2px solid #ffffff;
-			background-color:#428BCA;
-			text-transform: none;
-			text-align: center;
-			padding: 0;
-			}
-			.patient__table table td:first-child .ui-icon {
-				margin: 0 -23px -2px 5px;
-				}
-		.patient__table table td:first-child:hover{
-			outline:none;
-			background:#006D98;
-			}		     
-		.patient__table table td:first-child:focus {
-			outline:none;
-			background:#006D98;
-			}		
-		.patient__table table td:first-child:active {
-			outline:none;
-			box-shadow: inset 0 2px 2px rgba(0,0,0,0.5);
-			}		    
-			     .patient__table table td:first-child a {
-				text-decoration: none;
-				color:#ffffff;
-				display: inline-block;
-				padding: 4px 5px 4px 30px;
-				}
-		.patient__table tbody tr:hover {			
-			border-bottom: 2px solid #ffffff;
-			border-top: 2px solid #ffffff;
-			}
+		}   
+	
 
-/*Таблица с обследованиями*/
+/*РўР°Р±Р»РёС†Р° СЃ РѕР±СЃР»РµРґРѕРІР°РЅРёСЏРјРё*/
 .exam table td {
 	font-size: 13px;
 	padding: 5px 4px;
 	}
 
-/*Таблица с обследованиями шапка*/
+/*РўР°Р±Р»РёС†Р° СЃ РѕР±СЃР»РµРґРѕРІР°РЅРёСЏРјРё С€Р°РїРєР°*/
 .exam thead th {
 		border-color: #83CDE2;
 		background-color: #83CDE2;
 		}
 
-/*Инпут*/	
+/*РРЅРїСѓС‚*/	
 input[type="text"], .ui-inputfield {
 	background:#FFF;
 	border:#d7d7d7 1px solid;
@@ -349,7 +316,7 @@ input[type="text"], .ui-inputfield {
 		box-shadow:inset 0 1px 1px rgba(0,0,0,.12), 0px 0px 4px 3px rgba(109,187,255,0.4);
 		-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.12), 0px 0px 4px 3px rgba(109,187,255,0.4);
 		}
-/*Селект*/	
+/*РЎРµР»РµРєС‚*/	
 .my-select {
 	border:#d7d7d7 1px solid;
 	border-radius:4px;	
@@ -396,7 +363,7 @@ input[type="text"], .ui-inputfield {
 		}
 	
 
-/*Автозаполнение*/		
+/*РђРІС‚РѕР·Р°РїРѕР»РЅРµРЅРёРµ*/		
 .ui-autocomplete {
 	width: 100% !important;
 	}
@@ -404,12 +371,12 @@ input[type="text"], .ui-inputfield {
 		background:#FFF;
 		}
 
-/*Дата*/
+/*Р”Р°С‚Р°*/
 .data input{
 	width: 88px !important;
 	}
 
-/*Чекбокс*/
+/*Р§РµРєР±РѕРєСЃ*/
 .ui-chkbox {
 	margin-bottom: -2px;
 	}
@@ -428,7 +395,7 @@ input[type="text"], .ui-inputfield {
 			}			
 		
 
-/*Выравнивания*/
+/*Р’С‹СЂР°РІРЅРёРІР°РЅРёСЏ*/
 .align-left--text {
 	text-align:left;
 	}
@@ -439,7 +406,7 @@ input[type="text"], .ui-inputfield {
 	text-align:center;
 	}
 
-/*Объемная кнопка - кнопка*/
+/*РћР±СЉРµРјРЅР°СЏ РєРЅРѕРїРєР° - РєРЅРѕРїРєР°*/
 .button-volume {
 	font:1em Helvetica Neue Light,Arial,Tahoma,sans-serif;	      
 	padding-right: 5px;
@@ -478,7 +445,7 @@ input[type="text"], .ui-inputfield {
                      outline:none;
                      box-shadow: inset 0 2px 2px rgba(0,0,0,0.5);
                      }	
-/*Объемная кнопка - ссылка*/
+/*РћР±СЉРµРјРЅР°СЏ РєРЅРѕРїРєР° - СЃСЃС‹Р»РєР°*/
 .button-volume--link {
 	padding: 7px 17px 6px 8px;
 	text-decoration: none;
@@ -488,7 +455,7 @@ input[type="text"], .ui-inputfield {
 		vertical-align: middle;
 		}
 
-/*Плоская кнопка - ссылка*/	
+/*РџР»РѕСЃРєР°СЏ РєРЅРѕРїРєР° - СЃСЃС‹Р»РєР°*/	
 .button-link {
 	font:1em Helvetica Neue Light,Arial,Tahoma,sans-serif;
 	background:none;
@@ -530,7 +497,7 @@ input[type="text"], .ui-inputfield {
 		padding-bottom: 0px;
 		}
 		
-/*Плоская кнопка ссылка - кнопка*/
+/*РџР»РѕСЃРєР°СЏ РєРЅРѕРїРєР° СЃСЃС‹Р»РєР° - РєРЅРѕРїРєР°*/
 .button-link--button {
 	padding-bottom: 2px;
 	}
@@ -542,7 +509,7 @@ input[type="text"], .ui-inputfield {
 	.button-link .ui-button-text {
 		padding: .3em 0.1em 0 2em;
 		}
-/*Cсылка*/
+/*CСЃС‹Р»РєР°*/
 .link-only {
 	color:#428bca;
 	display: inline-block;
@@ -555,7 +522,7 @@ input[type="text"], .ui-inputfield {
 	border-bottom: solid 1px rgba(0,0,0,0);
 	}
 
-/*Отступ слева*/
+/*РћС‚СЃС‚СѓРї СЃР»РµРІР°*/
 .margin-left--big {
 	margin-left: 5em;
 	}
@@ -563,7 +530,7 @@ input[type="text"], .ui-inputfield {
 	margin-left: 0.5em;
 	}
                 
-/*Календарь*/
+/*РљР°Р»РµРЅРґР°СЂСЊ*/
 .ui-datepicker 	{
 	background:#FFF;
 	box-shadow:inset 0 1px 1px rgba(0,0,0,.12), 0px 0px 4px 3px rgba(109,187,255,0.4);
@@ -571,7 +538,7 @@ input[type="text"], .ui-inputfield {
 	border:1px solid #d7d7d7;
 	}
 
-/*Состояния*/		
+/*РЎРѕСЃС‚РѕСЏРЅРёСЏ*/		
 div.ui-radiobutton .ui-state-hover, div.ui-chkbox .ui-state-hover{
 		outline:none;
 		border:#6dbbff 1px solid;
@@ -602,38 +569,34 @@ li.ui-state-hover {
 	background:#98ccf8;
 	}
 
-/*Спрайт с икноками*/
+/*РЎРїСЂР°Р№С‚ СЃ РёРєРЅРѕРєР°РјРё*/
 .ui-icon {
 	display:inline-block;
 	background-image: url("#{resource['image/icons.png']}");
         }
-/*Отдельные иконки*/	
+/*РћС‚РґРµР»СЊРЅС‹Рµ РёРєРѕРЅРєРё*/	
 
 .ui-icon-Document-Add{ background-position: 0 0; width: 24px; height: 24px; } 
-.ui-icon-Editor{ background-position: 0 -74px; width: 24px; height: 24px; } 
+.ui-icon-Editor{ background-position: 0 -74px; width: 24px; height: 24px; margin: 0 0 -5px 17px;} 
 .ui-icon-Left{ background-position: 0 -148px; width: 32px; height: 32px; } 
 .ui-icon-Letter{ background-position: 0 -230px; width: 32px; height: 32px; } 
 .ui-icon-User-Add{ background-position: 0 -312px; width: 32px; height: 32px; } 
 .ui-icon-all{ background-position: 0 -394px; width: 16px; height: 16px; } 
 .ui-icon-check{ background-position: 0 -460px; width: 12px; height: 12px; } 
-.ui-icon-close{ background-position: 0 -522px; width: 16px; height: 16px; margin-left: -2px;} 
-.ui-icon-delete-exam{ background-position: 0 -588px; width: 20px; height: 20px; }
-
+.ui-icon-close{ background-position: 0 -522px; width: 16px; height: 16px; margin-left: -2px; } 
+.ui-icon-delete-exam{ background-position: 0 -588px; width: 20px; height: 20px; } 
 .ui-icon-clear{ background-position: 0 -658px; width: 16px; height: 16px; } 
-.ui-icon-delete{ background-position: 0 -724px; width: 16px; height: 16px; }
-
+.ui-icon-delete{ background-position: 0 -724px; width: 16px; height: 16px; } 
 .ui-icon-edit-exam{ background-position: 0 -790px; width: 20px; height: 20px; } 
 .ui-icon-filter{ background-position: 0 -860px; width: 24px; height: 24px; } 
-.ui-icon-open{ background-position: 0 -934px; width: 16px; height: 16px; }
-
-.ui-icon-paper{ background-position: 0 -1000px; width: 16px; height: 16px; }
-.ui-icon-pdf{ background-position: 0 -1066px; width: 16px; height: 16px; }
-
-.ui-icon-reports{ background-position: 0 -1132px; width: 32px; height: 32px; } 
-.ui-icon-save{ background-position: 0 -1214px; width: 16px; height: 16px; } 
-.ui-icon-search{ background-position: 0 -1280px; width: 16px; height: 16px; } 
-.ui-icon-undo{ background-position: 0 -1346px; width: 16px; height: 16px; } 
-
+.ui-icon-open{ background-position: 0 -934px; width: 24px; height: 24px; margin: 0 0 -5px 0;} 
+.ui-icon-paper{ background-position: 0 -1008px; width: 16px; height: 16px; } 
+.ui-icon-pdf{ background-position: 0 -1074px; width: 16px; height: 16px; } 
+.ui-icon-reports{ background-position: 0 -1140px; width: 32px; height: 32px; } 
+.ui-icon-save{ background-position: 0 -1222px; width: 16px; height: 16px; } 
+.ui-icon-search{ background-position: 0 -1288px; width: 16px; height: 16px; } 
+.ui-icon-undo{ background-position: 0 -1354px; width: 16px; height: 16px; }
+.ui-icon-xls{ background-position: 0 -1420px; width: 32px; height: 32px;}
 
 .ui-icon-triangle-1-s {
 	width: 0;
@@ -666,7 +629,7 @@ li.ui-state-hover {
 	}
 
 
-/*Структура. Панель поиска*/
+/*РЎС‚СЂСѓРєС‚СѓСЂР°. РџР°РЅРµР»СЊ РїРѕРёСЃРєР°*/
 .search-panel--str tr td:nth-child(1) {width: 70px;}
 .search-panel--str tr td:nth-child(2) {width: 15%;}
 .search-panel--str tr td:nth-child(3) {width: 48px;}
@@ -677,39 +640,39 @@ li.ui-state-hover {
 .search-panel--str tr td:nth-child(8) {width: 93px; min-width: 93px;}
 .search-panel--str tr td:nth-child(10) {width: 116px;} 
 
-/*Структура. Таблица с пациенатами*/
-.patient__table--str tr th:nth-child(1){max-width: 100px;}
+/*РЎС‚СЂСѓРєС‚СѓСЂР°. РўР°Р±Р»РёС†Р° СЃ РїР°С†РёРµРЅР°С‚Р°РјРё*/
+.patient__table--str tr th:nth-child(1){max-width: 100px; text-align: center;}
+.patient__table--str tr td:nth-child(1){max-width: 100px; text-align: center;}
 .patient__table--str tr th:nth-child(2){padding-left: 10px;}
 .patient__table--str tr td:nth-child(2){padding-left: 10px;}
 .patient__table--str tr th:nth-child(5){max-width: 72px; text-align: center;}
 .patient__table--str tr th:nth-child(6){text-align: center;}
 .patient__table--str tr th:nth-child(9){max-width: 137px; text-align: center;}
+.patient__table--str tr td:nth-child(9){max-width: 137px; text-align: center;}
 
-/*Структура. Информация о пациенте. Персональные данные*/
+/*РЎС‚СЂСѓРєС‚СѓСЂР°. РРЅС„РѕСЂРјР°С†РёСЏ Рѕ РїР°С†РёРµРЅС‚Рµ. РџРµСЂСЃРѕРЅР°Р»СЊРЅС‹Рµ РґР°РЅРЅС‹Рµ*/
 .personal-data--str tr td:nth-child(1){width: 126px;}
-.personal-data--str tr td:nth-child(2){width: 93px;}
+.personal-data--str tr td:nth-child(2){width: 93px; text-align: left;}
 .personal-data--str tr td:nth-child(3){width: 57px;}
 .personal-data--str tr td:nth-child(4){width: 224px;}
 .personal-data--str .ui-selectonemenu .ui-selectonemenu-label {max-width: 353px !important;}
 
-/*Структура. Информация о пациенте. Адресс*/
-.adress--str tr td:nth-child(1){width: 135px;}
-.adress--str tr td:nth-child(2){width: 97px;}
-.adress--str tr td:nth-child(3){width: 91px;}
-.adress--str tr td:nth-child(4){width: 97px;}
+/*РЎС‚СЂСѓРєС‚СѓСЂР°. РРЅС„РѕСЂРјР°С†РёСЏ Рѕ РїР°С†РёРµРЅС‚Рµ. РўРµР»РµС„РѕРЅ*/
+.tel--str tr td:nth-child(1){width: 68px;}
+.tel--str tr td:nth-child(2){width: 100%;}
 
-/*Структура. Информация о пациенте. Прикрепление по омс*/
+/*РЎС‚СЂСѓРєС‚СѓСЂР°. РРЅС„РѕСЂРјР°С†РёСЏ Рѕ РїР°С†РёРµРЅС‚Рµ. РџСЂРёРєСЂРµРїР»РµРЅРёРµ РїРѕ РѕРјСЃ*/
 .oms--str tr td:nth-child(1){width: 136px;}
 .oms--str tr td:nth-child(2){width: 814px;}
 .oms--str .ui-selectonemenu .ui-selectonemenu-label {max-width: 795px !important;}
 .oms--str tr:last-child td:last-child {text-align: left; height: 40px; padding-left: 10px;}
 
-/*Структура. Информация о пациенте. Группа риска*/
+/*РЎС‚СЂСѓРєС‚СѓСЂР°. РРЅС„РѕСЂРјР°С†РёСЏ Рѕ РїР°С†РёРµРЅС‚Рµ. Р“СЂСѓРїРїР° СЂРёСЃРєР°*/
 .rguppa--str tr td:nth-child(1){width: 247px;}
 .rguppa--str tr td:nth-child(2){width: 703px;}
 .rguppa--str .ui-selectonemenu .ui-selectonemenu-label {max-width: 684px !important;}
 
-/*Структура. Таблица с обследованиями.*/
+/*РЎС‚СЂСѓРєС‚СѓСЂР°. РўР°Р±Р»РёС†Р° СЃ РѕР±СЃР»РµРґРѕРІР°РЅРёСЏРјРё.*/
 .exam--str tr th:nth-child(1){width: 82px; padding-left: 10px}
 .exam--str tr th:nth-child(2){width: 140px;}
 .exam--str tr th:nth-child(3){width: 288px;}
@@ -725,28 +688,36 @@ li.ui-state-hover {
 .exam--str tr td:nth-child(6){max-width:103px; min-width:103px;}
 .exam--str tr td:nth-child(7){max-width: 78px; min-width:78px; text-align: center;}
 
-/*Структура. Обследование. Добавление*/
+/*РЎС‚СЂСѓРєС‚СѓСЂР°. РћР±СЃР»РµРґРѕРІР°РЅРёРµ. Р”РѕР±Р°РІР»РµРЅРёРµ*/
 .add-exam--str tr td:nth-child(1){width: 167px;}
 .add-exam--str tr td:nth-child(2){width: 400px; text-align: left;}
 .add-exam--str .ui-selectonemenu .ui-selectonemenu-label {max-width: 381px !important;}
 
-/*Структура. Обследование. Удаление*/
+/*РЎС‚СЂСѓРєС‚СѓСЂР°. РћР±СЃР»РµРґРѕРІР°РЅРёРµ. РЈРґР°Р»РµРЅРёРµ*/
 .delete-exam--str tr td:nth-child(1){width: 167px; vertical-align: top;}
 .delete-exam--str tr td:nth-child(2){max-width: 400px; white-space:normal; text-align: left;}
 
-/*Структура. Фильтр*/
+/*РЎС‚СЂСѓРєС‚СѓСЂР°. Р¤РёР»СЊС‚СЂ*/
+.filtr--str {width:630px !important;}
 .filtr--str tr td:nth-child(1){width: 180px;}
 .filtr--str tr td:nth-child(2){width: 400px; text-align: left;}
 .filtr--str .ui-selectonemenu .ui-selectonemenu-label {max-width: 381px !important;}
 
-/*Структура. Отчеты*/
+/*РЎС‚СЂСѓРєС‚СѓСЂР°. РћС‚С‡РµС‚С‹*/
 .report--str tr td:nth-child(1){width: 189px;}
 .report--str tr td:nth-child(2){width: 553px; text-align: left;}
 .report--str .ui-selectonemenu .ui-selectonemenu-label {max-width: 534px !important;}
 
-/*Структура. Отчеты. Вид отчета*/
+/*РЎС‚СЂСѓРєС‚СѓСЂР°. РћС‚С‡РµС‚С‹. Р’РёРґ РѕС‚С‡РµС‚Р°*/
 .vid-reports--str tr td:nth-child(1){text-align: left;}
 .vid-reports--str tr td:nth-child(2){padding-left: 1em;}
 .vid-reports--str tr td:nth-child(3){padding-left: 1em;}
+
+/*РЎС‚СЂСѓРєС‚СѓСЂР°. РРЅС„РѕСЂРјР°С†РёСЏ Рѕ РїР°С†РёРµРЅС‚Рµ. Р¤РРђРЎ*/
+.fias--str tr:first-child td {height: 0px; padding: 0px;}
+.fias--str tr td:nth-child(1){width: 135px;}
+.fias--str tr td:nth-child(2){width: 50%;}
+.fias--str tr td:nth-child(3){width: 91px;}
+.fias--str tr td:nth-child(4){width: 50%;}
 
 

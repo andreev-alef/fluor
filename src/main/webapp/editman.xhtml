@@ -63,6 +63,7 @@
 			<p:column>
 				<p:calendar id="dr" value="#{editmanBean.patient.datBirth}" required="true" locale="ru" pattern="#{applicationBean.dateFormat.toPattern()}"/>
 			</p:column>
+			
 			<p:column>
 	        	<p:outputLabel for="sex" value="Пол" />
 			</p:column>
@@ -84,15 +85,31 @@
 		          <f:selectItems value="#{editmanBean.citizenList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
 		        </p:selectOneMenu>
 			</p:column>
+			</p:row>			
+			
+			<p:row>
+			<p:column>   
+	        	<p:outputLabel for="ds" value="Дата смерти" />
+			</p:column>
+			<p:column colspan="3">
+				<p:calendar id="ds" value="#{editmanBean.patient.datBirth}" locale="ru" pattern="#{applicationBean.dateFormat.toPattern()}" class="data"/>
+			</p:column>
 			</p:row>
+			
 			</p:panelGrid>
 		</p:panel>
 		
 		<p:panel header="Адрес проживания в Российской Федерации" class="blok dva-bloka__two ">
 			<fias:fias_addr />
-        	<p:outputLabel for="tl" value="Телефон" />
-	        <p:inputText id="tl" value="#{editmanBean.patient.tel}" />
-		</p:panel>		   
+		</p:panel>
+		
+		<p:panel header="Контактные данные" class="blok odin-blok">
+		  <h:panelGrid columns="2" class="invis invis--colspan tel--str">
+		  <p:outputLabel for="tl" value="Телефон" />
+		  <p:inputText id="tl" value="#{editmanBean.patient.tel}" />
+		  </h:panelGrid>
+		</p:panel>      
+				   
 		
 		<p:panel header="Медицинская организация, к которой прикреплен пациент по ОМС" class="blok odin-blok">
 			<h:panelGrid columns="2" class="invis oms--str">
