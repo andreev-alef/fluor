@@ -72,6 +72,8 @@ public class EditmanBean implements Serializable {
 	private ListConverter mopConverter;
 	private List<RMedicalOrgPoliclinic> moPoliclinicList;
 	
+	private boolean editMode = false;
+	
 	@PostConstruct
 	private void init() {
 		patient = new Patient();
@@ -100,7 +102,7 @@ public class EditmanBean implements Serializable {
 		if (idStr.isEmpty()) {
 			setPatient(new Patient());
 			
-			exam.loadExam(-1);
+			exam.loadExam(-1, isEditMode());
 			setFiasValues();
 		} else {
 			int id = Integer.parseInt(idStr);
@@ -141,7 +143,7 @@ public class EditmanBean implements Serializable {
 				setSelectedMop(null);
 			}
 			
-			exam.loadExam(getPatient().getPatientId().getId());
+			exam.loadExam(getPatient().getPatientId().getId(), isEditMode());
 			setFiasValues();
 		}
 	}
@@ -479,5 +481,13 @@ public class EditmanBean implements Serializable {
 	private void setMoRegionList(List<RMedicalOrgRegion>  moRegionList) {
 		this.moRegionList = moRegionList;
 		morConverter.setList(moRegionList);
+	}
+
+	public boolean isEditMode() {
+		return editMode;
+	}
+
+	public void setEditMode(boolean editMode) {
+		this.editMode = editMode;
 	}
 }

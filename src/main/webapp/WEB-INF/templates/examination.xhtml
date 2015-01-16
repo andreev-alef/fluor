@@ -8,7 +8,7 @@
   <h:body>
   <h:form id="frmExam">
     <p:panel class="move-up">
-	<p:outputPanel class="blok-button--within">
+	<p:outputPanel rendered="#{examinationBean.editMode}" class="blok-button--within">
 	  <p:outputPanel class="not-overlay button-link button-link--blue"> 
 	  <p:commandLink class="ui-icon ui-icon-Document-Add"  update=":frmEdtExamId:pnlExamEdtId" oncomplete="PF('edtExamVar').show()" action="#{examinationBean.findExam(0)}"/>
           <p:commandLink value="Добавить обследование" update=":frmEdtExamId:pnlExamEdtId" oncomplete="PF('edtExamVar').show()" action="#{examinationBean.findExam(0)}"/>
@@ -44,7 +44,7 @@
           </p:column>	    
           <p:column headerText="Верификация">
           </p:column>
-          <p:column headerText="Действия"  class="not-overlay align-center--text">
+          <p:column headerText="Действия" rendered="#{examinationBean.editMode}" class="not-overlay align-center--text">
 			<p:outputPanel class="move">  
 		    <p:commandLink id="update-exam" update=":frmEdtExamId:pnlExamEdtId" oncomplete="PF('edtExamVar').show()" action="#{examinationBean.findExam(item.id)}" class="ui-icon ui-icon-edit-exam"/>
 		    <p:tooltip for="update-exam" value="Редактировать" class="my-tooltip"/>

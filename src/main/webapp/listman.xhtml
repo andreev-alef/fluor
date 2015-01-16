@@ -47,6 +47,12 @@
 				   <p:outputPanel class="ui-icon ui-icon-open"/>
 				   <p:link value="Смотреть" outcome="editman">					        
 						<f:param name="patId" value="#{v.id}"/>
+						<f:param name="editable" value="false"/>
+					</p:link>
+				   <p:outputPanel class="ui-icon ui-icon-open"/>
+				   <p:link value="Редактировать" outcome="editman">					        
+						<f:param name="patId" value="#{v.id}"/>
+						<f:param name="editable" value="true"/>
 					</p:link>
 				</p:column>
 
@@ -84,7 +90,7 @@
 					<h:outputText value="#{v.exam.dat}">
 					  <f:convertDateTime locale="#{applicationBean.locale.language}" />
 					</h:outputText>
-					<p:commandLink value="смотреть" update=":browseExamId" oncomplete="PF('browseExamVar').show()" action="#{examinationBean.loadExam(v.patientId.id)}" class="link-only"/>
+					<p:commandLink value="смотреть" update=":browseExamId" oncomplete="PF('browseExamVar').show()" action="#{examinationBean.loadExam(v.patientId.id, false)}" class="link-only"/>
 				</p:column>
 
 				<p:column headerText="Результат">
