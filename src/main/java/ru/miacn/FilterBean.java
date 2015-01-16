@@ -99,14 +99,6 @@ public class FilterBean implements Serializable{
 	}
 
 	public void clearFilter(){
-		setMoTerList(new ArrayList<RMedicalOrgTer>());
-		setMoMainList(new ArrayList<RMedicalOrgMain>());
-		setMoPoliclinicList(new ArrayList<RMedicalOrgPoliclinic>());
-		setMoTerList2(new ArrayList<RMedicalOrgTer>());
-		setMoMainList2(new ArrayList<RMedicalOrgMain>());
-		setSelectedMor(null);
-		setSelectedRegObs(null);
-
 		fias.setRegion(new FiasElement("", null));
 		fias.setGorod(new FiasElement("", null));
 		fias.setUlica(new FiasElement("", null));
@@ -114,6 +106,20 @@ public class FilterBean implements Serializable{
 		fias.setKorp(null);
 		fias.setStr(null);
 		fias.setKv(null);
+
+		setDatStart(null);
+		setDatEnd(null);
+		setSelectedDg(null);
+		setSelectedMg(null);
+		setSelectedSg(null);
+		setSelectedRezType(null);
+		setMoTerList(new ArrayList<RMedicalOrgTer>());
+		setMoMainList(new ArrayList<RMedicalOrgMain>());
+		setMoPoliclinicList(new ArrayList<RMedicalOrgPoliclinic>());
+		setMoTerList2(new ArrayList<RMedicalOrgTer>());
+		setMoMainList2(new ArrayList<RMedicalOrgMain>());
+		setSelectedMor(null);
+		setSelectedRegObs(null);
 	}
 	
 	@SuppressWarnings("unchecked")
