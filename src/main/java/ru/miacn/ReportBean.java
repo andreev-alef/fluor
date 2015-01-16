@@ -13,6 +13,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 
+import ru.miacn.fias.FiasElement;
 import ru.miacn.persistence.reference.ListConverter;
 import ru.miacn.persistence.reference.RMedicalOrgMain;
 import ru.miacn.persistence.reference.RMedicalOrgPoliclinic;
@@ -55,6 +56,15 @@ public class ReportBean  implements Serializable{
 		setSelectedMor(null);
 
 		setMoRegionList(em.createQuery("SELECT r FROM " + RMedicalOrgRegion.class.getName() + " r ORDER BY r.id", RMedicalOrgRegion.class).getResultList());
+	}
+
+	public void clearFilter(){
+		setDatStart(null);
+		setDatEnd(null);
+		setMoTerList(new ArrayList<RMedicalOrgTer>());
+		setMoMainList(new ArrayList<RMedicalOrgMain>());
+		setMoPoliclinicList(new ArrayList<RMedicalOrgPoliclinic>());
+		setSelectedMor(null);
 	}
 
 	@SuppressWarnings("unchecked")

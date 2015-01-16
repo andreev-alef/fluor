@@ -39,6 +39,7 @@
     	      <p:commandLink update=":frmFind:pnlDlg" oncomplete="PF('find').show()" class="button-link button-link--blue">
 				<p:outputPanel class="ui-icon ui-icon-filter"/>
 				<h:outputText value="Фильтр записей"/>
+		        <p:ajax listener="#{filterBean.clearFilter()}" />
 		      </p:commandLink>
 		  </p:outputPanel>	      
 		  
@@ -121,6 +122,7 @@
 				<p:commandLink update=":frmPrint:pnlDlg" oncomplete="PF('print').show()" class="button-volume button-volume--link margin-left--big" >
 					<p:outputPanel class="ui-icon ui-icon-reports"/>
 					<h:outputText value="Отчетные формы"/>
+			        <p:ajax listener="#{reportBean.clearFilter()}" />
 				</p:commandLink>
 				
 				<p:commandLink class="button-volume button-volume--link margin-left--big" >
@@ -136,7 +138,7 @@
 		  <ui:include src="WEB-INF/templates/examination.xhtml"/>
 		</p:dialog>
 
-       	<h:form id="frmFind">
+       	<h:form id="frmFind" >
 		    <p:messages />
 			<p:dialog id="dlg" widgetVar="find" modal="true"
 				header="Фильтр записей" resizable="false" class="my-overlay filtr--str">			
