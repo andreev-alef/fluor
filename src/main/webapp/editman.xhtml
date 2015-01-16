@@ -23,11 +23,6 @@
   <h:form id="frmInf">
     <p:panel header="Информация о пациенте" class="blok-out">
 	    <p:panel header="Персональные данные" class="blok dva-bloka__one">
-	   		<f:facet name="header">
-	   		  Персональные данные
-			  <p:selectBooleanCheckbox itemLabel="пациент умер" class="align-right--float"/>
- 	        </f:facet>
-			
 			<p:panelGrid class="invis personal-data--str">
 			<p:row>
 			<p:column>
@@ -92,7 +87,7 @@
 	        	<p:outputLabel for="ds" value="Дата смерти" />
 			</p:column>
 			<p:column colspan="3">
-				<p:calendar id="ds" value="#{editmanBean.patient.datBirth}" locale="ru" pattern="#{applicationBean.dateFormat.toPattern()}" class="data"/>
+				<p:calendar id="ds" value="#{editmanBean.patient.datDeath}" locale="ru" pattern="#{applicationBean.dateFormat.toPattern()}" class="data"/>
 			</p:column>
 			</p:row>
 			
