@@ -104,6 +104,13 @@ public class EditmanBean implements Serializable {
 			
 			exam.loadExam(-1, isEditMode());
 			setFiasValues();
+			setSelectedMor(null);
+			setSelectedMot(null);
+			setSelectedMom(null);
+			setSelectedMop(null);
+			setMoTerList(new ArrayList<RMedicalOrgTer>());
+			setMoMainList(new ArrayList<RMedicalOrgMain>());
+			setMoPoliclinicList(new ArrayList<RMedicalOrgPoliclinic>());
 		} else {
 			int id = Integer.parseInt(idStr);
 			

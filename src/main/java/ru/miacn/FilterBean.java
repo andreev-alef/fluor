@@ -125,6 +125,11 @@ public class FilterBean implements Serializable{
 		} else {
 			setMoTerList(new ArrayList<RMedicalOrgTer>());
 		}
+		setSelectedMot(null);
+		setSelectedMom(null);
+		setSelectedMop(null);
+		setMoMainList(new ArrayList<RMedicalOrgMain>());
+		setMoPoliclinicList(new ArrayList<RMedicalOrgPoliclinic>());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -136,6 +141,9 @@ public class FilterBean implements Serializable{
 		} else {
 			setMoTerList2(new ArrayList<RMedicalOrgTer>());
 		}
+		setSelectedTerObs(null);
+		setSelectedLpuObs(null);
+		setMoMainList2(new ArrayList<RMedicalOrgMain>());
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -148,6 +156,9 @@ public class FilterBean implements Serializable{
 		} else {
 			setMoMainList(new ArrayList<RMedicalOrgMain>());
 		}
+		setSelectedMom(null);
+		setSelectedMop(null);
+		setMoPoliclinicList(new ArrayList<RMedicalOrgPoliclinic>());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -160,6 +171,7 @@ public class FilterBean implements Serializable{
 		} else {
 			setMoMainList2(new ArrayList<RMedicalOrgMain>());
 		}
+		setSelectedLpuObs(null);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -173,6 +185,7 @@ public class FilterBean implements Serializable{
 		} else {
 			setMoPoliclinicList(new ArrayList<RMedicalOrgPoliclinic>());
 		}
+		setSelectedMop(null);
 	}
 
 	public ListConverter getMgConverter() {
