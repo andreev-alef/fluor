@@ -146,37 +146,37 @@ public class ListmanBean implements Serializable {
     		params.put("soc_group_id", fpar.getSelectedSg().getId());
     	}
 
-    	if(fias.getRegion() != null){
+    	if ((fias.getRegion() != null) && (fias.getRegion().getFormalname() != null) && (!fias.getRegion().getFormalname().isEmpty())) {
     		sql += "AND p.liv_reg = :reg ";
     		params.put("reg", fias.getRegion().getFormalname());
     	}
 
-    	if(fias.getGorod() != null){
+    	if ((fias.getGorod() != null) && (fias.getGorod().getFormalname() != null) && (!fias.getGorod().getFormalname().isEmpty())) {
     		sql += "AND p.liv_city = :city ";
     		params.put("city", fias.getGorod().getFormalname());
     	}
     	
-    	if(fias.getUlica() != null){
+    	if ((fias.getUlica() != null) && (fias.getUlica().getFormalname() != null) && (!fias.getUlica().getFormalname().isEmpty())) {
     		sql += "AND p.liv_street = :street ";
     		params.put("street", fias.getUlica().getFormalname());
     	}
     	
-    	if(!fias.getDom().isEmpty()){
+    	if (!fias.getDom().isEmpty()) {
     		sql += "AND p.liv_house = :dom ";
     		params.put("dom", fias.getDom());
     	}
     	
-    	if(!fias.getKorp().isEmpty()){
+    	if (!fias.getKorp().isEmpty()) {
     		sql += "AND p.liv_facility = :fac ";
     		params.put("fac", fias.getKorp());
     	}
     	
-    	if(!fias.getStr().isEmpty()){
+    	if (!fias.getStr().isEmpty()) {
     		sql += "AND p.liv_building = :building ";
     		params.put("building", fias.getStr());
     	}
     	
-    	if(!fias.getKv().isEmpty()){
+    	if (!fias.getKv().isEmpty()) {
     		sql += "AND p.liv_flat = :flat ";
     		params.put("flat", fias.getKv());
     	}
