@@ -31,8 +31,11 @@ public class ReportServlet extends HttpServlet {
 			case "3":
 				rep = new ReportDecrGroup();
 				break;
+			case "4":
+				rep = new ReportForm057u();
+				break;
 			default:
-				throw new ServletException("Specify 'id' parameter with value 1, 2 or 3.");
+				throw new ServletException("Specify 'id' parameter with value 1, 2, 3 or 4.");
 			}
 			
 			switch (type) {
