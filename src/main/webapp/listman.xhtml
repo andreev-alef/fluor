@@ -132,18 +132,18 @@
 						<fias:fias_addr />
 				    </p:panel>
 
-				    <p:panel header="МО прикрепления" class="blok-overlay">				
+				    <p:panel header="МО прикрепления пациентa по ОМС" class="blok-overlay">				
 					<h:panelGrid columns="2" class="invis">
 			        	<p:outputLabel for="regmo"  value="Регион" />
 				        <p:selectOneMenu id="regmo"  value="#{filterBean.selectedMor}" converter="#{filterBean.morConverter}" class="my-select">
-				          <p:ajax listener="#{filterBean.morSelected}" update="npmo" />
+				          <p:ajax listener="#{filterBean.morSelected}" update="npmo mo clmo" />
 				          <f:selectItem itemLabel="-- Ничего не выбрано --" itemValue="#{null}" />
 				          <f:selectItems value="#{filterBean.moRegionList}" var="r" itemLabel="#{r.regId} - #{r.name}" itemValue="#{r}" />
 				        </p:selectOneMenu>
 
 						<p:outputLabel for="npmo" value="Населенный пункт" />
 						<p:selectOneMenu id="npmo" value="#{filterBean.selectedMot}" converter="#{filterBean.motConverter}" class="my-select">
-				          <p:ajax listener="#{filterBean.motSelected}" update="mo" />
+				          <p:ajax listener="#{filterBean.motSelected}" update="mo clmo" />
 		                  <f:selectItem itemLabel="#{filterBean.moTerList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
 				          <f:selectItems value="#{filterBean.moTerList}" var="r" itemLabel="#{r.id.terId} - #{r.name}" itemValue="#{r}" />
 						</p:selectOneMenu>
@@ -187,7 +187,7 @@
 					<h:panelGrid columns="2" class="invis">
 				        <p:outputLabel for="regobs" value="Регион" />
 					     <p:selectOneMenu id="regobs" value="#{filterBean.selectedRegObs}" converter="#{filterBean.mor2Converter}" class="my-select">
-							<p:ajax listener="#{filterBean.regobsSelected}" update="npobs" />
+							<p:ajax listener="#{filterBean.regobsSelected}" update="npobs mobs" />
 							<f:selectItem itemLabel="#{filterBean.moRegionObsList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
 							<f:selectItems value="#{filterBean.moRegionObsList}" var="r" itemLabel="#{r.regId} - #{r.name}" itemValue="#{r}" />
 					     </p:selectOneMenu>
@@ -246,14 +246,14 @@
 					<h:panelGrid columns="2" class="invis report--str">
 			        	<p:outputLabel for="rep_reg"  value="Регион" />
 				        <p:selectOneMenu id="rep_reg"  value="#{reportBean.selectedMor}" converter="#{reportBean.morConverter}" class="my-select">
-				          <p:ajax listener="#{reportBean.morSelected}" update="rep_npmo" />
+				          <p:ajax listener="#{reportBean.morSelected}" update="rep_npmo rep_mo rep_clmo" />
 				          <f:selectItem itemLabel="-- Ничего не выбрано --" itemValue="#{null}" />
 				          <f:selectItems value="#{reportBean.moRegionList}" var="r" itemLabel="#{r.regId} - #{r.name}" itemValue="#{r}" />
 				        </p:selectOneMenu>
 
 						<p:outputLabel for="rep_npmo" value="Населенный пункт" />
 						<p:selectOneMenu id="rep_npmo" value="#{reportBean.selectedMot}" converter="#{reportBean.motConverter}" class="my-select">
-				          <p:ajax listener="#{reportBean.motSelected}" update="rep_mo" />
+				          <p:ajax listener="#{reportBean.motSelected}" update="rep_mo rep_clmo" />
 		                  <f:selectItem itemLabel="#{reportBean.moTerList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
 				          <f:selectItems value="#{reportBean.moTerList}" var="r" itemLabel="#{r.id.terId} - #{r.name}" itemValue="#{r}" />
 						</p:selectOneMenu>

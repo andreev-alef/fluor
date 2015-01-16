@@ -52,6 +52,7 @@ public class ReportBean  implements Serializable{
 		setMotConverter(new ListConverter());
 		setMomConverter(new ListConverter());
 		setMopConverter(new ListConverter());
+		setSelectedMor(null);
 
 		setMoRegionList(em.createQuery("SELECT r FROM " + RMedicalOrgRegion.class.getName() + " r ORDER BY r.id", RMedicalOrgRegion.class).getResultList());
 	}
@@ -65,6 +66,11 @@ public class ReportBean  implements Serializable{
 		} else {
 			setMoTerList(new ArrayList<RMedicalOrgTer>());
 		}
+		setSelectedMot(null);
+		setSelectedMom(null);
+		setSelectedMop(null);
+		setMoMainList(new ArrayList<RMedicalOrgMain>());
+		setMoPoliclinicList(new ArrayList<RMedicalOrgPoliclinic>());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -77,6 +83,9 @@ public class ReportBean  implements Serializable{
 		} else {
 			setMoMainList(new ArrayList<RMedicalOrgMain>());
 		}
+		setSelectedMom(null);
+		setSelectedMop(null);
+		setMoPoliclinicList(new ArrayList<RMedicalOrgPoliclinic>());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -90,6 +99,7 @@ public class ReportBean  implements Serializable{
 		} else {
 			setMoPoliclinicList(new ArrayList<RMedicalOrgPoliclinic>());
 		}
+		setSelectedMop(null);
 	}
 	
 	public ListConverter getMorConverter() {

@@ -105,21 +105,21 @@
 			<h:panelGrid columns="2" class="invis oms--str">
 	        	<p:outputLabel for="regmo"  value="Регион" />
 		        <p:selectOneMenu id="regmo"  value="#{editmanBean.selectedMor}" converter="#{editmanBean.morConverter}" class="my-select"> 
-		          <p:ajax listener="#{editmanBean.morSelected}" update="npmo" />
+		          <p:ajax listener="#{editmanBean.morSelected}" update="npmo mo clmo adrmo" />
 		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
 		          <f:selectItems value="#{editmanBean.moRegionList}" var="r" itemLabel="#{r.regId} - #{r.name}" itemValue="#{r}" />
 		        </p:selectOneMenu>
 		        
 	        	<p:outputLabel for="npmo" value="Населенный пункт" />
 		        <p:selectOneMenu id="npmo"  value="#{editmanBean.selectedMot}" converter="#{editmanBean.motConverter}" class="my-select">
-		          <p:ajax listener="#{editmanBean.motSelected}" update="mo" />
+		          <p:ajax listener="#{editmanBean.motSelected}" update="mo clmo adrmo" />
                   <f:selectItem itemLabel="#{editmanBean.moTerList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
 		          <f:selectItems value="#{editmanBean.moTerList}" var="r" itemLabel="#{r.id.terId} - #{r.name}" itemValue="#{r}" />
 		        </p:selectOneMenu>
 		        
 	        	<p:outputLabel for="mo" value="Наименование МО" />
 		        <p:selectOneMenu id="mo" value="#{editmanBean.selectedMom}" converter="#{editmanBean.momConverter}" class="my-select">
-		          <p:ajax listener="#{editmanBean.momSelected}" update="clmo" />
+		          <p:ajax listener="#{editmanBean.momSelected}" update="clmo adrmo" />
                   <f:selectItem itemLabel="#{editmanBean.moMainList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
 		          <f:selectItems value="#{editmanBean.moMainList}" var="r" itemLabel="#{r.id.lpuId} - #{r.name}" itemValue="#{r}" />
 		        </p:selectOneMenu>
