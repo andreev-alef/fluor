@@ -35,7 +35,8 @@
 			    <p:commandButton value="Показать всех" action="#{listmanBean.clearSearch()}" update="searchParams patientTable" class="button-volume button-volume--mini" icon="ui-icon-all"/>
 			</h:panelGrid>
 		  </p:outputPanel>
-		  <p:outputPanel class="blok-button--above-table">	
+		  <p:outputPanel rendered="true" class="blok-button--above-table">	
+		    <p:messages autoUpdate="true"/>
     	      <p:commandLink update=":frmFind:pnlDlg" oncomplete="PF('find').show()" class="button-link button-link--blue">
 				<p:outputPanel class="ui-icon ui-icon-filter"/>
 				<h:outputText value="Фильтр записей"/>
@@ -131,6 +132,29 @@
 				</p:commandLink>
 				
 		      </p:outputPanel>
+
+		    <p:ajaxExceptionHandler type="javax.persistence.PersistenceException"
+		                            update="exceptionDialog"
+		                            onexception="PF('exceptionDialog').show();" />
+		 
+		    <p:ajaxExceptionHandler type="javax.faces.application.ViewExpiredException"
+		                            update="exceptionDialog"
+		                            onexception="PF('exceptionDialog').show();" />
+		 
+		    <p:ajaxExceptionHandler type="java.lang.NullPointerException"
+		                            update="exceptionDialog"
+		                            onexception="PF('exceptionDialog').show();" />
+		 
+		    <p:dialog id="exceptionDialog" header="Exception '#{pfExceptionHandler.type}' occured!" widgetVar="exceptionDialog"
+		              height="500px">
+		        Message: #{pfExceptionHandler.message} <br/>
+		        StackTrace: <h:outputText value="#{pfExceptionHandler.formattedStackTrace}" escape="false" /> <br />
+		 
+		        <p:button onclick="document.location.href = document.location.href;"
+		                  value="Reload!"
+		                  rendered="#{pfExceptionHandler.type == 'javax.faces.application.ViewExpiredException'}" />
+		    </p:dialog>
+
 		</h:form>
 
 		<p:dialog id="browseExamId" widgetVar="browseExamVar" modal="true" header="Пациент #{v.lastName}" resizable="false" class="my-overlay">
@@ -139,7 +163,6 @@
 		</p:dialog>
 
        	<h:form id="frmFind" >
-		    <p:messages />
 			<p:dialog id="dlg" widgetVar="find" modal="true"
 				header="Фильтр записей" resizable="false" class="my-overlay filtr--str">			
 			  <p:commandButton value="Закрыть" oncomplete="PF('find').hide()" icon="ui-icon-close" class="button-link button-link--white"/>
@@ -246,15 +269,38 @@
 						</p:column>						
 					</h:panelGrid>
 				    </p:panel >
-				    <p:outputPanel class="blok-button--within--down">
-					<p:commandButton value="Применить" action="#{listmanBean.filter()}" update=":frmList:patientTable" oncomplete="PF('find').hide()" class="button-volume button-volume--mini" icon="ui-icon-save"/>
-					<p:commandButton value="Очистить поля" action="#{filterBean.clearFilter()}" update=":frmFind:pnlDlg" class="button-volume button-volume--mini margin-left--big" icon="ui-icon-clear">
-				       <p:ajax resetValues="true" update=":frmFind:pnlDlg" />
-					</p:commandButton>
+				    <p:outputPanel rendered="true" class="blok-button--within--down">
+				    	<p:messages autoUpdate="true"/>
+						<p:commandButton value="Применить" action="#{listmanBean.filter()}" update=":frmList:patientTable" oncomplete="PF('find').hide()" class="button-volume button-volume--mini" icon="ui-icon-save"/>
+						<p:commandButton value="Очистить поля" action="#{filterBean.clearFilter()}" update=":frmFind:pnlDlg" class="button-volume button-volume--mini margin-left--big" icon="ui-icon-clear">
+				       		<p:ajax resetValues="true" update=":frmFind:pnlDlg" />
+						</p:commandButton>
 				    </p:outputPanel>
 				  </p:scrollPanel>
 			      </p:outputPanel>			   	
 			</p:dialog>
+
+		</h:form>
+
+       	<h:form id="frmException" >
+		    <p:ajaxExceptionHandler type="javax.faces.application.ViewExpiredException"
+		                            update="exceptionDialog"
+		                            onexception="PF('exceptionDialog').show();" />
+		 
+		    <p:ajaxExceptionHandler type="java.lang.NullPointerException"
+		                            update="exceptionDialog"
+		                            onexception="PF('exceptionDialog').show();" />
+		 
+		    <p:dialog id="exceptionDialog" header="Exception '#{pfExceptionHandler.type}' occured!" widgetVar="exceptionDialog"
+		              height="500px" class="my-overlay filtr--str">
+			  <p:commandButton value="Закрыть" oncomplete="PF('exceptionDialog').hide()" icon="ui-icon-close" class="button-link button-link--white"/>
+		        Message: #{pfExceptionHandler.message} <br/>
+		        StackTrace: <h:outputText value="#{pfExceptionHandler.formattedStackTrace}" escape="false" /> <br />
+		 
+<!-- 		        <p:button onclick="document.location.href = document.location.href;" -->
+<!-- 		                  value="Reload!" -->
+<!-- 		                  rendered="#{pfExceptionHandler.type == 'javax.faces.application.ViewExpiredException'}" /> -->
+		    </p:dialog>
 		</h:form>
              
 		<h:form id="frmPrint">

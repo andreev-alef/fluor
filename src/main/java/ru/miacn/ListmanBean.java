@@ -8,6 +8,8 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -51,6 +53,7 @@ public class ListmanBean implements Serializable {
 	public void search() {
 		String sql = searchSql;
     	Map<String, Object> params = new HashMap<>();
+		FacesContext fc = FacesContext.getCurrentInstance();
     	
     	if (!getSrcFam().isEmpty()) {
     		sql += "AND p.last_name ILIKE :last_name ";
@@ -72,7 +75,12 @@ public class ListmanBean implements Serializable {
     			+ "ORDER BY p._ver_parent_id, e.dat desc "
     			+ "LIMIT 32 ";
     	
-    	setPatients(JpaUtils.getNativeResultList(em, sql, params, PatientOrm.class));
+    	try{
+    		setPatients(JpaUtils.getNativeResultList(em, sql, params, PatientOrm.class));
+	    } catch (Exception e) {
+			e.printStackTrace();
+			fc.addMessage(null, getErrorMessage("Oшибка при выполнении запроса: "+e.getMessage()));
+		}
     }
     
     public void clearSearch() {
@@ -84,10 +92,15 @@ public class ListmanBean implements Serializable {
     	search();
     }
     
+	public void throwNullPointerException() {
+		throw new NullPointerException("A NullPointerException!");
+	}
+
 	public void filter() {
 		String sql_where = "";
 		Map<String, Object> params = new HashMap<>();
 		String sql = searchSql;
+		FacesContext fc = FacesContext.getCurrentInstance();
 
 		if (fpar.getSelectedRegObs() != null) {
     		sql_where += "AND e.med_reg_id = :reg_id ";
@@ -184,10 +197,20 @@ public class ListmanBean implements Serializable {
     	sql += sql_where;
     	sql += "LIMIT 32 ";
     	
-    	setPatients(JpaUtils.getNativeResultList(em, sql, params, PatientOrm.class));
-    	fpar.clearFilter();
+        try {
+	    	setPatients(JpaUtils.getNativeResultList(em, sql, params, PatientOrm.class));
+        } catch (Exception e) {
+			e.printStackTrace();
+			fc.addMessage(null, getErrorMessage("Oшибка при выполнении запроса: "+e.getMessage()));
+		}
 	}
 
+	private FacesMessage getErrorMessage(String text) {
+		FacesMessage msg = new FacesMessage(text);
+		msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+		return msg;
+	}
+	
 	public String getSrcFam() {
 		return srcFam;
 	}

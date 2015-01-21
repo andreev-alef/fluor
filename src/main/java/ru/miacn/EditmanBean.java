@@ -8,6 +8,9 @@ import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.ExceptionHandler;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -17,6 +20,7 @@ import javax.transaction.Transactional;
 
 import ru.miacn.fias.FiasEditor;
 import ru.miacn.fias.FiasElement;
+import ru.miacn.orm.PatientOrm;
 import ru.miacn.persistence.model.Address;
 import ru.miacn.persistence.model.Patient;
 import ru.miacn.persistence.model.PatientId;
@@ -31,6 +35,7 @@ import ru.miacn.persistence.reference.RMedicalOrgPoliclinic;
 import ru.miacn.persistence.reference.RMedicalOrgRegion;
 import ru.miacn.persistence.reference.RMedicalOrgTer;
 import ru.miacn.persistence.reference.RSocGroup;
+import ru.miacn.utils.JpaUtils;
 
 @Named
 @Transactional
@@ -99,6 +104,7 @@ public class EditmanBean implements Serializable {
 	}
 	
 	public void loadPatient(String idStr) {
+		FacesContext fc = FacesContext.getCurrentInstance();
 		if (idStr.isEmpty()) {
 			setPatient(new Patient());
 			
@@ -182,34 +188,41 @@ public class EditmanBean implements Serializable {
 
 	public String savePatientAndRedirect() {
 		savePatient();
-		
-		return "listman.xhtml?faces-redirect=true";
+		//return "listman.xhtml?faces-redirect=true";
+		return null;
 	}
 	
 	public void savePatient() {
-		if (patient.getId() == null) {
-			PatientId pid = new PatientId();
-			em.persist(pid);
+		FacesContext fc = FacesContext.getCurrentInstance();
+        try {
+			if (patient.getId() == null) {
+				PatientId pid = new PatientId();
+				em.persist(pid);
+				
+				patient.setPatientId(pid);
+				patient.setVerCreationDate(new Date());
+			} else {
+				em.createNativeQuery("UPDATE patient SET _ver_active = FALSE WHERE _ver_parent_id = " + patient.getPatientId().getId()).executeUpdate();
+				patient.setId(null);
+			}
+			patient.setVerActive(true);
+			getFiasValues();
 			
-			patient.setPatientId(pid);
-			patient.setVerCreationDate(new Date());
-		} else {
-			em.createNativeQuery("UPDATE patient SET _ver_active = FALSE WHERE _ver_parent_id = " + patient.getPatientId().getId()).executeUpdate();
-			patient.setId(null);
+			if ((selectedMor != null) && (selectedMot != null) && (selectedMom != null) && (selectedMop != null)) {
+				patient.setRMedicalOrgPoliclinic(new RMedicalOrgPoliclinic());
+				patient.getRMedicalOrgPoliclinic().getRMedicalOrgMain().getRMedicalOrgTer().getRMedicalOrgRegion().setRegId(selectedMor.getRegId());
+				patient.getRMedicalOrgPoliclinic().getRMedicalOrgMain().getRMedicalOrgTer().setId(selectedMot.getId());
+				patient.getRMedicalOrgPoliclinic().getRMedicalOrgMain().setId(selectedMom.getId());
+				patient.getRMedicalOrgPoliclinic().setId(selectedMop.getId());
+			} else {
+				patient.setRMedicalOrgPoliclinic(null);
+			}
+			em.persist(patient);
+        }
+        catch (Exception e) {
+			e.printStackTrace();
+			fc.addMessage(null, getErrorMessage("Oшибка при сохранении данных: "+e.getMessage()));
 		}
-		patient.setVerActive(true);
-		getFiasValues();
-		
-		if ((selectedMor != null) && (selectedMot != null) && (selectedMom != null) && (selectedMop != null)) {
-			patient.setRMedicalOrgPoliclinic(new RMedicalOrgPoliclinic());
-			patient.getRMedicalOrgPoliclinic().getRMedicalOrgMain().getRMedicalOrgTer().getRMedicalOrgRegion().setRegId(selectedMor.getRegId());
-			patient.getRMedicalOrgPoliclinic().getRMedicalOrgMain().getRMedicalOrgTer().setId(selectedMot.getId());
-			patient.getRMedicalOrgPoliclinic().getRMedicalOrgMain().setId(selectedMom.getId());
-			patient.getRMedicalOrgPoliclinic().setId(selectedMop.getId());
-		} else {
-			patient.setRMedicalOrgPoliclinic(null);
-		}
-		em.persist(patient);
 	}
 
 	private void getFiasValues() {
@@ -237,6 +250,12 @@ public class EditmanBean implements Serializable {
 		addr.setLivFlat(fias.getKv());
 	}
 
+	private FacesMessage getErrorMessage(String text) {
+		FacesMessage msg = new FacesMessage(text);
+		msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+		return msg;
+	}
+	
 	public Patient getPatient() {
 		return patient;
 	}
