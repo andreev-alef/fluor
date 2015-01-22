@@ -46,170 +46,176 @@ public class ListmanBean implements Serializable {
 	private FiasEditor fias;
 
     @PostConstruct
-    public void init() {
+    public void init() throws Exception {
     	clearSearch();
     }
     
-	public void search() {
+	public void search() throws Exception {
 		String sql = searchSql;
     	Map<String, Object> params = new HashMap<>();
-		FacesContext fc = FacesContext.getCurrentInstance();
-    	
-    	if (!getSrcFam().isEmpty()) {
-    		sql += "AND p.last_name ILIKE :last_name ";
-    		params.put("last_name", getSrcFam() + "%");
-    	}
-    	if (!getSrcIm().isEmpty()) {
-    		sql += "AND p.first_name ILIKE :first_name ";
-    		params.put("first_name", getSrcIm() + "%");
-    	}
-    	if (!getSrcOt().isEmpty()) {
-    		sql += "AND p.father_name ILIKE :father_name ";
-    		params.put("father_name", getSrcOt() + "%");
-    	}
-    	if (getSrcDr() != null) {
-    		sql += "AND p.dat_birth = :dat_birth ";
-    		params.put("dat_birth", getSrcDr());
-    	}
-    	sql += ""
-    			+ "ORDER BY p._ver_parent_id, e.dat desc "
-    			+ "LIMIT 32 ";
+//		FacesContext fc = FacesContext.getCurrentInstance();
     	
     	try{
+	    	if (!getSrcFam().isEmpty()) {
+	    		sql += "AND p.last_name ILIKE :last_name ";
+	    		params.put("last_name", getSrcFam() + "%");
+	    	}
+	    	if (!getSrcIm().isEmpty()) {
+	    		sql += "AND p.first_name ILIKE :first_name ";
+	    		params.put("first_name", getSrcIm() + "%");
+	    	}
+	    	if (!getSrcOt().isEmpty()) {
+	    		sql += "AND p.father_name ILIKE :father_name ";
+	    		params.put("father_name", getSrcOt() + "%");
+	    	}
+	    	if (getSrcDr() != null) {
+	    		sql += "AND p.dat_birth = :dat_birth ";
+	    		params.put("dat_birth", getSrcDr());
+	    	}
+	    	sql += ""
+	    			+ "ORDER BY p._ver_parent_id, e.dat desc "
+	    			+ "LIMIT 32 ";
+    	
     		setPatients(JpaUtils.getNativeResultList(em, sql, params, PatientOrm.class));
-	    } catch (Exception e) {
-			e.printStackTrace();
-			fc.addMessage(null, getErrorMessage("Oшибка при выполнении запроса: "+e.getMessage()));
-		}
+        } catch (Exception e) {
+        	throw new Exception("Произошла ошибка при выполнении поиска пациентов");
+    	}
+//	    } catch (Exception e) {
+//			e.printStackTrace();
+//			fc.addMessage(null, getErrorMessage("Oшибка при выполнении запроса: "+e.getMessage()));
+//		}
     }
     
-    public void clearSearch() {
+    public void clearSearch() throws Exception {
     	setSrcFam("");
     	setSrcIm("");
     	setSrcOt("");
     	setSrcDr(null);
     	
-    	search();
+		search();
     }
     
-	public void throwNullPointerException() {
-		throw new NullPointerException("A NullPointerException!");
-	}
-
-	public void filter() {
+	public void filter() throws Exception {
 		String sql_where = "";
 		Map<String, Object> params = new HashMap<>();
 		String sql = searchSql;
-		FacesContext fc = FacesContext.getCurrentInstance();
-
-		if (fpar.getSelectedRegObs() != null) {
-    		sql_where += "AND e.med_reg_id = :reg_id ";
-    		params.put("reg_id", fpar.getSelectedRegObs().getRegId());
-    	}
-    	if (fpar.getSelectedTerObs() != null) {
-    		sql_where += "AND e.med_city_id = :city_id ";
-    		params.put("city_id", fpar.getSelectedTerObs().getId().getTerId());
-    	}
-    	if (fpar.getSelectedLpuObs() != null) {
-    		sql_where += "AND e.med_lpu_id = :lpu_id ";
-    		params.put("lpu_id", fpar.getSelectedLpuObs().getId().getLpuId());
-    	}
-    	if (fpar.getSelectedRezType() != null) {
-    		sql_where += "AND e.result_id = :res_id ";
-    		params.put("res_id", fpar.getSelectedRezType().getId());
-    	}
-		if ((fpar.getDatStart() != null && fpar.getDatEnd() != null) && fpar.getDatEnd().compareTo(fpar.getDatStart()) < 0) {
-    		sql_where += "AND e.dat between :dn and :dk ";
-    		params.put("dn", fpar.getDatStart());
-    		params.put("dk", fpar.getDatEnd());
-		}
-
-		if (fpar.getSelectedMor() != null) {
-    		sql += "AND p.med_reg_id = :med_reg_id ";
-    		params.put("med_reg_id", fpar.getSelectedMor().getRegId());
-    	}
-
-    	if (fpar.getSelectedMot() != null) {
-    		sql += "AND p.med_city_id = :med_city_id ";
-    		params.put("med_city_id", fpar.getSelectedMot().getId().getTerId());
-    	}
-
-    	if (fpar.getSelectedMom() != null) {
-    		sql += "AND p.med_lpu_id = :med_lpu_id ";
-    		params.put("med_lpu_id", fpar.getSelectedMom().getId().getLpuId());
-    	}
-
-    	if (fpar.getSelectedMop() != null) {
-    		sql += "AND p.med_pol_id = :med_pol_id ";
-    		params.put("med_pol_id", fpar.getSelectedMop().getId().getPolId());
-    	}
-
-    	if (fpar.getSelectedDg() != null) {
-    		sql += "AND p.decr_group_id = :decr_group_id ";
-    		params.put("decr_group_id", fpar.getSelectedDg().getId());
-    	}
-
-    	if (fpar.getSelectedMg() != null) {
-    		sql += "AND p.med_group_id = :med_group_id ";
-    		params.put("med_group_id", fpar.getSelectedMg().getId());
-    	}
-
-    	if (fpar.getSelectedSg() != null) {
-    		sql += "AND p.soc_group_id = :soc_group_id ";
-    		params.put("soc_group_id", fpar.getSelectedSg().getId());
-    	}
-
-    	if ((fias.getRegion() != null) && (fias.getRegion().getFormalname() != null) && (!fias.getRegion().getFormalname().isEmpty())) {
-    		sql += "AND p.liv_reg = :reg ";
-    		params.put("reg", fias.getRegion().getFormalname());
-    	}
-
-    	if ((fias.getGorod() != null) && (fias.getGorod().getFormalname() != null) && (!fias.getGorod().getFormalname().isEmpty())) {
-    		sql += "AND p.liv_city = :city ";
-    		params.put("city", fias.getGorod().getFormalname());
-    	}
-    	
-    	if ((fias.getUlica() != null) && (fias.getUlica().getFormalname() != null) && (!fias.getUlica().getFormalname().isEmpty())) {
-    		sql += "AND p.liv_street = :street ";
-    		params.put("street", fias.getUlica().getFormalname());
-    	}
-    	
-    	if (!fias.getDom().isEmpty()) {
-    		sql += "AND p.liv_house = :dom ";
-    		params.put("dom", fias.getDom());
-    	}
-    	
-    	if (!fias.getKorp().isEmpty()) {
-    		sql += "AND p.liv_facility = :fac ";
-    		params.put("fac", fias.getKorp());
-    	}
-    	
-    	if (!fias.getStr().isEmpty()) {
-    		sql += "AND p.liv_building = :building ";
-    		params.put("building", fias.getStr());
-    	}
-    	
-    	if (!fias.getKv().isEmpty()) {
-    		sql += "AND p.liv_flat = :flat ";
-    		params.put("flat", fias.getKv());
-    	}
-    	
-    	sql += sql_where;
-    	sql += "LIMIT 32 ";
-    	
+//		FacesContext fc = FacesContext.getCurrentInstance();
+		
         try {
+//    		Integer integ = null;
+//    		integ.toString();
+
+			if (fpar.getSelectedRegObs() != null) {
+	    		sql_where += "AND e.med_reg_id = :reg_id ";
+	    		params.put("reg_id", fpar.getSelectedRegObs().getRegId());
+	    	}
+	    	if (fpar.getSelectedTerObs() != null) {
+	    		sql_where += "AND e.med_city_id = :city_id ";
+	    		params.put("city_id", fpar.getSelectedTerObs().getId().getTerId());
+	    	}
+	    	if (fpar.getSelectedLpuObs() != null) {
+	    		sql_where += "AND e.med_lpu_id = :lpu_id ";
+	    		params.put("lpu_id", fpar.getSelectedLpuObs().getId().getLpuId());
+	    	}
+	    	if (fpar.getSelectedRezType() != null) {
+	    		sql_where += "AND e.result_id = :res_id ";
+	    		params.put("res_id", fpar.getSelectedRezType().getId());
+	    	}
+			if ((fpar.getDatStart() != null && fpar.getDatEnd() != null) && fpar.getDatEnd().compareTo(fpar.getDatStart()) < 0) {
+	    		sql_where += "AND e.dat between :dn and :dk ";
+	    		params.put("dn", fpar.getDatStart());
+	    		params.put("dk", fpar.getDatEnd());
+			}
+	
+			if (fpar.getSelectedMor() != null) {
+	    		sql += "AND p.med_reg_id = :med_reg_id ";
+	    		params.put("med_reg_id", fpar.getSelectedMor().getRegId());
+	    	}
+	
+	    	if (fpar.getSelectedMot() != null) {
+	    		sql += "AND p.med_city_id = :med_city_id ";
+	    		params.put("med_city_id", fpar.getSelectedMot().getId().getTerId());
+	    	}
+	
+	    	if (fpar.getSelectedMom() != null) {
+	    		sql += "AND p.med_lpu_id = :med_lpu_id ";
+	    		params.put("med_lpu_id", fpar.getSelectedMom().getId().getLpuId());
+	    	}
+	
+	    	if (fpar.getSelectedMop() != null) {
+	    		sql += "AND p.med_pol_id = :med_pol_id ";
+	    		params.put("med_pol_id", fpar.getSelectedMop().getId().getPolId());
+	    	}
+	
+	    	if (fpar.getSelectedDg() != null) {
+	    		sql += "AND p.decr_group_id = :decr_group_id ";
+	    		params.put("decr_group_id", fpar.getSelectedDg().getId());
+	    	}
+	
+	    	if (fpar.getSelectedMg() != null) {
+	    		sql += "AND p.med_group_id = :med_group_id ";
+	    		params.put("med_group_id", fpar.getSelectedMg().getId());
+	    	}
+	
+	    	if (fpar.getSelectedSg() != null) {
+	    		sql += "AND p.soc_group_id = :soc_group_id ";
+	    		params.put("soc_group_id", fpar.getSelectedSg().getId());
+	    	}
+	
+	    	if ((fias.getRegion() != null) && (fias.getRegion().getFormalname() != null) && (!fias.getRegion().getFormalname().isEmpty())) {
+	    		sql += "AND p.liv_reg = :reg ";
+	    		params.put("reg", fias.getRegion().getFormalname());
+	    	}
+	
+	    	if ((fias.getGorod() != null) && (fias.getGorod().getFormalname() != null) && (!fias.getGorod().getFormalname().isEmpty())) {
+	    		sql += "AND p.liv_city = :city ";
+	    		params.put("city", fias.getGorod().getFormalname());
+	    	}
+	    	
+	    	if ((fias.getUlica() != null) && (fias.getUlica().getFormalname() != null) && (!fias.getUlica().getFormalname().isEmpty())) {
+	    		sql += "AND p.liv_street = :street ";
+	    		params.put("street", fias.getUlica().getFormalname());
+	    	}
+	    	
+	    	if (!fias.getDom().isEmpty()) {
+	    		sql += "AND p.liv_house = :dom ";
+	    		params.put("dom", fias.getDom());
+	    	}
+	    	
+	    	if (!fias.getKorp().isEmpty()) {
+	    		sql += "AND p.liv_facility = :fac ";
+	    		params.put("fac", fias.getKorp());
+	    	}
+	    	
+	    	if (!fias.getStr().isEmpty()) {
+	    		sql += "AND p.liv_building = :building ";
+	    		params.put("building", fias.getStr());
+	    	}
+	    	
+	    	if (!fias.getKv().isEmpty()) {
+	    		sql += "AND p.liv_flat = :flat ";
+	    		params.put("flat", fias.getKv());
+	    	}
+	    	
+	    	sql += sql_where;
+	    	sql += "LIMIT 32 ";
+	    	
 	    	setPatients(JpaUtils.getNativeResultList(em, sql, params, PatientOrm.class));
         } catch (Exception e) {
-			e.printStackTrace();
-			fc.addMessage(null, getErrorMessage("Oшибка при выполнении запроса: "+e.getMessage()));
-		}
+        	throw new Exception("Произошла ошибка при выполнении фильтра записей");
+    	}
+//	        try {
+//        } catch (Exception e) {
+//			e.printStackTrace();
+//			fc.addMessage(null, getErrorMessage("Oшибка при выполнении запроса: "+e.getMessage()));
+//		}
 	}
 
-	private FacesMessage getErrorMessage(String text) {
-		FacesMessage msg = new FacesMessage(text);
-		msg.setSeverity(FacesMessage.SEVERITY_ERROR);
-		return msg;
-	}
+//	private FacesMessage getErrorMessage(String text) {
+//		FacesMessage msg = new FacesMessage(text);
+//		msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+//		return msg;
+//	}
 	
 	public String getSrcFam() {
 		return srcFam;
