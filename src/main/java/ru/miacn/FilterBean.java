@@ -98,7 +98,7 @@ public class FilterBean implements Serializable{
 		setRestypeList(em.createQuery("SELECT r FROM " + RResultType.class.getName() + " r ORDER BY r.id", RResultType.class).getResultList());
 	}
 
-	public void clearFilter(){
+ 	public void clearFilter(){
 		fias.setRegion(new FiasElement("", null));
 		fias.setGorod(new FiasElement("", null));
 		fias.setUlica(new FiasElement("", null));

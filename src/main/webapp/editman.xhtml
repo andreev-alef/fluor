@@ -94,7 +94,7 @@
 			</p:panelGrid>
 		</p:panel>
 		
-		<p:panel header="Адрес проживания в Российской Федерации" class="blok dva-bloka__two ">
+		<p:panel id="adr" header="Адрес проживания в Российской Федерации" class="blok dva-bloka__two ">
 			<fias:fias_addr />
 		</p:panel>
 		
@@ -163,9 +163,9 @@
 			</h:panelGrid>
 		</p:panel>
 		
-		<p:outputPanel rendered="#{editmanBean.editMode}" class="blok-button--within--down">
+		<p:outputPanel class="blok-button--within--down">
 		  <p:messages autoUpdate="true" />
-		  <p:commandButton value="Сохранить" ajax="false" action="#{editmanBean.savePatientAndRedirect()}" class="button-volume button-volume--mini" icon="ui-icon-save"/>
+		  <p:commandButton value="Сохранить" update="adr" action="#{editmanBean.savePatientAndRedirect()}" class="button-volume button-volume--mini" icon="ui-icon-save"/>
 		  <p:button value="Отменить" outcome="listman" class="button-volume button-volume--mini margin-left--big" icon="ui-icon-undo"/>
 		</p:outputPanel>
     </p:panel>
@@ -181,9 +181,22 @@
 	
 	<p:panel style="padding-bottom: 100px;" >
 	<p:panel  header="Обследования пациента" class="blok-out" >
-	<ui:include src="WEB-INF/templates/examination.xhtml" />
+		<ui:include src="WEB-INF/templates/examination.xhtml" />
 	</p:panel>
 	</p:panel>
+	
 </p:outputPanel>
+   	<h:form id="frmException" >
+	    <p:ajaxExceptionHandler type="java.lang.Exception"
+	                            update="exceptionDialog"
+	                            onexception="PF('exceptionDialog').show();" />
+	 
+	    <p:dialog id="exceptionDialog" header="Ошибка" widgetVar="exceptionDialog"
+	              height="100px" class="my-overlay filtr--str">
+		  	<p:commandButton value="Закрыть" oncomplete="PF('exceptionDialog').hide()" icon="ui-icon-close" class="button-link button-link--white"/>
+	        <br/><br/>Сообщение: #{pfExceptionHandler.message} <br/>
+	    </p:dialog>
+	</h:form>
+
 </h:body>
 </html>

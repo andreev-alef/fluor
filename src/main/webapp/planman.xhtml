@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+  <title>Флюрокартотека - план на год</title>
+  <h:outputScript library="js" name="locale.js" />  
+</h:head>
+
+<h:body class="listman">
+  <h:outputStylesheet library="css" name="reset.css"/>
+  <h:outputStylesheet library="css" name="fl-custom.css"/>
+  
+  <h:outputText value="&lt;!--[if IE]&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;/fluor/javax.faces.resource/ie.css.xhtml?ln=css&quot;/&gt;&lt;![endif]--&gt;" escape="false" />
+  
+  <h:form id="planForm">
+    <p:panel header="МО прикрепления пациентa по ОМС">				
+	  <h:panelGrid columns="2">
+       	<p:outputLabel for="regmo" value="Регион" />
+        <p:selectOneMenu id="regmo" value="#{planmanBean.selectedMor}" converter="#{planmanBean.morConverter}" class="my-select">
+          <p:ajax listener="#{planmanBean.morSelected}" update="npmo mo planTable" />
+          <f:selectItem itemLabel="-- Ничего не выбрано --" itemValue="#{null}" />
+          <f:selectItems value="#{planmanBean.morList}" var="r" itemLabel="#{r.regId} - #{r.name}" itemValue="#{r}" />
+        </p:selectOneMenu>
+        
+		<p:outputLabel for="npmo" value="Населенный пункт" />
+		<p:selectOneMenu id="npmo" value="#{planmanBean.selectedMot}" converter="#{planmanBean.motConverter}" class="my-select">
+          <p:ajax listener="#{planmanBean.motSelected}" update="mo planTable" />
+          <f:selectItem itemLabel="#{planmanBean.motList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
+          <f:selectItems value="#{planmanBean.motList}" var="r" itemLabel="#{r.id.terId} - #{r.name}" itemValue="#{r}" />
+		</p:selectOneMenu>
+		
+		<p:outputLabel for="mo" value="ЛПУ" />
+		<p:selectOneMenu id="mo" value="#{planmanBean.selectedMom}" converter="#{planmanBean.momConverter}" class="my-select">
+          <p:ajax listener="#{planmanBean.momSelected}" update="planTable" />
+          <f:selectItem itemLabel="#{planmanBean.momList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
+          <f:selectItems value="#{planmanBean.momList}" var="r" itemLabel="#{r.id.lpuId} - #{r.name}" itemValue="#{r}" />
+		</p:selectOneMenu>
+		
+		<p:outputLabel for="yer" value="Год" />
+		<p:spinner id="yer" value="#{planmanBean.year}" min="1">
+		  <p:ajax listener="#{planmanBean.onYearChange}" update="planTable" />
+		</p:spinner>
+		
+		<p:button value="Вернуться к списку пациентов" outcome="listman" />
+		<p:column />
+	  </h:panelGrid>
+    </p:panel>
+    
+    <p:tabView id="planTable" activeIndex="#{planmanBean.selIdx}" dynamic="true" cache="false">
+      <p:ajax event="tabChange" listener="#{planmanBean.onTabChange}" />
+      
+      <p:tab title="Социальная группа">
+        <p:dataTable id="socTable" editable="true" editMode="cell" value="#{planmanBean.socList}" var="r">
+          <p:ajax event="cellEdit" listener="#{planmanBean.onCellEdit}" />
+          <p:column headerText="Название">
+            <h:outputText value="#{r.groupName}" />
+          </p:column>
+          <p:column headerText="#{planmanBean.colBegYearName}">
+            <p:cellEditor>
+              <f:facet name="output">
+                <h:outputText value="#{r.cntBegYear}" />
+              </f:facet>
+              <f:facet name="input">
+                <p:spinner value="#{r.cntBegYear}" min="0" />
+              </f:facet>
+            </p:cellEditor>
+          </p:column>
+          <p:column headerText="#{planmanBean.colPlanPatName}">
+            <p:cellEditor>
+              <f:facet name="output">
+                <h:outputText value="#{r.cntPlanPat}" />
+              </f:facet>
+              <f:facet name="input">
+                <p:spinner value="#{r.cntPlanPat}" min="0" />
+              </f:facet>
+            </p:cellEditor>
+          </p:column>
+          <p:column headerText="#{planmanBean.colPlanExamName}">
+            <p:cellEditor>
+              <f:facet name="output">
+                <h:outputText value="#{r.cntPlanExam}" />
+              </f:facet>
+              <f:facet name="input">
+                <p:spinner value="#{r.cntPlanExam}" min="0" />
+              </f:facet>
+            </p:cellEditor>
+          </p:column>
+        </p:dataTable>
+      </p:tab>
+      
+      <p:tab title="Медицинская группа">
+        <p:dataTable id="medTable" editable="true" editMode="cell" value="#{planmanBean.medList}" var="r">
+          <p:ajax event="cellEdit" listener="#{planmanBean.onCellEdit}" />
+          <p:column headerText="Название">
+            <h:outputText value="#{r.groupName}" />
+          </p:column>
+          <p:column headerText="#{planmanBean.colBegYearName}">
+            <p:cellEditor>
+              <f:facet name="output">
+                <h:outputText value="#{r.cntBegYear}" />
+              </f:facet>
+              <f:facet name="input">
+                <p:spinner value="#{r.cntBegYear}" min="0" />
+              </f:facet>
+            </p:cellEditor>
+          </p:column>
+          <p:column headerText="#{planmanBean.colPlanPatName}">
+            <p:cellEditor>
+              <f:facet name="output">
+                <h:outputText value="#{r.cntPlanPat}" />
+              </f:facet>
+              <f:facet name="input">
+                <p:spinner value="#{r.cntPlanPat}" min="0" />
+              </f:facet>
+            </p:cellEditor>
+          </p:column>
+          <p:column headerText="#{planmanBean.colPlanExamName}">
+            <p:cellEditor>
+              <f:facet name="output">
+                <h:outputText value="#{r.cntPlanExam}" />
+              </f:facet>
+              <f:facet name="input">
+                <p:spinner value="#{r.cntPlanExam}" min="0" />
+              </f:facet>
+            </p:cellEditor>
+          </p:column>
+        </p:dataTable>
+      </p:tab>
+      
+      <p:tab title="Декретированная группа">
+        <p:dataTable id="decrTable" editable="true" editMode="cell" value="#{planmanBean.decrList}" var="r">
+          <p:ajax event="cellEdit" listener="#{planmanBean.onCellEdit}" />
+          <p:column headerText="Название">
+            <h:outputText value="#{r.groupName}" />
+          </p:column>
+          <p:column headerText="#{planmanBean.colBegYearName}">
+            <p:cellEditor>
+              <f:facet name="output">
+                <h:outputText value="#{r.cntBegYear}" />
+              </f:facet>
+              <f:facet name="input">
+                <p:spinner value="#{r.cntBegYear}" min="0" />
+              </f:facet>
+            </p:cellEditor>
+          </p:column>
+          <p:column headerText="#{planmanBean.colPlanPatName}">
+            <p:cellEditor>
+              <f:facet name="output">
+                <h:outputText value="#{r.cntPlanPat}" />
+              </f:facet>
+              <f:facet name="input">
+                <p:spinner value="#{r.cntPlanPat}" min="0" />
+              </f:facet>
+            </p:cellEditor>
+          </p:column>
+          <p:column headerText="#{planmanBean.colPlanExamName}">
+            <p:cellEditor>
+              <f:facet name="output">
+                <h:outputText value="#{r.cntPlanExam}" />
+              </f:facet>
+              <f:facet name="input">
+                <p:spinner value="#{r.cntPlanExam}" min="0" />
+              </f:facet>
+            </p:cellEditor>
+          </p:column>
+        </p:dataTable>
+      </p:tab>
+    </p:tabView>
+  </h:form>
+</h:body>
+
+</html>

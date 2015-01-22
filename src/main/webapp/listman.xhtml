@@ -35,7 +35,8 @@
 			    <p:commandButton value="Показать всех" action="#{listmanBean.clearSearch()}" update="searchParams patientTable" class="button-volume button-volume--mini" icon="ui-icon-all"/>
 			</h:panelGrid>
 		  </p:outputPanel>
-		  <p:outputPanel class="blok-button--above-table">	
+		  <p:outputPanel rendered="true" class="blok-button--above-table">	
+		    <p:messages autoUpdate="true"/>
     	      <p:commandLink update=":frmFind:pnlDlg" oncomplete="PF('find').show()" class="button-link button-link--blue">
 				<p:outputPanel class="ui-icon ui-icon-filter"/>
 				<h:outputText value="Фильтр записей"/>
@@ -129,7 +130,6 @@
 					<p:outputPanel class="ui-icon ui-icon ui-icon-xls"/>
 					<h:outputText value="Загрузить из файла"/>
 				</p:commandLink>
-				
 		      </p:outputPanel>
 		</h:form>
 
@@ -139,7 +139,6 @@
 		</p:dialog>
 
        	<h:form id="frmFind" >
-		    <p:messages />
 			<p:dialog id="dlg" widgetVar="find" modal="true"
 				header="Фильтр записей" resizable="false" class="my-overlay filtr--str">			
 			  <p:commandButton value="Закрыть" oncomplete="PF('find').hide()" icon="ui-icon-close" class="button-link button-link--white"/>
@@ -246,15 +245,29 @@
 						</p:column>						
 					</h:panelGrid>
 				    </p:panel >
-				    <p:outputPanel class="blok-button--within--down">
-					<p:commandButton value="Применить" action="#{listmanBean.filter()}" update=":frmList:patientTable" oncomplete="PF('find').hide()" class="button-volume button-volume--mini" icon="ui-icon-save"/>
-					<p:commandButton value="Очистить поля" action="#{filterBean.clearFilter()}" update=":frmFind:pnlDlg" class="button-volume button-volume--mini margin-left--big" icon="ui-icon-clear">
-				       <p:ajax resetValues="true" update=":frmFind:pnlDlg" />
-					</p:commandButton>
+				    <p:outputPanel rendered="true" class="blok-button--within--down">
+				    	<p:messages autoUpdate="true"/>
+						<p:commandButton value="Применить" action="#{listmanBean.filter()}" update=":frmList:patientTable" oncomplete="PF('find').hide()" class="button-volume button-volume--mini" icon="ui-icon-save"/>
+						<p:commandButton value="Очистить поля" action="#{filterBean.clearFilter()}" update=":frmFind:pnlDlg" class="button-volume button-volume--mini margin-left--big" icon="ui-icon-clear">
+				       		<p:ajax resetValues="true" update=":frmFind:pnlDlg" />
+						</p:commandButton>
 				    </p:outputPanel>
 				  </p:scrollPanel>
 			      </p:outputPanel>			   	
 			</p:dialog>
+
+		</h:form>
+
+       	<h:form id="frmException" >
+		    <p:ajaxExceptionHandler type="java.lang.Exception"
+		                            update="exceptionDialog"
+		                            onexception="PF('exceptionDialog').show();" />
+		 
+		    <p:dialog id="exceptionDialog" header="Ошибка" widgetVar="exceptionDialog"
+		              height="100px" class="my-overlay filtr--str">
+			  	<p:commandButton value="Закрыть" oncomplete="PF('exceptionDialog').hide()" icon="ui-icon-close" class="button-link button-link--white"/>
+		        <br/><br/>Сообщение: #{pfExceptionHandler.message} <br/>
+		    </p:dialog>
 		</h:form>
              
 		<h:form id="frmPrint">
@@ -262,6 +275,7 @@
 				header="Отчетные формы" resizable="false" class="my-overlay">
 				<p:commandButton value="Закрыть" oncomplete="PF('print').hide()" icon="ui-icon-close" class="button-link button-link--white"/>
 				<p:outputPanel id="pnlDlg" class="move-up" >
+				  <p:button value="Редактировать план на год" outcome="planman" />
 				  <p:panel header="Уровень отчета" class="blok-overlay">				
 					<h:panelGrid columns="2" class="invis report--str">
 			        	<p:outputLabel for="rep_reg"  value="Регион" />
