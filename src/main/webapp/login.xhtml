@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<h:head>
+		<title>Флюрокартотека: Вход в систему</title>
+	</h:head>
+	<h:body class="authorization"> 
+		<div class="container">
+			<p:messages id="messages" autoUpdate="true" closable="true" />
+			<h:form id="login" onsubmit="document.getElementById('login').action='j_security_check';" prependId="false">
+   				<h:panelGrid columns="2">
+       				<p:outputLabel for="j_username" value="Username" />
+        			<p:inputText id="j_username" name="j_username" required="true" requiredMessage="Необходимо ввести логин" value="#{loginBean.login}"/>            
+       				<p:outputLabel for="j_password" value="Password" />
+        			<p:password id="j_password" name="j_password" required="true" requiredMessage="Необходимо ввести пароль" value="#{loginBean.password}"/>
+        			<p:commandButton id="submit" value="Login" actionListener="#{loginBean.auth}" ajax="false"/>
+    			</h:panelGrid>
+			</h:form>
+		</div>
+		<h:form>
+			<p:commandButton action="#{loginBean.logout}" value="Logout"  ajax="false"/>
+		</h:form>
+	</h:body>
+</html>
