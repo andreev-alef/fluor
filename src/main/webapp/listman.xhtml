@@ -275,6 +275,7 @@
 				header="Отчетные формы" resizable="false" class="my-overlay">
 				<p:commandButton value="Закрыть" oncomplete="PF('print').hide()" icon="ui-icon-close" class="button-link button-link--white"/>
 				<p:outputPanel id="pnlDlg" class="move-up" >
+				  <p:button value="Редактировать план на год" outcome="planman" />
 				  <p:panel header="Уровень отчета" class="blok-overlay">				
 					<h:panelGrid columns="2" class="invis report--str">
 			        	<p:outputLabel for="rep_reg"  value="Регион" />

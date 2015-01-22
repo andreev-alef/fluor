@@ -23,8 +23,10 @@ public class JpaUtils {
 	}
 
 	private static void setParameters(Query query, Map<String, Object> params) {
-		for (String key : params.keySet()) {
-			query.setParameter(key, params.get(key));
+		if (params != null) {
+			for (String key : params.keySet()) {
+				query.setParameter(key, params.get(key));
+			}
 		}
 	}
 	
