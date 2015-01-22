@@ -130,31 +130,7 @@
 					<p:outputPanel class="ui-icon ui-icon ui-icon-xls"/>
 					<h:outputText value="Загрузить из файла"/>
 				</p:commandLink>
-				
 		      </p:outputPanel>
-
-		    <p:ajaxExceptionHandler type="javax.persistence.PersistenceException"
-		                            update="exceptionDialog"
-		                            onexception="PF('exceptionDialog').show();" />
-		 
-		    <p:ajaxExceptionHandler type="javax.faces.application.ViewExpiredException"
-		                            update="exceptionDialog"
-		                            onexception="PF('exceptionDialog').show();" />
-		 
-		    <p:ajaxExceptionHandler type="java.lang.NullPointerException"
-		                            update="exceptionDialog"
-		                            onexception="PF('exceptionDialog').show();" />
-		 
-		    <p:dialog id="exceptionDialog" header="Exception '#{pfExceptionHandler.type}' occured!" widgetVar="exceptionDialog"
-		              height="500px">
-		        Message: #{pfExceptionHandler.message} <br/>
-		        StackTrace: <h:outputText value="#{pfExceptionHandler.formattedStackTrace}" escape="false" /> <br />
-		 
-		        <p:button onclick="document.location.href = document.location.href;"
-		                  value="Reload!"
-		                  rendered="#{pfExceptionHandler.type == 'javax.faces.application.ViewExpiredException'}" />
-		    </p:dialog>
-
 		</h:form>
 
 		<p:dialog id="browseExamId" widgetVar="browseExamVar" modal="true" header="Пациент #{v.lastName}" resizable="false" class="my-overlay">
@@ -283,23 +259,14 @@
 		</h:form>
 
        	<h:form id="frmException" >
-		    <p:ajaxExceptionHandler type="javax.faces.application.ViewExpiredException"
+		    <p:ajaxExceptionHandler type="java.lang.Exception"
 		                            update="exceptionDialog"
 		                            onexception="PF('exceptionDialog').show();" />
 		 
-		    <p:ajaxExceptionHandler type="java.lang.NullPointerException"
-		                            update="exceptionDialog"
-		                            onexception="PF('exceptionDialog').show();" />
-		 
-		    <p:dialog id="exceptionDialog" header="Exception '#{pfExceptionHandler.type}' occured!" widgetVar="exceptionDialog"
-		              height="500px" class="my-overlay filtr--str">
-			  <p:commandButton value="Закрыть" oncomplete="PF('exceptionDialog').hide()" icon="ui-icon-close" class="button-link button-link--white"/>
-		        Message: #{pfExceptionHandler.message} <br/>
-		        StackTrace: <h:outputText value="#{pfExceptionHandler.formattedStackTrace}" escape="false" /> <br />
-		 
-<!-- 		        <p:button onclick="document.location.href = document.location.href;" -->
-<!-- 		                  value="Reload!" -->
-<!-- 		                  rendered="#{pfExceptionHandler.type == 'javax.faces.application.ViewExpiredException'}" /> -->
+		    <p:dialog id="exceptionDialog" header="Ошибка" widgetVar="exceptionDialog"
+		              height="100px" class="my-overlay filtr--str">
+			  	<p:commandButton value="Закрыть" oncomplete="PF('exceptionDialog').hide()" icon="ui-icon-close" class="button-link button-link--white"/>
+		        <br/><br/>Сообщение: #{pfExceptionHandler.message} <br/>
 		    </p:dialog>
 		</h:form>
              
