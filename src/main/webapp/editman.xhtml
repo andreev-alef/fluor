@@ -94,7 +94,7 @@
 			</p:panelGrid>
 		</p:panel>
 		
-		<p:panel header="Адрес проживания в Российской Федерации" class="blok dva-bloka__two ">
+		<p:panel id="adr" header="Адрес проживания в Российской Федерации" class="blok dva-bloka__two ">
 			<fias:fias_addr />
 		</p:panel>
 		
@@ -163,9 +163,9 @@
 			</h:panelGrid>
 		</p:panel>
 		
-		<p:outputPanel rendered="#{editmanBean.editMode}" class="blok-button--within--down">
+		<p:outputPanel class="blok-button--within--down">
 		  <p:messages autoUpdate="true" />
-		  <p:commandButton value="Сохранить" ajax="false" action="#{editmanBean.savePatientAndRedirect()}" class="button-volume button-volume--mini" icon="ui-icon-save"/>
+		  <p:commandButton value="Сохранить" update="adr" action="#{editmanBean.savePatientAndRedirect()}" class="button-volume button-volume--mini" icon="ui-icon-save"/>
 		  <p:button value="Отменить" outcome="listman" class="button-volume button-volume--mini margin-left--big" icon="ui-icon-undo"/>
 		</p:outputPanel>
     </p:panel>
@@ -177,6 +177,29 @@
           </p:link>
           <p:link value="Печать направления на флюорографию" href="report?id=4&amp;pdf" class="button-volume button-volume--big margin-left--big" icon="ui-icon-Letter"/>
       </p:outputPanel>
+
+	    <p:ajaxExceptionHandler type="org.hibernate.exception.DataException:"
+	                            update="exceptionDialog"
+	                            onexception="PF('exceptionDialog').show();" />
+		 
+	    <p:ajaxExceptionHandler type="javax.faces.application.ViewExpiredException"
+	                            update="exceptionDialog"
+	                            onexception="PF('exceptionDialog').show();" />
+	 
+	    <p:ajaxExceptionHandler type="java.lang.NullPointerException"
+	                            update="exceptionDialog"
+	                            onexception="PF('exceptionDialog').show();" />
+	 
+	    <p:dialog id="exceptionDialog" header="Exception '#{pfExceptionHandler.type}' occured!" widgetVar="exceptionDialog"
+	              height="500px">
+	        Message: #{pfExceptionHandler.message} <br/>
+	        StackTrace: <h:outputText value="#{pfExceptionHandler.formattedStackTrace}" escape="false" /> <br />
+	 
+	        <p:button onclick="document.location.href = document.location.href;"
+	                  value="Reload!"
+	                  rendered="#{pfExceptionHandler.type == 'javax.faces.application.ViewExpiredException'}" />
+	    </p:dialog>
+
 	</h:form>
 	
 	<p:panel style="padding-bottom: 100px;" >
