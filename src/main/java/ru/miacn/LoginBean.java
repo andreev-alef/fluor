@@ -19,13 +19,13 @@ import java.util.List;
 @SessionScoped
 public class LoginBean implements Serializable {
 	private static final long serialVersionUID = 271781091507093732L;
-	
+
 	@PersistenceContext(unitName = "fluor-PU")
 	private EntityManager em;
 	private List<User> usersList;
 	private String login;
 	private String password;
-	
+
 	public String getLogin() {
 		return login;
 	}
@@ -42,18 +42,16 @@ public class LoginBean implements Serializable {
 		this.password = Md5.md5Custom(password);
 	}
 
-	public void auth(){
-		setUsersList(em.createQuery("SELECT u FROM " + User.class.getName() + " u WHERE u.login= '"+getLogin()+"'", User.class).getResultList());
-		FacesMessage message=null;
-		if(getUsersList().size()>0 && getUsersList().get(0).getPassword().equals(getPassword())){
-		}else{
-			message=new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ошибка входа, введены неверные данные", "Введены неверные данные");
+	public void auth() {
+		setUsersList(em.createQuery("SELECT u FROM " + User.class.getName() + " u WHERE u.login= '" + getLogin() + "'", User.class).getResultList());
+		if (getUsersList().size() > 0 && getUsersList().get(0).getPassword().equals(getPassword())) {
+			
+		} else {
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ошибка входа, введены неверные данные", "Введены неверные данные");
 			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 		usersList.clear();
 	}
-
-
 
 	public List<User> getUsersList() {
 		return usersList;
@@ -62,12 +60,11 @@ public class LoginBean implements Serializable {
 	public void setUsersList(List<User> list) {
 		this.usersList = list;
 	}
-	
-	public void logout(){
-		FacesContext fc = FacesContext.getCurrentInstance();
-	    HttpSession session = (HttpSession)fc.getExternalContext().getSession(false);
-	    session.invalidate();
-	}
-	
 
+	public void logout() {
+		FacesContext fc = FacesContext.getCurrentInstance();
+		HttpSession session = (HttpSession) fc.getExternalContext().getSession(false);
+		
+		session.invalidate();
+	}
 }

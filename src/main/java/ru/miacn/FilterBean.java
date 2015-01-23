@@ -12,7 +12,6 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.transaction.Transactional;
 
 import ru.miacn.fias.FiasEditor;
 import ru.miacn.fias.FiasElement;
@@ -29,7 +28,6 @@ import ru.miacn.persistence.reference.RVerification;
 
 @Named
 @SessionScoped
-@Transactional
 public class FilterBean implements Serializable{
 	private static final long serialVersionUID = 2296258073300711800L;
 	@PersistenceContext(unitName = "fluor-PU")

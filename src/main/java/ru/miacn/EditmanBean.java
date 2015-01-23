@@ -8,8 +8,6 @@ import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -100,7 +98,6 @@ public class EditmanBean implements Serializable {
 	}
 	
 	public void loadPatient(String idStr) {
-//		FacesContext fc = FacesContext.getCurrentInstance();
 		if (idStr.isEmpty()) {
 			setPatient(new Patient());
 			
@@ -189,12 +186,11 @@ public class EditmanBean implements Serializable {
 	@Transactional
 	public String savePatientAndRedirect() throws Exception {
 		savePatient();
-		//return "listman.xhtml?faces-redirect=true";
-		return null;
+		
+		return "listman.xhtml?faces-redirect=true";
 	}
 	
 	public void savePatient() throws Exception {
-//		FacesContext fc = FacesContext.getCurrentInstance();
         try {
 			if (patient.getId() == null) {
 				PatientId pid = new PatientId();
@@ -221,16 +217,9 @@ public class EditmanBean implements Serializable {
 			em.persist(patient);
         }
         catch (Exception e) {
-//			fc.addMessage(null, getErrorMessage("Oшибка при выполнении запроса: "+e.getMessage()));
         	throw new Exception("Произошла ошибка при сохранении данных пациента");
 		}
 	}
-
-//	private FacesMessage getErrorMessage(String text) {
-//		FacesMessage msg = new FacesMessage(text);
-//		msg.setSeverity(FacesMessage.SEVERITY_ERROR);
-//		return msg;
-//	}
 	
 	private void getFiasValues() {
 		Address addr = getPatient().getAddress();
@@ -256,12 +245,6 @@ public class EditmanBean implements Serializable {
 		addr.setLivBuilding(fias.getStr());
 		addr.setLivFlat(fias.getKv());
 	}
-
-//	private FacesMessage getErrorMessage(String text) {
-//		FacesMessage msg = new FacesMessage(text);
-//		msg.setSeverity(FacesMessage.SEVERITY_ERROR);
-//		return msg;
-//	}
 	
 	public Patient getPatient() {
 		return patient;

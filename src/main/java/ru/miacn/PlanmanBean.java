@@ -29,7 +29,6 @@ import ru.miacn.utils.JpaUtils;
 
 @Named
 @SessionScoped
-@Transactional
 public class PlanmanBean implements Serializable {
 	private static final long serialVersionUID = -6589620147650856228L;
 	private static final String colBegYearName = "Подлежащие обследованию";
@@ -168,6 +167,7 @@ public class PlanmanBean implements Serializable {
 		}
 	}
 	
+	@Transactional
 	private void persistPlan(PlanOrm orm) {
 		Plan plan = new Plan();
 		
