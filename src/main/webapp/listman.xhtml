@@ -104,7 +104,7 @@
 				</p:column>
 
 				<p:column headerText="Верификация">
-					<h:outputText value="неизвестно" />
+					<h:outputText value="#{v.exam.RVerification.name}" />
 				</p:column>
 							
 			</p:dataTable>
@@ -231,9 +231,10 @@
 					    </p:selectOneMenu>
 
 						<p:outputLabel for="ver" value="Верификация" />
-						<p:selectOneMenu id="ver" class="my-select">
-							<f:selectItem itemLabel="-- Ничего не выбрано --" itemValue="#{null}" />
-						</p:selectOneMenu>						
+					    <p:selectOneMenu id="ver" value="#{filterBean.selectedVer}" converter="#{filterBean.verConverter}" class="my-select">
+				          <f:selectItem itemLabel="#{filterBean.verList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
+					      <f:selectItems value="#{filterBean.verList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
+					    </p:selectOneMenu>
 						
 						<p:column>
 				   			<p:outputLabel value="Период: c " />
