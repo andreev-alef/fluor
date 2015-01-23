@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:fias="http://java.sun.com/jsf/composite/components">
+
+<h:head>
+  <title>Флюрокартотека - просмотр информации на пациента</title>
+  <h:outputScript library="js" name="locale.js" />
+  <h:outputStylesheet library="css" name="reset.css"/>
+  <h:outputStylesheet library="css" name="fl-custom.css"/>  
+  <f:metadata>
+    <f:viewAction action="#{editmanBean.loadPatient(param['patId'])}" />
+    <f:viewParam name="editable" value="#{editmanBean.editMode}" />
+  </f:metadata>
+</h:head>
+
+<h:body>
+<p:outputPanel class="editman">
+  <p:panel header="Персональные данные" class="blok odin-blok">
+    <p:panelGrid columns="2" class="invis rguppa--str">
+      <p:outputLabel for="fio" value="ФИО" />
+      <p:outputLabel id="fio" value="#{editmanBean.patient.lastName} #{editmanBean.patient.firstName} #{editmanBean.patient.fatherName}" />
+      
+      <p:outputLabel for="dr" value="Дата рождения" />
+      <p:outputLabel id="dr" value="#{editmanBean.patient.datBirth}" />
+      
+      <p:outputLabel for="sex" value="Пол" />
+      <p:outputLabel id="sex" value="#{editmanBean.patient.gender.name}" />
+      
+      <p:outputLabel for="grj" value="Гражданство" />
+      <p:outputLabel id="grj" value="#{editmanBean.patient.citizen.name}" />
+      
+      <p:outputLabel for="ds" value="Дата смерти" rendered="#{editmanBean.patient.datDeath != null}" />
+      <p:outputLabel id="ds" value="#{editmanBean.patient.datDeath}" rendered="#{editmanBean.patient.datDeath != null}" />
+      
+      <p:outputLabel for="addr" value="Адрес" />
+      <p:outputLabel id="addr" value="#{editmanBean.getAddress()}" />
+      
+      <p:outputLabel for="tl" value="Телефон" />
+      <p:outputLabel id="tl" value="#{editmanBean.patient.tel}" />
+    </p:panelGrid>
+  </p:panel>
+  
+  <p:panel header="Медицинская организация, к которой прикреплен пациент по ОМС" class="blok odin-blok">
+    <h:panelGrid columns="2" class="invis oms--str">
+      <p:outputLabel for="regmo" value="Регион" />
+      <p:outputLabel id="regmo" value="#{editmanBean.selectedMor.name}" />
+      
+      <p:outputLabel for="npmo" value="Населенный пункт" />
+      <p:outputLabel id="npmo" value="#{editmanBean.selectedMot.name}" />
+      
+      <p:outputLabel for="mo" value="Наименование МО" />
+      <p:outputLabel id="mo" value="#{editmanBean.selectedMom.name}" />
+      
+      <p:outputLabel for="clmo" value="Поликлиника" />
+      <p:outputLabel id="clmo" value="#{editmanBean.selectedMop.name}" />
+      
+      <p:outputLabel for="adrmo" value="Адрес" />        
+      <p:outputLabel id="adrmo" value="#{editmanBean.selectedMom.addr}" />
+    </h:panelGrid>
+  </p:panel>
+  
+  <p:panel header="Контингент населения" class="blok odin-blok">
+    <h:panelGrid columns="2" class="invis rguppa--str">
+      <p:outputLabel for="dg" value="Декретированная группа" />
+      <p:outputLabel id="dg" value="#{editmanBean.patient.decrGroup.name}" />
+      
+      <p:outputLabel for="mg" value="Медицинская группа" />
+      <p:outputLabel id="mg" value="#{editmanBean.patient.medGroup.name}" />
+      
+      <p:outputLabel for="rg" value="Группа риска (осмотр 2 раза в год)" />
+      <p:outputLabel id="rg" value="#{editmanBean.patient.socGroup.name}" />
+    </h:panelGrid>
+  </p:panel>
+  
+  <p:panel header="Обследования пациента" class="blok odin-blok" >
+    <ui:include src="WEB-INF/templates/examination.xhtml" />
+  </p:panel>
+  
+  <h:form id="frmInf">
+    <p:outputPanel class="align-center--text" style="position: absolute; bottom: 0; height: 80px; left:25%">       
+      <p:link outcome="listman" class="button-volume button-volume--link">
+        <p:outputPanel class="ui-icon ui-icon-Left"/>
+        <h:outputText value="Вернуться к списку пациентов" />
+      </p:link>
+    </p:outputPanel>
+  </h:form>
+</p:outputPanel>
+</h:body>
+</html>

@@ -35,7 +35,6 @@ import ru.miacn.persistence.reference.RMedicalOrgTer;
 import ru.miacn.persistence.reference.RSocGroup;
 
 @Named
-@Transactional
 @SessionScoped
 public class EditmanBean implements Serializable {
 	public static final long serialVersionUID = -229673017810787765L;
@@ -182,7 +181,12 @@ public class EditmanBean implements Serializable {
 		fias.setStr(addr.getLivBuilding());
 		fias.setKv(addr.getLivFlat());
 	}
+	
+	public String getAddress() {
+		return fias.getAddress();
+	}
 
+	@Transactional
 	public String savePatientAndRedirect() throws Exception {
 		savePatient();
 		//return "listman.xhtml?faces-redirect=true";

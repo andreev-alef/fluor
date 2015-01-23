@@ -47,7 +47,7 @@
 			<p:dataTable id="patientTable" value="#{listmanBean.patients}" var="v" class="my-table my-table--auto patient__table patient__table--str">
 				<p:column headerText="&#160; Информация &#160; о пациенте">				   
 				   
-				    <p:link id="view" class="ui-icon ui-icon-open" outcome="editman">					        
+				    <p:link id="view" class="ui-icon ui-icon-open" outcome="viewman">					        
 						<f:param name="patId" value="#{v.id}"/>
 						<f:param name="editable" value="false"/>
 				    </p:link>
