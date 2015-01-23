@@ -83,6 +83,7 @@ public class Patient {
 	@OneToOne
 	@JoinColumn(name = "soc_group_id")
 	private RSocGroup socGroup;
+	@PhoneAnnotation
 	private String tel;
 	@OneToOne
 	@JoinColumns({
