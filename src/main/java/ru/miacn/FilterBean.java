@@ -25,6 +25,7 @@ import ru.miacn.persistence.reference.RMedicalOrgRegion;
 import ru.miacn.persistence.reference.RMedicalOrgTer;
 import ru.miacn.persistence.reference.RResultType;
 import ru.miacn.persistence.reference.RSocGroup;
+import ru.miacn.persistence.reference.RVerification;
 
 @Named
 @SessionScoped
@@ -48,6 +49,9 @@ public class FilterBean implements Serializable{
 	private ListConverter restypeConverter;
 	private List<RResultType> restypeList;
 	private RResultType selectedRezType;
+	private List<RVerification> verList;
+	private ListConverter verConverter;
+	private RVerification selectedVer;
 	
 	private ListConverter morConverter;
 	private ListConverter mor2Converter;
@@ -82,6 +86,7 @@ public class FilterBean implements Serializable{
 		setMgConverter(new ListConverter());
 		setSgConverter(new ListConverter());
 		setRestypeConverter(new ListConverter());
+		setVerConverter(new ListConverter());
 		setMorConverter(new ListConverter());
 		setMotConverter(new ListConverter());
 		setMomConverter(new ListConverter());
@@ -90,6 +95,7 @@ public class FilterBean implements Serializable{
 		setMot2Converter(new ListConverter());
 		setMom2Converter(new ListConverter());
 
+		setVerList(em.createQuery("SELECT r FROM " + RVerification.class.getName() + " r ORDER BY r.id", RVerification.class).getResultList());
 		setDecrList(em.createQuery("SELECT r FROM " + RDecrGroup.class.getName() + " r ORDER BY r.id", RDecrGroup.class).getResultList());
 		setMedList(em.createQuery("SELECT r FROM " + RMedGroup.class.getName() + " r ORDER BY r.id", RMedGroup.class).getResultList());
 		setSocList(em.createQuery("SELECT r FROM " + RSocGroup.class.getName() + " r ORDER BY r.id", RSocGroup.class).getResultList());
@@ -485,4 +491,28 @@ public class FilterBean implements Serializable{
 		this.selectedLpuObs = selectedLpuObs;
 	}
 
+	public List<RVerification> getVerList() {
+		return verList;
+	}
+
+	public void setVerList(List<RVerification> verList) {
+		this.verList = verList;
+		verConverter.setList(verList);
+	}
+
+	public ListConverter getVerConverter() {
+		return verConverter;
+	}
+
+	public void setVerConverter(ListConverter verConverter) {
+		this.verConverter = verConverter;
+	}
+
+	public RVerification getSelectedVer() {
+		return selectedVer;
+	}
+
+	public void setSelectedVer(RVerification selectedVer) {
+		this.selectedVer = selectedVer;
+	}
 }

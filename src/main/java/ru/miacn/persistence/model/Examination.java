@@ -2,7 +2,6 @@ package ru.miacn.persistence.model;
 
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,6 +17,7 @@ import ru.miacn.persistence.reference.RExamMethod;
 import ru.miacn.persistence.reference.RExamType;
 import ru.miacn.persistence.reference.RMedicalOrgMain;
 import ru.miacn.persistence.reference.RResultType;
+import ru.miacn.persistence.reference.RVerification;
 
 @Entity
 public class Examination {
@@ -27,9 +27,6 @@ public class Examination {
 
 	@Temporal(TemporalType.DATE)
 	private Date dat;
-
-	@Column(name="follow_up")
-	private Boolean followUp;
 
 	@ManyToOne
 	@JoinColumn(name="patient_id")
@@ -42,6 +39,10 @@ public class Examination {
 	@OneToOne
 	@JoinColumn(name="type_id")
 	private RExamType rExamType;
+
+	@OneToOne
+	@JoinColumn(name="verification_id")
+	private RVerification rVerification;
 
 	@OneToOne
 	@JoinColumns({
@@ -69,14 +70,6 @@ public class Examination {
 
 	public void setDat(Date dat) {
 		this.dat = dat;
-	}
-
-	public Boolean getFollowUp() {
-		return this.followUp;
-	}
-
-	public void setFollowUp(Boolean followUp) {
-		this.followUp = followUp;
 	}
 
 	public PatientId getPatientId() {
@@ -117,5 +110,13 @@ public class Examination {
 
 	public void setRResultType(RResultType rResultType) {
 		this.rResultType = rResultType;
+	}
+	
+	public RVerification getRVerification() {
+		return this.rVerification;
+	}
+
+	public void setRVerification(RVerification rVerification) {
+		this.rVerification = rVerification;
 	}
 }

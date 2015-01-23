@@ -121,7 +121,13 @@ public class ListmanBean implements Serializable {
 	    		sql_where += "AND e.result_id = :res_id ";
 	    		params.put("res_id", fpar.getSelectedRezType().getId());
 	    	}
-			if ((fpar.getDatStart() != null && fpar.getDatEnd() != null) && fpar.getDatEnd().compareTo(fpar.getDatStart()) < 0) {
+			
+	    	if (fpar.getSelectedVer() != null) {
+	    		sql_where += "AND e.verification_id = :verification_id ";
+	    		params.put("verification_id", fpar.getSelectedVer().getId());
+	    	}
+
+	    	if ((fpar.getDatStart() != null && fpar.getDatEnd() != null) && fpar.getDatEnd().compareTo(fpar.getDatStart()) < 0) {
 	    		sql_where += "AND e.dat between :dn and :dk ";
 	    		params.put("dn", fpar.getDatStart());
 	    		params.put("dk", fpar.getDatEnd());

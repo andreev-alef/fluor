@@ -43,6 +43,9 @@
 			</p:outputPanel>	  
           </p:column>	    
           <p:column headerText="Верификация">
+			<p:outputPanel class="move">
+			  <h:outputText value="#{item.RVerification.name}" />
+			</p:outputPanel>	  
           </p:column>
           <p:column headerText="Действия" rendered="#{examinationBean.editMode}" class="not-overlay align-center--text">
 			<p:outputPanel class="move">  
@@ -101,9 +104,10 @@
 			</p:selectOneMenu>
 			
 	        <h:outputLabel for="ver" value="Верификация диагноза" />
-			<p:selectOneMenu id="ver" class="my-select">
-			  <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
-			</p:selectOneMenu>
+		    <p:selectOneMenu id="ver" value="#{examinationBean.selectedExamination.RVerification}" converter="#{examinationBean.verConverter}" class="my-select">
+	          <f:selectItem itemLabel="#{examinationBean.verList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
+		      <f:selectItems value="#{examinationBean.verList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
+		    </p:selectOneMenu>
 		</h:panelGrid>
 	      
 		<p:outputPanel class="blok-button--within--down">
@@ -126,10 +130,8 @@
               <h:outputText id="p3" value="#{examinationBean.selectedExamination.RExamType.name}" />
               <h:outputLabel for="p4" value="Результат" />
               <h:outputText id="p4" value="#{examinationBean.selectedExamination.RResultType.name}" />
-              <h:outputLabel for="p5" value="Марка флюроаппарата" />
-              <h:outputText id="p5" value="xxxx" />
-              <h:outputLabel for="p6" value="Верификация диагноза" />
-              <h:outputText id="p6" value="xxxx" />
+              <h:outputLabel for="p5" value="Верификация диагноза" />
+              <h:outputText id="p5" value="#{examinationBean.selectedExamination.RVerification.name}" />
             </h:panelGrid>
 	    	<p:outputPanel class="blok-button--within--down">
             	<p:commandButton value="Удалить" update=":frmExam:examTable" action="#{examinationBean.delExam()}" oncomplete="PF('delExamVar').hide()" class="button-volume button-volume--mini" icon="ui-icon-delete"/>
