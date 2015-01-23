@@ -234,6 +234,8 @@ public class PlanmanBean implements Serializable {
 			throw new RuntimeException("Wrong tab index.");
 		}
 		
+		if ((value != null) && (value < 1))
+			value = null;
 		switch (event.getColumn().getHeaderText()) {
 		case colBegYearName:
 			item.setCntBegYear(value);

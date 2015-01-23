@@ -40,7 +40,7 @@
 		</p:selectOneMenu>
 		
 		<p:outputLabel for="yer" value="Год" />
-		<p:spinner id="yer" value="#{planmanBean.year}">
+		<p:spinner id="yer" value="#{planmanBean.year}" min="1">
 		  <p:ajax listener="#{planmanBean.onYearChange}" update="planTable" />
 		</p:spinner>
 		
@@ -64,7 +64,7 @@
                 <h:outputText value="#{r.cntBegYear}" />
               </f:facet>
               <f:facet name="input">
-                <p:spinner value="#{r.cntBegYear}" />
+                <p:spinner value="#{r.cntBegYear}" min="0" />
               </f:facet>
             </p:cellEditor>
           </p:column>
@@ -74,7 +74,7 @@
                 <h:outputText value="#{r.cntPlanPat}" />
               </f:facet>
               <f:facet name="input">
-                <p:spinner value="#{r.cntPlanPat}" />
+                <p:spinner value="#{r.cntPlanPat}" min="0" />
               </f:facet>
             </p:cellEditor>
           </p:column>
@@ -84,7 +84,7 @@
                 <h:outputText value="#{r.cntPlanExam}" />
               </f:facet>
               <f:facet name="input">
-                <p:spinner value="#{r.cntPlanExam}" />
+                <p:spinner value="#{r.cntPlanExam}" min="0" />
               </f:facet>
             </p:cellEditor>
           </p:column>
@@ -103,7 +103,7 @@
                 <h:outputText value="#{r.cntBegYear}" />
               </f:facet>
               <f:facet name="input">
-                <p:spinner value="#{r.cntBegYear}" />
+                <p:spinner value="#{r.cntBegYear}" min="0" />
               </f:facet>
             </p:cellEditor>
           </p:column>
@@ -113,7 +113,7 @@
                 <h:outputText value="#{r.cntPlanPat}" />
               </f:facet>
               <f:facet name="input">
-                <p:spinner value="#{r.cntPlanPat}" />
+                <p:spinner value="#{r.cntPlanPat}" min="0" />
               </f:facet>
             </p:cellEditor>
           </p:column>
@@ -123,7 +123,7 @@
                 <h:outputText value="#{r.cntPlanExam}" />
               </f:facet>
               <f:facet name="input">
-                <p:spinner value="#{r.cntPlanExam}" />
+                <p:spinner value="#{r.cntPlanExam}" min="0" />
               </f:facet>
             </p:cellEditor>
           </p:column>
@@ -142,7 +142,7 @@
                 <h:outputText value="#{r.cntBegYear}" />
               </f:facet>
               <f:facet name="input">
-                <p:spinner value="#{r.cntBegYear}" />
+                <p:spinner value="#{r.cntBegYear}" min="0" />
               </f:facet>
             </p:cellEditor>
           </p:column>
@@ -152,7 +152,7 @@
                 <h:outputText value="#{r.cntPlanPat}" />
               </f:facet>
               <f:facet name="input">
-                <p:spinner value="#{r.cntPlanPat}" />
+                <p:spinner value="#{r.cntPlanPat}" min="0" />
               </f:facet>
             </p:cellEditor>
           </p:column>
@@ -162,7 +162,7 @@
                 <h:outputText value="#{r.cntPlanExam}" />
               </f:facet>
               <f:facet name="input">
-                <p:spinner value="#{r.cntPlanExam}" />
+                <p:spinner value="#{r.cntPlanExam}" min="0" />
               </f:facet>
             </p:cellEditor>
           </p:column>
