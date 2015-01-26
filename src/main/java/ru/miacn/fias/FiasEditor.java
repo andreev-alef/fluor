@@ -15,6 +15,8 @@ import javax.persistence.TypedQuery;
 @Named
 @SessionScoped
 public class FiasEditor implements Serializable {
+	private static final long serialVersionUID = 5089683425177113868L;
+
 	@PersistenceContext(unitName = "FiasPU")
 	private EntityManager em;
 	
@@ -81,6 +83,34 @@ public class FiasEditor implements Serializable {
 	
 	public FiasElement getElementById(UUID id) {
 		return em.find(FiasElement.class, id.toString());
+	}
+	
+	public String getAddress() {
+		String addr = "";
+		
+		if ((getRegion() != null) && (!getRegion().getAoid().isEmpty()))
+			addr += getRegion().getFormalname() + " " + getRegion().getShortname() + ", ";
+		else
+			addr += getRegion().getFormalname() + ", ";
+		if ((getGorod() != null) && (!getGorod().getAoid().isEmpty()))
+			addr += getGorod().getShortname() + " " + getGorod().getFormalname() + ", ";
+		else
+			addr += getGorod().getFormalname() + ", ";
+		if ((getUlica() != null) && (!getUlica().getAoid().isEmpty()))
+			addr += getUlica().getShortname() + " " + getUlica().getFormalname() + ", ";
+		else
+			addr += getUlica().getFormalname() + ", ";
+		if ((getDom() != null) && (!getDom().isEmpty()))
+			addr += "дом " + getDom() + ", ";
+		if ((getKorp() != null) && (!getKorp().isEmpty()))
+			addr += "корп " + getKorp() + ", ";
+		if ((getKv() != null) && (!getKv().isEmpty()))
+			addr += "кв " + getKv() + ", ";
+		
+		if (addr.length() > 0)
+			addr = addr.substring(0, addr.length() - 2);
+		
+		return addr;
 	}
 	
 	public FiasElement getRegion() {

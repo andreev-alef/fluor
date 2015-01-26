@@ -11,9 +11,7 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.transaction.Transactional;
 
-import ru.miacn.fias.FiasElement;
 import ru.miacn.persistence.reference.ListConverter;
 import ru.miacn.persistence.reference.RMedicalOrgMain;
 import ru.miacn.persistence.reference.RMedicalOrgPoliclinic;
@@ -22,9 +20,8 @@ import ru.miacn.persistence.reference.RMedicalOrgTer;
 
 @Named
 @SessionScoped
-@Transactional
 public class ReportBean  implements Serializable{
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 3234666418891232049L;
 
 	@PersistenceContext(unitName = "fluor-PU")
 	private EntityManager em;
@@ -226,6 +223,5 @@ public class ReportBean  implements Serializable{
 
 	public void setDatEnd(Date datEnd) {
 		this.datEnd = datEnd;
-	}
-	
+	}	
 }

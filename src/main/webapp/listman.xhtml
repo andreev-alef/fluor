@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:fias="http://java.sun.com/jsf/composite/components">
 <h:head>
@@ -50,7 +50,7 @@
 				class="my-table my-table--auto patient__table patient__table--str">
 
 				<p:column headerText="&#160; Информация &#160; о пациенте">				   
-				    <p:link id="view" class="ui-icon ui-icon-open" outcome="editman">					        
+				    <p:link id="view" class="ui-icon ui-icon-open" outcome="viewman">					        
 						<f:param name="patId" value="#{v.id}"/>
 						<f:param name="editable" value="false"/>
 				    </p:link>

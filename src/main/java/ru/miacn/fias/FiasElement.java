@@ -18,6 +18,7 @@ public class FiasElement {
 	private String placecode;
 	private String streetcode;
 	private String formalname;
+	private String shortname;
 	private int actstatus;
 
 	public FiasElement() {
@@ -115,6 +116,14 @@ public class FiasElement {
 
 	public void setFormalname(String formalname) {
 		this.formalname = formalname;
+	}
+
+	public String getShortname() {
+		return shortname;
+	}
+
+	public void setShortname(String shortname) {
+		this.shortname = shortname;
 	}
 
 	public int getActstatus() {

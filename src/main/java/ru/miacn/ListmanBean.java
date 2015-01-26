@@ -8,13 +8,10 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 
 import ru.miacn.fias.FiasEditor;
 import ru.miacn.orm.PatientOrm;
@@ -22,7 +19,6 @@ import ru.miacn.utils.JpaUtils;
 
 @Named
 @SessionScoped
-@Transactional
 public class ListmanBean implements Serializable {
 	public static final long serialVersionUID = -229673017810787765L;
 	
@@ -53,7 +49,6 @@ public class ListmanBean implements Serializable {
 	public void search() throws Exception {
 		String sql = searchSql;
     	Map<String, Object> params = new HashMap<>();
-//		FacesContext fc = FacesContext.getCurrentInstance();
     	
     	try{
 	    	if (!getSrcFam().isEmpty()) {
@@ -79,10 +74,6 @@ public class ListmanBean implements Serializable {
         } catch (Exception e) {
         	throw new Exception("Произошла ошибка при выполнении поиска пациентов");
     	}
-//	    } catch (Exception e) {
-//			e.printStackTrace();
-//			fc.addMessage(null, getErrorMessage("Oшибка при выполнении запроса: "+e.getMessage()));
-//		}
     }
     
     public void clearSearch() throws Exception {
@@ -98,12 +89,8 @@ public class ListmanBean implements Serializable {
 		String sql_where = "";
 		Map<String, Object> params = new HashMap<>();
 		String sql = searchSql;
-//		FacesContext fc = FacesContext.getCurrentInstance();
 		
         try {
-//    		Integer integ = null;
-//    		integ.toString();
-
 			if (fpar.getSelectedRegObs() != null) {
 	    		sql_where += "AND e.med_reg_id = :reg_id ";
 	    		params.put("reg_id", fpar.getSelectedRegObs().getRegId());
@@ -209,18 +196,7 @@ public class ListmanBean implements Serializable {
         } catch (Exception e) {
         	throw new Exception("Произошла ошибка при выполнении фильтра записей");
     	}
-//	        try {
-//        } catch (Exception e) {
-//			e.printStackTrace();
-//			fc.addMessage(null, getErrorMessage("Oшибка при выполнении запроса: "+e.getMessage()));
-//		}
 	}
-
-//	private FacesMessage getErrorMessage(String text) {
-//		FacesMessage msg = new FacesMessage(text);
-//		msg.setSeverity(FacesMessage.SEVERITY_ERROR);
-//		return msg;
-//	}
 	
 	public String getSrcFam() {
 		return srcFam;
