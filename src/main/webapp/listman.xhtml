@@ -44,9 +44,12 @@
 		      </p:commandLink>
 		  </p:outputPanel>	      
 		  
-			<p:dataTable id="patientTable" value="#{listmanBean.patients}" var="v" class="my-table my-table--auto patient__table patient__table--str">
+			<p:dataTable id="patientTable" value="#{listmanBean.patients}" var="v" 
+                paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				paginator="true" rows="10" lazy="true" 
+				class="my-table my-table--auto patient__table patient__table--str">
+
 				<p:column headerText="&#160; Информация &#160; о пациенте">				   
-				   
 				    <p:link id="view" class="ui-icon ui-icon-open" outcome="editman">					        
 						<f:param name="patId" value="#{v.id}"/>
 						<f:param name="editable" value="false"/>

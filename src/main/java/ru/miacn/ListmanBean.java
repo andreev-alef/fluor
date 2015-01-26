@@ -73,8 +73,7 @@ public class ListmanBean implements Serializable {
 	    		params.put("dat_birth", getSrcDr());
 	    	}
 	    	sql += ""
-	    			+ "ORDER BY p._ver_parent_id, e.dat desc "
-	    			+ "LIMIT 32 ";
+	    			+ "ORDER BY p._ver_parent_id, e.dat desc ";
     	
     		setPatients(JpaUtils.getNativeResultList(em, sql, params, PatientOrm.class));
         } catch (Exception e) {
@@ -204,7 +203,7 @@ public class ListmanBean implements Serializable {
 	    	}
 	    	
 	    	sql += sql_where;
-	    	sql += "LIMIT 32 ";
+	    	sql += "ORDER BY p._ver_parent_id, e.dat desc ";
 	    	
 	    	setPatients(JpaUtils.getNativeResultList(em, sql, params, PatientOrm.class));
         } catch (Exception e) {
