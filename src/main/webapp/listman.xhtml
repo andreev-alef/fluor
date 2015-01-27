@@ -44,9 +44,9 @@
 		      </p:commandLink>
 		  </p:outputPanel>	      
 		  
-			<p:dataTable id="patientTable" value="#{listmanBean.patients}" var="v" 
+			<p:dataTable id="patientTable" value="#{listmanBean.model}" var="v" 
                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-				paginator="true" rows="10" lazy="true" 
+				paginator="true" rows="3" lazy="true" 
 				class="my-table my-table--auto patient__table patient__table--str">
 
 				<p:column headerText="&#160; Информация &#160; о пациенте">				   
