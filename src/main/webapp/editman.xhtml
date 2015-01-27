@@ -175,7 +175,7 @@
 	    	<p:outputPanel class="ui-icon ui-icon-Left"/>
             <h:outputText value="Вернуться к списку пациентов" />
           </p:link>
-          <p:link value="Печать направления на флюорографию" href="report?id=4&amp;pdf" class="button-volume button-volume--big margin-left--big" icon="ui-icon-Letter"/>
+          <p:commandLink value="Печать направления на флюорографию" action="#{editmanBean.printReport(4, true)}" class="button-volume button-volume--big margin-left--big" icon="ui-icon-Letter"/>
       </p:outputPanel>
 	</h:form>
 	
