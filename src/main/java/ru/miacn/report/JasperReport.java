@@ -5,10 +5,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.Map;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import net.sf.jasperreports.engine.JREmptyDataSource;
@@ -27,6 +29,14 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 
 public abstract class JasperReport {
 	private static final String jasperResourcePath = getJasperResourcePath();
+	
+	public Integer morId;
+	public Integer motId;
+	public Integer momId;
+	public Date datStart;
+	public Date datEnd;
+	public Integer patId;
+	
 	private String resName;
 	
 	public JasperReport(String jasperResourceNamePrefix) {
@@ -49,6 +59,15 @@ public abstract class JasperReport {
 		path += "jasper/";
 		
 		return path;
+	}
+	
+	public void setParameters(HttpSession session) {
+		morId = (session.getAttribute("morId") != null) ? new Integer((Integer) session.getAttribute("morId")) : null;
+		motId = (session.getAttribute("motId") != null) ? new Integer((Integer) session.getAttribute("motId")) : null;
+		momId = (session.getAttribute("momId") != null) ? new Integer((Integer) session.getAttribute("momId")) : null;
+		datStart = (session.getAttribute("datStart") != null) ? new Date(((Date) session.getAttribute("datStart")).getTime()) : null;
+		datEnd = (session.getAttribute("datEnd") != null) ? new Date(((Date) session.getAttribute("datEnd")).getTime()) : null;
+		patId = (session.getAttribute("patId") != null) ? new Integer((Integer) session.getAttribute("patId")) : null;
 	}
 	
 	protected Connection getConnection() throws NamingException, SQLException {
