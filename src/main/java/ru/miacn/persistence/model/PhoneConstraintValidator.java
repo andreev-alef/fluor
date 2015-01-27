@@ -22,18 +22,21 @@ public class PhoneConstraintValidator implements ConstraintValidator<PhoneAnnota
 		Pattern p;
 		Matcher m;
 		
-		p = Pattern.compile("[\\d\\s\\(\\)\\-\\+]+", Pattern.UNICODE_CHARACTER_CLASS);
-		m = p.matcher(value);
-		if (!m.matches()){
-			hasErrors = true;
-			fc.addMessage(null, getErrorMessage("Введены недопустимые символы в номере телефона."));
-		}
+		if (!value.isEmpty()){
+			p = Pattern.compile("[\\d\\s\\(\\)\\-\\+]+", Pattern.UNICODE_CHARACTER_CLASS);
+			m = p.matcher(value);
+			if (!m.matches()){
+				hasErrors = true;
+				fc.addMessage(null, getErrorMessage("Введены недопустимые символы в номере телефона."));
+			}
 
-		p = Pattern.compile("^((8|\\+7)[\\- ]?)?(\\(?\\d{3}\\)?[\\- ]?)?[\\d\\- ]{5,10}$", Pattern.UNICODE_CHARACTER_CLASS);
-		m = p.matcher(value);
-		if (!m.matches()){
-			hasErrors = true;
-			fc.addMessage(null, getErrorMessage("Некорректный номер телефона."));
+			p = Pattern.compile("^((8|\\+7)[\\- ]?)?(\\(?\\d{3}\\)?[\\- ]?)?[\\d\\- ]{5,10}$", Pattern.UNICODE_CHARACTER_CLASS);
+			m = p.matcher(value);
+			if (!m.matches()){
+				hasErrors = true;
+				fc.addMessage(null, getErrorMessage("Некорректный номер телефона."));
+			}
+			
 		}
 
 		return !hasErrors;
