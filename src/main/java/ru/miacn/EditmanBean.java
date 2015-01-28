@@ -48,6 +48,8 @@ public class EditmanBean implements Serializable {
 	private ExaminationBean exam;
 	@Inject
 	private FiasEditor fias;
+	@Inject
+	private LoginBean login;
 	
 	private Patient patient;
 	
@@ -220,6 +222,8 @@ public class EditmanBean implements Serializable {
 			} else {
 				patient.setRMedicalOrgPoliclinic(null);
 			}
+			
+			patient.setUser(login.getAuthedUser());
 			em.persist(patient);
         }
         catch (Exception e) {

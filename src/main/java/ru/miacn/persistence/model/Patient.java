@@ -92,6 +92,9 @@ public class Patient {
 			@JoinColumn(name = "med_pol_id", referencedColumnName = "pol_id"),
 			@JoinColumn(name = "med_reg_id", referencedColumnName = "reg_id") })
 	private RMedicalOrgPoliclinic rMedicalOrgPoliclinic;
+	@OneToOne
+	@JoinColumn(name = "user_id")
+	private User user;
 
 	public Patient() {
 		citizen =  new RCitizen();
@@ -101,6 +104,7 @@ public class Patient {
 		medGroup = new RMedGroup();
 		socGroup = new RSocGroup();
 		rMedicalOrgPoliclinic = new RMedicalOrgPoliclinic();
+		user = new User();
 	}
 	
 	public int getNameFieldSize() {
@@ -243,4 +247,11 @@ public class Patient {
 		this.rMedicalOrgPoliclinic = rMedicalOrgPoliclinic;
 	}
 
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 }
