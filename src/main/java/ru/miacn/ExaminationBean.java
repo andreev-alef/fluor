@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -33,8 +34,10 @@ import ru.miacn.utils.JpaUtils;
 public class ExaminationBean implements Serializable {
 	private static final long serialVersionUID = 5513014259706142020L;
 
-	@PersistenceContext(unitName = "fluor-PU")
+	@PersistenceContext(unitName = "fluor-PU")	
 	private EntityManager em;
+	@Inject
+	private LoginBean login;
 	
 	private int patientId;
 	private List<Examination> examinations;
@@ -149,7 +152,8 @@ public class ExaminationBean implements Serializable {
 		} else {
 			selectedExamination.setRMedicalOrgMain(null);
 		}
-
+		
+		selectedExamination.setUser(login.getAuthedUser());
 		em.persist(em.merge(selectedExamination));
 		loadExam(selectedExamination.getPatientId().getId(), isEditMode());
     }

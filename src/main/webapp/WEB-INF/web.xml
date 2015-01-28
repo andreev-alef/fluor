@@ -26,30 +26,6 @@
   <servlet-name>report</servlet-name>
   <url-pattern>/report</url-pattern>
  </servlet-mapping>
- <welcome-file-list>
-  <welcome-file>listman.xhtml</welcome-file>
- </welcome-file-list>
-<!-- <security-constraint>
-  <web-resource-collection>
-   <web-resource-name>all</web-resource-name>
-   <url-pattern>/*</url-pattern>
-   <http-method>GET</http-method>
-   <http-method>POST</http-method>
-  </web-resource-collection>
-  <auth-constraint>
-   <role-name>USER</role-name>
-   <role-name>MANAGER</role-name>
-  </auth-constraint>
- </security-constraint>
- 
- <security-constraint>
-  <web-resource-collection>
-    <web-resource-name>Public</web-resource-name>
-    	<description>Matches a few special pages.</description>
-    	<url-pattern>/login.xhtml</url-pattern>
-  	</web-resource-collection>
-</security-constraint>
- 
  <login-config>
   <auth-method>FORM</auth-method>
   <realm-name>FluorDomain</realm-name>
@@ -58,10 +34,34 @@
    <form-error-page>/login.xhtml</form-error-page>
   </form-login-config>
  </login-config> 
- <security-role>
+  <security-role>
   <role-name>USER</role-name>
  </security-role>
  <security-role>
   <role-name>MANAGER</role-name>
- </security-role>-->
+ </security-role>
+ <security-constraint>
+  <web-resource-collection>
+    <web-resource-name>Public</web-resource-name>
+    	<description>Matches a few special pages.</description>
+    	<url-pattern>/login.xhtml</url-pattern>
+  	</web-resource-collection>
+</security-constraint>
+ <security-constraint>
+  <web-resource-collection>
+   <web-resource-name>all</web-resource-name>
+   <url-pattern>/*</url-pattern>
+   <http-method>GET</http-method>
+   <http-method>POST</http-method>
+  </web-resource-collection>
+  <!-- ${enable.security.end}
+  <auth-constraint>
+   <role-name>USER</role-name>
+   <role-name>MANAGER</role-name>
+  </auth-constraint>
+  ${enable.security.start} -->
+ </security-constraint>
+ <welcome-file-list>
+  <welcome-file>listman.xhtml</welcome-file>
+ </welcome-file-list>
 </web-app>
