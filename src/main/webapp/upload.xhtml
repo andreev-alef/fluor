@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+  <title>Флюрокартотека - подгрузка данных</title>
+</h:head>
+<h:body> 
+  <h:form>
+    <p:panel header="Загрузка шаблона">
+      <p:panelGrid columns="2">
+        <p:commandButton value="В формате xls" ajax="false">
+          <p:fileDownload value="#{uploadBean.fileXls}"  />
+        </p:commandButton>
+        <p:commandButton value="В формате xlsx" ajax="false">
+          <p:fileDownload value="#{uploadBean.fileXlsx}" />
+        </p:commandButton>
+      </p:panelGrid>
+    </p:panel>
+    <p:panel header="Подгрузка данных">
+      <p:panelGrid columns="1">
+        <p:fileUpload label="Выбор файла" uploadLabel="Подгрузка" update="uploadCount uploadMessage" allowTypes="/(\.|\/)(xls|xlsx)$/" sizeLimit="10485760" fileLimit="1" fileUploadListener="#{uploadBean.fileUpload}" />
+        <p:outputLabel id="uploadCount" value="#{uploadBean.countMessage}" />
+        <p:outputLabel id="uploadMessage" value="#{uploadBean.uploadMessage}" />
+      </p:panelGrid>
+    </p:panel>
+    <p:button value="Вернуться к списку пациентов" outcome="listman" />
+  </h:form>
+</h:body>
+</html>
