@@ -176,7 +176,7 @@ public class Patient {
 	}
 
 	public void setFatherName(String fatherName) {
-		this.fatherName = fatherName;
+		this.fatherName = fatherName.substring(0, 1).toUpperCase() + fatherName.substring(1).toLowerCase();
 	}
 
 	public String getFirstName() {
@@ -184,7 +184,7 @@ public class Patient {
 	}
 
 	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+		this.firstName = firstName.substring(0, 1).toUpperCase() + firstName.substring(1).toLowerCase();
 	}
 
 	public String getLastName() {
@@ -192,7 +192,7 @@ public class Patient {
 	}
 
 	public void setLastName(String lastName) {
-		this.lastName = lastName;
+		this.lastName = lastName.substring(0, 1).toUpperCase() + lastName.substring(1).toLowerCase();
 	}
 
 	public RGender getGender() {
