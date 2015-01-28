@@ -124,6 +124,40 @@
 					<outputDirectory>src/main/resources/jasper</outputDirectory>
 				</configuration>
 			</plugin>
+			<plugin>
+            	<groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+      				<webResources>
+        				<resource>
+          					<filtering>true</filtering>
+          					<directory>src/main/webapp</directory>
+          					<includes>
+            					<include>**/web.xml</include>
+          					</includes>
+        				</resource>
+      				</webResources>
+      				<warSourceDirectory>src/main/webapp</warSourceDirectory>
+      				<webXml>src/main/webapp/WEB-INF/web.xml</webXml>
+                </configuration>
+           </plugin>
 		</plugins>
 	</build>
+	<profiles>
+  		<profile>
+    		<id>production</id> 
+    			<properties>
+    				<enable.security.start>&lt;!--</enable.security.start> 
+    				<enable.security.end>--&gt;</enable.security.end>
+    			</properties>
+  		</profile>
+  		<profile>
+    		<id>development</id>
+    		<properties>
+    			<enable.security.start></enable.security.start> 
+    			<enable.security.end></enable.security.end>
+    		</properties>
+  		</profile>
+	</profiles>
 </project>

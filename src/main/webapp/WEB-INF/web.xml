@@ -54,10 +54,12 @@
    <http-method>GET</http-method>
    <http-method>POST</http-method>
   </web-resource-collection>
-  <!--<auth-constraint>
+  <!-- ${enable.security.end}
+  <auth-constraint>
    <role-name>USER</role-name>
    <role-name>MANAGER</role-name>
-  </auth-constraint>-->
+  </auth-constraint>
+  ${enable.security.start} -->
  </security-constraint>
  <welcome-file-list>
   <welcome-file>listman.xhtml</welcome-file>
