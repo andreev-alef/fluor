@@ -55,6 +55,10 @@ public class Examination {
 	@OneToOne
 	@JoinColumn(name="result_id")
 	private RResultType rResultType;
+	
+	@OneToOne
+	@JoinColumn(name="user_id")
+	private User user;
 
 	public Integer getId() {
 		return this.id;
@@ -118,5 +122,13 @@ public class Examination {
 
 	public void setRVerification(RVerification rVerification) {
 		this.rVerification = rVerification;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 }

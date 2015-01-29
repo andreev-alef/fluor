@@ -90,7 +90,7 @@
 	        	<p:outputLabel for="sex" value="Пол" />
 			</p:column>
 			<p:column>
-		        <p:selectOneMenu id="sex" value="#{editmanBean.patient.gender}" converter="#{editmanBean.sexConverter}" class="my-select">
+		        <p:selectOneMenu id="sex" value="#{editmanBean.patient.gender}" converter="#{editmanBean.sexConverter}" required="true" class="my-select">
 		          <f:selectItem itemLabel="Выберите пол" itemValue="#{null}" />
 		          <f:selectItems value="#{editmanBean.sexList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
 		        </p:selectOneMenu>
@@ -102,7 +102,7 @@
 	        	<p:outputLabel for="grj" value="Гражданство" />
 			</p:column>
 			<p:column colspan="3">
-		        <p:selectOneMenu id="grj" value="#{editmanBean.patient.citizen}" converter="#{editmanBean.citizenConverter}" class="my-select">
+		        <p:selectOneMenu id="grj" value="#{editmanBean.patient.citizen}" converter="#{editmanBean.citizenConverter}" required="true" class="my-select">
 		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
 		          <f:selectItems value="#{editmanBean.citizenList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
 		        </p:selectOneMenu>
@@ -196,12 +196,11 @@
 		  <p:button value="Отменить" outcome="listman" class="button-volume button-volume--mini margin-left--big" icon="ui-icon-undo"/>
 		</p:outputPanel>
     </p:panel>
-  
-
 	</h:form>
 
 </p:outputPanel>	
 </p:outputPanel>
+   	
    	<h:form id="frmException" >
 	    <p:ajaxExceptionHandler type="java.lang.Exception"
 	                            update="exceptionDialog"

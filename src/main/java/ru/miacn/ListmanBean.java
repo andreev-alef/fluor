@@ -13,6 +13,9 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortOrder;
+
 import ru.miacn.fias.FiasEditor;
 import ru.miacn.orm.PatientOrm;
 import ru.miacn.utils.JpaUtils;
@@ -33,6 +36,7 @@ public class ListmanBean implements Serializable {
 	private String srcOt;
 	private Date srcDr;
 	private List<PatientOrm> patients;
+	private LazyDataModel<PatientOrm> model;
 	
 	@PersistenceContext(unitName = "fluor-PU")
 	private EntityManager em;
@@ -42,15 +46,31 @@ public class ListmanBean implements Serializable {
 	private FiasEditor fias;
 
     @PostConstruct
-    public void init() throws Exception {
-    	clearSearch();
+    public void init() {
+    	try {
+			clearSearch();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+//    	model = new LazyDataModel<PatientOrm>(){
+// 			private static final long serialVersionUID = 1L;
+//			@Override
+//    		public List<PatientOrm> load(int first, int pageSize, String sortField,
+//    								SortOrder sortOrder, Map<String,Object> filters) {
+//				return patients;
+//    	   	}
+//    	};
+//		model.setRowCount(patients.size());
     }
-    
-	public void search() throws Exception {
-		String sql = searchSql;
-    	Map<String, Object> params = new HashMap<>();
-    	
+
+    public LazyDataModel<PatientOrm> getModel() {
+		return model;
+	}
+
+    public void search() throws Exception {
     	try{
+			String sql = searchSql;
+	    	Map<String, Object> params = new HashMap<>();
 	    	if (!getSrcFam().isEmpty()) {
 	    		sql += "AND p.last_name ILIKE :last_name ";
 	    		params.put("last_name", getSrcFam() + "%");
@@ -67,14 +87,32 @@ public class ListmanBean implements Serializable {
 	    		sql += "AND p.dat_birth = :dat_birth ";
 	    		params.put("dat_birth", getSrcDr());
 	    	}
-	    	sql += ""
-	    			+ "ORDER BY p._ver_parent_id, e.dat desc "
-	    			+ "LIMIT 32 ";
-    	
+	    	sql += "ORDER BY p._ver_parent_id, e.dat desc ";
     		setPatients(JpaUtils.getNativeResultList(em, sql, params, PatientOrm.class));
         } catch (Exception e) {
         	throw new Exception("Произошла ошибка при выполнении поиска пациентов");
     	}
+	    	
+    	model = new LazyDataModel<PatientOrm>(){
+ 			private static final long serialVersionUID = 1L;
+			@Override
+    		public List<PatientOrm> load(int first, int pageSize, String sortField,
+    								SortOrder sortOrder, Map<String,Object> filters) {
+		    	int dataSize = patients.size();
+				setRowCount(dataSize);
+		        if(dataSize > pageSize) {
+		            try {
+		                return patients.subList(first, first + pageSize);
+		            }
+		            catch(IndexOutOfBoundsException e) {
+		                return patients.subList(first, first + (dataSize % pageSize));
+		            }
+		        }
+		        else {
+			    	return patients;
+		        }
+    	   	}
+    	};
     }
     
     public void clearSearch() throws Exception {
@@ -191,12 +229,32 @@ public class ListmanBean implements Serializable {
 	    	}
 	    	
 	    	sql += sql_where;
-	    	sql += "LIMIT 32 ";
+	    	sql += "ORDER BY p._ver_parent_id, e.dat desc ";
 	    	
 	    	setPatients(JpaUtils.getNativeResultList(em, sql, params, PatientOrm.class));
         } catch (Exception e) {
         	throw new Exception("Произошла ошибка при выполнении фильтра записей");
     	}
+    	model = new LazyDataModel<PatientOrm>(){
+ 			private static final long serialVersionUID = 1L;
+			@Override
+    		public List<PatientOrm> load(int first, int pageSize, String sortField,
+    								SortOrder sortOrder, Map<String,Object> filters) {
+		    	int dataSize = patients.size();
+				setRowCount(dataSize);
+		        if(dataSize > pageSize) {
+		            try {
+		                return patients.subList(first, first + pageSize);
+		            }
+		            catch(IndexOutOfBoundsException e) {
+		                return patients.subList(first, first + (dataSize % pageSize));
+		            }
+		        }
+		        else {
+			    	return patients;
+		        }
+    	   	}
+    	};
 	}
 	
 	public String getSrcFam() {
@@ -232,7 +290,7 @@ public class ListmanBean implements Serializable {
 	}
 
 	public List<PatientOrm> getPatients() {
-		return patients;
+		return (List<PatientOrm>) patients;
 	}
 
 	public void setPatients(List<PatientOrm> patients) {

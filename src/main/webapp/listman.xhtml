@@ -47,9 +47,11 @@
 		  </p:outputPanel>
 		  
 		  <p:outputPanel class="main clearfix"> 
-			<p:dataTable id="patientTable" value="#{listmanBean.patients}" var="v" class="my-table my-table--auto patient__table patient__table--str">
+			<p:dataTable id="patientTable" value="#{listmanBean.model}" var="v" 
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				paginator="true" rows="3" lazy="true" 
+				class="my-table my-table--auto patient__table patient__table--str">
 				<p:column headerText="&#160; Информация &#160; о пациенте">				   
-				   
 				    <p:link id="view" class="ui-icon ui-icon-open" outcome="viewman">					        
 						<f:param name="patId" value="#{v.id}"/>
 						<f:param name="editable" value="false"/>
@@ -128,13 +130,13 @@
 				<p:commandLink update=":frmPrint:pnlDlg" oncomplete="PF('print').show()" class="button-volume button-volume--link margin-left--big" >
 					<p:outputPanel class="ui-icon ui-icon-reports"/>
 					<h:outputText value="Отчетные формы"/>
-			        <p:ajax listener="#{reportBean.clearFilter()}" />
+			        	<p:ajax listener="#{reportBean.clearFilter()}" />
 				</p:commandLink>
 				
-				<p:commandLink class="button-volume button-volume--link margin-left--big" >
+				<p:link outcome="upload" class="button-volume button-volume--link margin-left--big" >
 					<p:outputPanel class="ui-icon ui-icon ui-icon-xls"/>
 					<h:outputText value="Загрузить из файла"/>
-				</p:commandLink>
+				</p:link>
 				
 				<p:link outcome="planman" class="button-volume button-volume--link margin-left--big">
 				    <p:outputPanel class="ui-icon ui-icon-plan"/>
@@ -313,8 +315,8 @@
 				          <f:selectItems value="#{reportBean.moMainList}" var="r" itemLabel="#{r.id.lpuId} - #{r.name}" itemValue="#{r}" />
 						</p:selectOneMenu>
 
-						<p:outputLabel for="rep_clmo" value="Поликлиника" />
-						<p:selectOneMenu id="rep_clmo" value="#{reportBean.selectedMop}" converter="#{reportBean.mopConverter}" class="my-select">
+						<p:outputLabel rendered="false" for="rep_clmo" value="Поликлиника" />
+						<p:selectOneMenu rendered="false" id="rep_clmo" value="#{reportBean.selectedMop}" converter="#{reportBean.mopConverter}" class="my-select">
 		                  <f:selectItem itemLabel="#{reportBean.moPoliclinicList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
 				          <f:selectItems value="#{reportBean.moPoliclinicList}" var="r" itemLabel="#{r.id.polId} - #{r.name}" itemValue="#{r}" />
 						</p:selectOneMenu>
@@ -332,27 +334,19 @@
 					    </p:column>
 					</h:panelGrid>
 				   </p:panel>
-				  <p:panel header="Вид отчета" class="blok-overlay">					
+				  <p:panel header="Вид отчета" class="blok-overlay">
+				    <p:messages autoUpdate="true"/>
 					<h:panelGrid columns="3" class="invis vid-reports--str">
 						<p:outputLabel value="1. Флюороосмотры социальных групп населения" />
 						
 						<p:outputPanel class="button-link button-link--blue"> 
-						<p:link class="ui-icon ui-icon-paper" href="report?id=1">
-							<f:param name="id" value="1" />
-						</p:link>	
-						<p:link value="Показать на экране" href="report?id=1">							
-							<f:param name="id" value="1" />
-						</p:link>
+						<p:commandLink class="ui-icon ui-icon-paper" action="#{reportBean.printReport(1, false)}" />
+						<p:commandLink value="Показать на экране" action="#{reportBean.printReport(1, false)}" />
 						</p:outputPanel>
 						
 						<p:outputPanel class="button-link button-link--blue"> 
-						<p:link class="ui-icon ui-icon-pdf" href="report?id=1&amp;pdf">
-							<f:param name="id" value="1" />
-						</p:link>
-						<p:link value="Сформировать в PDF" href="report?id=1&amp;pdf">
-							<f:param name="id" value="1" />
-							<f:param name="pdf" value="true" />
-						</p:link>
+						<p:commandLink class="ui-icon ui-icon-pdf" action="#{reportBean.printReport(1, true)}" />
+						<p:commandLink value="Сформировать в PDF" action="#{reportBean.printReport(1, true)}" />
 						</p:outputPanel>
 						
 						
@@ -360,22 +354,13 @@
 						<p:outputLabel value="2. Флюороосмотры декретированных групп населения" />
 						
 						<p:outputPanel class="button-link button-link--blue"> 
-						<p:link class="ui-icon ui-icon-paper" href="report?id=3">
-							<f:param name="id" value="3" />
-						</p:link>						
-						<p:link value="Показать на экране" href="report?id=3">
-							<f:param name="id" value="3" />
-						</p:link>
+						<p:commandLink class="ui-icon ui-icon-paper" action="#{reportBean.printReport(3, false)}" />						
+						<p:commandLink value="Показать на экране" action="#{reportBean.printReport(3, false)}" />
 						</p:outputPanel>
 						
 						<p:outputPanel class="button-link button-link--blue"> 
-						<p:link class="ui-icon ui-icon-pdf" href="report?id=3&amp;pdf">
-							<f:param name="id" value="3" />
-						</p:link>
-						<p:link value="Сформировать в PDF" href="report?id=3&amp;pdf">
-							<f:param name="id" value="3" />
-							<f:param name="pdf" value="true" />
-						</p:link>
+						<p:commandLink class="ui-icon ui-icon-pdf" action="#{reportBean.printReport(3, true)}" />
+						<p:commandLink value="Сформировать в PDF" action="#{reportBean.printReport(3, true)}" />
 						</p:outputPanel>
 
 												
@@ -383,22 +368,13 @@
 						<p:outputLabel value="3. Флюороосмотры медицинских групп населения" />
 						
 						<p:outputPanel class="button-link button-link--blue">
-						<p:link class="ui-icon ui-icon-paper" href="report?id=2">
-							<f:param name="id" value="2" />
-						</p:link>  
-						<p:link value="Показать на экране" href="report?id=2">
-							<f:param name="id" value="2" />
-						</p:link>
+						<p:commandLink class="ui-icon ui-icon-paper" action="#{reportBean.printReport(2, false)}" />  
+						<p:commandLink value="Показать на экране" action="#{reportBean.printReport(2, false)}" />
 						</p:outputPanel>
 						
 						<p:outputPanel class="button-link button-link--blue"> 
-						<p:link class="ui-icon ui-icon-pdf" href="report?id=2&amp;pdf">
-							<f:param name="id" value="2" />
-						</p:link>
-						<p:link value="Сформировать в PDF" href="report?id=2&amp;pdf">
-							<f:param name="id" value="2" />
-							<f:param name="pdf" value="true" />
-						</p:link>
+						<p:commandLink class="ui-icon ui-icon-pdf" action="#{reportBean.printReport(2, true)}" />
+						<p:commandLink value="Сформировать в PDF" action="#{reportBean.printReport(2, true)}" />
 						</p:outputPanel>
 						
 						

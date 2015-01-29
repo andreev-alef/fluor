@@ -1,5 +1,6 @@
 package ru.miacn;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -7,13 +8,19 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.transaction.Transactional;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.transaction.UserTransaction;
 
 import ru.miacn.fias.FiasEditor;
 import ru.miacn.fias.FiasElement;
@@ -42,6 +49,11 @@ public class EditmanBean implements Serializable {
 	private ExaminationBean exam;
 	@Inject
 	private FiasEditor fias;
+	@Inject
+	private LoginBean login;
+	
+	@Resource UserTransaction saveTransaction;
+
 	
 	private Patient patient;
 	
@@ -117,28 +129,28 @@ public class EditmanBean implements Serializable {
 			
 			if (getPatient().getRMedicalOrgPoliclinic() != null) {
 				for (id = 0; id < moRegionList.size(); id++) {
-					if (moRegionList.get(id).getRegId() == getPatient().getRMedicalOrgPoliclinic().getId().getRegId())
+					if (moRegionList.get(id).getRegId().compareTo(getPatient().getRMedicalOrgPoliclinic().getId().getRegId()) == 0)
 						break;
 				}
 				setSelectedMor((id < moRegionList.size()) ? moRegionList.get(id) : null);
 				morSelected();
 				
 				for (id = 0; id < moTerList.size(); id++) {
-					if (moTerList.get(id).getId().getTerId() == getPatient().getRMedicalOrgPoliclinic().getId().getTerId())
+					if (moTerList.get(id).getId().getTerId().compareTo(getPatient().getRMedicalOrgPoliclinic().getId().getTerId()) == 0)
 						break;
 				}
 				setSelectedMot((id < moTerList.size()) ? moTerList.get(id) : null);
 				motSelected();
 				
 				for (id = 0; id < moMainList.size(); id++) {
-					if (moMainList.get(id).getId().getLpuId() == getPatient().getRMedicalOrgPoliclinic().getId().getLpuId())
+					if (moMainList.get(id).getId().getLpuId().compareTo(getPatient().getRMedicalOrgPoliclinic().getId().getLpuId()) == 0)
 						break;
 				}
 				setSelectedMom((id < moMainList.size()) ? moMainList.get(id) : null);
 				momSelected();
 				
 				for (id = 0; id < moPoliclinicList.size(); id++) {
-					if (moPoliclinicList.get(id).getId().getPolId() == getPatient().getRMedicalOrgPoliclinic().getId().getPolId())
+					if (moPoliclinicList.get(id).getId().getPolId().compareTo(getPatient().getRMedicalOrgPoliclinic().getId().getPolId()) == 0)
 						break;
 				}
 				setSelectedMop((id < moPoliclinicList.size()) ? moPoliclinicList.get(id) : null);
@@ -183,7 +195,6 @@ public class EditmanBean implements Serializable {
 		return fias.getAddress();
 	}
 
-	@Transactional
 	public String savePatientAndRedirect() throws Exception {
 		savePatient();
 		
@@ -192,6 +203,7 @@ public class EditmanBean implements Serializable {
 	
 	public void savePatient() throws Exception {
         try {
+        	saveTransaction.begin();
 			if (patient.getId() == null) {
 				PatientId pid = new PatientId();
 				em.persist(pid);
@@ -214,9 +226,13 @@ public class EditmanBean implements Serializable {
 			} else {
 				patient.setRMedicalOrgPoliclinic(null);
 			}
+			
+			patient.setUser(login.getAuthedUser());
 			em.persist(patient);
+			saveTransaction.commit();
         }
         catch (Exception e) {
+        	saveTransaction.rollback();
         	throw new Exception("Произошла ошибка при сохранении данных пациента");
 		}
 	}
@@ -244,6 +260,18 @@ public class EditmanBean implements Serializable {
 		addr.setLivFacility(fias.getKorp());
 		addr.setLivBuilding(fias.getStr());
 		addr.setLivFlat(fias.getKv());
+	}
+	
+	public void printReport(int id, boolean pdf) throws IOException, ServletException {
+		FacesContext ctx = FacesContext.getCurrentInstance();
+		ExternalContext ec = ctx.getExternalContext();
+		HttpServletRequest req = (HttpServletRequest) ec.getRequest();
+		HttpSession ses = req.getSession();
+		
+		ses.setAttribute("id", id);
+		ses.setAttribute("pdf", pdf);
+		ses.setAttribute("patId", getPatient().getId());
+		ec.redirect("report");
 	}
 	
 	public Patient getPatient() {

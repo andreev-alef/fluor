@@ -1,16 +1,24 @@
 package ru.miacn;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import ru.miacn.persistence.reference.ListConverter;
 import ru.miacn.persistence.reference.RMedicalOrgMain;
@@ -107,6 +115,58 @@ public class ReportBean  implements Serializable{
 			setMoPoliclinicList(new ArrayList<RMedicalOrgPoliclinic>());
 		}
 		setSelectedMop(null);
+	}
+	
+	public void printReport(int id, boolean pdf) throws IOException, ServletException {
+		if (!checkReportParams())
+			return;
+		
+		FacesContext ctx = FacesContext.getCurrentInstance();
+		ExternalContext ec = ctx.getExternalContext();
+		HttpServletRequest req = (HttpServletRequest) ec.getRequest();
+		HttpSession ses = req.getSession();
+		
+		ses.setAttribute("id", id);
+		ses.setAttribute("pdf", pdf);
+		ses.setAttribute("morId", getSelectedMor().getRegId());
+		ses.setAttribute("motId", getSelectedMot().getId().getTerId());
+		if (getSelectedMom() != null)
+			ses.setAttribute("momId", getSelectedMom().getId().getLpuId());
+		ses.setAttribute("datStart", getDatStart());
+		ses.setAttribute("datEnd", getDatEnd());
+		ec.redirect("report");
+	}
+	
+	private boolean checkReportParams() {
+		String errorText = "";
+		
+		if ((getSelectedMor() == null) || (getSelectedMot() == null))
+			errorText = "Не выбран регион и/или населенный пункт.";
+		else if ((getDatStart() == null) || (getDatEnd() == null))
+			errorText = "Не указан период формирования отчета.";
+		else if (getDatEnd().before(getDatStart()))
+			errorText = "Конец периода формирования отчета не может быть раньше начала.";
+		else {
+			Calendar calStart = Calendar.getInstance();
+			Calendar calEnd = Calendar.getInstance();
+			
+			calStart.setTime(getDatStart());
+			calEnd.setTime(getDatEnd());
+			
+			if (calStart.get(Calendar.YEAR) != calEnd.get(Calendar.YEAR))
+				errorText = "Период формирования отчета должен укладываться в один год.";
+		}
+		
+		if (!errorText.isEmpty()) {
+			FacesContext fc = FacesContext.getCurrentInstance();
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, errorText, null);
+			
+			fc.addMessage(null, msg);
+			
+			return false;
+		} else {
+			return true;
+		}
 	}
 	
 	public ListConverter getMorConverter() {
