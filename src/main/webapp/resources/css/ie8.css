@@ -1,0 +1,250 @@
+html {height:auto;}
+body {background: #C9E8FF;}
+.login {
+        filter:none;
+        background-image: url("#{resource['image/pattern-aadr.png']}");
+	background-repeat: repeat;
+}
+
+.content {
+	margin: 0;
+	margin-left: 160px;
+	}
+	
+/*Блок, позволяющий скрывать длинные значения внутри таблицы*/
+.move {			
+    white-space: normal;
+    }
+        
+/*Затемнение фона модального диалогового окна*/
+	.ui-widget-overlay {
+		filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#4c000000', endColorstr='#4c000000');	
+		}
+/*Поле ввода*/
+input[type="text"] {
+    line-height: 28px;
+    }
+    
+/*Белый градиент*/ 
+.white-gradient {
+    background:#fff;
+    height: 15px;
+}
+    
+/*Блок в оверлее*/
+.blok-overlay .ui-panel-titlebar{
+    background: #83CDE2;
+    margin-right: 14px;    
+    }
+    
+/*Селект*/
+.ui-selectonemenu-panel{
+	border:3px solid #d7d7d7;
+        }
+	
+
+/*Автозаполнение*/
+	.ui-autocomplete-panel {
+		border:3px solid #d7d7d7;	
+		}
+                
+/*Состояния*/	
+div.ui-state-focus, div.ui-state-active {		
+		border:#6dbbff 1px solid;		
+		}
+
+
+/*Структура. Панель поиска*/
+.search-panel--str tr td:first-child {width: 70px;}
+.search-panel--str tr td:first-child + *{width: 33.3333%;}
+.search-panel--str tr td:first-child + * + *{width: 48px;}
+.search-panel--str tr td:first-child + * + * + *{width: 33.3333%;}
+.search-panel--str tr td:first-child + * + * + * + *{width: 85px;}
+.search-panel--str tr td:first-child + * + * + * + * + *{width: 33.3333%;}
+.search-panel--str tr td:first-child + * + * + * + * + * + *{width: 122px;}
+.search-panel--str tr td:first-child + * + * + * + * + * + * + *{width: 93px; min-width: 93px;}
+.search-panel--str tr td:first-child + * + * + * + * + * + * + * + *  {width: 1%;}
+.search-panel--str tr td:first-child + * + * + * + * + * + * + * + * + * {width: 120px;} 
+.search-panel--str tr td:first-child + * + * + * + * + * + * + * + * + * + *{width: 152px;}  
+
+
+/*Структура. Таблица с пациенатами*/
+.patient__table--str tr th:first-child{max-width: 100px; text-align: center;}
+.patient__table--str tr td:first-child{max-width: 100px; text-align: center; padding:4px;}
+.patient__table--str tr th:first-child + *{padding-left: 10px;}
+.patient__table--str tr td:first-child + *{padding-left: 10px;}
+.patient__table--str tr th:first-child + * + * + * + * {max-width: 72px; text-align: center;}
+.patient__table--str tr th:first-child + * + * + * + * + *{text-align: center;}
+.patient__table--str tr th:first-child + * + * + * + * + * + * + * + *{max-width: 137px; text-align: center;}
+.patient__table--str tr td:first-child + * + * + * + * + * + * + * + *{max-width: 137px; text-align: center;}
+
+/*Структура. Информация о пациенте. Персональные данные*/
+.personal-data--str tr td:first-child{width: 126px;}
+.personal-data--str tr td:first-child + *{width: 93px; text-align: left;}
+.personal-data--str tr td:first-child + * + *{width: 57px;}
+.personal-data--str tr td:first-child + * + * + *{width: 100%;}
+
+/*Структура. Информация о пациенте. Телефон*/
+.tel--str tr td:first-child {width: 68px;}
+.tel--str tr td:first-child + *{width: 100%;}
+
+/*Структура. Информация о пациенте. Прикрепление по омс*/
+.oms--str tr td:first-child {width: 136px;}
+.oms--str tr td:first-child + *{width: 100%;}
+.oms--str tr:first-child + * + * + * + * td:first-child + *{text-align: left; height: 40px; padding-left: 10px;}
+
+/*Структура. Информация о пациенте. Группа риска*/
+.rguppa--str tr td:first-child{width: 247px;}
+.rguppa--str tr td:first-child + *{width:100%}
+
+/*Структура. Таблица с обследованиями.*/
+.exam--str tr th:first-child{width: 82px; padding-left: 10px;}
+.exam--str tr th:first-child + *{width: 140px;}
+.exam--str tr th:first-child + * + *{width: 257px;}
+.exam--str tr th:first-child + * + * + *{width: 131px;}
+.exam--str tr th:first-child + * + * + * + *{width: 106px;}
+.exam--str tr th:first-child + * + * + * + * + *{width: 103px;}
+.exam--str tr th:first-child + * + * + * + * + * + * {width: 78px; text-align: center;}
+.exam--str tr td:first-child{max-width: 82px; min-width: 82px;}
+.exam--str tr td:first-child + *{max-width: 140px; min-width:140px;}
+.exam--str tr td:first-child + * + *{max-width: 257px; min-width:57px;}
+.exam--str tr td:first-child + * + * + *{max-width:131px; min-width:131px;}
+.exam--str tr td:first-child + * + * + * + *{max-width: 106px; min-width:106px;}
+.exam--str tr td:first-child + * + * + * + * + *{max-width:103px; min-width:103px;}
+.exam--str tr td:first-child + * + * + * + * + * + *{max-width: 78px; min-width:78px;text-align: center;}
+
+/*Структура. Обследование. Добавление*/
+.add-exam--str {width: 600px;}
+.add-exam--str tr td:first-child{width: 190px;}
+.add-exam--str tr td:first-child + *{width: 100%; text-align: left;}
+
+/*Структура. Обследование. Удаление*/
+.delete-exam--str {max-width:600px;}
+.delete-exam--str tr td:first-child{width: 190px; vertical-align: top;}
+.delete-exam--str tr td:first-child + *{width: 100%; white-space:normal; text-align: left; color: red;}
+
+/*Структура. Фильтр*/
+.filtr--str {width:630px !important;}
+.filtr--str tr td:first-child {width: 180px;}
+.filtr--str tr td:first-child + *{width: 100%; text-align: left;}
+
+/*Структура. Отчеты.*/
+.report--str {width: 790px;}
+
+/*Структура. Отчеты. Уровень отчета*/
+.report--str tr td:first-child {width: 189px;}
+.report--str tr td:first-child + *{width: 100%; text-align: left;}
+
+/*Структура. Отчеты. Вид отчета*/
+.vid-reports--str tr td:first-child{width: 383px; text-align: left;}
+.vid-reports--str tr td:first-child + *{width: 50%; padding-left: 1em;}
+.vid-reports--str tr td:first-child + * + *{width: 50%; padding-left: 1em;}
+
+/*Структура. Информация о пациенте. ФИАС*/
+.fias--str tr:first-child td {height: 0px; padding: 0px;}
+.fias--str tr td:first-child{width: 135px;}
+.fias--str tr td:first-child + *{width: 50%;}
+.fias--str tr td:first-child + * + *{width: 91px;}
+.fias--str tr td:first-child + * + * + *{width: 50%;}
+
+/*Структура. Планы. Выблор организации*/
+.MO-plan--str tr td:first-child{width: 65px;}
+.MO-plan--str tr td:first-child + *{width: 60%;}
+.MO-plan--str tr tdfirst-child + * + *{width: 147px;}
+.MO-plan--str tr td:first-child + * + * + *{width: 40%;}
+.MO-plan--str tr td:first-child + * + * + * + *{width: 43px;}
+.MO-plan--str tr td:first-child + * + * + * + * + *{width: 83px;}
+
+/*Структура. Планы. Ввод*/
+.plan--str tr th:first-child{width: 20px;}
+.plan--str tr th:first-child + *{width: 100%;}
+.plan--str tr td:first-child + *{text-align: left; padding-left: 15px; font-size: 12px;}
+.plan--str tr th:first-child + * + *{width: 180px;}
+.plan--str tr th:first-child + * + * + *{width: 180px;}
+.plan--str tr th:first-child + * + * + * + *{width: 180px;}
+.plan--str tr th:first-child + * + * + * + * + *{width: 20px; border-top:none; border-right: none; border-top-right-radius: 4px;}
+
+
+
+/*Для viewman*/
+.viewman .content {
+	width:80%;
+	}
+	
+.blok-out > .ui-panel-content {
+	padding: 15px 15px 15px 25px;
+	}
+.viewman .invis td {
+	padding:8px 4px;
+	white-space: normal;
+	vertical-align: top;
+	}
+	
+.viewman .blok > .ui-panel-content {
+		padding: 5px 15px 20px 15px;
+		}	
+.viewman .blok > .ui-panel-titlebar {
+	        padding: 0;
+		background-color: transparent;
+		color: #428BCA;
+		}
+	.viewman .odin-blok {
+		clear: both;
+		padding: 0;
+		width: 100%;
+		}
+.viewman .rguppa--str tr td:first-child {width:170px; text-align: left; color: #808080;}
+.viewman .rguppa--str tr td:first-child + * {width:100%; text-align: left;}
+
+.viewman .rguppa--str--big tr td:nth-child(2) {font-size: 17px;}
+
+.viewman .exam thead > tr {
+	display: none;
+	}
+	
+.viewman .exam table td{
+        vertical-align: top;
+	white-space: normal;
+	font-size: 15px;
+	}	
+	.viewman .exam tr td:first-child{width:73px; max-width: 73px; min-width: 73px;}
+	.viewman .exam tr td:first-child + * {width:140px; max-width: 140px; min-width: 140px;}
+	.viewman .exam tr td:first-child + * + * {width:100%;}
+	.viewman .exam tr td:first-child + * + * + *{width:157px; max-width: 157px; min-width: 0;}
+	.viewman .exam tr td:first-child + * + * + * + *{width:50; max-width: 50; min-width: 50;}
+	.viewman .exam tr td:first-child + * + * + * + * + * {width:20; max-width: 20; min-width: 20;}
+
+
+.viewman  .move {
+		white-space:normal;		
+		overflow: hidden;
+		max-height: none;		
+		}
+
+.viewman .hide {
+	position:static;	
+	max-height:none;
+	width:auto;
+	display:inline-block;
+	color:#000;
+	font-style: normal;
+	}
+	
+.viewman .my-table tbody tr:hover {
+			background-color: transparent;
+			}
+			
+	.contact tr td:first-child{width: 34px}
+	.contact tr td:first-child + * {width: 250px}
+	.contact tr td:first-child + * + * {width: 44px}
+	.contact tr td:first-child + * + * + * {width: 235px}
+	.contact tr td:first-child + * + * + * + * {width: 38px}
+	.contact tr td:first-child + * + * + * + * + * {width: 98px}
+	
+.footer-login {
+    position:fixed;
+    left:0px;
+    bottom:0px;
+    height:68px;
+    width:100%;
+    }
