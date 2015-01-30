@@ -233,7 +233,7 @@ public class ListmanBean implements Serializable {
 			    	String sql_count = ""
 			    			+ "SELECT count(id) "
 			    			+ "FROM patient p "
-			    			+ "params p._ver_active = TRUE ";
+			    			+ "WHERE params p._ver_active = TRUE ";
 			    	
 					setRowCount(((Number) JpaUtils.getNativeQuery(em, sql_count+ sql_params, params).getSingleResult()).intValue());
 
