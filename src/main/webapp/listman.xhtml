@@ -13,16 +13,16 @@
   </f:metadata>
 </h:head>
 
-<h:body class="listman">
+<h:body>
   <h:outputStylesheet library="css" name="reset.css"/>
   <h:outputStylesheet library="css" name="fl-custom.css"/>
   
-  <h:outputText value="&lt;!--[if IE]&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;/fluor/javax.faces.resource/ie.css.xhtml?ln=css&quot;/&gt;&lt;![endif]--&gt;" escape="false" />
-  
-	<p:outputPanel >
-		<h:form id="frmList">
+  <h:outputText value="&lt;!--[if lte IE 8]&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;/fluor/javax.faces.resource/ie8.css.xhtml?ln=css&quot;/&gt;&lt;![endif]--&gt;" escape="false" />
+ 
+  <h:form id="frmList" class="form-wrap">
+  <p:outputPanel class="wrap">                  
 		  <p:outputPanel class="search-panel">		    
-			<h:panelGrid id="searchParams" columns="10" focus="fam" class="invis search-panel--str">
+			<h:panelGrid id="searchParams" columns="11" focus="fam" class="invis search-panel--str">
 				<p:outputLabel for="fam" value="Фамилия" />
 				<p:inputText id="fam" value="#{listmanBean.srcFam}" />
 				<p:outputLabel for="im" value="Имя" />
@@ -31,24 +31,26 @@
 				<p:inputText id="ot" value="#{listmanBean.srcOt}" />
 				<p:outputLabel for="dr" value="Дата рождения" />
 				<p:calendar id="dr" value="#{listmanBean.srcDr}" locale="#{applicationBean.locale.language}" pattern="#{applicationBean.dateFormat.toPattern()}" />
+				<p:outputPanel></p:outputPanel>
 				<p:commandButton id="search" value="Найти" action="#{listmanBean.search()}" update="patientTable" class="button-volume button-volume--mini " icon="ui-icon-search"/>
 			    <p:commandButton value="Показать всех" action="#{listmanBean.clearSearch()}" update="searchParams patientTable" class="button-volume button-volume--mini" icon="ui-icon-all"/>
 			</h:panelGrid>
 		  </p:outputPanel>
-		  <p:outputPanel rendered="true" class="blok-button--above-table">	
+		  
+		  <p:outputPanel rendered="true" class="blok-button--above--right">	
 		    <p:messages autoUpdate="true"/>
     	      <p:commandLink update=":frmFind:pnlDlg" oncomplete="PF('find').show()" class="button-link button-link--blue">
 				<p:outputPanel class="ui-icon ui-icon-filter"/>
 				<h:outputText value="Фильтр записей"/>
 		        <p:ajax listener="#{filterBean.clearFilter()}" />
 		      </p:commandLink>
-		  </p:outputPanel>	      
+		  </p:outputPanel>
 		  
+		  <p:outputPanel class="main clearfix"> 
 			<p:dataTable id="patientTable" value="#{listmanBean.model}" var="v" 
-                paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				paginator="true" rows="3" lazy="true" 
 				class="my-table my-table--auto patient__table patient__table--str">
-
 				<p:column headerText="&#160; Информация &#160; о пациенте">				   
 				    <p:link id="view" class="ui-icon ui-icon-open" outcome="viewman">					        
 						<f:param name="patId" value="#{v.id}"/>
@@ -110,11 +112,13 @@
 					<h:outputText value="#{v.exam.RVerification.name}" />
 				</p:column>
 							
-			</p:dataTable>
-			
-			<p:outputPanel class="white-gradient">			  
+			</p:dataTable>			
+			<p:outputPanel class="white-gradient">	  
 			</p:outputPanel>
-
+		    </p:outputPanel>
+  </p:outputPanel>
+  
+	  <p:outputPanel class="footer">
 		      <p:outputPanel class="blok-button--within--down">		
 				 							
 				<p:link outcome="editman" class="button-volume button-volume--link">
@@ -126,16 +130,25 @@
 				<p:commandLink update=":frmPrint:pnlDlg" oncomplete="PF('print').show()" class="button-volume button-volume--link margin-left--big" >
 					<p:outputPanel class="ui-icon ui-icon-reports"/>
 					<h:outputText value="Отчетные формы"/>
-			        <p:ajax listener="#{reportBean.clearFilter()}" />
+			        	<p:ajax listener="#{reportBean.clearFilter()}" />
 				</p:commandLink>
 				
 				<p:link outcome="upload" class="button-volume button-volume--link margin-left--big" >
 					<p:outputPanel class="ui-icon ui-icon ui-icon-xls"/>
 					<h:outputText value="Загрузить из файла"/>
 				</p:link>
+				
+				<p:link outcome="planman" class="button-volume button-volume--link margin-left--big">
+				    <p:outputPanel class="ui-icon ui-icon-plan"/>
+					<f:param name="editable" value="true"/>
+					<h:outputText value="Редактировать план на год"/>											     
+				</p:link>				
+				
 		      </p:outputPanel>
-		</h:form>
-
+	  </p:outputPanel>		      
+    </h:form>
+  
+  				
 		<p:dialog id="browseExamId" widgetVar="browseExamVar" modal="true" header="Пациент #{v.lastName}" resizable="false" class="my-overlay">
 		  <p:commandButton value="Закрыть" oncomplete="PF('browseExamVar').hide()" icon="ui-icon-close" class="button-link button-link--white"/> 
 		  <ui:include src="WEB-INF/templates/examination.xhtml"/>
@@ -164,21 +177,21 @@
 				        </p:selectOneMenu>
 
 						<p:outputLabel for="npmo" value="Населенный пункт" />
-						<p:selectOneMenu id="npmo" value="#{filterBean.selectedMot}" converter="#{filterBean.motConverter}" class="my-select">
+					  <p:selectOneMenu id="npmo" value="#{filterBean.selectedMot}" converter="#{filterBean.motConverter}" class="my-select" style="#{filterBean.moTerList.size() == 0 ?'color:#d7d7d7;' : 'color:#00000;'}">
 				          <p:ajax listener="#{filterBean.motSelected}" update="mo clmo" />
 		                  <f:selectItem itemLabel="#{filterBean.moTerList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
 				          <f:selectItems value="#{filterBean.moTerList}" var="r" itemLabel="#{r.id.terId} - #{r.name}" itemValue="#{r}" />
 						</p:selectOneMenu>
 
 						<p:outputLabel for="mo" value="ЛПУ" />
-						<p:selectOneMenu id="mo" value="#{filterBean.selectedMom}" converter="#{filterBean.momConverter}" class="my-select">
+				          <p:selectOneMenu id="mo" value="#{filterBean.selectedMom}" converter="#{filterBean.momConverter}" class="my-select" style="#{filterBean.moMainList.size() == 0 ?'color:#d7d7d7;' : 'color:#00000;'}">
 				          <p:ajax listener="#{filterBean.momSelected}" update="clmo" />
 		                  <f:selectItem itemLabel="#{filterBean.moMainList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
 				          <f:selectItems value="#{filterBean.moMainList}" var="r" itemLabel="#{r.id.lpuId} - #{r.name}" itemValue="#{r}" />
 						</p:selectOneMenu>
 
 						<p:outputLabel for="clmo" value="Поликлиника" />
-						<p:selectOneMenu id="clmo" value="#{filterBean.selectedMop}" converter="#{filterBean.mopConverter}" class="my-select">
+					<p:selectOneMenu id="clmo" value="#{filterBean.selectedMop}" converter="#{filterBean.mopConverter}" class="my-select" style="#{filterBean.moPoliclinicList.size() == 0 ?'color:#d7d7d7;' : 'color:#00000;'}">
 		                  <f:selectItem itemLabel="#{filterBean.moPoliclinicList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
 				          <f:selectItems value="#{filterBean.moPoliclinicList}" var="r" itemLabel="#{r.id.polId} - #{r.name}" itemValue="#{r}" />
 						</p:selectOneMenu>
@@ -208,27 +221,27 @@
 				    <p:panel header="Обследования" class="blok-overlay">					
 					<h:panelGrid columns="2" class="invis">
 				        <p:outputLabel for="regobs" value="Регион" />
-					     <p:selectOneMenu id="regobs" value="#{filterBean.selectedRegObs}" converter="#{filterBean.mor2Converter}" class="my-select">
+					    <p:selectOneMenu id="regobs" value="#{filterBean.selectedRegObs}" converter="#{filterBean.mor2Converter}" class="my-select" style="#{filterBean.moRegionObsList.size() == 0 ?'color:#d7d7d7;' : 'color:#00000;'}">
 							<p:ajax listener="#{filterBean.regobsSelected}" update="npobs mobs" />
 							<f:selectItem itemLabel="#{filterBean.moRegionObsList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
 							<f:selectItems value="#{filterBean.moRegionObsList}" var="r" itemLabel="#{r.regId} - #{r.name}" itemValue="#{r}" />
 					     </p:selectOneMenu>
 
 				        <p:outputLabel for="npobs" value="Населенный пункт" />
-					    <p:selectOneMenu id="npobs" value="#{filterBean.selectedTerObs}" converter="#{filterBean.mot2Converter}" class="my-select">
+					  <p:selectOneMenu id="npobs" value="#{filterBean.selectedTerObs}" converter="#{filterBean.mot2Converter}" class="my-select" style="#{filterBean.moTerList2.size() == 0 ?'color:#d7d7d7;' : 'color:#00000;'}">
 					      <p:ajax listener="#{filterBean.motobsSelected}" update="mobs" />
 				          <f:selectItem itemLabel="#{filterBean.moTerList2.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
 					      <f:selectItems value="#{filterBean.moTerList2}" var="r" itemLabel="#{r.id.terId} - #{r.name}" itemValue="#{r}" />
 					    </p:selectOneMenu>
 					    
 				        <p:outputLabel for="mobs" value="ЛПУ" />
-					    <p:selectOneMenu id="mobs" value="#{filterBean.selectedLpuObs}" converter="#{filterBean.mom2Converter}" class="my-select">
+					  <p:selectOneMenu id="mobs" value="#{filterBean.selectedLpuObs}" converter="#{filterBean.mom2Converter}" class="my-select" style="#{filterBean.moMainList2.size() == 0 ?'color:#d7d7d7;' : 'color:#00000;'}">
 				          <f:selectItem itemLabel="#{filterBean.moMainList2.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
 					      <f:selectItems value="#{filterBean.moMainList2}" var="r" itemLabel="#{r.id.lpuId} - #{r.name}" itemValue="#{r}" />
 					    </p:selectOneMenu>
 		    
 				        <h:outputLabel for="rez" value="Результат" />
-					    <p:selectOneMenu id="rez" value="#{filterBean.selectedRezType}"  converter="#{filterBean.restypeConverter}" class="my-select">
+					   <p:selectOneMenu id="rez" value="#{filterBean.selectedRezType}"  converter="#{filterBean.restypeConverter}" class="my-select" style="#{filterBean.restypeList.size() == 0 ?'color:#d7d7d7;' : 'color:#00000;'}">
 				          <f:selectItem itemLabel="#{filterBean.restypeList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
 					      <f:selectItems value="#{filterBean.restypeList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
 					    </p:selectOneMenu>
@@ -278,10 +291,9 @@
 			<p:dialog id="dlg" widgetVar="print" modal="true"
 				header="Отчетные формы" resizable="false" class="my-overlay">
 				<p:commandButton value="Закрыть" oncomplete="PF('print').hide()" icon="ui-icon-close" class="button-link button-link--white"/>
-				<p:outputPanel id="pnlDlg" class="move-up" >
-				  <p:button value="Редактировать план на год" outcome="planman" />
+				<p:outputPanel id="pnlDlg" class="move-up report--str" >				  
 				  <p:panel header="Уровень отчета" class="blok-overlay">				
-					<h:panelGrid columns="2" class="invis report--str">
+					<h:panelGrid columns="2" class="invis report-uroven--str">
 			        	<p:outputLabel for="rep_reg"  value="Регион" />
 				        <p:selectOneMenu id="rep_reg"  value="#{reportBean.selectedMor}" converter="#{reportBean.morConverter}" class="my-select">
 				          <p:ajax listener="#{reportBean.morSelected}" update="rep_npmo rep_mo rep_clmo" />
@@ -311,7 +323,7 @@
 					</h:panelGrid>
 				  </p:panel>
 				  <p:panel header="Период" class="blok-overlay">
-					<h:panelGrid columns="2" class="invis report--str">
+					<h:panelGrid columns="2" class="invis report-uroven--str">
 					    <p:column>
 					        <p:outputLabel value="Сформировать отчет: с" />  
 					    </p:column>
@@ -370,8 +382,7 @@
 				  </p:panel>
 				</p:outputPanel>
 			</p:dialog>
-		</h:form>
-	</p:outputPanel>
+		</h:form>	
 </h:body>
 
 </html>

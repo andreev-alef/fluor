@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -19,7 +20,7 @@ import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.transaction.Transactional;
+import javax.transaction.UserTransaction;
 
 import ru.miacn.fias.FiasEditor;
 import ru.miacn.fias.FiasElement;
@@ -50,6 +51,9 @@ public class EditmanBean implements Serializable {
 	private FiasEditor fias;
 	@Inject
 	private LoginBean login;
+	
+	@Resource UserTransaction saveTransaction;
+
 	
 	private Patient patient;
 	
@@ -191,7 +195,6 @@ public class EditmanBean implements Serializable {
 		return fias.getAddress();
 	}
 
-	@Transactional
 	public String savePatientAndRedirect() throws Exception {
 		savePatient();
 		
@@ -200,6 +203,7 @@ public class EditmanBean implements Serializable {
 	
 	public void savePatient() throws Exception {
         try {
+        	saveTransaction.begin();
 			if (patient.getId() == null) {
 				PatientId pid = new PatientId();
 				em.persist(pid);
@@ -225,8 +229,10 @@ public class EditmanBean implements Serializable {
 			
 			patient.setUser(login.getAuthedUser());
 			em.persist(patient);
+			saveTransaction.commit();
         }
         catch (Exception e) {
+        	saveTransaction.rollback();
         	throw new Exception("Произошла ошибка при сохранении данных пациента");
 		}
 	}

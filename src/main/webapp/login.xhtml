@@ -7,21 +7,72 @@
 	<h:head>
 		<title>Флюрокартотека: Вход в систему</title>
 	</h:head>
-	<h:body class="authorization"> 
-		<div class="container">
-			<p:messages id="messages" autoUpdate="true" closable="true" />
-			<h:form >
-   				<h:panelGrid columns="2">
-       				<p:outputLabel for="username" value="Username" />
-        			<p:inputText id="username" name="username" required="true" requiredMessage="Необходимо ввести логин" value="#{loginBean.login}"/>            
-       				<p:outputLabel for="password" value="Password" />
-        			<p:password id="password" name="password" required="true" requiredMessage="Необходимо ввести пароль" value="#{loginBean.password}"/>
-        			<p:commandButton  value="Login" actionListener="#{loginBean.login}" ajax="false"/>
-    			</h:panelGrid>
-			</h:form>
+	<h:body class="login">
+		<h:outputStylesheet library="css" name="reset.css"/>
+		<h:outputStylesheet library="css" name="fl-custom.css"/>
+		<h:outputText value="&lt;!--[if lte IE 8]&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;/fluor/javax.faces.resource/ie8.css.xhtml?ln=css&quot;/&gt;&lt;![endif]--&gt;" escape="false" />
+<div class="wrap">
+
+		<div class="name">			
+			МИС "Флюрокартотека"		     
 		</div>
-		<h:form>
-			<p:commandButton action="#{loginBean.logout}" value="Logout"  ajax="false"/>
+		<div class="main clerfix">
+		<p:panel class="login-panel curved">
+			<p:messages id="messages" autoUpdate="true" closable="true" />
+			<h:form id="login" onsubmit="document.getElementById('login').action='j_security_check';" prependId="false">
+   				<h:panelGrid columns="1" class="invis login--str">
+       				<p:outputLabel for="j_username" value="Имя пользователя" />
+        			<p:inputText id="j_username" name="j_username" required="true" requiredMessage="Необходимо ввести логин" value="#{loginBean.login}"/>            
+       				<div></div>
+				<p:outputLabel for="j_password" value="Пароль" />
+        			<p:password id="j_password" name="j_password" required="true" requiredMessage="Необходимо ввести пароль" value="#{loginBean.password}"/>
+        		</h:panelGrid>
+				<p:commandButton id="submit" value="Войти в систему" actionListener="#{loginBean.auth}" ajax="false" class="button-volume" style="display:block; margin: auto; position: relative; bottom: -100px; height: 50px; width: 230px; text-align: right;" icon="ui-icon-user-login"/>
+			</h:form>
+			
+		<h:form style="display:none">
+			<p:commandButton action="#{loginBean.logout}" value="Очистить поля"  ajax="false" class="button-volume"/>
 		</h:form>
+		</p:panel>
+		</div>
+</div>
+		
+<p:outputPanel class="footer-login">   
+   <p:outputPanel class="contact">
+      <p:panelGrid class="contact__invis-table align_left">
+	<p:row>
+	  <p:column rowspan="2" class="img">
+	    <p:outputPanel class="ui-icon ui-icon-map"/>
+	  </p:column>
+	  <p:column>
+	    <h:outputText value="г. Новокузнецк"/>
+	  </p:column>
+	   <p:column rowspan="2" class="img">
+	    <p:outputPanel class="ui-icon ui-icon-phone"/>
+	  </p:column>
+	  <p:column>
+	    <h:outputText value="(3843) 321-391"/>
+	  </p:column>  
+	  <p:column rowspan="2" class="img">
+	    <p:outputPanel class="ui-icon ui-icon-close1"/>
+	  </p:column>
+	  <p:column>
+	    <h:outputText value="ivc@miacn.ru"/>
+	   </p:column>
+	</p:row>  
+	<p:row>  
+	  <p:column> 
+	    <h:outputText value="ул. Энтузиастов, 28"/>
+	  </p:column>
+	  <p:column>
+	    <h:outputText value="(3843) 321-392"/>
+	  </p:column>	 
+	  <p:column>
+	    <h:outputText value="ivc2@miacn.ru"/>
+	  </p:column>
+	</p:row>
+      </p:panelGrid>
+   </p:outputPanel>  
+  </p:outputPanel>
 	</h:body>
 </html>
