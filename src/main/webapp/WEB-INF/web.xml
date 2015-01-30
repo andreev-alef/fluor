@@ -42,16 +42,12 @@
  </security-role>
  <security-constraint>
   <web-resource-collection>
-    <web-resource-name>Public</web-resource-name>
-    	<description>Matches a few special pages.</description>
-    	<url-pattern>/login.xhtml</url-pattern>
-    	<url-pattern>/resources/*</url-pattern>
-  	</web-resource-collection>
-</security-constraint>
- <security-constraint>
-  <web-resource-collection>
    <web-resource-name>all</web-resource-name>
-   <url-pattern>/*</url-pattern>
+   <url-pattern>/listman.xhtml</url-pattern>
+   <url-pattern>/editman.xhtml</url-pattern>
+   <url-pattern>/planman.xhtml</url-pattern>
+   <url-pattern>/upload.xhtml</url-pattern>
+   <url-pattern>/viewman.xhtml</url-pattern>
    <url-pattern>/resources/components/*</url-pattern>
    <http-method>GET</http-method>
    <http-method>POST</http-method>
@@ -63,6 +59,14 @@
   </auth-constraint>
   ${enable.security.start} -->
  </security-constraint>
+ <security-constraint>
+  <web-resource-collection>
+    <web-resource-name>Public</web-resource-name>
+    	<description>Matches a few special pages.</description>
+    	<url-pattern>/login.xhtml</url-pattern>
+    	<url-pattern>/resources/*</url-pattern>
+  	</web-resource-collection>
+</security-constraint>
  <welcome-file-list>
   <welcome-file>listman.xhtml</welcome-file>
  </welcome-file-list>
