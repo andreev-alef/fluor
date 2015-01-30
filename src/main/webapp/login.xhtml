@@ -19,20 +19,16 @@
 		<div class="main clerfix">
 		<p:panel class="login-panel curved">
 			<p:messages id="messages" autoUpdate="true" closable="true" />
-			<h:form id="login" onsubmit="document.getElementById('login').action='j_security_check';" prependId="false">
+			<h:form id="login">
    				<h:panelGrid columns="1" class="invis login--str">
-       				<p:outputLabel for="j_username" value="Имя пользователя" />
-        			<p:inputText id="j_username" name="j_username" required="true" requiredMessage="Необходимо ввести логин" value="#{loginBean.login}"/>            
+       				<p:outputLabel for="username" value="Имя пользователя" />
+        			<p:inputText id="username" name="username" required="true" requiredMessage="Необходимо ввести логин" value="#{loginBean.login}"/>            
        				<div></div>
-				<p:outputLabel for="j_password" value="Пароль" />
-        			<p:password id="j_password" name="j_password" required="true" requiredMessage="Необходимо ввести пароль" value="#{loginBean.password}"/>
+				<p:outputLabel for="password" value="Пароль" />
+        			<p:password id="password" name="password" required="true" requiredMessage="Необходимо ввести пароль" value="#{loginBean.password}"/>
         		</h:panelGrid>
-				<p:commandButton id="submit" value="Войти в систему" actionListener="#{loginBean.auth}" ajax="false" class="button-volume" style="display:block; margin: auto; position: relative; bottom: -100px; height: 50px; width: 230px; text-align: right;" icon="ui-icon-user-login"/>
+				<p:commandButton  value="Войти в систему" actionListener="#{loginBean.login}" ajax="false" class="button-volume" style="display:block; margin: auto; position: relative; bottom: -100px; height: 50px; width: 230px; text-align: right;" icon="ui-icon-user-login"/>
 			</h:form>
-			
-		<h:form style="display:none">
-			<p:commandButton action="#{loginBean.logout}" value="Очистить поля"  ajax="false" class="button-volume"/>
-		</h:form>
 		</p:panel>
 		</div>
 </div>

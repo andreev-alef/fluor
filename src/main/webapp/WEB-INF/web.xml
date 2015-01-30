@@ -30,7 +30,7 @@
   <auth-method>FORM</auth-method>
   <realm-name>FluorDomain</realm-name>
   <form-login-config>
-   <form-login-page>/login.html</form-login-page>
+   <form-login-page>/login.xhtml</form-login-page>
    <form-error-page>/login.xhtml</form-error-page>
   </form-login-config>
  </login-config> 
@@ -45,12 +45,14 @@
     <web-resource-name>Public</web-resource-name>
     	<description>Matches a few special pages.</description>
     	<url-pattern>/login.xhtml</url-pattern>
+    	<url-pattern>/resources/*</url-pattern>
   	</web-resource-collection>
 </security-constraint>
  <security-constraint>
   <web-resource-collection>
    <web-resource-name>all</web-resource-name>
    <url-pattern>/*</url-pattern>
+   <url-pattern>/resources/components/*</url-pattern>
    <http-method>GET</http-method>
    <http-method>POST</http-method>
   </web-resource-collection>

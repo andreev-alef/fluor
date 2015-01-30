@@ -67,7 +67,6 @@ public class LoginBean implements Serializable {
 					FacesMessage.SEVERITY_ERROR,
 					"Ошибка входа, введены неверные данные",
 					"Введены неверные данные"));
-			logout();
 		}
 	}
 
