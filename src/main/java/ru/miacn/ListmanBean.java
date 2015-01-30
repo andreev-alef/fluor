@@ -1,6 +1,9 @@
 package ru.miacn;
 
 import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -10,8 +13,11 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.sql.DataSource;
 
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
@@ -37,6 +43,7 @@ public class ListmanBean implements Serializable {
 	private Date srcDr;
 	private List<PatientOrm> patients;
 	private LazyDataModel<PatientOrm> model;
+	private int countPatients;
 	
 	@PersistenceContext(unitName = "fluor-PU")
 	private EntityManager em;
@@ -52,69 +59,194 @@ public class ListmanBean implements Serializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-//    	model = new LazyDataModel<PatientOrm>(){
-// 			private static final long serialVersionUID = 1L;
-//			@Override
-//    		public List<PatientOrm> load(int first, int pageSize, String sortField,
-//    								SortOrder sortOrder, Map<String,Object> filters) {
-//				return patients;
-//    	   	}
-//    	};
-//		model.setRowCount(patients.size());
     }
 
     public LazyDataModel<PatientOrm> getModel() {
 		return model;
 	}
 
-    public void search() throws Exception {
+	public void search() throws Exception {
     	try{
-			String sql = searchSql;
-	    	Map<String, Object> params = new HashMap<>();
-	    	if (!getSrcFam().isEmpty()) {
-	    		sql += "AND p.last_name ILIKE :last_name ";
-	    		params.put("last_name", getSrcFam() + "%");
-	    	}
-	    	if (!getSrcIm().isEmpty()) {
-	    		sql += "AND p.first_name ILIKE :first_name ";
-	    		params.put("first_name", getSrcIm() + "%");
-	    	}
-	    	if (!getSrcOt().isEmpty()) {
-	    		sql += "AND p.father_name ILIKE :father_name ";
-	    		params.put("father_name", getSrcOt() + "%");
-	    	}
-	    	if (getSrcDr() != null) {
-	    		sql += "AND p.dat_birth = :dat_birth ";
-	    		params.put("dat_birth", getSrcDr());
-	    	}
-	    	sql += "ORDER BY p._ver_parent_id, e.dat desc ";
-    		setPatients(JpaUtils.getNativeResultList(em, sql, params, PatientOrm.class));
+	    	model = new LazyDataModel<PatientOrm>(){
+	 			private static final long serialVersionUID = 1L;
+				@Override
+	    		public List<PatientOrm> load(int first, int pageSize, String sortField,
+	    								SortOrder sortOrder, Map<String,Object> filters) {
+
+					String sql = searchSql;
+					String sql_params = "";
+			    	Map<String, Object> params = new HashMap<>();
+
+			    	if (!getSrcFam().isEmpty()) {
+			    		sql_params += "AND p.last_name ILIKE :last_name ";
+			    		params.put("last_name", getSrcFam() + "%");
+			    	}
+			    	if (!getSrcIm().isEmpty()) {
+			    		sql_params += "AND p.first_name ILIKE :first_name ";
+			    		params.put("first_name", getSrcIm() + "%");
+			    	}
+			    	if (!getSrcOt().isEmpty()) {
+			    		sql_params += "AND p.father_name ILIKE :father_name ";
+			    		params.put("father_name", getSrcOt() + "%");
+			    	}
+			    	if (getSrcDr() != null) {
+			    		sql_params += "AND p.dat_birth = :dat_birth ";
+			    		params.put("dat_birth", getSrcDr());
+			    	}
+			    	sql += sql_params;
+			    	sql += "ORDER BY p._ver_parent_id, e.dat desc ";
+			    	sql += "LIMIT " + pageSize +" OFFSET "+first;
+					
+			    	setPatients(JpaUtils.getNativeResultList(em, sql, params, PatientOrm.class));
+			    	
+			    	String sql_count = ""
+			    			+ "SELECT count(id) "
+			    			+ "FROM patient p "
+			    			+ "WHERE p._ver_active = TRUE ";
+			    	
+					setRowCount(((Number) JpaUtils.getNativeQuery(em, sql_count+ sql_params, params).getSingleResult()).intValue());
+			    	
+			    	return patients;
+	    	   	}
+	    	};
         } catch (Exception e) {
         	throw new Exception("Произошла ошибка при выполнении поиска пациентов");
     	}
-	    	
-    	model = new LazyDataModel<PatientOrm>(){
- 			private static final long serialVersionUID = 1L;
-			@Override
-    		public List<PatientOrm> load(int first, int pageSize, String sortField,
-    								SortOrder sortOrder, Map<String,Object> filters) {
-		    	int dataSize = patients.size();
-				setRowCount(dataSize);
-		        if(dataSize > pageSize) {
-		            try {
-		                return patients.subList(first, first + pageSize);
-		            }
-		            catch(IndexOutOfBoundsException e) {
-		                return patients.subList(first, first + (dataSize % pageSize));
-		            }
-		        }
-		        else {
-			    	return patients;
-		        }
-    	   	}
-    	};
     }
     
+	public void filter() throws Exception {
+        try {
+	    	model = new LazyDataModel<PatientOrm>(){
+	 			private static final long serialVersionUID = 1L;
+				@Override
+	    		public List<PatientOrm> load(int first, int pageSize, String sortField,
+	    								SortOrder sortOrder, Map<String,Object> filters) {
+
+					String sql_params = "";
+					Map<String, Object> params = new HashMap<>();
+					String sql = searchSql;
+
+					if (fpar.getSelectedRegObs() != null) {
+			    		sql_params += "AND e.med_reg_id = :reg_id ";
+			    		params.put("reg_id", fpar.getSelectedRegObs().getRegId());
+			    	}
+			    	if (fpar.getSelectedTerObs() != null) {
+			    		sql_params += "AND e.med_city_id = :city_id ";
+			    		params.put("city_id", fpar.getSelectedTerObs().getId().getTerId());
+			    	}
+			    	if (fpar.getSelectedLpuObs() != null) {
+			    		sql_params += "AND e.med_lpu_id = :lpu_id ";
+			    		params.put("lpu_id", fpar.getSelectedLpuObs().getId().getLpuId());
+			    	}
+			    	if (fpar.getSelectedRezType() != null) {
+			    		sql_params += "AND e.result_id = :res_id ";
+			    		params.put("res_id", fpar.getSelectedRezType().getId());
+			    	}
+					
+			    	if (fpar.getSelectedVer() != null) {
+			    		sql_params += "AND e.verification_id = :verification_id ";
+			    		params.put("verification_id", fpar.getSelectedVer().getId());
+			    	}
+
+			    	if ((fpar.getDatStart() != null && fpar.getDatEnd() != null) && fpar.getDatEnd().compareTo(fpar.getDatStart()) < 0) {
+			    		sql_params += "AND e.dat between :dn and :dk ";
+			    		params.put("dn", fpar.getDatStart());
+			    		params.put("dk", fpar.getDatEnd());
+					}
+			
+					if (fpar.getSelectedMor() != null) {
+			    		sql_params += "AND p.med_reg_id = :med_reg_id ";
+			    		params.put("med_reg_id", fpar.getSelectedMor().getRegId());
+			    	}
+			
+			    	if (fpar.getSelectedMot() != null) {
+			    		sql_params += "AND p.med_city_id = :med_city_id ";
+			    		params.put("med_city_id", fpar.getSelectedMot().getId().getTerId());
+			    	}
+			
+			    	if (fpar.getSelectedMom() != null) {
+			    		sql_params += "AND p.med_lpu_id = :med_lpu_id ";
+			    		params.put("med_lpu_id", fpar.getSelectedMom().getId().getLpuId());
+			    	}
+			
+			    	if (fpar.getSelectedMop() != null) {
+			    		sql_params += "AND p.med_pol_id = :med_pol_id ";
+			    		params.put("med_pol_id", fpar.getSelectedMop().getId().getPolId());
+			    	}
+			
+			    	if (fpar.getSelectedDg() != null) {
+			    		sql_params += "AND p.decr_group_id = :decr_group_id ";
+			    		params.put("decr_group_id", fpar.getSelectedDg().getId());
+			    	}
+			
+			    	if (fpar.getSelectedMg() != null) {
+			    		sql_params += "AND p.med_group_id = :med_group_id ";
+			    		params.put("med_group_id", fpar.getSelectedMg().getId());
+			    	}
+			
+			    	if (fpar.getSelectedSg() != null) {
+			    		sql_params += "AND p.soc_group_id = :soc_group_id ";
+			    		params.put("soc_group_id", fpar.getSelectedSg().getId());
+			    	}
+			
+			    	if ((fias.getRegion() != null) && (fias.getRegion().getFormalname() != null) && (!fias.getRegion().getFormalname().isEmpty())) {
+			    		sql_params += "AND p.liv_reg = :reg ";
+			    		params.put("reg", fias.getRegion().getFormalname());
+			    	}
+			
+			    	if ((fias.getGorod() != null) && (fias.getGorod().getFormalname() != null) && (!fias.getGorod().getFormalname().isEmpty())) {
+			    		sql_params += "AND p.liv_city = :city ";
+			    		params.put("city", fias.getGorod().getFormalname());
+			    	}
+			    	
+			    	if ((fias.getUlica() != null) && (fias.getUlica().getFormalname() != null) && (!fias.getUlica().getFormalname().isEmpty())) {
+			    		sql_params += "AND p.liv_street = :street ";
+			    		params.put("street", fias.getUlica().getFormalname());
+			    	}
+			    	
+			    	if (!fias.getDom().isEmpty()) {
+			    		sql_params += "AND p.liv_house = :dom ";
+			    		params.put("dom", fias.getDom());
+			    	}
+			    	
+			    	if (!fias.getKorp().isEmpty()) {
+			    		sql_params += "AND p.liv_facility = :fac ";
+			    		params.put("fac", fias.getKorp());
+			    	}
+			    	
+			    	if (!fias.getStr().isEmpty()) {
+			    		sql_params += "AND p.liv_building = :building ";
+			    		params.put("building", fias.getStr());
+			    	}
+			    	
+			    	if (!fias.getKv().isEmpty()) {
+			    		sql_params += "AND p.liv_flat = :flat ";
+			    		params.put("flat", fias.getKv());
+			    	}
+			    	
+			    	sql += sql_params;
+			    	sql += "ORDER BY p._ver_parent_id, e.dat desc ";
+			    	sql += "LIMIT " + pageSize +" OFFSET "+first;
+					
+			    	setPatients(JpaUtils.getNativeResultList(em, sql, params, PatientOrm.class));
+			    	
+			    	String sql_count = ""
+			    			+ "SELECT count(id) "
+			    			+ "FROM patient p "
+			    			+ "params p._ver_active = TRUE ";
+			    	
+					setRowCount(((Number) JpaUtils.getNativeQuery(em, sql_count+ sql_params, params).getSingleResult()).intValue());
+
+			    	return patients;
+					
+				}
+	    	};
+        } catch (Exception e) {
+        	throw new Exception("Произошла ошибка при выполнении фильтра записей");
+    	}
+
+	}
+	
     public void clearSearch() throws Exception {
     	setSrcFam("");
     	setSrcIm("");
@@ -124,139 +256,6 @@ public class ListmanBean implements Serializable {
 		search();
     }
     
-	public void filter() throws Exception {
-		String sql_where = "";
-		Map<String, Object> params = new HashMap<>();
-		String sql = searchSql;
-		
-        try {
-			if (fpar.getSelectedRegObs() != null) {
-	    		sql_where += "AND e.med_reg_id = :reg_id ";
-	    		params.put("reg_id", fpar.getSelectedRegObs().getRegId());
-	    	}
-	    	if (fpar.getSelectedTerObs() != null) {
-	    		sql_where += "AND e.med_city_id = :city_id ";
-	    		params.put("city_id", fpar.getSelectedTerObs().getId().getTerId());
-	    	}
-	    	if (fpar.getSelectedLpuObs() != null) {
-	    		sql_where += "AND e.med_lpu_id = :lpu_id ";
-	    		params.put("lpu_id", fpar.getSelectedLpuObs().getId().getLpuId());
-	    	}
-	    	if (fpar.getSelectedRezType() != null) {
-	    		sql_where += "AND e.result_id = :res_id ";
-	    		params.put("res_id", fpar.getSelectedRezType().getId());
-	    	}
-			
-	    	if (fpar.getSelectedVer() != null) {
-	    		sql_where += "AND e.verification_id = :verification_id ";
-	    		params.put("verification_id", fpar.getSelectedVer().getId());
-	    	}
-
-	    	if ((fpar.getDatStart() != null && fpar.getDatEnd() != null) && fpar.getDatEnd().compareTo(fpar.getDatStart()) < 0) {
-	    		sql_where += "AND e.dat between :dn and :dk ";
-	    		params.put("dn", fpar.getDatStart());
-	    		params.put("dk", fpar.getDatEnd());
-			}
-	
-			if (fpar.getSelectedMor() != null) {
-	    		sql += "AND p.med_reg_id = :med_reg_id ";
-	    		params.put("med_reg_id", fpar.getSelectedMor().getRegId());
-	    	}
-	
-	    	if (fpar.getSelectedMot() != null) {
-	    		sql += "AND p.med_city_id = :med_city_id ";
-	    		params.put("med_city_id", fpar.getSelectedMot().getId().getTerId());
-	    	}
-	
-	    	if (fpar.getSelectedMom() != null) {
-	    		sql += "AND p.med_lpu_id = :med_lpu_id ";
-	    		params.put("med_lpu_id", fpar.getSelectedMom().getId().getLpuId());
-	    	}
-	
-	    	if (fpar.getSelectedMop() != null) {
-	    		sql += "AND p.med_pol_id = :med_pol_id ";
-	    		params.put("med_pol_id", fpar.getSelectedMop().getId().getPolId());
-	    	}
-	
-	    	if (fpar.getSelectedDg() != null) {
-	    		sql += "AND p.decr_group_id = :decr_group_id ";
-	    		params.put("decr_group_id", fpar.getSelectedDg().getId());
-	    	}
-	
-	    	if (fpar.getSelectedMg() != null) {
-	    		sql += "AND p.med_group_id = :med_group_id ";
-	    		params.put("med_group_id", fpar.getSelectedMg().getId());
-	    	}
-	
-	    	if (fpar.getSelectedSg() != null) {
-	    		sql += "AND p.soc_group_id = :soc_group_id ";
-	    		params.put("soc_group_id", fpar.getSelectedSg().getId());
-	    	}
-	
-	    	if ((fias.getRegion() != null) && (fias.getRegion().getFormalname() != null) && (!fias.getRegion().getFormalname().isEmpty())) {
-	    		sql += "AND p.liv_reg = :reg ";
-	    		params.put("reg", fias.getRegion().getFormalname());
-	    	}
-	
-	    	if ((fias.getGorod() != null) && (fias.getGorod().getFormalname() != null) && (!fias.getGorod().getFormalname().isEmpty())) {
-	    		sql += "AND p.liv_city = :city ";
-	    		params.put("city", fias.getGorod().getFormalname());
-	    	}
-	    	
-	    	if ((fias.getUlica() != null) && (fias.getUlica().getFormalname() != null) && (!fias.getUlica().getFormalname().isEmpty())) {
-	    		sql += "AND p.liv_street = :street ";
-	    		params.put("street", fias.getUlica().getFormalname());
-	    	}
-	    	
-	    	if (!fias.getDom().isEmpty()) {
-	    		sql += "AND p.liv_house = :dom ";
-	    		params.put("dom", fias.getDom());
-	    	}
-	    	
-	    	if (!fias.getKorp().isEmpty()) {
-	    		sql += "AND p.liv_facility = :fac ";
-	    		params.put("fac", fias.getKorp());
-	    	}
-	    	
-	    	if (!fias.getStr().isEmpty()) {
-	    		sql += "AND p.liv_building = :building ";
-	    		params.put("building", fias.getStr());
-	    	}
-	    	
-	    	if (!fias.getKv().isEmpty()) {
-	    		sql += "AND p.liv_flat = :flat ";
-	    		params.put("flat", fias.getKv());
-	    	}
-	    	
-	    	sql += sql_where;
-	    	sql += "ORDER BY p._ver_parent_id, e.dat desc ";
-	    	
-	    	setPatients(JpaUtils.getNativeResultList(em, sql, params, PatientOrm.class));
-        } catch (Exception e) {
-        	throw new Exception("Произошла ошибка при выполнении фильтра записей");
-    	}
-    	model = new LazyDataModel<PatientOrm>(){
- 			private static final long serialVersionUID = 1L;
-			@Override
-    		public List<PatientOrm> load(int first, int pageSize, String sortField,
-    								SortOrder sortOrder, Map<String,Object> filters) {
-		    	int dataSize = patients.size();
-				setRowCount(dataSize);
-		        if(dataSize > pageSize) {
-		            try {
-		                return patients.subList(first, first + pageSize);
-		            }
-		            catch(IndexOutOfBoundsException e) {
-		                return patients.subList(first, first + (dataSize % pageSize));
-		            }
-		        }
-		        else {
-			    	return patients;
-		        }
-    	   	}
-    	};
-	}
-	
 	public String getSrcFam() {
 		return srcFam;
 	}
@@ -295,5 +294,13 @@ public class ListmanBean implements Serializable {
 
 	public void setPatients(List<PatientOrm> patients) {
 		this.patients = patients;
+	}
+
+	public int getCountPatients() {
+		return countPatients;
+	}
+
+	public void setCountPatients(int countPatients) {
+		this.countPatients = countPatients;
 	}
 }
