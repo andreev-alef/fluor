@@ -7,14 +7,14 @@
   xmlns:p="http://primefaces.org/ui">
   <h:body>
   <h:form id="frmExam">
-    <p:panel class="move-up">
+        <p:panel class="move-up exam--str">
 	<p:outputPanel rendered="#{examinationBean.editMode}" class="blok-button--within">
 	  <p:outputPanel class="not-overlay button-link button-link--blue"> 
 	  <p:commandLink class="ui-icon ui-icon-Document-Add"  update=":frmEdtExamId:pnlExamEdtId" oncomplete="PF('edtExamVar').show()" action="#{examinationBean.findExam(0)}"/>
           <p:commandLink value="Добавить обследование" update=":frmEdtExamId:pnlExamEdtId" oncomplete="PF('edtExamVar').show()" action="#{examinationBean.findExam(0)}"/>
           </p:outputPanel>
 	</p:outputPanel>  
-	  <p:dataTable id="examTable" var="item" value="#{examinationBean.examinations}" class="my-table exam exam--str my-table--fixed" >
+	  <p:dataTable id="examTable" var="item" value="#{examinationBean.examinations}" class="my-table exam my-table--fixed" >
         <p:column headerText="Дата"> 
 			<p:outputPanel class="move">  
 			  <h:outputText value="#{item.dat}" >
@@ -28,7 +28,7 @@
 			</p:outputPanel>	  
          </p:column>	    
          <p:column headerText="Медицинская организация">
-			<p:outputPanel class="move">
+			<p:outputPanel class="move hide">
 		  	<h:outputText value="#{item.RMedicalOrgMain.name}" />
 	        </p:outputPanel>
           </p:column>
@@ -60,9 +60,9 @@
      </h:form>
       
       <h:form id="frmEdtExamId">
-	    <p:dialog id="edtExamId" widgetVar="edtExamVar" modal="true" header="Редактировать обследование" resizable="false" class="my-overlay">
+	    <p:dialog id="edtExamId" widgetVar="edtExamVar" modal="true" header="Редактировать обследование" resizable="false" class="my-overlay add-exam--str">
 	      <p:outputPanel id="pnlExamEdtId" class="move-up">
-	      <h:panelGrid columns="2" class="invis invis--overlay  add-exam--str">
+	      <h:panelGrid columns="2" class="invis invis--overlay">
 	        <h:outputLabel for="dob" value="Дата обследования" />
 			<p:calendar id="dob" value="#{examinationBean.selectedExamination.dat}" locale="ru" pattern="dd.MM.yyyy" class="data"/>
 			
@@ -120,8 +120,8 @@
       
       <h:form id="frmDelExamId">
 	    <p:outputPanel id="pnlExamDelId">
-          <p:dialog id="delExamId" widgetVar="delExamVar" modal="true" header="Удалить обследование" resizable="false" class="my-overlay">
-            <h:panelGrid columns="2" class="invis invis--overlay invis--delete delete-exam--str move-up">
+          <p:dialog id="delExamId" widgetVar="delExamVar" modal="true" header="Удалить обследование" resizable="false" class="my-overlay delete-exam--str">
+            <h:panelGrid columns="2" class="invis invis--overlay move-up">
               <h:outputLabel for="p1" value="Дата обследования" />
               <h:outputText id="p1" value="#{examinationBean.selectedExamination.dat}" />
               <h:outputLabel for="p2" value="Медицинская организация" />

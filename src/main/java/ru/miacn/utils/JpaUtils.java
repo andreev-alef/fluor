@@ -21,14 +21,6 @@ public class JpaUtils {
 		
 		return query.getResultList();
 	}
-
-	private static void setParameters(Query query, Map<String, Object> params) {
-		if (params != null) {
-			for (String key : params.keySet()) {
-				query.setParameter(key, params.get(key));
-			}
-		}
-	}
 	
 	public static Query getNativeQuery(EntityManager em, String nativeQuery, Map<String, Object> params, Class<?> mapperClass, String mapperString) {
 		Query query = em.createNativeQuery(nativeQuery, mapperString);
@@ -43,5 +35,27 @@ public class JpaUtils {
 		Query query = getNativeQuery(em, nativeQuery, params, mapperClass, mapperString);
 		
 		return query.getResultList();
+	}
+
+	public static Query getNativeQuery(EntityManager em, String nativeQuery, Map<String, Object> params) {
+		Query query = em.createNativeQuery(nativeQuery);
+		
+		setParameters(query, params);
+		
+		return query;
+	}
+
+	public static List<?> getNativeResultList(EntityManager em, String nativeQuery, Map<String, Object> params) {
+		Query query = getNativeQuery(em, nativeQuery, params);
+		
+		return query.getResultList();
+	}
+
+	private static void setParameters(Query query, Map<String, Object> params) {
+		if (params != null) {
+			for (String key : params.keySet()) {
+				query.setParameter(key, params.get(key));
+			}
+		}
 	}
 }

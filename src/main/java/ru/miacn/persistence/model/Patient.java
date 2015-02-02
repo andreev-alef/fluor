@@ -92,6 +92,9 @@ public class Patient {
 			@JoinColumn(name = "med_pol_id", referencedColumnName = "pol_id"),
 			@JoinColumn(name = "med_reg_id", referencedColumnName = "reg_id") })
 	private RMedicalOrgPoliclinic rMedicalOrgPoliclinic;
+	@OneToOne
+	@JoinColumn(name = "user_id")
+	private User user;
 
 	public Patient() {
 		citizen =  new RCitizen();
@@ -101,6 +104,7 @@ public class Patient {
 		medGroup = new RMedGroup();
 		socGroup = new RSocGroup();
 		rMedicalOrgPoliclinic = new RMedicalOrgPoliclinic();
+		user = new User();
 	}
 	
 	public int getNameFieldSize() {
@@ -176,7 +180,7 @@ public class Patient {
 	}
 
 	public void setFatherName(String fatherName) {
-		this.fatherName = fatherName;
+		this.fatherName = fatherName.substring(0, 1).toUpperCase() + fatherName.substring(1).toLowerCase();
 	}
 
 	public String getFirstName() {
@@ -184,7 +188,7 @@ public class Patient {
 	}
 
 	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+		this.firstName = firstName.substring(0, 1).toUpperCase() + firstName.substring(1).toLowerCase();
 	}
 
 	public String getLastName() {
@@ -192,7 +196,7 @@ public class Patient {
 	}
 
 	public void setLastName(String lastName) {
-		this.lastName = lastName;
+		this.lastName = lastName.substring(0, 1).toUpperCase() + lastName.substring(1).toLowerCase();
 	}
 
 	public RGender getGender() {
@@ -243,4 +247,11 @@ public class Patient {
 		this.rMedicalOrgPoliclinic = rMedicalOrgPoliclinic;
 	}
 
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 }

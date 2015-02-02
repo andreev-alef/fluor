@@ -18,12 +18,40 @@
 
 <h:body>
 <h:outputStylesheet library="css" name="reset.css"/>
-<h:outputStylesheet library="css" name="fl-custom.css"/>  
-<p:outputPanel class="editman">
-  <h:form id="frmInf">
+<h:outputStylesheet library="css" name="fl-custom.css"/>
+<h:outputText value="&lt;!--[if lte IE 8]&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;/fluor/javax.faces.resource/ie8.css.xhtml?ln=css&quot;/&gt;&lt;![endif]--&gt;" escape="false" />
+
+<p:outputPanel class="wrap">
+  <p:outputPanel class="div-return">  
+  <p:outputPanel class="div-return__fixed">       
+  <h:form id="frmIn" class="form-wrap">      
+      <p:link outcome="listman" class="return">
+        <p:outputPanel class="ui-icon ui-icon-return"/>
+        <h:outputText value="Вернуться"  escape="false"/>
+      </p:link>
+  </h:form>    
+  </p:outputPanel>
+  </p:outputPanel>
+  
+  <p:outputPanel class="content">
+  	<p:panel>
+	<p:panel  header="Обследования пациента" class="blok-out DOM-bad__div" >
+	  <p:outputPanel class="DOM-bad__button">
+          <p:commandLink action="#{editmanBean.printReport(4, true)}" class="button-link button-link--blue">
+			  <p:outputPanel class="ui-icon ui-icon-lett" />
+              <h:outputText value="Печать направления на флюорографию" />
+         </p:commandLink>
+       </p:outputPanel>
+		<ui:include src="WEB-INF/templates/examination.xhtml" />
+	</p:panel>
+	</p:panel>
+	
+  <h:form id="frmInf" class="form-wrap">
+    
     <p:panel header="Информация о пациенте" class="blok-out">
-	    <p:panel header="Персональные данные" class="blok dva-bloka__one">
-			<p:panelGrid class="invis personal-data--str">
+	 <p:panel header="Персональные данные" class="blok dva-bloka">
+	     <p:panelGrid class="invis invis--colspan personal-data--str">
+		  <p:row> <p:column></p:column> <p:column></p:column> <p:column></p:column> <p:column></p:column> </p:row> 		
 			<p:row>
 			<p:column>
 	        	<p:outputLabel for="fam" value="Фамилия" />
@@ -94,12 +122,12 @@
 			</p:panelGrid>
 		</p:panel>
 		
-		<p:panel id="adr" header="Адрес проживания в Российской Федерации" class="blok dva-bloka__two ">
+		<p:panel id="adr" header="Адрес проживания в Российской Федерации" class="blok dva-bloka">
 			<fias:fias_addr />
 		</p:panel>
 		
 		<p:panel header="Контактные данные" class="blok odin-blok">
-		  <h:panelGrid columns="2" class="invis invis--colspan tel--str">
+		  <h:panelGrid columns="2" class="invis tel--str">
 		  <p:outputLabel for="tl" value="Телефон" />
 		  <p:inputText id="tl" value="#{editmanBean.patient.tel}" />
 		  </h:panelGrid>
@@ -169,23 +197,11 @@
 		  <p:button value="Отменить" outcome="listman" class="button-volume button-volume--mini margin-left--big" icon="ui-icon-undo"/>
 		</p:outputPanel>
     </p:panel>
-  
-      <p:outputPanel class="align-center--text" style="position: absolute; bottom: 0; height: 80px; left:25%">       
-          <p:link outcome="listman" class="button-volume button-volume--link">
-	    	<p:outputPanel class="ui-icon ui-icon-Left"/>
-            <h:outputText value="Вернуться к списку пациентов" />
-          </p:link>
-          <p:commandLink value="Печать направления на флюорографию" action="#{editmanBean.printReport(4, true)}" class="button-volume button-volume--big margin-left--big" icon="ui-icon-Letter"/>
-      </p:outputPanel>
 	</h:form>
-	
-	<p:panel style="padding-bottom: 100px;" >
-	<p:panel  header="Обследования пациента" class="blok-out" >
-		<ui:include src="WEB-INF/templates/examination.xhtml" />
-	</p:panel>
-	</p:panel>
-	
+
+</p:outputPanel>	
 </p:outputPanel>
+   	
    	<h:form id="frmException" >
 	    <p:ajaxExceptionHandler type="java.lang.Exception"
 	                            update="exceptionDialog"

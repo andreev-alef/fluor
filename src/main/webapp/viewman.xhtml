@@ -10,18 +10,34 @@
 <h:head>
   <title>Флюрокартотека - просмотр информации на пациента</title>
   <h:outputScript library="js" name="locale.js" />
-  <h:outputStylesheet library="css" name="reset.css"/>
-  <h:outputStylesheet library="css" name="fl-custom.css"/>  
+  <h:outputScript library="js" name="JS.js" />
+  <h:outputText value="&lt;!--[if lte IE 8]&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;/fluor/javax.faces.resource/ie8.css.xhtml?ln=css&quot;/&gt;&lt;![endif]--&gt;" escape="false" />
   <f:metadata>
     <f:viewAction action="#{editmanBean.loadPatient(param['patId'])}" />
     <f:viewParam name="editable" value="#{editmanBean.editMode}" />
   </f:metadata>
 </h:head>
 
-<h:body>
-<p:outputPanel class="editman">
+<h:body class="viewman">
+  <h:outputStylesheet library="css" name="reset.css"/>
+  <h:outputStylesheet library="css" name="fl-custom.css"/>  
+<p:outputPanel class="wrap">
+    <p:outputPanel class="div-return">   
+  <p:outputPanel class="div-return__fixed">       
+  <h:form id="frmInf" class="form-wrap">      
+      <p:link outcome="listman" class="return">
+        <p:outputPanel class="ui-icon ui-icon-return"/>
+        <h:outputText value="Вернуться"/>
+      </p:link>
+  </h:form>    
+  </p:outputPanel>
+  </p:outputPanel>
+  
+  <p:outputPanel class="content"> 
+     
+  <p:panel header="Информация о пациенте" class="blok-out">
   <p:panel header="Персональные данные" class="blok odin-blok">
-    <p:panelGrid columns="2" class="invis rguppa--str">
+    <p:panelGrid columns="2" class="invis rguppa--str rguppa--str--big">
       <p:outputLabel for="fio" value="ФИО" />
       <p:outputLabel id="fio" value="#{editmanBean.patient.lastName} #{editmanBean.patient.firstName} #{editmanBean.patient.fatherName}" />
       
@@ -46,7 +62,7 @@
   </p:panel>
   
   <p:panel header="Медицинская организация, к которой прикреплен пациент по ОМС" class="blok odin-blok">
-    <h:panelGrid columns="2" class="invis oms--str">
+    <h:panelGrid columns="2" class="invis rguppa--str">
       <p:outputLabel for="regmo" value="Регион" />
       <p:outputLabel id="regmo" value="#{editmanBean.selectedMor.name}" />
       
@@ -66,29 +82,30 @@
   
   <p:panel header="Контингент населения" class="blok odin-blok">
     <h:panelGrid columns="2" class="invis rguppa--str">
-      <p:outputLabel for="dg" value="Декретированная группа" />
+      <p:outputLabel for="dg" value="Декретированная &lt;br/&gt; группа" escape="false"/>   
       <p:outputLabel id="dg" value="#{editmanBean.patient.decrGroup.name}" />
       
-      <p:outputLabel for="mg" value="Медицинская группа" />
+      <p:outputLabel for="mg" value="Медицинская &lt;br/&gt; группа" escape="false"/>
       <p:outputLabel id="mg" value="#{editmanBean.patient.medGroup.name}" />
       
-      <p:outputLabel for="rg" value="Группа риска (осмотр 2 раза в год)" />
+      <p:outputLabel for="rg" value="Группа риска &lt;br/&gt; (осмотр 2 раза в год)"  escape="false"/>
       <p:outputLabel id="rg" value="#{editmanBean.patient.socGroup.name}" />
     </h:panelGrid>
   </p:panel>
   
   <p:panel header="Обследования пациента" class="blok odin-blok" >
+    
     <ui:include src="WEB-INF/templates/examination.xhtml" />
   </p:panel>
   
-  <h:form id="frmInf">
-    <p:outputPanel class="align-center--text" style="position: absolute; bottom: 0; height: 80px; left:25%">       
-      <p:link outcome="listman" class="button-volume button-volume--link">
-        <p:outputPanel class="ui-icon ui-icon-Left"/>
-        <h:outputText value="Вернуться к списку пациентов" />
-      </p:link>
-    </p:outputPanel>
-  </h:form>
-</p:outputPanel>
+  </p:panel>
+  </p:outputPanel>
+  </p:outputPanel>
+
+
+
+
+  
+
 </h:body>
 </html>
