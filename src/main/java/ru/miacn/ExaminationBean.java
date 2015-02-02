@@ -2,6 +2,7 @@ package ru.miacn;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,7 @@ import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
 import ru.miacn.persistence.model.Examination;
+import ru.miacn.persistence.model.Patient;
 import ru.miacn.persistence.model.PatientId;
 import ru.miacn.persistence.reference.ListConverter;
 import ru.miacn.persistence.reference.RExamMethod;
@@ -142,21 +144,60 @@ public class ExaminationBean implements Serializable {
 		loadExam(selectedExamination.getPatientId().getId(), isEditMode());
     }
 
-	public void saveExam() {
-		selectedExamination.getPatientId().setId(getPatientId());
-		if ((selectedMor != null) && (selectedMot != null) && (selectedMom != null)) {
-			selectedExamination.setRMedicalOrgMain(new RMedicalOrgMain());
-			selectedExamination.getRMedicalOrgMain().getRMedicalOrgTer().getRMedicalOrgRegion().setRegId(selectedMor.getRegId());
-			selectedExamination.getRMedicalOrgMain().getRMedicalOrgTer().setId(selectedMot.getId());
-			selectedExamination.getRMedicalOrgMain().setId(selectedMom.getId());
-		} else {
-			selectedExamination.setRMedicalOrgMain(null);
+	public void saveExam() throws Exception {
+		try{
+			if((dateExamIsBefore(selectedExamination.getDat())) && (!patientIsDead())) {
+				selectedExamination.getPatientId().setId(getPatientId());
+				if ((selectedMor != null) && (selectedMot != null) && (selectedMom != null)) {
+					selectedExamination.setRMedicalOrgMain(new RMedicalOrgMain());
+					selectedExamination.getRMedicalOrgMain().getRMedicalOrgTer().getRMedicalOrgRegion().setRegId(selectedMor.getRegId());
+					selectedExamination.getRMedicalOrgMain().getRMedicalOrgTer().setId(selectedMot.getId());
+					selectedExamination.getRMedicalOrgMain().setId(selectedMom.getId());
+				} else {
+					selectedExamination.setRMedicalOrgMain(null);
+				}
+				selectedExamination.setUser(login.getAuthedUser());
+				em.persist(em.merge(selectedExamination));
+				loadExam(selectedExamination.getPatientId().getId(), isEditMode());
+			} else {
+				if(patientIsDead()) {
+					throw new Exception(": невозможно добавить обследование, пациент мертв");
+				}
+				if(!dateExamIsBefore(selectedExamination.getDat())) {
+					throw new Exception(": невозможно добавить обследование на дату из будущего");
+				}
+			}
+		} catch(Exception e) {
+			if(e.getMessage() == null) {
+				throw new Exception("Возникла ошибка при сохранении");
+			} else {
+				throw new Exception("Возникла ошибка при сохранении"+e.getMessage());
+			}
 		}
-		
-		selectedExamination.setUser(login.getAuthedUser());
-		em.persist(em.merge(selectedExamination));
-		loadExam(selectedExamination.getPatientId().getId(), isEditMode());
     }
+	
+	private Boolean dateExamIsBefore(Date selectedDate) {
+		if(selectedDate.before(new Date())) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	private Boolean patientIsDead() {
+		Patient pat=new Patient();
+		
+		pat= em.find(Patient.class, getPatientId());
+		if(pat.getVerActive() == false) {
+			Query q = em.createQuery("SELECT p FROM "+Patient.class.getName()+" p "+"WHERE p.patientId="+pat.getId()+" and p.verActive='true'",Patient.class);
+			pat = (Patient) q.getResultList().get(0);			
+		}
+		if(pat.getDatDeath()==null) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 
 	public List<Examination> getExaminations() {
 		return examinations;
