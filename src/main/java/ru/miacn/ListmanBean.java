@@ -1,9 +1,6 @@
 package ru.miacn;
 
 import java.io.Serializable;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -13,11 +10,8 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.sql.DataSource;
 
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
@@ -32,10 +26,26 @@ public class ListmanBean implements Serializable {
 	public static final long serialVersionUID = -229673017810787765L;
 	
 	private static final String searchSql = ""
-			+ "SELECT DISTINCT ON (p._ver_parent_id) p.*, e.id AS last_exam_id "
+			+ "WITH t AS ( "
+			+ "SELECT DISTINCT ON (p.last_name, p.first_name, p.father_name, p._ver_parent_id) p.id "
 			+ "FROM patient p "
 			+ "LEFT JOIN examination e ON (e.patient_id = p._ver_parent_id) "
-			+ "WHERE p._ver_active = TRUE ";
+			+ "WHERE p._ver_active = TRUE %s"
+			+ "ORDER BY p.last_name, p.first_name, p.father_name, p._ver_parent_id "
+			+ "OFFSET %d LIMIT %d "
+			+ ") SELECT *, (SELECT e.id AS last_exam_id FROM examination e WHERE e.patient_id = p._ver_parent_id ORDER BY e.dat DESC LIMIT 1) "
+			+ "FROM t "
+			+ "JOIN patient p ON (p.id = t.id) ";
+	private static final String countSql = ""
+			+ "WITH t AS ( "
+			+ "SELECT DISTINCT ON (p.last_name, p.first_name, p.father_name, p._ver_parent_id) p.id "
+			+ "FROM patient p "
+			+ "LEFT JOIN examination e ON (e.patient_id = p._ver_parent_id) "
+			+ "WHERE p._ver_active = TRUE %s "
+			+ "ORDER BY p.last_name, p.first_name, p.father_name, p._ver_parent_id "
+			+ "LIMIT 2048 "
+			+ ") SELECT count(*) "
+			+ "FROM t ";
 	
 	private String srcFam;
 	private String srcIm;
@@ -67,13 +77,12 @@ public class ListmanBean implements Serializable {
 
 	public void search() throws Exception {
     	try{
-	    	model = new LazyDataModel<PatientOrm>(){
-	 			private static final long serialVersionUID = 1L;
-				@Override
-	    		public List<PatientOrm> load(int first, int pageSize, String sortField,
-	    								SortOrder sortOrder, Map<String,Object> filters) {
+	    	model = new LazyDataModel<PatientOrm>() {
+				private static final long serialVersionUID = 9043096992321295134L;
 
-					String sql = searchSql;
+				@Override
+	    		public List<PatientOrm> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,Object> filters) {
+					String sql;
 					String sql_params = "";
 			    	Map<String, Object> params = new HashMap<>();
 
@@ -93,18 +102,10 @@ public class ListmanBean implements Serializable {
 			    		sql_params += "AND p.dat_birth = :dat_birth ";
 			    		params.put("dat_birth", getSrcDr());
 			    	}
-			    	sql += sql_params;
-			    	sql += "ORDER BY p._ver_parent_id, e.dat desc ";
-			    	sql += "LIMIT " + pageSize +" OFFSET "+first;
+			    	sql = String.format(searchSql, sql_params, first, pageSize);
 					
 			    	setPatients(JpaUtils.getNativeResultList(em, sql, params, PatientOrm.class));
-			    	
-			    	String sql_count = ""
-			    			+ "SELECT count(id) "
-			    			+ "FROM patient p "
-			    			+ "WHERE p._ver_active = TRUE ";
-			    	
-					setRowCount(((Number) JpaUtils.getNativeQuery(em, sql_count+ sql_params, params).getSingleResult()).intValue());
+					setRowCount(((Number) JpaUtils.getNativeQuery(em, String.format(countSql, sql_params), params).getSingleResult()).intValue());
 			    	
 			    	return patients;
 	    	   	}
@@ -117,14 +118,13 @@ public class ListmanBean implements Serializable {
 	public void filter() throws Exception {
         try {
 	    	model = new LazyDataModel<PatientOrm>(){
-	 			private static final long serialVersionUID = 1L;
-				@Override
-	    		public List<PatientOrm> load(int first, int pageSize, String sortField,
-	    								SortOrder sortOrder, Map<String,Object> filters) {
+				private static final long serialVersionUID = 4631239035126444909L;
 
+				@Override
+	    		public List<PatientOrm> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,Object> filters) {
+					String sql;
 					String sql_params = "";
 					Map<String, Object> params = new HashMap<>();
-					String sql = searchSql;
 
 					if (fpar.getSelectedRegObs() != null) {
 			    		sql_params += "AND e.med_reg_id = :reg_id ";
@@ -223,19 +223,10 @@ public class ListmanBean implements Serializable {
 			    		sql_params += "AND p.liv_flat = :flat ";
 			    		params.put("flat", fias.getKv());
 			    	}
-			    	
-			    	sql += sql_params;
-			    	sql += "ORDER BY p._ver_parent_id, e.dat desc ";
-			    	sql += "LIMIT " + pageSize +" OFFSET "+first;
+			    	sql = String.format(searchSql, sql_params, first, pageSize);
 					
 			    	setPatients(JpaUtils.getNativeResultList(em, sql, params, PatientOrm.class));
-			    	
-			    	String sql_count = ""
-			    			+ "SELECT count(id) "
-			    			+ "FROM patient p "
-			    			+ "WHERE p._ver_active = TRUE ";
-			    	
-					setRowCount(((Number) JpaUtils.getNativeQuery(em, sql_count+ sql_params, params).getSingleResult()).intValue());
+					setRowCount(((Number) JpaUtils.getNativeQuery(em, String.format(countSql, sql_params), params).getSingleResult()).intValue());
 
 			    	return patients;
 					

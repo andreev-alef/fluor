@@ -37,11 +37,11 @@
   	<p:panel>
 	<p:panel  header="Обследования пациента" class="blok-out DOM-bad__div" >
 	  <p:outputPanel class="DOM-bad__button">
-          <p:link href="report?id=4&amp;pdf" class="button-link button-link--blue">
-	  <p:outputPanel class="ui-icon ui-icon-lett"/>
-            <h:outputText value="Печать направления на флюорографию" />
-          </p:link>
-         </p:outputPanel>
+          <p:commandLink action="#{editmanBean.printReport(4, true)}" class="button-link button-link--blue">
+			  <p:outputPanel class="ui-icon ui-icon-lett" />
+              <h:outputText value="Печать направления на флюорографию" />
+         </p:commandLink>
+       </p:outputPanel>
 		<ui:include src="WEB-INF/templates/examination.xhtml" />
 	</p:panel>
 	</p:panel>
