@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.Map;
 
@@ -77,7 +78,7 @@ public abstract class JasperReport {
 		return ds.getConnection();
 	}
 	
-	public abstract void printReport(OutputStream output, ReportType type) throws JRException, IOException, SQLException, NamingException;
+	public abstract void printReport(OutputStream output, ReportType type) throws JRException, IOException, SQLException, NamingException, ParseException;
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void printReport(OutputStream servlet, Map<String, Object> params, ReportType type) throws JRException, IOException {
