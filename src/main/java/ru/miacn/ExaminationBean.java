@@ -2,13 +2,14 @@ package ru.miacn;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -146,7 +147,7 @@ public class ExaminationBean implements Serializable {
 
 	public void saveExam() throws Exception {
 		try{
-			if((dateExamIsBefore(selectedExamination.getDat())) && (!patientIsDead())) {
+			if((!patientIsDead())) {
 				selectedExamination.getPatientId().setId(getPatientId());
 				if ((selectedMor != null) && (selectedMot != null) && (selectedMom != null)) {
 					selectedExamination.setRMedicalOrgMain(new RMedicalOrgMain());
@@ -161,28 +162,14 @@ public class ExaminationBean implements Serializable {
 				loadExam(selectedExamination.getPatientId().getId(), isEditMode());
 			} else {
 				if(patientIsDead()) {
-					throw new Exception(": невозможно добавить обследование, пациент мертв");
-				}
-				if(!dateExamIsBefore(selectedExamination.getDat())) {
-					throw new Exception(": невозможно добавить обследование на дату из будущего");
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+							FacesMessage.SEVERITY_ERROR,"Невозможно добавить обследование, пациент мертв",null));
 				}
 			}
 		} catch(Exception e) {
-			if(e.getMessage() == null) {
 				throw new Exception("Возникла ошибка при сохранении");
-			} else {
-				throw new Exception("Возникла ошибка при сохранении"+e.getMessage());
-			}
 		}
     }
-	
-	private Boolean dateExamIsBefore(Date selectedDate) {
-		if(selectedDate.before(new Date())) {
-			return true;
-		} else {
-			return false;
-		}
-	}
 	
 	private Boolean patientIsDead() {
 		Patient pat=new Patient();
