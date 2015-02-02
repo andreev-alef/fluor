@@ -132,6 +132,8 @@ public class ReportBean  implements Serializable{
 		ses.setAttribute("motId", getSelectedMot().getId().getTerId());
 		if (getSelectedMom() != null)
 			ses.setAttribute("momId", getSelectedMom().getId().getLpuId());
+		else
+			ses.removeAttribute("momId");
 		ses.setAttribute("datStart", getDatStart());
 		ses.setAttribute("datEnd", getDatEnd());
 		ec.redirect("report");

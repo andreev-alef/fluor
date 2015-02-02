@@ -167,7 +167,6 @@ public class PlanmanBean implements Serializable {
 		}
 	}
 	
-	@Transactional
 	private void persistPlan(PlanOrm orm) {
 		Plan plan = new Plan();
 		
@@ -215,6 +214,7 @@ public class PlanmanBean implements Serializable {
 		loadPlans();
 	}
 	
+	@Transactional
 	public void onCellEdit(CellEditEvent event) {
 		int rowIdx = event.getRowIndex();
 		Integer value = (Integer) event.getNewValue();
