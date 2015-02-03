@@ -64,7 +64,7 @@
 	      <p:outputPanel id="pnlExamEdtId" class="move-up">
 	      <h:panelGrid columns="2" class="invis invis--overlay">
 	        <h:outputLabel for="dob" value="Дата обследования" />
-			<p:calendar id="dob" value="#{examinationBean.selectedExamination.dat}" locale="ru" pattern="dd.MM.yyyy" class="data"/>
+			<p:calendar id="dob" value="#{examinationBean.selectedExamination.dat}" locale="ru" pattern="dd.MM.yyyy" class="data" required="true" requiredMessage="Необходимо ввести дату"/>
 			
 	        <p:outputLabel for="regmo" value="Регион" />
 		     <p:selectOneMenu id="regmo"  value="#{examinationBean.selectedMor}" converter="#{examinationBean.morConverter}" class="my-select" style="#{examinationBean.moRegionList.size() == 0 ?'color:#d7d7d7;' : 'color:#00000;'}">
@@ -87,7 +87,7 @@
 		    </p:selectOneMenu>
 		    
 	        <h:outputLabel for="vid" value="Вид обследования" />
-		    <p:selectOneMenu id="vid" value="#{examinationBean.selectedExamination.RExamType}" converter="#{examinationBean.extConverter}" class="my-select">
+		    <p:selectOneMenu id="vid" value="#{examinationBean.selectedExamination.RExamType}" converter="#{examinationBean.extConverter}" class="my-select" required="true" requiredMessage="Необходимо выбрать вид обследования">
 	          <f:selectItem itemLabel="#{examinationBean.extList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
 		      <f:selectItems value="#{examinationBean.extList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
 		    </p:selectOneMenu>
@@ -111,7 +111,8 @@
 		</h:panelGrid>
 	      
 		<p:outputPanel class="blok-button--within--down">
-			<p:commandButton value="Сохранить" update=":frmExam:examTable" action="#{examinationBean.saveExam()}" oncomplete="PF('edtExamVar').hide()" class="button-volume button-volume--mini" icon="ui-icon-save"/>
+			<p:messages autoUpdate="true" />
+			<p:commandButton value="Сохранить" update=":frmExam:examTable" action="#{examinationBean.saveExam()}" oncomplete="if (args &amp;&amp; !args.validationFailed) PF('edtExamVar').hide()" class="button-volume button-volume--mini" icon="ui-icon-save"/>
 			<p:commandButton value="Отменить " oncomplete="PF('edtExamVar').hide()" class="button-volume button-volume--mini margin-left--big" icon="ui-icon-undo"/>
 	       </p:outputPanel>
 	      </p:outputPanel>
@@ -123,7 +124,9 @@
           <p:dialog id="delExamId" widgetVar="delExamVar" modal="true" header="Удалить обследование" resizable="false" class="my-overlay delete-exam--str">
             <h:panelGrid columns="2" class="invis invis--overlay move-up">
               <h:outputLabel for="p1" value="Дата обследования" />
-              <h:outputText id="p1" value="#{examinationBean.selectedExamination.dat}" />
+              <h:outputText id="p1" value="#{examinationBean.selectedExamination.dat}">
+              	<f:convertDateTime pattern="dd.MM.yyyy"/>
+              </h:outputText>
               <h:outputLabel for="p2" value="Медицинская организация" />
               <h:outputText id="p2" value="#{examinationBean.selectedExamination.RMedicalOrgMain.name}" />
               <h:outputLabel for="p3" value="Вид обследования" />
