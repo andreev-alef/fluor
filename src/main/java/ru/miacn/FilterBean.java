@@ -102,7 +102,7 @@ public class FilterBean implements Serializable{
 		setRestypeList(em.createQuery("SELECT r FROM " + RResultType.class.getName() + " r ORDER BY r.id", RResultType.class).getResultList());
 	}
 
- 	public void clearFilter(){
+ 	public void clearFilterFias(){
 		fias.setRegion(new FiasElement("", null));
 		fias.setGorod(new FiasElement("", null));
 		fias.setUlica(new FiasElement("", null));
@@ -126,7 +126,31 @@ public class FilterBean implements Serializable{
 //		setSelectedRegObs(null);
 	}
 	
-	@SuppressWarnings("unchecked")
+ 	public void clearFilter(){
+		fias.setRegion(new FiasElement("", null));
+		fias.setGorod(new FiasElement("", null));
+		fias.setUlica(new FiasElement("", null));
+		fias.setDom(null);
+		fias.setKorp(null);
+		fias.setStr(null);
+		fias.setKv(null);
+
+		setDatStart(null);
+		setDatEnd(null);
+		setSelectedDg(null);
+		setSelectedMg(null);
+		setSelectedSg(null);
+		setSelectedRezType(null);
+		setMoTerList(new ArrayList<RMedicalOrgTer>());
+		setMoMainList(new ArrayList<RMedicalOrgMain>());
+		setMoPoliclinicList(new ArrayList<RMedicalOrgPoliclinic>());
+		setMoTerList2(new ArrayList<RMedicalOrgTer>());
+		setMoMainList2(new ArrayList<RMedicalOrgMain>());
+		setSelectedMor(null);
+		setSelectedRegObs(null);
+	}
+
+ 	@SuppressWarnings("unchecked")
 	public void morSelected() {
 		if (selectedMor != null) {
 			Query query = em.createNativeQuery("SELECT * FROM r_medical_org_ter r WHERE r.reg_id = :r_id ORDER BY r.name", RMedicalOrgTer.class);
@@ -135,11 +159,11 @@ public class FilterBean implements Serializable{
 		} else {
 			setMoTerList(new ArrayList<RMedicalOrgTer>());
 		}
-//		setSelectedMot(null);
-//		setSelectedMom(null);
-//		setSelectedMop(null);
-//		setMoMainList(new ArrayList<RMedicalOrgMain>());
-//		setMoPoliclinicList(new ArrayList<RMedicalOrgPoliclinic>());
+		setSelectedMot(null);
+		setSelectedMom(null);
+		setSelectedMop(null);
+		setMoMainList(new ArrayList<RMedicalOrgMain>());
+		setMoPoliclinicList(new ArrayList<RMedicalOrgPoliclinic>());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -151,9 +175,9 @@ public class FilterBean implements Serializable{
 		} else {
 			setMoTerList2(new ArrayList<RMedicalOrgTer>());
 		}
-//		setSelectedTerObs(null);
-//		setSelectedLpuObs(null);
-//		setMoMainList2(new ArrayList<RMedicalOrgMain>());
+		setSelectedTerObs(null);
+		setSelectedLpuObs(null);
+		setMoMainList2(new ArrayList<RMedicalOrgMain>());
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -166,9 +190,9 @@ public class FilterBean implements Serializable{
 		} else {
 			setMoMainList(new ArrayList<RMedicalOrgMain>());
 		}
-//		setSelectedMom(null);
-//		setSelectedMop(null);
-//		setMoPoliclinicList(new ArrayList<RMedicalOrgPoliclinic>());
+		setSelectedMom(null);
+		setSelectedMop(null);
+		setMoPoliclinicList(new ArrayList<RMedicalOrgPoliclinic>());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -181,7 +205,7 @@ public class FilterBean implements Serializable{
 		} else {
 			setMoMainList2(new ArrayList<RMedicalOrgMain>());
 		}
-//		setSelectedLpuObs(null);
+		setSelectedLpuObs(null);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -195,7 +219,7 @@ public class FilterBean implements Serializable{
 		} else {
 			setMoPoliclinicList(new ArrayList<RMedicalOrgPoliclinic>());
 		}
-//		setSelectedMop(null);
+		setSelectedMop(null);
 	}
 
 	public ListConverter getMgConverter() {

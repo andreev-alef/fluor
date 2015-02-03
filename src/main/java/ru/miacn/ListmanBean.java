@@ -61,7 +61,7 @@ public class ListmanBean implements Serializable {
 	private FilterBean fpar;
 	@Inject
 	private FiasEditor fias;
-
+	
     @PostConstruct
     public void init() {
     	try {
@@ -86,15 +86,15 @@ public class ListmanBean implements Serializable {
 					String sql_params = "";
 			    	Map<String, Object> params = new HashMap<>();
 
-			    	if (!getSrcFam().isEmpty()) {
+			    	if (getSrcFam() != null && !getSrcFam().isEmpty()) {
 			    		sql_params += "AND p.last_name ILIKE :last_name ";
 			    		params.put("last_name", getSrcFam() + "%");
 			    	}
-			    	if (!getSrcIm().isEmpty()) {
+			    	if (getSrcIm() != null && !getSrcIm().isEmpty()) {
 			    		sql_params += "AND p.first_name ILIKE :first_name ";
 			    		params.put("first_name", getSrcIm() + "%");
 			    	}
-			    	if (!getSrcOt().isEmpty()) {
+			    	if (getSrcOt() != null && !getSrcOt().isEmpty()) {
 			    		sql_params += "AND p.father_name ILIKE :father_name ";
 			    		params.put("father_name", getSrcOt() + "%");
 			    	}
@@ -106,7 +106,8 @@ public class ListmanBean implements Serializable {
 					
 			    	setPatients(JpaUtils.getNativeResultList(em, sql, params, PatientOrm.class));
 					setRowCount(((Number) JpaUtils.getNativeQuery(em, String.format(countSql, sql_params), params).getSingleResult()).intValue());
-			    	
+//					setFilterMode(false);
+					
 			    	return patients;
 	    	   	}
 	    	};
@@ -148,7 +149,7 @@ public class ListmanBean implements Serializable {
 			    		params.put("verification_id", fpar.getSelectedVer().getId());
 			    	}
 
-			    	if ((fpar.getDatStart() != null && fpar.getDatEnd() != null) && fpar.getDatEnd().compareTo(fpar.getDatStart()) < 0) {
+			    	if ((fpar.getDatStart() != null && fpar.getDatEnd() != null) && fpar.getDatEnd().compareTo(fpar.getDatStart()) >= 0) {
 			    		sql_params += "AND e.dat between :dn and :dk ";
 			    		params.put("dn", fpar.getDatStart());
 			    		params.put("dk", fpar.getDatEnd());
@@ -294,4 +295,5 @@ public class ListmanBean implements Serializable {
 	public void setCountPatients(int countPatients) {
 		this.countPatients = countPatients;
 	}
+
 }

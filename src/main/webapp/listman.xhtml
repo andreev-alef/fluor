@@ -32,7 +32,8 @@
 				<p:outputLabel for="dr" value="Дата рождения" />
 				<p:calendar id="dr" value="#{listmanBean.srcDr}" locale="#{applicationBean.locale.language}" pattern="#{applicationBean.dateFormat.toPattern()}" />
 				<p:outputPanel></p:outputPanel>
-				<p:commandButton id="search" value="Найти" action="#{listmanBean.search()}" update="patientTable" class="button-volume button-volume--mini " icon="ui-icon-search"/>
+				<p:commandButton id="search" value="Найти" action="#{listmanBean.search()}" update="patientTable" class="button-volume button-volume--mini " icon="ui-icon-search" >
+				</p:commandButton>
 			    <p:commandButton value="Показать всех" action="#{listmanBean.clearSearch()}" update="searchParams patientTable" class="button-volume button-volume--mini" icon="ui-icon-all"/>
 			</h:panelGrid>
 		  </p:outputPanel>
@@ -42,7 +43,7 @@
     	      <p:commandLink update=":frmFind:pnlDlg" oncomplete="PF('find').show()" class="button-link button-link--blue">
 				<p:outputPanel class="ui-icon ui-icon-filter"/>
 				<h:outputText value="Фильтр записей"/>
-		        <p:ajax listener="#{filterBean.clearFilter()}" />
+		        <p:ajax listener="#{filterBean.clearFilterFias()}" />
 		      </p:commandLink>
 		  </p:outputPanel>
 		  
@@ -188,7 +189,7 @@
 					</p:selectOneMenu>
 
 					<p:outputLabel for="clmo" value="Поликлиника" />
-				<p:selectOneMenu id="clmo" value="#{filterBean.selectedMop}" converter="#{filterBean.mopConverter}" class="my-select" style="#{filterBean.moPoliclinicList.size() == 0 ?'color:#d7d7d7;' : 'color:#00000;'}">
+					<p:selectOneMenu id="clmo" value="#{filterBean.selectedMop}" converter="#{filterBean.mopConverter}" class="my-select" style="#{filterBean.moPoliclinicList.size() == 0 ?'color:#d7d7d7;' : 'color:#00000;'}">
 	                  <f:selectItem itemLabel="#{filterBean.moPoliclinicList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
 			          <f:selectItems value="#{filterBean.moPoliclinicList}" var="r" itemLabel="#{r.id.polId} - #{r.name}" itemValue="#{r}" />
 					</p:selectOneMenu>
@@ -261,7 +262,8 @@
 			    </p:panel >
 			    <p:outputPanel rendered="true" class="blok-button--within--down">
 			    	<p:messages autoUpdate="true"/>
-					<p:commandButton value="Применить" action="#{listmanBean.filter()}" update=":frmList:patientTable" oncomplete="PF('find').hide()" class="button-volume button-volume--mini" icon="ui-icon-save"/>
+					<p:commandButton value="Применить" action="#{listmanBean.filter()}" update=":frmList:patientTable" oncomplete="PF('find').hide()" class="button-volume button-volume--mini" icon="ui-icon-save">
+					</p:commandButton>
 					<p:commandButton value="Очистить поля" action="#{filterBean.clearFilter()}" update=":frmFind:pnlDlg" class="button-volume button-volume--mini margin-left--big" icon="ui-icon-clear">
 			       		<p:ajax resetValues="true" update=":frmFind:pnlDlg" />
 					</p:commandButton>
