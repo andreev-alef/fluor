@@ -64,7 +64,7 @@
 	      <p:outputPanel id="pnlExamEdtId" class="move-up">
 	      <h:panelGrid columns="2" class="invis invis--overlay">
 	        <h:outputLabel for="dob" value="Дата обследования" />
-			<p:calendar id="dob" value="#{examinationBean.selectedExamination.dat}" locale="ru" pattern="dd.MM.yyyy" class="data" required="true" requiredMessage="Необходимо ввести дату"/>
+			<p:calendar id="dob" value="#{examinationBean.selectedExamination.dat}" locale="ru" pattern="dd.MM.yyyy" class="data" required="true" requiredMessage="Дата обследования: поле не может быть пустым" converterMessage="Дата обследования: введенная дата имеет неверный формат, пожалуйста введите в формате дд.мм.гггг"/>
 			
 	        <p:outputLabel for="regmo" value="Регион" />
 		     <p:selectOneMenu id="regmo"  value="#{examinationBean.selectedMor}" converter="#{examinationBean.morConverter}" class="my-select" style="#{examinationBean.moRegionList.size() == 0 ?'color:#d7d7d7;' : 'color:#00000;'}">
@@ -87,7 +87,7 @@
 		    </p:selectOneMenu>
 		    
 	        <h:outputLabel for="vid" value="Вид обследования" />
-		    <p:selectOneMenu id="vid" value="#{examinationBean.selectedExamination.RExamType}" converter="#{examinationBean.extConverter}" class="my-select" required="true" requiredMessage="Необходимо выбрать вид обследования">
+		    <p:selectOneMenu id="vid" value="#{examinationBean.selectedExamination.RExamType}" converter="#{examinationBean.extConverter}" class="my-select" required="true" requiredMessage="Вид обследования: необходимо выбрать значение">
 	          <f:selectItem itemLabel="#{examinationBean.extList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
 		      <f:selectItems value="#{examinationBean.extList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
 		    </p:selectOneMenu>
