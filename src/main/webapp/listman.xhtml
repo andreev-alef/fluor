@@ -9,7 +9,7 @@
   <title>Флюрокартотека</title>
   <h:outputScript library="js" name="locale.js" />  
   <f:metadata>
-    <f:viewAction action="#{listmanBean.search()}" />
+    <f:viewAction action="#{listmanBean.searchOrFilter()}" />
   </f:metadata>
 </h:head>
 
@@ -43,7 +43,6 @@
     	      <p:commandLink update=":frmFind:pnlDlg" oncomplete="PF('find').show()" class="button-link button-link--blue">
 				<p:outputPanel class="ui-icon ui-icon-filter"/>
 				<h:outputText value="Фильтр записей"/>
-		        <p:ajax listener="#{filterBean.clearFilterFias()}" />
 		      </p:commandLink>
 		  </p:outputPanel>
 		  
@@ -161,7 +160,7 @@
 			  <p:scrollPanel mode="native" style="max-height: 600px">				
 			    <p:panel header="Адрес проживания" class="blok-overlay">
 			      <p:outputPanel style="padding-left: 40px">
-					<fias:fias_addr />
+					<fias:fias_addr_filter />
 			      </p:outputPanel>	
 			    </p:panel>
 			

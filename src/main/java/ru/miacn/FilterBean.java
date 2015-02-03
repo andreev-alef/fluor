@@ -13,7 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import ru.miacn.fias.FiasEditor;
+import ru.miacn.fias.FiasEditorFilter;
 import ru.miacn.fias.FiasElement;
 import ru.miacn.persistence.reference.ListConverter;
 import ru.miacn.persistence.reference.RDecrGroup;
@@ -33,7 +33,7 @@ public class FilterBean implements Serializable{
 	@PersistenceContext(unitName = "fluor-PU")
 	private EntityManager em;
 	@Inject
-	private FiasEditor fias;
+	private FiasEditorFilter fias;
 
 	private ListConverter dgConverter;
 	private List<RDecrGroup> decrList;
@@ -100,30 +100,6 @@ public class FilterBean implements Serializable{
 		setMoRegionList(em.createQuery("SELECT r FROM " + RMedicalOrgRegion.class.getName() + " r ORDER BY r.id", RMedicalOrgRegion.class).getResultList());
 		setMoRegionObsList(em.createQuery("SELECT r FROM " + RMedicalOrgRegion.class.getName() + " r ORDER BY r.id", RMedicalOrgRegion.class).getResultList());
 		setRestypeList(em.createQuery("SELECT r FROM " + RResultType.class.getName() + " r ORDER BY r.id", RResultType.class).getResultList());
-	}
-
- 	public void clearFilterFias(){
-		fias.setRegion(new FiasElement("", null));
-		fias.setGorod(new FiasElement("", null));
-		fias.setUlica(new FiasElement("", null));
-		fias.setDom(null);
-		fias.setKorp(null);
-		fias.setStr(null);
-		fias.setKv(null);
-
-//		setDatStart(null);
-//		setDatEnd(null);
-//		setSelectedDg(null);
-//		setSelectedMg(null);
-//		setSelectedSg(null);
-//		setSelectedRezType(null);
-//		setMoTerList(new ArrayList<RMedicalOrgTer>());
-//		setMoMainList(new ArrayList<RMedicalOrgMain>());
-//		setMoPoliclinicList(new ArrayList<RMedicalOrgPoliclinic>());
-//		setMoTerList2(new ArrayList<RMedicalOrgTer>());
-//		setMoMainList2(new ArrayList<RMedicalOrgMain>());
-//		setSelectedMor(null);
-//		setSelectedRegObs(null);
 	}
 	
  	public void clearFilter(){

@@ -16,7 +16,7 @@ import javax.persistence.PersistenceContext;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
-import ru.miacn.fias.FiasEditor;
+import ru.miacn.fias.FiasEditorFilter;
 import ru.miacn.orm.PatientOrm;
 import ru.miacn.utils.JpaUtils;
 
@@ -60,7 +60,8 @@ public class ListmanBean implements Serializable {
 	@Inject
 	private FilterBean fpar;
 	@Inject
-	private FiasEditor fias;
+	private FiasEditorFilter fias;
+	private boolean filtering;
 	
     @PostConstruct
     public void init() {
@@ -75,7 +76,16 @@ public class ListmanBean implements Serializable {
 		return model;
 	}
 
+    public void searchOrFilter() throws Exception {
+    	if (filtering)
+    		filter();
+    	else
+    		search();
+    }
+    
 	public void search() throws Exception {
+		filtering = false;
+		
     	try{
 	    	model = new LazyDataModel<PatientOrm>() {
 				private static final long serialVersionUID = 9043096992321295134L;
@@ -106,7 +116,6 @@ public class ListmanBean implements Serializable {
 					
 			    	setPatients(JpaUtils.getNativeResultList(em, sql, params, PatientOrm.class));
 					setRowCount(((Number) JpaUtils.getNativeQuery(em, String.format(countSql, sql_params), params).getSingleResult()).intValue());
-//					setFilterMode(false);
 					
 			    	return patients;
 	    	   	}
@@ -117,6 +126,8 @@ public class ListmanBean implements Serializable {
     }
     
 	public void filter() throws Exception {
+		filtering = true;
+		
         try {
 	    	model = new LazyDataModel<PatientOrm>(){
 				private static final long serialVersionUID = 4631239035126444909L;
@@ -205,22 +216,22 @@ public class ListmanBean implements Serializable {
 			    		params.put("street", fias.getUlica().getFormalname());
 			    	}
 			    	
-			    	if (!fias.getDom().isEmpty()) {
+			    	if ((fias.getDom() != null) && (!fias.getDom().isEmpty())) {
 			    		sql_params += "AND p.liv_house = :dom ";
 			    		params.put("dom", fias.getDom());
 			    	}
 			    	
-			    	if (!fias.getKorp().isEmpty()) {
+			    	if ((fias.getKorp() != null) && (!fias.getKorp().isEmpty())) {
 			    		sql_params += "AND p.liv_facility = :fac ";
 			    		params.put("fac", fias.getKorp());
 			    	}
 			    	
-			    	if (!fias.getStr().isEmpty()) {
+			    	if ((fias.getStr() != null) && (!fias.getStr().isEmpty())) {
 			    		sql_params += "AND p.liv_building = :building ";
 			    		params.put("building", fias.getStr());
 			    	}
 			    	
-			    	if (!fias.getKv().isEmpty()) {
+			    	if ((fias.getKv() != null) && (!fias.getKv().isEmpty())) {
 			    		sql_params += "AND p.liv_flat = :flat ";
 			    		params.put("flat", fias.getKv());
 			    	}
