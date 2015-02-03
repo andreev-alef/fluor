@@ -8,6 +8,8 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -17,6 +19,7 @@ import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
 import ru.miacn.persistence.model.Examination;
+import ru.miacn.persistence.model.Patient;
 import ru.miacn.persistence.model.PatientId;
 import ru.miacn.persistence.reference.ListConverter;
 import ru.miacn.persistence.reference.RExamMethod;
@@ -142,21 +145,46 @@ public class ExaminationBean implements Serializable {
 		loadExam(selectedExamination.getPatientId().getId(), isEditMode());
     }
 
-	public void saveExam() {
-		selectedExamination.getPatientId().setId(getPatientId());
-		if ((selectedMor != null) && (selectedMot != null) && (selectedMom != null)) {
-			selectedExamination.setRMedicalOrgMain(new RMedicalOrgMain());
-			selectedExamination.getRMedicalOrgMain().getRMedicalOrgTer().getRMedicalOrgRegion().setRegId(selectedMor.getRegId());
-			selectedExamination.getRMedicalOrgMain().getRMedicalOrgTer().setId(selectedMot.getId());
-			selectedExamination.getRMedicalOrgMain().setId(selectedMom.getId());
-		} else {
-			selectedExamination.setRMedicalOrgMain(null);
+	public void saveExam() throws Exception {
+		try{
+			if((!patientIsDead())) {
+				selectedExamination.getPatientId().setId(getPatientId());
+				if ((selectedMor != null) && (selectedMot != null) && (selectedMom != null)) {
+					selectedExamination.setRMedicalOrgMain(new RMedicalOrgMain());
+					selectedExamination.getRMedicalOrgMain().getRMedicalOrgTer().getRMedicalOrgRegion().setRegId(selectedMor.getRegId());
+					selectedExamination.getRMedicalOrgMain().getRMedicalOrgTer().setId(selectedMot.getId());
+					selectedExamination.getRMedicalOrgMain().setId(selectedMom.getId());
+				} else {
+					selectedExamination.setRMedicalOrgMain(null);
+				}
+				selectedExamination.setUser(login.getAuthedUser());
+				em.persist(em.merge(selectedExamination));
+				loadExam(selectedExamination.getPatientId().getId(), isEditMode());
+			} else {
+				if(patientIsDead()) {
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+							FacesMessage.SEVERITY_ERROR,"Невозможно добавить обследование, пациент мертв",null));
+				}
+			}
+		} catch(Exception e) {
+				throw new Exception("Возникла ошибка при сохранении");
 		}
-		
-		selectedExamination.setUser(login.getAuthedUser());
-		em.persist(em.merge(selectedExamination));
-		loadExam(selectedExamination.getPatientId().getId(), isEditMode());
     }
+	
+	private Boolean patientIsDead() {
+		Patient pat=new Patient();
+		
+		pat= em.find(Patient.class, getPatientId());
+		if(pat.getVerActive() == false) {
+			Query q = em.createQuery("SELECT p FROM "+Patient.class.getName()+" p "+"WHERE p.patientId="+pat.getId()+" and p.verActive='true'",Patient.class);
+			pat = (Patient) q.getResultList().get(0);			
+		}
+		if(pat.getDatDeath()==null) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 
 	public List<Examination> getExaminations() {
 		return examinations;

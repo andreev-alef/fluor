@@ -2,6 +2,7 @@ package ru.miacn.report;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
 
 import javax.naming.NamingException;
 import javax.servlet.ServletException;
@@ -54,7 +55,7 @@ public class ReportServlet extends HttpServlet {
 			
 			rep.setParameters(ses);
 			rep.printReport(resp.getOutputStream(), type);
-		} catch (JRException | SQLException | NamingException e) {
+		} catch (JRException | SQLException | NamingException | ParseException e) {
 			e.printStackTrace();
 		}
 	}

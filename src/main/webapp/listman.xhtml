@@ -30,7 +30,7 @@
 				<p:outputLabel for="ot" value="Отчество" />
 				<p:inputText id="ot" value="#{listmanBean.srcOt}" />
 				<p:outputLabel for="dr" value="Дата рождения" />
-				<p:calendar id="dr" value="#{listmanBean.srcDr}" locale="#{applicationBean.locale.language}" pattern="#{applicationBean.dateFormat.toPattern()}" />
+				<p:calendar id="dr" value="#{listmanBean.srcDr}" locale="#{applicationBean.locale.language}" pattern="#{applicationBean.dateFormat.toPattern()}" converterMessage="Дата рождения: введенная дата имеет неверный формат, пожалуйста введите в формате дд.мм.гггг"/>
 				<p:outputPanel></p:outputPanel>
 				<p:commandButton id="search" value="Найти" action="#{listmanBean.search()}" update="patientTable" class="button-volume button-volume--mini " icon="ui-icon-search" >
 				</p:commandButton>
@@ -254,9 +254,9 @@
 			   			<p:outputLabel value="Период: c " />
 					</p:column>
 					<p:column>						    
-					    <p:calendar id="dn" value="#{filterBean.datStart}" locale="ru" class="data"/>
+					    <p:calendar id="dn" value="#{filterBean.datStart}" locale="ru" class="data" converterMessage="Период с: введенная дата имеет неверный формат, пожалуйста введите в формате дд.мм.гггг"/>
 					    <p:outputLabel value="&#160;&#160; по &#160;" />
-					    <p:calendar id="dk" value="#{filterBean.datEnd}" locale="ru" class="data"/>
+					    <p:calendar id="dk" value="#{filterBean.datEnd}" locale="ru" class="data" converterMessage="Период по: Введенная дата имеет неверный формат, пожалуйста введите в формате дд.мм.гггг"/>
 					</p:column>						
 				</h:panelGrid>
 			    </p:panel >

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.0.0.final using JasperReports Library version 6.0.0  -->
+<!-- 2015-01-27T11:12:46 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rep_med" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b9c776c4-d915-44a2-8a12-2c08d2f00acf">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
@@ -38,10 +39,28 @@
 		</queryString>
 		<field name="name" class="java.lang.String"/>
 		<field name="id" class="java.lang.Integer"/>
+		<field name="cnt_beg_year" class="java.lang.Integer"/>
+		<field name="cnt_end_year" class="java.lang.Integer"/>
+		<field name="cnt_plan_pat" class="java.lang.Integer"/>
+		<field name="cnt_plan_exam" class="java.lang.Integer"/>
+		<field name="flfl" class="java.lang.Integer"/>
+		<field name="flren" class="java.lang.Integer"/>
+		<field name="isfl" class="java.lang.Integer"/>
+		<field name="isren" class="java.lang.Integer"/>
+		<field name="v_pl_lic" class="java.lang.Double"/>
+		<field name="v_pl_ex" class="java.lang.Double"/>
+		<field name="oh_nas" class="java.lang.Double"/>
+		<field name="vsego" class="java.lang.Integer"/>
+		<field name="activ" class="java.lang.Integer"/>
+		<field name="not_activ" class="java.lang.Integer"/>
+		<field name="proch" class="java.lang.Integer"/>
 	</subDataset>
 	<parameter name="p_table_data" class="net.sf.jasperreports.engine.JRDataSource" isForPrompting="false">
 		<parameterDescription><![CDATA[]]></parameterDescription>
 	</parameter>
+	<parameter name="p_beg_date" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="p_end_date" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="p_name_lpu" class="java.lang.String" isForPrompting="false"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -68,6 +87,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="11"/>
 				</textElement>
+				<textFieldExpression><![CDATA[$P{p_name_lpu}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="280" y="48" width="30" height="18" uuid="a4c4e9d9-9b5d-4745-9494-727d374e2155"/>
@@ -89,12 +109,14 @@
 					<font size="11"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
+				<textFieldExpression><![CDATA[$P{p_beg_date}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="410" y="48" width="70" height="18" uuid="df889951-297a-48d4-a4f8-7236a65cda7a"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="11"/>
 				</textElement>
+				<textFieldExpression><![CDATA[$P{p_end_date}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -277,6 +299,7 @@
 								<textField isBlankWhenNull="true">
 									<reportElement x="0" y="0" width="35" height="30" uuid="39464007-a0db-4066-88cd-2e91d843a5d2"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$F{cnt_beg_year}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
@@ -306,6 +329,7 @@
 								<textField isBlankWhenNull="true">
 									<reportElement x="0" y="0" width="38" height="30" uuid="e7880a7f-7ebd-4a13-af34-bab217730886"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$F{cnt_end_year}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
@@ -352,6 +376,7 @@
 								<textField isBlankWhenNull="true">
 									<reportElement x="0" y="0" width="35" height="30" uuid="4194621b-db2a-4682-bf7a-0d0fc936772e"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$F{cnt_plan_pat}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
@@ -398,6 +423,7 @@
 								<textField isBlankWhenNull="true">
 									<reportElement x="0" y="0" width="41" height="30" uuid="ac5f81d7-a74d-48b1-b452-1f6c32ce7f30"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$F{cnt_plan_exam}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
@@ -470,6 +496,7 @@
 								<textField isBlankWhenNull="true">
 									<reportElement x="0" y="0" width="35" height="30" uuid="2431bf0b-719d-4ce0-81cb-44d110b49075"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$F{flfl}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
@@ -499,6 +526,7 @@
 								<textField isBlankWhenNull="true">
 									<reportElement x="0" y="0" width="41" height="30" uuid="8e02db2a-dffe-4331-94f0-26d90c0adba8"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$F{flren}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
@@ -571,6 +599,7 @@
 								<textField isBlankWhenNull="true">
 									<reportElement x="0" y="0" width="35" height="30" uuid="ee8526ac-aeae-40ab-b038-6175f5caa3f2"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$F{isfl}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
@@ -600,6 +629,7 @@
 								<textField isBlankWhenNull="true">
 									<reportElement x="0" y="0" width="38" height="30" uuid="c9afd810-914e-4a61-a948-a7bf99860f67"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$F{isren}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
@@ -658,6 +688,7 @@
 								<textField isBlankWhenNull="true">
 									<reportElement x="0" y="0" width="35" height="30" uuid="5a51f5e2-7ad5-4bba-a93e-a41c7fd9c148"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$F{v_pl_lic}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
@@ -710,6 +741,7 @@
 								<textField isBlankWhenNull="true">
 									<reportElement x="0" y="0" width="35" height="30" uuid="1bdf192b-10c7-4be9-9265-8a366f741bdb"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$F{v_pl_ex}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
@@ -762,6 +794,7 @@
 								<textField isBlankWhenNull="true">
 									<reportElement x="0" y="0" width="35" height="30" uuid="69a75d25-6782-4b1b-84b5-1dbf63ccce39"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$F{oh_nas}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
@@ -1041,6 +1074,7 @@
 								<textField isBlankWhenNull="true">
 									<reportElement x="0" y="0" width="28" height="30" uuid="b0a518cd-df21-4809-9207-1bc4ce76ed29"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$F{vsego}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
@@ -1078,6 +1112,7 @@
 										<textField isBlankWhenNull="true">
 											<reportElement x="0" y="0" width="35" height="30" uuid="f6fa6024-7ffd-474a-8420-2aafbf626fb0"/>
 											<textElement textAlignment="Center" verticalAlignment="Middle"/>
+											<textFieldExpression><![CDATA[$F{activ}]]></textFieldExpression>
 										</textField>
 									</jr:detailCell>
 								</jr:column>
@@ -1113,6 +1148,7 @@
 										<textField isBlankWhenNull="true">
 											<reportElement x="0" y="0" width="38" height="30" uuid="64d1c906-f376-4977-b51f-5071101a179e"/>
 											<textElement textAlignment="Center" verticalAlignment="Middle"/>
+											<textFieldExpression><![CDATA[$F{not_activ}]]></textFieldExpression>
 										</textField>
 									</jr:detailCell>
 								</jr:column>
@@ -1149,6 +1185,7 @@
 									<textField isBlankWhenNull="true">
 										<reportElement x="0" y="0" width="37" height="30" uuid="4fb114cd-1fb4-480c-8eb8-2dd5eed9f133"/>
 										<textElement textAlignment="Center" verticalAlignment="Middle"/>
+										<textFieldExpression><![CDATA[$F{proch}]]></textFieldExpression>
 									</textField>
 								</jr:detailCell>
 							</jr:column>

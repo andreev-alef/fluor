@@ -49,10 +49,11 @@ public class Patient {
 	@Column(name = "dat_birth")
 	@Temporal(TemporalType.DATE)
 	@NotNull
-	@Past
+	@Past(message="Дата рождения: выбранная дата еще не наступила")
 	private Date datBirth;
 	@Column(name = "dat_death")
 	@Temporal(TemporalType.DATE)
+	@Past(message="Дата смерти: выбранная дата еще не наступила")
 	private Date datDeath;
 	@OneToOne
 	@JoinColumn(name = "decr_group_id")
