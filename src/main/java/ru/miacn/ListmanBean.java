@@ -16,7 +16,7 @@ import javax.persistence.PersistenceContext;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
-import ru.miacn.fias.FiasEditor;
+import ru.miacn.fias.FiasEditorFilter;
 import ru.miacn.orm.PatientOrm;
 import ru.miacn.utils.JpaUtils;
 
@@ -60,8 +60,9 @@ public class ListmanBean implements Serializable {
 	@Inject
 	private FilterBean fpar;
 	@Inject
-	private FiasEditor fias;
-
+	private FiasEditorFilter fias;
+	private boolean filtering;
+	
     @PostConstruct
     public void init() {
     	try {
@@ -75,7 +76,16 @@ public class ListmanBean implements Serializable {
 		return model;
 	}
 
+    public void searchOrFilter() throws Exception {
+    	if (filtering)
+    		filter();
+    	else
+    		search();
+    }
+    
 	public void search() throws Exception {
+		filtering = false;
+		
     	try{
 	    	model = new LazyDataModel<PatientOrm>() {
 				private static final long serialVersionUID = 9043096992321295134L;
@@ -86,15 +96,15 @@ public class ListmanBean implements Serializable {
 					String sql_params = "";
 			    	Map<String, Object> params = new HashMap<>();
 
-			    	if (!getSrcFam().isEmpty()) {
+			    	if (getSrcFam() != null && !getSrcFam().isEmpty()) {
 			    		sql_params += "AND p.last_name ILIKE :last_name ";
 			    		params.put("last_name", getSrcFam() + "%");
 			    	}
-			    	if (!getSrcIm().isEmpty()) {
+			    	if (getSrcIm() != null && !getSrcIm().isEmpty()) {
 			    		sql_params += "AND p.first_name ILIKE :first_name ";
 			    		params.put("first_name", getSrcIm() + "%");
 			    	}
-			    	if (!getSrcOt().isEmpty()) {
+			    	if (getSrcOt() != null && !getSrcOt().isEmpty()) {
 			    		sql_params += "AND p.father_name ILIKE :father_name ";
 			    		params.put("father_name", getSrcOt() + "%");
 			    	}
@@ -106,7 +116,7 @@ public class ListmanBean implements Serializable {
 					
 			    	setPatients(JpaUtils.getNativeResultList(em, sql, params, PatientOrm.class));
 					setRowCount(((Number) JpaUtils.getNativeQuery(em, String.format(countSql, sql_params), params).getSingleResult()).intValue());
-			    	
+					
 			    	return patients;
 	    	   	}
 	    	};
@@ -116,6 +126,8 @@ public class ListmanBean implements Serializable {
     }
     
 	public void filter() throws Exception {
+		filtering = true;
+		
         try {
 	    	model = new LazyDataModel<PatientOrm>(){
 				private static final long serialVersionUID = 4631239035126444909L;
@@ -148,7 +160,7 @@ public class ListmanBean implements Serializable {
 			    		params.put("verification_id", fpar.getSelectedVer().getId());
 			    	}
 
-			    	if ((fpar.getDatStart() != null && fpar.getDatEnd() != null) && fpar.getDatEnd().compareTo(fpar.getDatStart()) < 0) {
+			    	if ((fpar.getDatStart() != null && fpar.getDatEnd() != null) && fpar.getDatEnd().compareTo(fpar.getDatStart()) >= 0) {
 			    		sql_params += "AND e.dat between :dn and :dk ";
 			    		params.put("dn", fpar.getDatStart());
 			    		params.put("dk", fpar.getDatEnd());
@@ -204,22 +216,22 @@ public class ListmanBean implements Serializable {
 			    		params.put("street", fias.getUlica().getFormalname());
 			    	}
 			    	
-			    	if (!fias.getDom().isEmpty()) {
+			    	if ((fias.getDom() != null) && (!fias.getDom().isEmpty())) {
 			    		sql_params += "AND p.liv_house = :dom ";
 			    		params.put("dom", fias.getDom());
 			    	}
 			    	
-			    	if (!fias.getKorp().isEmpty()) {
+			    	if ((fias.getKorp() != null) && (!fias.getKorp().isEmpty())) {
 			    		sql_params += "AND p.liv_facility = :fac ";
 			    		params.put("fac", fias.getKorp());
 			    	}
 			    	
-			    	if (!fias.getStr().isEmpty()) {
+			    	if ((fias.getStr() != null) && (!fias.getStr().isEmpty())) {
 			    		sql_params += "AND p.liv_building = :building ";
 			    		params.put("building", fias.getStr());
 			    	}
 			    	
-			    	if (!fias.getKv().isEmpty()) {
+			    	if ((fias.getKv() != null) && (!fias.getKv().isEmpty())) {
 			    		sql_params += "AND p.liv_flat = :flat ";
 			    		params.put("flat", fias.getKv());
 			    	}
@@ -294,4 +306,5 @@ public class ListmanBean implements Serializable {
 	public void setCountPatients(int countPatients) {
 		this.countPatients = countPatients;
 	}
+
 }

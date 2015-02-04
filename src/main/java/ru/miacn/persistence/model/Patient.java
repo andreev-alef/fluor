@@ -49,10 +49,11 @@ public class Patient {
 	@Column(name = "dat_birth")
 	@Temporal(TemporalType.DATE)
 	@NotNull
-	@Past
+	@Past(message="Дата рождения: выбранная дата еще не наступила")
 	private Date datBirth;
 	@Column(name = "dat_death")
 	@Temporal(TemporalType.DATE)
+	@Past(message="Дата смерти: выбранная дата еще не наступила")
 	private Date datDeath;
 	@OneToOne
 	@JoinColumn(name = "decr_group_id")
@@ -180,7 +181,9 @@ public class Patient {
 	}
 
 	public void setFatherName(String fatherName) {
-		this.fatherName = fatherName.substring(0, 1).toUpperCase() + fatherName.substring(1).toLowerCase();
+		if (fatherName != null && !fatherName.isEmpty())
+			this.fatherName = fatherName.substring(0, 1).toUpperCase() + fatherName.substring(1).toLowerCase();
+		else this.fatherName = fatherName;
 	}
 
 	public String getFirstName() {

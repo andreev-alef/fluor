@@ -13,7 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import ru.miacn.fias.FiasEditor;
+import ru.miacn.fias.FiasEditorFilter;
 import ru.miacn.fias.FiasElement;
 import ru.miacn.persistence.reference.ListConverter;
 import ru.miacn.persistence.reference.RDecrGroup;
@@ -33,7 +33,7 @@ public class FilterBean implements Serializable{
 	@PersistenceContext(unitName = "fluor-PU")
 	private EntityManager em;
 	@Inject
-	private FiasEditor fias;
+	private FiasEditorFilter fias;
 
 	private ListConverter dgConverter;
 	private List<RDecrGroup> decrList;
@@ -101,7 +101,7 @@ public class FilterBean implements Serializable{
 		setMoRegionObsList(em.createQuery("SELECT r FROM " + RMedicalOrgRegion.class.getName() + " r ORDER BY r.id", RMedicalOrgRegion.class).getResultList());
 		setRestypeList(em.createQuery("SELECT r FROM " + RResultType.class.getName() + " r ORDER BY r.id", RResultType.class).getResultList());
 	}
-
+	
  	public void clearFilter(){
 		fias.setRegion(new FiasElement("", null));
 		fias.setGorod(new FiasElement("", null));
@@ -111,22 +111,22 @@ public class FilterBean implements Serializable{
 		fias.setStr(null);
 		fias.setKv(null);
 
-//		setDatStart(null);
-//		setDatEnd(null);
-//		setSelectedDg(null);
-//		setSelectedMg(null);
-//		setSelectedSg(null);
-//		setSelectedRezType(null);
-//		setMoTerList(new ArrayList<RMedicalOrgTer>());
-//		setMoMainList(new ArrayList<RMedicalOrgMain>());
-//		setMoPoliclinicList(new ArrayList<RMedicalOrgPoliclinic>());
-//		setMoTerList2(new ArrayList<RMedicalOrgTer>());
-//		setMoMainList2(new ArrayList<RMedicalOrgMain>());
-//		setSelectedMor(null);
-//		setSelectedRegObs(null);
+		setDatStart(null);
+		setDatEnd(null);
+		setSelectedDg(null);
+		setSelectedMg(null);
+		setSelectedSg(null);
+		setSelectedRezType(null);
+		setMoTerList(new ArrayList<RMedicalOrgTer>());
+		setMoMainList(new ArrayList<RMedicalOrgMain>());
+		setMoPoliclinicList(new ArrayList<RMedicalOrgPoliclinic>());
+		setMoTerList2(new ArrayList<RMedicalOrgTer>());
+		setMoMainList2(new ArrayList<RMedicalOrgMain>());
+		setSelectedMor(null);
+		setSelectedRegObs(null);
 	}
-	
-	@SuppressWarnings("unchecked")
+
+ 	@SuppressWarnings("unchecked")
 	public void morSelected() {
 		if (selectedMor != null) {
 			Query query = em.createNativeQuery("SELECT * FROM r_medical_org_ter r WHERE r.reg_id = :r_id ORDER BY r.name", RMedicalOrgTer.class);
@@ -135,11 +135,11 @@ public class FilterBean implements Serializable{
 		} else {
 			setMoTerList(new ArrayList<RMedicalOrgTer>());
 		}
-//		setSelectedMot(null);
-//		setSelectedMom(null);
-//		setSelectedMop(null);
-//		setMoMainList(new ArrayList<RMedicalOrgMain>());
-//		setMoPoliclinicList(new ArrayList<RMedicalOrgPoliclinic>());
+		setSelectedMot(null);
+		setSelectedMom(null);
+		setSelectedMop(null);
+		setMoMainList(new ArrayList<RMedicalOrgMain>());
+		setMoPoliclinicList(new ArrayList<RMedicalOrgPoliclinic>());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -151,9 +151,9 @@ public class FilterBean implements Serializable{
 		} else {
 			setMoTerList2(new ArrayList<RMedicalOrgTer>());
 		}
-//		setSelectedTerObs(null);
-//		setSelectedLpuObs(null);
-//		setMoMainList2(new ArrayList<RMedicalOrgMain>());
+		setSelectedTerObs(null);
+		setSelectedLpuObs(null);
+		setMoMainList2(new ArrayList<RMedicalOrgMain>());
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -166,9 +166,9 @@ public class FilterBean implements Serializable{
 		} else {
 			setMoMainList(new ArrayList<RMedicalOrgMain>());
 		}
-//		setSelectedMom(null);
-//		setSelectedMop(null);
-//		setMoPoliclinicList(new ArrayList<RMedicalOrgPoliclinic>());
+		setSelectedMom(null);
+		setSelectedMop(null);
+		setMoPoliclinicList(new ArrayList<RMedicalOrgPoliclinic>());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -181,7 +181,7 @@ public class FilterBean implements Serializable{
 		} else {
 			setMoMainList2(new ArrayList<RMedicalOrgMain>());
 		}
-//		setSelectedLpuObs(null);
+		setSelectedLpuObs(null);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -195,7 +195,7 @@ public class FilterBean implements Serializable{
 		} else {
 			setMoPoliclinicList(new ArrayList<RMedicalOrgPoliclinic>());
 		}
-//		setSelectedMop(null);
+		setSelectedMop(null);
 	}
 
 	public ListConverter getMgConverter() {

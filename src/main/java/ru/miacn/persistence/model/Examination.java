@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Past;
 
 import ru.miacn.persistence.reference.RExamMethod;
 import ru.miacn.persistence.reference.RExamType;
@@ -25,6 +26,7 @@ public class Examination {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 
+	@Past(message="Дата обследования: выбранная дата еще не наступила")
 	@Temporal(TemporalType.DATE)
 	private Date dat;
 

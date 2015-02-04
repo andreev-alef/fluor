@@ -81,11 +81,11 @@ public class ReportBean  implements Serializable{
 		} else {
 			setMoTerList(new ArrayList<RMedicalOrgTer>());
 		}
-//		setSelectedMot(null);
-//		setSelectedMom(null);
-//		setSelectedMop(null);
-//		setMoMainList(new ArrayList<RMedicalOrgMain>());
-//		setMoPoliclinicList(new ArrayList<RMedicalOrgPoliclinic>());
+		setSelectedMot(null);
+		setSelectedMom(null);
+		setSelectedMop(null);
+		setMoMainList(new ArrayList<RMedicalOrgMain>());
+		setMoPoliclinicList(new ArrayList<RMedicalOrgPoliclinic>());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -98,9 +98,9 @@ public class ReportBean  implements Serializable{
 		} else {
 			setMoMainList(new ArrayList<RMedicalOrgMain>());
 		}
-//		setSelectedMom(null);
-//		setSelectedMop(null);
-//		setMoPoliclinicList(new ArrayList<RMedicalOrgPoliclinic>());
+		setSelectedMom(null);
+		setSelectedMop(null);
+		setMoPoliclinicList(new ArrayList<RMedicalOrgPoliclinic>());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -114,7 +114,7 @@ public class ReportBean  implements Serializable{
 		} else {
 			setMoPoliclinicList(new ArrayList<RMedicalOrgPoliclinic>());
 		}
-//		setSelectedMop(null);
+		setSelectedMop(null);
 	}
 	
 	public void printReport(int id, boolean pdf) throws IOException, ServletException {
@@ -132,6 +132,8 @@ public class ReportBean  implements Serializable{
 		ses.setAttribute("motId", getSelectedMot().getId().getTerId());
 		if (getSelectedMom() != null)
 			ses.setAttribute("momId", getSelectedMom().getId().getLpuId());
+		else
+			ses.removeAttribute("momId");
 		ses.setAttribute("datStart", getDatStart());
 		ses.setAttribute("datEnd", getDatEnd());
 		ec.redirect("report");

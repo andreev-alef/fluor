@@ -8,6 +8,8 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -17,6 +19,7 @@ import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
 import ru.miacn.persistence.model.Examination;
+import ru.miacn.persistence.model.Patient;
 import ru.miacn.persistence.model.PatientId;
 import ru.miacn.persistence.reference.ListConverter;
 import ru.miacn.persistence.reference.RExamMethod;
@@ -40,6 +43,7 @@ public class ExaminationBean implements Serializable {
 	private LoginBean login;
 	
 	private int patientId;
+	private int patientParentId;
 	private List<Examination> examinations;
 	private Examination selectedExamination;
 
@@ -85,8 +89,9 @@ public class ExaminationBean implements Serializable {
 		setMoRegionList(em.createQuery("SELECT r FROM " + RMedicalOrgRegion.class.getName() + " r ORDER BY r.id", RMedicalOrgRegion.class).getResultList());
 	}
 
-	public void loadExam(int patId, boolean editMode) {
+	public void loadExam(int patId, int parentId, boolean editMode) {
 		setPatientId(patId);
+		setPatientParentId(parentId);
 		setEditMode(editMode);
 		
     	String sql = ""
@@ -96,7 +101,7 @@ public class ExaminationBean implements Serializable {
 			+ "ORDER BY e.dat desc ";
     	Map<String, Object> params = new HashMap<>();
     	
-   		params.put("id", getPatientId());
+   		params.put("id", getPatientParentId());
     	
     	setExaminations(JpaUtils.getNativeResultList(em, sql, params, Examination.class));
     }
@@ -139,24 +144,47 @@ public class ExaminationBean implements Serializable {
 
 	public void delExam() {
 		em.remove(em.merge(selectedExamination));
-		loadExam(selectedExamination.getPatientId().getId(), isEditMode());
+		loadExam(getPatientId(), selectedExamination.getPatientId().getId(), isEditMode());
     }
 
-	public void saveExam() {
-		selectedExamination.getPatientId().setId(getPatientId());
-		if ((selectedMor != null) && (selectedMot != null) && (selectedMom != null)) {
-			selectedExamination.setRMedicalOrgMain(new RMedicalOrgMain());
-			selectedExamination.getRMedicalOrgMain().getRMedicalOrgTer().getRMedicalOrgRegion().setRegId(selectedMor.getRegId());
-			selectedExamination.getRMedicalOrgMain().getRMedicalOrgTer().setId(selectedMot.getId());
-			selectedExamination.getRMedicalOrgMain().setId(selectedMom.getId());
-		} else {
-			selectedExamination.setRMedicalOrgMain(null);
+	public void saveExam() throws Exception {
+		try{
+			if((!patientIsDead())) {
+				selectedExamination.getPatientId().setId(getPatientParentId());
+				if ((selectedMor != null) && (selectedMot != null) && (selectedMom != null)) {
+					selectedExamination.setRMedicalOrgMain(new RMedicalOrgMain());
+					selectedExamination.getRMedicalOrgMain().getRMedicalOrgTer().getRMedicalOrgRegion().setRegId(selectedMor.getRegId());
+					selectedExamination.getRMedicalOrgMain().getRMedicalOrgTer().setId(selectedMot.getId());
+					selectedExamination.getRMedicalOrgMain().setId(selectedMom.getId());
+				} else {
+					selectedExamination.setRMedicalOrgMain(null);
+				}
+				selectedExamination.setUser(login.getAuthedUser());
+				em.persist(em.merge(selectedExamination));
+				loadExam(getPatientId(), selectedExamination.getPatientId().getId(), isEditMode());
+			} else {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+					FacesMessage.SEVERITY_ERROR,"Невозможно добавить обследование, пациент умер.",null));
+			}
+		} catch(Exception e) {
+				throw new Exception("Возникла ошибка при сохранении");
 		}
-		
-		selectedExamination.setUser(login.getAuthedUser());
-		em.persist(em.merge(selectedExamination));
-		loadExam(selectedExamination.getPatientId().getId(), isEditMode());
     }
+	
+	private Boolean patientIsDead() {
+		Patient pat=new Patient();
+		
+		pat= em.find(Patient.class, getPatientId());
+		if(!pat.getVerActive()) {
+			Query q = em.createQuery("SELECT p FROM "+Patient.class.getName()+" p "+"WHERE p.patientId="+pat.getPatientId().getId()+" and p.verActive", Patient.class);
+			pat = (Patient) q.getResultList().get(0);			
+		}
+		if(pat.getDatDeath() != null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	public List<Examination> getExaminations() {
 		return examinations;
@@ -412,5 +440,13 @@ public class ExaminationBean implements Serializable {
 
 	public void setSelectedVer(RVerification selectedVer) {
 		this.selectedVer = selectedVer;
+	}
+
+	public int getPatientParentId() {
+		return patientParentId;
+	}
+
+	public void setPatientParentId(int patientParentId) {
+		this.patientParentId = patientParentId;
 	}
 }
