@@ -29,9 +29,9 @@ public class ReportSocGroup extends JasperReport {
 			
 			String sql ="select rsg.id, rsg.name, cnt_beg_year, cnt_beg_year cnt_end_year, cnt_plan_pat, cnt_plan_exam, "
 					+ "	ofl.flfl,ofl.flren, prisl.isfl, prisl.isren, "
-					+ "	((ofl.flfl + ofl.flren)/cnt_plan_pat *100) as v_pl_lic, "
-					+ "	((prisl.isfl + prisl.isren)/cnt_plan_exam *100) as v_pl_ex, "
-					+ "	((ofl.flfl + ofl.flren)/cnt_beg_year *100) oh_nas, "
+					+ "	round(((ofl.flfl + ofl.flren)/cnt_plan_pat *100),2) as v_pl_lic, "
+					+ "	round(((prisl.isfl + prisl.isren)/cnt_plan_exam *100),2) as v_pl_ex, "
+					+ "	round(((ofl.flfl + ofl.flren)/cnt_beg_year *100),2) oh_nas, "
 //						+ "--Выявлено потологий "
 //						+ "	--всего "
 					+ "	(	select count (distinct patient_id) "
