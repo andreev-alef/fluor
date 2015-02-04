@@ -181,7 +181,9 @@ public class Patient {
 	}
 
 	public void setFatherName(String fatherName) {
-		this.fatherName = fatherName.substring(0, 1).toUpperCase() + fatherName.substring(1).toLowerCase();
+		if (fatherName != null && !fatherName.isEmpty())
+			this.fatherName = fatherName.substring(0, 1).toUpperCase() + fatherName.substring(1).toLowerCase();
+		else this.fatherName = fatherName;
 	}
 
 	public String getFirstName() {
