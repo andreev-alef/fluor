@@ -57,8 +57,8 @@ public class ReportForm057u extends JasperReport {
 			fias.setUlica(elem);
 			
 			fias.setDom(rs.getString("liv_house"));		
-			fias.setKorp(rs.getString("liv_house"));	
-			fias.setKorp(rs.getString("liv_flat"));
+			fias.setKorp(rs.getString("liv_facility"));	
+			fias.setKv(rs.getString("liv_flat"));
 			
 			params.put("fio", rs.getString("fio"));
 			params.put("dat_birth", rs.getString("dat_birth"));
