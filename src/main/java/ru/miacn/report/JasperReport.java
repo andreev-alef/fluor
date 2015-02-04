@@ -14,6 +14,7 @@ import javax.naming.NamingException;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
+import ru.miacn.fias.FiasEditor;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
@@ -39,6 +40,7 @@ public abstract class JasperReport {
 	public Integer patId;
 	
 	private String resName;
+	public FiasEditor fias;
 	
 	public JasperReport(String jasperResourceNamePrefix) {
 		resName = jasperResourceNamePrefix;

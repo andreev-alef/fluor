@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
 
+import javax.inject.Inject;
 import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -11,10 +12,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import ru.miacn.fias.FiasEditor;
 import net.sf.jasperreports.engine.JRException;
 
 public class ReportServlet extends HttpServlet {
 	private static final long serialVersionUID = 9063662138458031340L;
+	
+	@Inject
+	private FiasEditor fias;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -53,6 +58,7 @@ public class ReportServlet extends HttpServlet {
 				break;
 			}
 			
+			rep.fias = fias;
 			rep.setParameters(ses);
 			rep.printReport(resp.getOutputStream(), type);
 		} catch (JRException | SQLException | NamingException | ParseException e) {

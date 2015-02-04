@@ -10,18 +10,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.inject.Inject;
 import javax.naming.NamingException;
 
 import net.sf.jasperreports.engine.JRException;
-import ru.miacn.fias.FiasEditor;
 import ru.miacn.fias.FiasElement;
 
 public class ReportForm057u extends JasperReport {
-	@Inject
-	private FiasEditor adres;
-	private FiasElement elem;
-
 	public ReportForm057u() {
 		super("form_057u");
 	}
@@ -42,40 +36,33 @@ public class ReportForm057u extends JasperReport {
 			ResultSet rs = stm.executeQuery();
 			rs.next();
 			
+			FiasElement elem;
 			
-//			// oblast
-//			if (rs.getObject("liv_reg_id") != null)
-//				elem = adres.getElementById((UUID) rs.getObject("liv_reg_id"));
-//			else
-//				elem = new FiasElement("", rs.getString("liv_reg"));
-//			adres.setRegion(elem);
-//			
-//			// gorod
-//			if (rs.getObject("liv_city_id") != null)
-//				elem = adres.getElementById((UUID) rs.getObject("liv_city_id"));
-//			else
-//				elem = new FiasElement("", rs.getString("liv_city"));
-//			adres.setGorod(elem);
-//			
-//			// ulica
-//			if (rs.getObject("liv_street_id") != null)
-//				elem = adres.getElementById((UUID) rs.getObject("liv_street_id"));
-//			else
-//				elem = new FiasElement("", rs.getString("liv_street"));
-//			adres.setUlica(elem);
-//			
-//			// dom
-//			adres.setDom(rs.getString("liv_house"));		
-//			// korp
-//			adres.setKorp(rs.getString("liv_house"));	
-//			// kv
-//			adres.setKorp(rs.getString("liv_flat"));
+			if (rs.getObject("liv_reg_id") != null)
+				elem = fias.getElementById((UUID) rs.getObject("liv_reg_id"));
+			else
+				elem = new FiasElement("", rs.getString("liv_reg"));
+			fias.setRegion(elem);
+			
+			if (rs.getObject("liv_city_id") != null)
+				elem = fias.getElementById((UUID) rs.getObject("liv_city_id"));
+			else
+				elem = new FiasElement("", rs.getString("liv_city"));
+			fias.setGorod(elem);
+			
+			if (rs.getObject("liv_street_id") != null)
+				elem = fias.getElementById((UUID) rs.getObject("liv_street_id"));
+			else
+				elem = new FiasElement("", rs.getString("liv_street"));
+			fias.setUlica(elem);
+			
+			fias.setDom(rs.getString("liv_house"));		
+			fias.setKorp(rs.getString("liv_house"));	
+			fias.setKorp(rs.getString("liv_flat"));
 			
 			params.put("fio", rs.getString("fio"));
 			params.put("dat_birth", rs.getString("dat_birth"));
-//			params.put("plive", adres.getAddress());
-			
-			
+			params.put("plive", fias.getAddress());
 			
 			super.printReport(output, params, type);
 		}
