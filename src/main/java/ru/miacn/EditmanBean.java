@@ -202,6 +202,8 @@ public class EditmanBean implements Serializable {
 	}
 	
 	public void savePatient() throws Exception {
+		Integer patientId= patient.getId();
+		
         try {
         	saveTransaction.begin();
 			if (patient.getId() == null) {
@@ -230,9 +232,11 @@ public class EditmanBean implements Serializable {
 			patient.setUser(login.getAuthedUser());
 			em.persist(patient);
 			saveTransaction.commit();
+			patientId=null;
         }
         catch (Exception e) {
         	saveTransaction.rollback();
+        	patient.setId(patientId);
         	throw new Exception("Произошла ошибка при сохранении данных пациента");
 		}
 	}
