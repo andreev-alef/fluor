@@ -59,17 +59,17 @@ public class Patient {
 	@JoinColumn(name = "decr_group_id")
 	private RDecrGroup decrGroup;
 	@Column(name = "father_name")
-	@Size(max = nameFieldSize)
+	@Size(max = nameFieldSize, message="Отчество: должно содержать не более 64 букв")
 	@FIOAnnotation
 	private String fatherName;
 	@Column(name = "first_name")
 	@NotNull
-	@Size(max = nameFieldSize)
+	@Size(max = nameFieldSize, message="Имя: должно содержать не более 64 букв")
 	@FIOAnnotation
 	private String firstName;
 	@Column(name = "last_name")
 	@NotNull
-	@Size(min=3,max = nameFieldSize)
+	@Size(min=3,max = nameFieldSize, message="Фамилия: должна содержать не менее 3 и не более 64 букв")
 	@FIOAnnotation
 	private String lastName;
 	@OneToOne
