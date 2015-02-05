@@ -110,10 +110,11 @@ public class EditmanBean implements Serializable {
 	}
 	
 	public void loadPatient(String idStr) {
+		int i;
 		if (idStr.isEmpty()) {
 			setPatient(new Patient());
 			
-			exam.loadExam(-1, isEditMode());
+			exam.loadExam(-1, -1, isEditMode());
 			setFiasValues();
 			setSelectedMor(null);
 			setSelectedMot(null);
@@ -128,32 +129,32 @@ public class EditmanBean implements Serializable {
 			setPatient(em.find(Patient.class, id));
 			
 			if (getPatient().getRMedicalOrgPoliclinic() != null) {
-				for (id = 0; id < moRegionList.size(); id++) {
-					if (moRegionList.get(id).getRegId().compareTo(getPatient().getRMedicalOrgPoliclinic().getId().getRegId()) == 0)
+				for (i = 0; i < moRegionList.size(); i++) {
+					if (moRegionList.get(i).getRegId().compareTo(getPatient().getRMedicalOrgPoliclinic().getId().getRegId()) == 0)
 						break;
 				}
-				setSelectedMor((id < moRegionList.size()) ? moRegionList.get(id) : null);
+				setSelectedMor((i < moRegionList.size()) ? moRegionList.get(i) : null);
 				morSelected();
 				
-				for (id = 0; id < moTerList.size(); id++) {
-					if (moTerList.get(id).getId().getTerId().compareTo(getPatient().getRMedicalOrgPoliclinic().getId().getTerId()) == 0)
+				for (i = 0; i < moTerList.size(); i++) {
+					if (moTerList.get(i).getId().getTerId().compareTo(getPatient().getRMedicalOrgPoliclinic().getId().getTerId()) == 0)
 						break;
 				}
-				setSelectedMot((id < moTerList.size()) ? moTerList.get(id) : null);
+				setSelectedMot((i < moTerList.size()) ? moTerList.get(i) : null);
 				motSelected();
 				
-				for (id = 0; id < moMainList.size(); id++) {
-					if (moMainList.get(id).getId().getLpuId().compareTo(getPatient().getRMedicalOrgPoliclinic().getId().getLpuId()) == 0)
+				for (i = 0; i < moMainList.size(); i++) {
+					if (moMainList.get(i).getId().getLpuId().compareTo(getPatient().getRMedicalOrgPoliclinic().getId().getLpuId()) == 0)
 						break;
 				}
-				setSelectedMom((id < moMainList.size()) ? moMainList.get(id) : null);
+				setSelectedMom((i < moMainList.size()) ? moMainList.get(i) : null);
 				momSelected();
 				
-				for (id = 0; id < moPoliclinicList.size(); id++) {
-					if (moPoliclinicList.get(id).getId().getPolId().compareTo(getPatient().getRMedicalOrgPoliclinic().getId().getPolId()) == 0)
+				for (i = 0; i < moPoliclinicList.size(); i++) {
+					if (moPoliclinicList.get(i).getId().getPolId().compareTo(getPatient().getRMedicalOrgPoliclinic().getId().getPolId()) == 0)
 						break;
 				}
-				setSelectedMop((id < moPoliclinicList.size()) ? moPoliclinicList.get(id) : null);
+				setSelectedMop((i < moPoliclinicList.size()) ? moPoliclinicList.get(i) : null);
 			} else {
 				setSelectedMor(null);
 				setSelectedMot(null);
@@ -161,7 +162,7 @@ public class EditmanBean implements Serializable {
 				setSelectedMop(null);
 			}
 			
-			exam.loadExam(getPatient().getPatientId().getId(), isEditMode());
+			exam.loadExam(id, getPatient().getPatientId().getId(), isEditMode());
 			setFiasValues();
 		}
 	}
@@ -202,6 +203,8 @@ public class EditmanBean implements Serializable {
 	}
 	
 	public void savePatient() throws Exception {
+		Integer patientId= patient.getId();
+		
         try {
         	saveTransaction.begin();
 			if (patient.getId() == null) {
@@ -230,9 +233,11 @@ public class EditmanBean implements Serializable {
 			patient.setUser(login.getAuthedUser());
 			em.persist(patient);
 			saveTransaction.commit();
+			patientId=null;
         }
         catch (Exception e) {
         	saveTransaction.rollback();
+        	patient.setId(patientId);
         	throw new Exception("Произошла ошибка при сохранении данных пациента");
 		}
 	}
