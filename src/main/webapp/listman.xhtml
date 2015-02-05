@@ -49,9 +49,12 @@
 		  <p:outputPanel class="main clearfix"> 
 			<p:dataTable id="patientTable" value="#{listmanBean.model}" var="v" 
 				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-				paginator="true" rows="16" lazy="true" 
+				paginator="true" rows="12" lazy="true"				
+				rowsPerPageTemplate="5, 7, 10, 12, 15"
+				paginatorPosition="bottom"
+				rowStyleClass="#{v.datDeath != null ? 'patient-death--table' : 'patient-living--table'}"				
 				class="my-table my-table--auto patient__table patient__table--str">
-				<p:column headerText="&#160; Информация &#160; о пациенте">				   
+				<p:column headerText="Информация о пациенте">				   
 				    <p:link id="view" class="ui-icon ui-icon-open" outcome="viewman">					        
 						<f:param name="patId" value="#{v.id}"/>
 						<f:param name="editable" value="false"/>
@@ -64,7 +67,7 @@
 				    </p:link>
 				    <p:tooltip for="edit" value="Редактирование" class="my-tooltip"/>
 				</p:column>
-
+								
 				<p:column headerText="Фамилия">
 					<h:outputText value="#{v.lastName}" />
 				</p:column>
@@ -83,19 +86,20 @@
 					</h:outputText>
 				</p:column>
 
-				<p:column headerText="Пол &#160; &#160;">
+				<p:column headerText="Пол" rendered="false">
 					<h:outputText value="#{v.gender.name}" />
 				</p:column>
 
-				<p:column headerText="Населенный пункт">
-					<h:outputText value="#{v.address.livCity}" />
-				</p:column>
+				<p:column headerText="Населенный пункт" >
+					<h:outputText value="#{v.address.livCity}"/>
+				</p:column>		
+				
 
-				<p:column headerText="Адрес">
+				<p:column headerText="Адрес" rendered="false">
 					<h:outputText value="#{v.address.livStreet} #{v.address.livHouse} - #{v.address.livFlat}" />
 				</p:column>
 
-				<p:column headerText="Дата последнего обследования">
+				<p:column headerText="Последнее обследование">
 				  <p:commandLink value="#{v.exam.dat}" id="data-exam" update=":browseExamId" oncomplete="PF('browseExamVar').show()" action="#{examinationBean.loadExam(v.patientId.id, false)}" class="link-only">
 					<h:outputText>
 					  <f:convertDateTime locale="#{applicationBean.locale.language}" />
@@ -111,10 +115,14 @@
 				<p:column headerText="Верификация">
 					<h:outputText value="#{v.exam.RVerification.name}" />
 				</p:column>
-							
-			</p:dataTable>			
-			<p:outputPanel class="white-gradient">	  
-			</p:outputPanel>
+				
+				<p:column headerText="Дата смерти" rendered="false">
+					<h:outputText value="#{v.datDeath}" />
+				</p:column>
+				
+			</p:dataTable>	
+		
+
 		    </p:outputPanel>
   </p:outputPanel>
   
@@ -147,15 +155,18 @@
 	  </p:outputPanel>		      
     </h:form>
   				
-	<p:dialog id="browseExamId" widgetVar="browseExamVar" modal="true" header="Пациент #{v.lastName}" resizable="false" class="my-overlay">
+	<p:dialog id="browseExamId" widgetVar="browseExamVar" modal="true" header="Пациент #{v.lastName}" resizable="false" class="my-overlay my-overlay--scroll">
+	  <div class="button--close-dialog">
 	  <p:commandButton value="Закрыть" oncomplete="PF('browseExamVar').hide()" icon="ui-icon-close" class="button-link button-link--white"/> 
+	  </div>
 	  <ui:include src="WEB-INF/templates/examination.xhtml"/>
 	</p:dialog>
 
     <h:form id="frmFind" >
-		<p:dialog id="dlg" widgetVar="find" modal="true" header="Фильтр записей" resizable="false" class="my-overlay filtr--str">			
+		<p:dialog id="dlg" widgetVar="find" modal="true" header="Фильтр записей" resizable="false" class="my-overlay my-overlay--scroll filtr--str">			
+		<div class="button--close-dialog">
 		  <p:commandButton value="Закрыть" oncomplete="PF('find').hide()" icon="ui-icon-close" class="button-link button-link--white"/>
-			
+		</div>    
 			<p:outputPanel id="pnlDlg" class="move-up">
 			  <p:scrollPanel mode="native" style="max-height: 600px">				
 			    <p:panel header="Адрес проживания" class="blok-overlay">
@@ -288,7 +299,9 @@
 	<h:form id="frmPrint">
 		<p:dialog id="dlg" widgetVar="print" modal="true"
 			header="Отчетные формы" resizable="false" class="my-overlay">
+			<div class="button--close-dialog">
 			<p:commandButton value="Закрыть" oncomplete="PF('print').hide()" icon="ui-icon-close" class="button-link button-link--white"/>
+			</div>
 			<p:outputPanel id="pnlDlg" class="move-up report--str" >				  
 			  <p:panel header="Уровень отчета" class="blok-overlay">				
 				<h:panelGrid columns="2" class="invis report-uroven--str">
