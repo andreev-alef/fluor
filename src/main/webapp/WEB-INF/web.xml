@@ -61,6 +61,19 @@
  </security-constraint>
  <security-constraint>
   <web-resource-collection>
+   <web-resource-name>administration</web-resource-name>
+   <url-pattern>/administration/*</url-pattern>
+   <http-method>GET</http-method>
+   <http-method>POST</http-method>
+  </web-resource-collection>
+  <!-- ${enable.security.end}
+  <auth-constraint>
+   <role-name>MANAGER</role-name>
+  </auth-constraint>
+  ${enable.security.start} -->
+ </security-constraint>
+ <security-constraint>
+  <web-resource-collection>
     <web-resource-name>Public</web-resource-name>
     	<description>Matches a few special pages.</description>
     	<url-pattern>/login.xhtml</url-pattern>
