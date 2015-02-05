@@ -47,10 +47,10 @@
   
   <div class="blok-button--above--right">   
        <p:link outcome="editman" class="button-link button-link--blue">
-        <f:param name="patId" value="#{v.id}"/>
-	<f:param name="editable" value="true"/>
-        <p:outputPanel class="ui-icon ui-icon-Editormini"/>
-        <h:outputText value="Редактировать"/>
+         <f:param name="patId" value="#{param['patId']}"/>
+	     <f:param name="editable" value="true"/>
+         <p:outputPanel class="ui-icon ui-icon-Editormini"/>
+         <h:outputText value="Редактировать"/>
       </p:link>      
   </div>
   
