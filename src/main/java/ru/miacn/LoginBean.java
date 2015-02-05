@@ -32,6 +32,7 @@ public class LoginBean implements Serializable {
 	private String password;
 	private User authedUser;
 	private String originalURL;
+	private String authedUserFIO;
 
 	@PostConstruct
 	public void init() {
@@ -62,6 +63,7 @@ public class LoginBean implements Serializable {
 			request.login(login, password);
 			searchUser();
 			externalContext.redirect(originalURL);
+			authedUserFIO=authedUser.getLastName()+" "+authedUser.getFirstName()+" "+authedUser.getFatherName();
 		} catch (ServletException e) {
 			context.addMessage(null, new FacesMessage(
 					FacesMessage.SEVERITY_ERROR,
@@ -117,4 +119,8 @@ public class LoginBean implements Serializable {
 	public User getAuthedUser() {
 		return authedUser;
 	}
+
+	public String getAuthedUserFIO() {
+		return authedUserFIO;
+	}	
 }

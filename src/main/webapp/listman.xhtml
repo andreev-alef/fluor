@@ -38,6 +38,8 @@
 			</h:panelGrid>
 		  </p:outputPanel>
 		  
+		  <ui:include src="/WEB-INF/templates/userpanel.xhtml" />
+		  
 		  <p:outputPanel rendered="true" class="blok-button--above--right">	
 		    <p:messages autoUpdate="true"/>
     	      <p:commandLink update=":frmFind:pnlDlg" oncomplete="PF('find').show()" class="button-link button-link--blue">
