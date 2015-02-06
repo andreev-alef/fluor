@@ -90,15 +90,15 @@ public class FiasEditorFilter implements Serializable {
 		
 		if ((getRegion() != null) && (!getRegion().getAoid().isEmpty()))
 			addr += getRegion().getFormalname() + " " + getRegion().getShortname() + ", ";
-		else
+		else if ((getRegion() != null) && (getRegion().getFormalname() != null) && (!getRegion().getFormalname().isEmpty()))
 			addr += getRegion().getFormalname() + ", ";
 		if ((getGorod() != null) && (!getGorod().getAoid().isEmpty()))
 			addr += getGorod().getShortname() + " " + getGorod().getFormalname() + ", ";
-		else
+		else if ((getGorod() != null) && (getGorod().getFormalname() != null) && (!getGorod().getFormalname().isEmpty()))
 			addr += getGorod().getFormalname() + ", ";
 		if ((getUlica() != null) && (!getUlica().getAoid().isEmpty()))
 			addr += getUlica().getShortname() + " " + getUlica().getFormalname() + ", ";
-		else
+		else if ((getUlica() != null) && (getUlica().getFormalname() != null) && (!getUlica().getFormalname().isEmpty()))
 			addr += getUlica().getFormalname() + ", ";
 		if ((getDom() != null) && (!getDom().isEmpty()))
 			addr += "дом " + getDom() + ", ";
