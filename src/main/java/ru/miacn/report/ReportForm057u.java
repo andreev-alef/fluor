@@ -70,7 +70,7 @@ public class ReportForm057u extends JasperReport {
 			params.put("dat_birth", rs.getString("dat_birth"));
 			params.put("plive", fias.getAddress());
 			params.put("day",day.format(System.currentTimeMillis()));
-			params.put("month",month.format(System.currentTimeMillis()));
+			params.put("month",month.format(System.currentTimeMillis()).toLowerCase());
 			params.put("year",year.format(System.currentTimeMillis()));
 			
 			super.printReport(output, params, type);
