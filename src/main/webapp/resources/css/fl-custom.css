@@ -250,7 +250,19 @@ body .wrap {height: auto; min-height: 100%;}
         clear:both;
 	padding-left: 13px;
 	}
+
+/*Информация о польpователе*/	
+.user-panel {
+	display: inline-block;
+	float: right;	
+	}
 	
+.user-panel__block {
+	display: inline-block;
+	padding-left: 45px;
+	}
+		
+
 /*Табы*/
 .my-tabs {
 	margin: auto;
@@ -258,7 +270,7 @@ body .wrap {height: auto; min-height: 100%;}
 	margin-bottom: 30px;
 	padding:0;
 	}
-	.my-tabs .ui-tabs-nav li a {
+	.my-tabs .ui-tabs-nav li a, .custom-tab {
 		border-top-left-radius:4px;
 		border-top-right-radius:4px;
 		background-color:#83CDE2;
@@ -271,6 +283,15 @@ body .wrap {height: auto; min-height: 100%;}
 	        box-shadow: 2px 0px 2px 0 rgba(0, 0, 0, 0.62);		
 		}
 	
+	.custom-tab {
+		display: inline-block;
+		-webkit-box-shadow: 2px 0px 2px 0 rgba(0, 0, 0, 0.62);
+		box-shadow: 2px 0px 2px 0 rgba(0, 0, 0, 0.62);
+		padding: 10px 22px;
+		margin-top: 5px;
+		}
+	
+	
 .my-tabs.ui-tabs-top > .ui-tabs-nav {
 	padding: 0;
 	}
@@ -282,8 +303,7 @@ body .wrap {height: auto; min-height: 100%;}
 /*Выбранный таб*/		
 .my-tabs .ui-tabs-nav li.ui-tabs-selected a{
 	background-color:#78A4CA;
-	-webkit-box-shadow: 2px 0px 2px 0 rgba(0, 0, 0, 0.62);
-	box-shadow: 2px 0px 2px 0 rgba(0, 0, 0, 0.62);	
+
 	}
 	
 /*Табы панель*/
@@ -455,14 +475,21 @@ body .wrap {height: auto; min-height: 100%;}
 	}
 	
 /*Панель поиска */
+.header {
+	margin:	0px 1.5em;
+	padding: 10px 0;
+	}
+
 .search-panel {
-	margin-right: 283px;
+	clear: both;
 	box-sizing: border-box;
 	padding: 0.9em 1.2em;
 	background-color: #83cde2;
 	color:#ffffff;
 	width: 100%;
 	box-sizing: border-box;
+	position: relative;
+	z-index: 500;
 	}    
 
 /*Таблица с пациентами*/
@@ -901,6 +928,8 @@ div.ui-state-focus, div.ui-state-active {
 .ui-dialog .ui-icon-gripsmall-diagonal-se{background: none;}
 .ui-icon-xlsbig{ background-position: -81px -450px; width: 24px; height: 24px;}
 .ui-icon-xlsxbig{ background-position: -82px -492px; width: 24px; height: 24px;}
+.ui-icon-user{ background-position: -78px -651px; width: 24px; height: 24px; margin-bottom: 0 !important;}
+.ui-icon-exit{ background-position: -76px -688px; width: 24px; height: 24px; padding-right: 2px !important;}
 
 .ui-icon-triangle-1-s {
 	background-image: none;
@@ -973,8 +1002,8 @@ div.ui-state-focus, div.ui-state-active {
 .patient__table--str tr td:nth-child(1){max-width: 100px; text-align: center;}
 .patient__table--str tr th:nth-child(2){padding-left: 10px; }
 .patient__table--str tr td:nth-child(2){padding-left: 10px;}
-.patient__table--str tr th:nth-child(5){max-width: 72px;}
-.patient__table--str tr th:nth-child(5){text-align: center;}
+.patient__table--str tr th:nth-child(5){max-width: 72px; text-align: center;}
+.patient__table--str tr td:nth-child(5){max-width: 72px; text-align: center;}
 .patient__table--str tr th:nth-child(7){max-width: 137px;}
 .patient__table--str tr td:nth-child(7){max-width: 137px; text-align: center;}
 .patient__table--str tr th:nth-child(9){padding-right: 8px;}
@@ -1103,6 +1132,7 @@ div.ui-state-focus, div.ui-state-active {
 	}
     }
     
+
 /*Для viewman*/
 	
 .blok-out > .ui-panel-content {
@@ -1346,14 +1376,24 @@ div.ui-state-focus, div.ui-state-active {
 		content: '';
 		width: 0;
 		height: 0;
-		border-top: 24px solid transparent;
+		border-top: 24px solid rgba(0,0,0,0);
 		border-left: 30px solid #428bca;
-		border-bottom: 24px solid transparent;
+		border-bottom: 24px solid rgba(0,0,0,0);
+		-moz-transform: scale(.9999);
 		display: inline-block;
 		position: relative;
 		right: -18px;		
 		}
-		.my-file .ui-fileupload-upload:after {
+	@-moz-document url-prefix()  {
+		.my-file .ui-fileupload-choose:after {
+		right: -20px !important;
+		}
+		.my-file .ui-button.ui-fileupload-upload:after {
+		right: -6px !important;	
+		}
+	}
+	
+	.my-file .ui-fileupload-upload:after {
 			right: -18px;
 			}
 		
@@ -1398,6 +1438,7 @@ div.ui-state-focus, div.ui-state-active {
 		border-top: 24px solid transparent;
 		border-left: 30px solid #fff;
 		border-bottom: 24px solid transparent;
+		-moz-transform: scale(.9999);
 		display: inline-block;
 		position: relative;		
 		}

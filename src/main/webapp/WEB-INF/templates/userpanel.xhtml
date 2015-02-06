@@ -6,14 +6,19 @@
   xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:p="http://primefaces.org/ui">
   <h:body>
-  	<p:column>
-  		<p:row>
-  			<p:outputLabel for="curruser" value="Пользователь: " />		
-			<p:outputLabel id="curruser" value="#{loginBean.authedUserFIO}" class="select-onlyread--label"/>
-  		</p:row>  
- 	</p:column>
- 	<p:column>
- 		<p:commandLink action="#{loginBean.logout()}" value="Выход" />
- 	</p:column>
+  	<p:outputPanel class="user-panel__block">
+	    <p:outputPanel class="button-link">
+  		  <div class="ui-icon ui-icon-user"/>		
+	          <p:outputLabel id="curruser" value="Иванов Иван Иванович"/>
+	    </p:outputPanel>  
+	</p:outputPanel>	  
+  	<p:outputPanel class="user-panel__block">
+		  
+ 		   <p:commandLink action="#{loginBean.logout()}" class="button-link button-link--blue">
+			<p:outputPanel class="ui-icon ui-icon-exit"/>			
+			<h:outputText value="Выход"/>
+		   </p:commandLink>
+ 	</p:outputPanel>
+	
   </h:body>
 </html>
