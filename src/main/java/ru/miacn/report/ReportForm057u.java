@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -60,9 +61,17 @@ public class ReportForm057u extends JasperReport {
 			fias.setKorp(rs.getString("liv_facility"));	
 			fias.setKv(rs.getString("liv_flat"));
 			
+			SimpleDateFormat day = new SimpleDateFormat("dd");
+			SimpleDateFormat month = new SimpleDateFormat("MMMM");
+			SimpleDateFormat year = new SimpleDateFormat("yyyy");
+			
+						
 			params.put("fio", rs.getString("fio"));
 			params.put("dat_birth", rs.getString("dat_birth"));
 			params.put("plive", fias.getAddress());
+			params.put("day",day.format(System.currentTimeMillis()));
+			params.put("month",month.format(System.currentTimeMillis()));
+			params.put("year",year.format(System.currentTimeMillis()));
 			
 			super.printReport(output, params, type);
 		}

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.0.0.final using JasperReports Library version 6.0.0  -->
-<!-- 2015-02-05T09:19:01 -->
+<!-- 2015-02-06T08:20:41 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="form_057u" pageWidth="595" pageHeight="421" orientation="Landscape" columnWidth="567" leftMargin="14" rightMargin="14" topMargin="14" bottomMargin="14" uuid="d79149e2-8ecf-46d7-b036-bb4c920fbd8f">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
@@ -18,6 +18,9 @@
 		<parameterDescription><![CDATA[]]></parameterDescription>
 	</parameter>
 	<parameter name="plive" class="java.lang.String"/>
+	<parameter name="day" class="java.lang.String"/>
+	<parameter name="month" class="java.lang.String"/>
+	<parameter name="year" class="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[]]>
 	</queryString>
@@ -103,6 +106,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="9" isUnderline="false"/>
 				</textElement>
+				<textFieldExpression><![CDATA[$P{day}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="476" y="154" width="16" height="12" uuid="f0568f87-5b43-46b4-913c-8361ca948603">
@@ -282,6 +286,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="9" isUnderline="false"/>
 				</textElement>
+				<textFieldExpression><![CDATA[$P{month}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="460" y="154" width="16" height="12" uuid="f00a309d-e93c-4569-9562-0fb874ae5858">
@@ -328,6 +333,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="9" isUnderline="false"/>
 				</textElement>
+				<textFieldExpression><![CDATA[$P{year}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="268" y="329" width="205" height="8" uuid="4a877b0f-9998-4d7b-b18c-9ab560facd52"/>
