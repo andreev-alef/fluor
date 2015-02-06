@@ -364,6 +364,9 @@ public class ExaminationBean implements Serializable {
 		} else {
 			setMoTerList(new ArrayList<RMedicalOrgTer>());
 		}
+		setSelectedMot(null);
+		setSelectedMom(null);
+		setMoMainList(new ArrayList<RMedicalOrgMain>());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -378,6 +381,7 @@ public class ExaminationBean implements Serializable {
 		} else {
 			setMoMainList(new ArrayList<RMedicalOrgMain>());
 		}
+		setSelectedMom(null);
 	}
 
 	public List<RExamMethod> getExmList() {

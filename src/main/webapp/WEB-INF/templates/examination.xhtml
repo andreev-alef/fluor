@@ -70,7 +70,7 @@
 			
 	        <p:outputLabel for="regmo" value="Регион" />
 		     <p:selectOneMenu id="regmo"  value="#{examinationBean.selectedMor}" converter="#{examinationBean.morConverter}" class="my-select" style="#{examinationBean.moRegionList.size() == 0 ?'color:#d7d7d7;' : 'color:#00000;'}">
-		       <p:ajax listener="#{examinationBean.morSelected}" update="npmo" />
+		       <p:ajax listener="#{examinationBean.morSelected}" update="npmo mo" />
 	          <f:selectItem itemLabel="#{examinationBean.moRegionList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
 		       <f:selectItems value="#{examinationBean.moRegionList}" var="r" itemLabel="#{r.regId} - #{r.name}" itemValue="#{r}" />
 		     </p:selectOneMenu>
