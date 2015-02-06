@@ -104,6 +104,8 @@ public class ExaminationBean implements Serializable {
    		params.put("id", getPatientParentId());
     	
     	setExaminations(JpaUtils.getNativeResultList(em, sql, params, Examination.class));
+    	
+    	setEditMode(isEditMode() && !patientIsDead());
     }
 
 	public void findExam(int exId) {
