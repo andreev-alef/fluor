@@ -7,23 +7,26 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 
 public class FiasConverter implements Converter {
-	private List<?> list;
-	private Object elem;
+	private List<FiasElement> list;
+	private FiasElement elem;
 	
 	public List<?> getList() {
 		return list;
 	}
 
-	public void setList(List<?> list) {
+	public void setList(List<FiasElement> list) {
 		this.list = list;
 	}
 
-	public Object getElem() {
+	public FiasElement getElem() {
 		return elem;
 	}
 
-	public void setElem(Object elem) {
-		this.elem = elem;
+	public void setElem(FiasElement elem) {
+		if (elem != null)
+			this.elem = elem;
+		else
+			this.elem = new FiasElement("", "");
 	}
 
 	@Override

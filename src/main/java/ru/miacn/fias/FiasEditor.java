@@ -119,7 +119,7 @@ public class FiasEditor implements Serializable {
 
 	public void setRegion(FiasElement region) {
 		regionConverter.setElem(region);
-		this.region = region;
+		this.region = regionConverter.getElem();
 	}
 
 	public List<FiasElement> getRegionList() {
@@ -145,7 +145,7 @@ public class FiasEditor implements Serializable {
 
 	public void setGorod(FiasElement gorod) {
 		gorodConverter.setElem(gorod);
-		this.gorod = gorod;
+		this.gorod = gorodConverter.getElem();
 	}
 
 	public List<FiasElement> getGorodList() {
@@ -171,7 +171,7 @@ public class FiasEditor implements Serializable {
 
 	public void setUlica(FiasElement ulica) {
 		ulicaConverter.setElem(ulica);
-		this.ulica = ulica;
+		this.ulica = ulicaConverter.getElem();
 	}
 
 	public List<FiasElement> getUlicaList() {
