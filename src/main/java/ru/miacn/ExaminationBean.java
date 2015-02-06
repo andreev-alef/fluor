@@ -104,6 +104,8 @@ public class ExaminationBean implements Serializable {
    		params.put("id", getPatientParentId());
     	
     	setExaminations(JpaUtils.getNativeResultList(em, sql, params, Examination.class));
+    	
+    	setEditMode(isEditMode() && !patientIsDead());
     }
 
 	public void findExam(int exId) {
@@ -172,18 +174,12 @@ public class ExaminationBean implements Serializable {
     }
 	
 	private Boolean patientIsDead() {
-		Patient pat=new Patient();
+		Patient pat = em.find(Patient.class, getPatientId());
 		
-		pat= em.find(Patient.class, getPatientId());
-		if(!pat.getVerActive()) {
-			Query q = em.createQuery("SELECT p FROM "+Patient.class.getName()+" p "+"WHERE p.patientId="+pat.getPatientId().getId()+" and p.verActive", Patient.class);
-			pat = (Patient) q.getResultList().get(0);			
-		}
-		if(pat.getDatDeath() != null) {
-			return true;
-		} else {
+		if (pat == null)
 			return false;
-		}
+		else
+			return pat.getDatDeath() != null;
 	}
 
 	public List<Examination> getExaminations() {
@@ -368,6 +364,9 @@ public class ExaminationBean implements Serializable {
 		} else {
 			setMoTerList(new ArrayList<RMedicalOrgTer>());
 		}
+		setSelectedMot(null);
+		setSelectedMom(null);
+		setMoMainList(new ArrayList<RMedicalOrgMain>());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -382,6 +381,7 @@ public class ExaminationBean implements Serializable {
 		} else {
 			setMoMainList(new ArrayList<RMedicalOrgMain>());
 		}
+		setSelectedMom(null);
 	}
 
 	public List<RExamMethod> getExmList() {

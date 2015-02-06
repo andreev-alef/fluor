@@ -90,15 +90,15 @@ public class FiasEditorFilter implements Serializable {
 		
 		if ((getRegion() != null) && (!getRegion().getAoid().isEmpty()))
 			addr += getRegion().getFormalname() + " " + getRegion().getShortname() + ", ";
-		else
+		else if ((getRegion() != null) && (getRegion().getFormalname() != null) && (!getRegion().getFormalname().isEmpty()))
 			addr += getRegion().getFormalname() + ", ";
 		if ((getGorod() != null) && (!getGorod().getAoid().isEmpty()))
 			addr += getGorod().getShortname() + " " + getGorod().getFormalname() + ", ";
-		else
+		else if ((getGorod() != null) && (getGorod().getFormalname() != null) && (!getGorod().getFormalname().isEmpty()))
 			addr += getGorod().getFormalname() + ", ";
 		if ((getUlica() != null) && (!getUlica().getAoid().isEmpty()))
 			addr += getUlica().getShortname() + " " + getUlica().getFormalname() + ", ";
-		else
+		else if ((getUlica() != null) && (getUlica().getFormalname() != null) && (!getUlica().getFormalname().isEmpty()))
 			addr += getUlica().getFormalname() + ", ";
 		if ((getDom() != null) && (!getDom().isEmpty()))
 			addr += "дом " + getDom() + ", ";
@@ -119,7 +119,7 @@ public class FiasEditorFilter implements Serializable {
 
 	public void setRegion(FiasElement region) {
 		regionConverter.setElem(region);
-		this.region = region;
+		this.region = regionConverter.getElem();
 	}
 
 	public List<FiasElement> getRegionList() {
@@ -145,7 +145,7 @@ public class FiasEditorFilter implements Serializable {
 
 	public void setGorod(FiasElement gorod) {
 		gorodConverter.setElem(gorod);
-		this.gorod = gorod;
+		this.gorod = gorodConverter.getElem();
 	}
 
 	public List<FiasElement> getGorodList() {
@@ -171,7 +171,7 @@ public class FiasEditorFilter implements Serializable {
 
 	public void setUlica(FiasElement ulica) {
 		ulicaConverter.setElem(ulica);
-		this.ulica = ulica;
+		this.ulica = ulicaConverter.getElem();
 	}
 
 	public List<FiasElement> getUlicaList() {

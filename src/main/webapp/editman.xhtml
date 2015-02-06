@@ -34,9 +34,10 @@
   </p:outputPanel>
   
   <p:outputPanel class="content">
-  	<p:panel>
-	<p:panel  header="Обследования пациента" class="blok-out DOM-bad__div" >
-	  <p:outputPanel class="DOM-bad__button">
+  	<p:panel rendered="#{editmanBean.patient.id != null}">
+	<p:panel header="Обследования пациента" class="blok-out DOM-bad__div" >
+	  <p:outputPanel class="ui-icon-lett" />
+	  <p:outputPanel class="DOM-bad__button" rendered="#{editmanBean.patient.datDeath == null}">
           <p:commandLink action="#{editmanBean.printReport(4, true)}" class="button-link button-link--blue">
 			  <p:outputPanel class="ui-icon ui-icon-lett" />
               <h:outputText value="Печать направления на флюорографию" />
