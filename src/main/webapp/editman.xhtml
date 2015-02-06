@@ -46,7 +46,7 @@
 	</p:panel>
 	</p:panel>
 	
-  <h:form id="frmInf" class="form-wrap">
+  <h:form id="frmInf">
     
     <p:panel header="Информация о пациенте" class="blok-out">
 	 <p:panel header="Персональные данные" class="blok dva-bloka">
@@ -208,8 +208,10 @@
 	                            onexception="PF('exceptionDialog').show();" />
 	 
 	    <p:dialog id="exceptionDialog" header="Ошибка" widgetVar="exceptionDialog"
-	              height="100px" class="my-overlay filtr--str">
+	              height="100px" class="my-overlay">
+			<div class="button--close-dialog">
 		  	<p:commandButton value="Закрыть" oncomplete="PF('exceptionDialog').hide()" icon="ui-icon-close" class="button-link button-link--white"/>
+			</div>
 	        <br/><br/>Сообщение: #{pfExceptionHandler.message} <br/>
 	    </p:dialog>
 	</h:form>

@@ -10,7 +10,10 @@ body {background: #C9E8FF;}
 	margin: 0;
 	margin-left: 160px;
 	}
-	
+.content--mini {	
+	width:540px;
+	margin: auto;
+	}	
 /*Блок, позволяющий скрывать длинные значения внутри таблицы*/
 .move {			
     white-space: normal;
@@ -25,11 +28,6 @@ input[type="text"] {
     line-height: 28px;
     }
     
-/*Белый градиент*/ 
-.white-gradient {
-    background:#fff;
-    height: 15px;
-}
     
 /*Блок в оверлее*/
 .blok-overlay .ui-panel-titlebar{
@@ -69,14 +67,15 @@ div.ui-state-focus, div.ui-state-active {
 
 
 /*Структура. Таблица с пациенатами*/
-.patient__table--str tr th:first-child{max-width: 100px; text-align: center;}
-.patient__table--str tr td:first-child{max-width: 100px; text-align: center; padding:4px;}
-.patient__table--str tr th:first-child + *{padding-left: 10px;}
+.patient__table--str tr th:first-child{max-width: 112px; padding-left: 8px;}
+.patient__table--str tr td:first-child{max-width: 100px; text-align: center;}
+.patient__table--str tr th:first-child + *{padding-left: 10px; }
 .patient__table--str tr td:first-child + *{padding-left: 10px;}
-.patient__table--str tr th:first-child + * + * + * + * {max-width: 72px; text-align: center;}
-.patient__table--str tr th:first-child + * + * + * + * + *{text-align: center;}
-.patient__table--str tr th:first-child + * + * + * + * + * + * + * + *{max-width: 137px; text-align: center;}
-.patient__table--str tr td:first-child + * + * + * + * + * + * + * + *{max-width: 137px; text-align: center;}
+.patient__table--str tr th:first-child + * + * + * + *{max-width: 72px;}
+.patient__table--str tr th:first-child + * + * + * + *{text-align: center;}
+.patient__table--str tr th:first-child + * + * + * + * + * + *{max-width: 137px;}
+.patient__table--str tr td:first-child + * + * + * + * + * + *{max-width: 137px; text-align: center;}
+.patient__table--str tr th:first-child + * + * + * + * + * + * + * + *{padding-right: 8px;}
 
 /*Структура. Информация о пациенте. Персональные данные*/
 .personal-data--str tr td:first-child{width: 126px;}
@@ -166,80 +165,6 @@ div.ui-state-focus, div.ui-state-active {
 
 
 
-/*Для viewman*/
-.viewman .content {
-	width:80%;
-	}
-	
-.blok-out > .ui-panel-content {
-	padding: 15px 15px 15px 25px;
-	}
-.viewman .invis td {
-	padding:8px 4px;
-	white-space: normal;
-	vertical-align: top;
-	}
-	
-.viewman .blok > .ui-panel-content {
-		padding: 5px 15px 20px 15px;
-		}	
-.viewman .blok > .ui-panel-titlebar {
-	        padding: 0;
-		background-color: transparent;
-		color: #428BCA;
-		}
-	.viewman .odin-blok {
-		clear: both;
-		padding: 0;
-		width: 100%;
-		}
-.viewman .rguppa--str tr td:first-child {width:170px; text-align: left; color: #808080;}
-.viewman .rguppa--str tr td:first-child + * {width:100%; text-align: left;}
-
-.viewman .rguppa--str--big tr td:nth-child(2) {font-size: 17px;}
-
-.viewman .exam thead > tr {
-	display: none;
-	}
-	
-.viewman .exam table td{
-        vertical-align: top;
-	white-space: normal;
-	font-size: 15px;
-	}	
-	.viewman .exam tr td:first-child{width:73px; max-width: 73px; min-width: 73px;}
-	.viewman .exam tr td:first-child + * {width:140px; max-width: 140px; min-width: 140px;}
-	.viewman .exam tr td:first-child + * + * {width:100%;}
-	.viewman .exam tr td:first-child + * + * + *{width:157px; max-width: 157px; min-width: 0;}
-	.viewman .exam tr td:first-child + * + * + * + *{width:50; max-width: 50; min-width: 50;}
-	.viewman .exam tr td:first-child + * + * + * + * + * {width:20; max-width: 20; min-width: 20;}
-
-
-.viewman  .move {
-		white-space:normal;		
-		overflow: hidden;
-		max-height: none;		
-		}
-
-.viewman .hide {
-	position:static;	
-	max-height:none;
-	width:auto;
-	display:inline-block;
-	color:#000;
-	font-style: normal;
-	}
-	
-.viewman .my-table tbody tr:hover {
-			background-color: transparent;
-			}
-			
-	.contact tr td:first-child{width: 34px}
-	.contact tr td:first-child + * {width: 250px}
-	.contact tr td:first-child + * + * {width: 44px}
-	.contact tr td:first-child + * + * + * {width: 235px}
-	.contact tr td:first-child + * + * + * + * {width: 38px}
-	.contact tr td:first-child + * + * + * + * + * {width: 98px}
 	
 .footer-login {
     position:fixed;
@@ -248,3 +173,18 @@ div.ui-state-focus, div.ui-state-active {
     height:68px;
     width:100%;
     }
+
+.my-file .ui-fileupload-files tr td:first-child  {display: none;}	
+.my-file .ui-fileupload-files tr td:first-child + * {width: 200px; max-width: 300px; overflow: hidden;}
+.my-file .ui-fileupload-files tr td:first-child + * + * {display: none;}
+.my-file .ui-fileupload-files tr td:first-child + * + * + * {display: none;}
+.my-file .ui-fileupload-files tr td:first-child + * + * + * + * {width: 32px; padding-top:5px;}
+
+.my-file .ui-progressbar {
+	overflow: visible;
+	position:static;	
+	}
+	
+	.my-file .ui-progressbar:before {
+		content:'';		
+		}
