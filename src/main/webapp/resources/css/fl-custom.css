@@ -342,9 +342,7 @@ body .wrap {height: auto; min-height: 100%;}
 		       }   	
 
 /*Таблица - ред. до ввода*/
-.ui-datatable .ui-cell-editor-input {
-	display:block;
-	}
+
 .ui-datatable .ui-editable-column input{	
 	box-shadow: none;
 	border: 1px solid #d7d7d7;
@@ -386,8 +384,7 @@ body .wrap {height: auto; min-height: 100%;}
 		}
 		
 /*Таблица - ред. после ввода*/
-.ui-datatable .ui-cell-editor-output {
-	display:none;
+.ui-datatable .ui-cell-editor-output {	
 	border: 1px solid #d7d7d7;
 	background:#FFF;
 	border:#d7d7d7 1px solid;
@@ -398,17 +395,13 @@ body .wrap {height: auto; min-height: 100%;}
 	border-radius:4px;
 	-ms-border-radius:3px;
 	text-align: center;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none; 
 	}
-/*Таблица. Отступ в крайних ячейках*/
-.my-table th.table-padding{
-	padding: 0;
-	}
-.my-table td.table-padding{
-	padding: 0;
-	border-bottom:  none;
-	background-color: #FFF;
-	}
-		
+	
 /*Оверлей*/
 .my-overlay {
 	background-color:#FFF;
@@ -737,10 +730,14 @@ input[type="text"], .ui-inputfield {
 		text-decoration: none;}
 	
 	.button-link:hover, .button-link:focus, .button-link:active   {
-			outline:none;
-			background-color: transparent;
-			border-bottom:rgba(0,0,0,0) solid 1px;			
-			}		
+		outline:none;
+		background-color: transparent;
+		border-bottom:rgba(0,0,0,0) solid 1px;			
+		}
+		.button-link--less-border:hover, .button-link--less-border:focus, .button-link--less-border:active   {
+			outline:none;			
+			border-bottom:none;			
+			}
 	
 	.button-link--blue {
 		color:#428bca;
@@ -1080,7 +1077,7 @@ div.ui-state-focus, div.ui-state-active {
 .fias--str tr td:nth-child(3){width: 91px;}
 .fias--str tr td:nth-child(4){width: 50%;}
 
-/*Структура. Планы. Выблор организации*/
+/*Структура. Планы. Выбор организации*/
 .MO-plan--str tr td:nth-child(1){width: 65px;}
 .MO-plan--str tr td:nth-child(2){width: 60%;}
 .MO-plan--str tr td:nth-child(3){width: 147px;}
@@ -1089,13 +1086,12 @@ div.ui-state-focus, div.ui-state-active {
 .MO-plan--str tr td:nth-child(6){width: 83px;}
 
 /*Структура. Планы. Ввод*/
-.plan--str tr th:nth-child(1){width: 20px;}
-.plan--str tr th:nth-child(2){width: 100%;}
-.plan--str tr td:nth-child(2){text-align: left; padding-left: 15px; font-size: 12px;}
+.plan--str tr th:nth-child(1){width: 100%;}
+.plan--str tr td:nth-child(1){text-align: left; padding-left: 15px; font-size: 12px;}
+.plan--str tr th:nth-child(2){width: 180px;}
 .plan--str tr th:nth-child(3){width: 180px;}
 .plan--str tr th:nth-child(4){width: 180px;}
-.plan--str tr th:nth-child(5){width: 180px;}
-.plan--str tr th:nth-child(6){width: 20px; border-top:none; border-right: none; border-top-right-radius: 4px;}
+
 
 
 @media screen and (max-width:900px) {
