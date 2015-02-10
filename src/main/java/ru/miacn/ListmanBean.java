@@ -50,6 +50,7 @@ public class ListmanBean implements Serializable {
 	private String srcFam;
 	private String srcIm;
 	private String srcOt;
+	private String selectedFIO;
 	private Date srcDr;
 	private List<PatientOrm> patients;
 	private LazyDataModel<PatientOrm> model;
@@ -249,7 +250,7 @@ public class ListmanBean implements Serializable {
     	}
 
 	}
-	
+		
     public void clearSearch() throws Exception {
     	setSrcFam("");
     	setSrcIm("");
@@ -305,6 +306,14 @@ public class ListmanBean implements Serializable {
 
 	public void setCountPatients(int countPatients) {
 		this.countPatients = countPatients;
+	}
+
+	public String getSelectedFIO() {
+		return selectedFIO;
+	}
+
+	public void setSelectedFIO(String last_name, String first_name, String father_name) {	
+		this.selectedFIO = last_name+" "+first_name+" "+father_name;
 	}
 
 }
