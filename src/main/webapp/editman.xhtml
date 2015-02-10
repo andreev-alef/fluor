@@ -42,7 +42,13 @@
 			  <p:outputPanel class="ui-icon ui-icon-lett" />
               <h:outputText value="Печать направления на флюорографию" />
          </p:commandLink>
+         <p:outputPanel rendered="#{examinationBean.haveNotSurveyed}" class="DOM-bad__button"> 
+      	 	<p:outputPanel class="button-link patient-death">
+      	 	<p:outputPanel class="ui-icon ui-icon-warning"/>
+      		<p:outputLabel value="Пациент давно не проходил обследование"/>
+       	 </p:outputPanel>  
        </p:outputPanel>
+  </p:outputPanel>
 		<ui:include src="WEB-INF/templates/examination.xhtml" />
 	</p:panel>
 	</p:panel>

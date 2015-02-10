@@ -2,6 +2,7 @@ package ru.miacn;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -70,6 +71,7 @@ public class ExaminationBean implements Serializable {
 	private RVerification selectedVer;
 	
 	private boolean editMode;
+	private boolean haveNotSurveyed;
 	
 	@PostConstruct
 	private void init() {
@@ -106,6 +108,8 @@ public class ExaminationBean implements Serializable {
     	setExaminations(JpaUtils.getNativeResultList(em, sql, params, Examination.class));
     	
     	setEditMode(isEditMode() && !patientIsDead());
+    	
+    	haveNotSurvived();
     }
 
 	public void findExam(int exId) {
@@ -383,6 +387,35 @@ public class ExaminationBean implements Serializable {
 		}
 		setSelectedMom(null);
 	}
+	
+	private Date lastExam() {
+		String sql="SELECT e.dat FROM examination e WHERE e.patient_id = "+getPatientParentId()+" ORDER BY e.dat DESC LIMIT 1";
+		Query query = em.createNativeQuery(sql);
+		return (Date) query.getResultList().get(0);
+	}
+	
+	private void haveNotSurvived() {
+		Date now = new Date();
+		int daysToExam = 730;
+		Patient pat = em.find(Patient.class, getPatientId());
+		
+		long difference = now.getTime()- lastExam().getTime() ;
+		long days = difference / (24 * 60 * 60 * 1000);
+
+		if((pat.getDecrGroup() != null) || (pat.getMedGroup() != null)) {
+			daysToExam=365;
+		}
+		
+		if(pat.getSocGroup() !=null) {
+			daysToExam = 182;
+		}
+		
+		if(days > daysToExam){
+			setHaveNotSurveyed(true);
+		} else {
+			setHaveNotSurveyed(false);
+		}
+	}
 
 	public List<RExamMethod> getExmList() {
 		return exmList;
@@ -448,5 +481,13 @@ public class ExaminationBean implements Serializable {
 
 	public void setPatientParentId(int patientParentId) {
 		this.patientParentId = patientParentId;
+	}
+
+	public boolean isHaveNotSurveyed() {
+		return haveNotSurveyed;
+	}
+
+	public void setHaveNotSurveyed(boolean haveNotSurveyed) {
+		this.haveNotSurveyed = haveNotSurveyed;
 	}
 }
