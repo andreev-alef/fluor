@@ -29,7 +29,7 @@
         			<p:password id="password" name="password" required="true" requiredMessage="Необходимо ввести пароль" value="#{loginBean.password}"/>
 				</h:panelGrid>
 				</p:panel>
-				<p:commandButton  value="Войти в систему" actionListener="#{loginBean.login}" ajax="false" class="button-volume" style="height: 70px; width: 280px; margin: auto; display: block; margin-top: 50px; font-size: 20px;" icon="ui-icon-user-login"/>
+				<p:commandButton  id="btn-login" value="Войти в систему" actionListener="#{loginBean.login}" ajax="false" class="button-volume" style="height: 70px; width: 280px; margin: auto; display: block; margin-top: 50px; font-size: 20px;" icon="ui-icon-user-login"/>
 				</h:form>
 		
 		</div>

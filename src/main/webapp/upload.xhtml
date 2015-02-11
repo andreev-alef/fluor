@@ -32,10 +32,10 @@
     
     <p:panel header="Загрузка шаблона для формирования файла подгрузки" class="blok-out"> 
       <p:panelGrid columns="1" class="invis invis--big-padding align-left--text">
-        <p:commandButton value="Скачать шаблон в формате XLS" ajax="false" class="button-link button-link--blue button-link--button" icon="ui-icon-xlsbig">
+        <p:commandButton id="btn-xls" value="Скачать шаблон в формате XLS" ajax="false" class="button-link button-link--blue button-link--button" icon="ui-icon-xlsbig">
           <p:fileDownload value="#{uploadBean.fileXls}"  />
         </p:commandButton>
-        <p:commandButton value="Скачать шаблон в формате XLSX" ajax="false" class="button-link button-link--blue button-link--button" icon="ui-icon-xlsxbig">
+        <p:commandButton id="btn-xlsx" value="Скачать шаблон в формате XLSX" ajax="false" class="button-link button-link--blue button-link--button" icon="ui-icon-xlsxbig">
           <p:fileDownload value="#{uploadBean.fileXlsx}" />
         </p:commandButton>
       </p:panelGrid>

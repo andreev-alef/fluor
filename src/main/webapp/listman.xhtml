@@ -38,7 +38,7 @@
 				<p:outputPanel></p:outputPanel>
 				<p:commandButton id="search" value="Найти" action="#{listmanBean.search()}" update="patientTable" class="button-volume button-volume--mini " icon="ui-icon-search" >
 				</p:commandButton>
-			    <p:commandButton value="Показать всех" action="#{listmanBean.clearSearch()}" update="searchParams patientTable" class="button-volume button-volume--mini" icon="ui-icon-all"/>
+			    <p:commandButton id="btn-showall" value="Показать всех" action="#{listmanBean.clearSearch()}" update="searchParams patientTable" class="button-volume button-volume--mini" icon="ui-icon-all"/>
 			</h:panelGrid>
 		  </p:outputPanel>
 		  </div>
@@ -48,7 +48,7 @@
 		    <p:messages autoUpdate="true"/>
     	      <p:commandLink update=":frmFind:pnlDlg" oncomplete="PF('find').show()" class="button-link button-link--blue">
 				<p:outputPanel class="ui-icon ui-icon-filter"/>
-				<h:outputText value="Фильтр записей"/>
+				<h:outputText id="btn-filter" value="Фильтр записей"/>
 		      </p:commandLink>
 		  </p:outputPanel>
 		  
@@ -140,7 +140,7 @@
 					<h:outputText value="Добавить пациента"/>											     
 				</p:link>
 				
-				<p:commandLink update=":frmPrint:pnlDlg" oncomplete="PF('print').show()" class="button-volume button-volume--link margin-left--big" >
+				<p:commandLink id="btn-report" update=":frmPrint:pnlDlg" oncomplete="PF('print').show()" class="button-volume button-volume--link margin-left--big" >
 					<p:outputPanel class="ui-icon ui-icon-reports"/>
 					<h:outputText value="Отчетные формы"/>
 				</p:commandLink>
@@ -162,7 +162,7 @@
   				
 	<p:dialog id="browseExamId" widgetVar="browseExamVar" modal="true" header="Пациент: #{listmanBean.selectedFIO}" resizable="false" class="my-overlay my-overlay--scroll">
 	  <div class="button--close-dialog">
-	  <p:commandButton value="Закрыть" oncomplete="PF('browseExamVar').hide()" icon="ui-icon-close" class="button-link button-link--white"/> 
+	  <p:commandButton id="btn-closeexamid" value="Закрыть" oncomplete="PF('browseExamVar').hide()" icon="ui-icon-close" class="button-link button-link--white"/> 
 	  </div>
 	  <ui:include src="WEB-INF/templates/examination.xhtml"/>
 	</p:dialog>
@@ -170,7 +170,7 @@
     <h:form id="frmFind" >
 		<p:dialog id="dlg" widgetVar="find" modal="true" header="Фильтр записей" resizable="false" class="my-overlay my-overlay--scroll filtr--str">			
 		<div class="button--close-dialog">
-		  <p:commandButton value="Закрыть" oncomplete="PF('find').hide()" icon="ui-icon-close" class="button-link button-link--white"/>
+		  <p:commandButton id="btn-filterclose" value="Закрыть" oncomplete="PF('find').hide()" icon="ui-icon-close" class="button-link button-link--white"/>
 		</div>    
 			<p:outputPanel id="pnlDlg" class="move-up">
 			  <p:scrollPanel mode="native" style="max-height: 600px">				
@@ -277,9 +277,9 @@
 			    </p:panel >
 			    <p:outputPanel rendered="true" class="blok-button--within--down">
 			    	<p:messages autoUpdate="true"/>
-					<p:commandButton value="Применить" action="#{listmanBean.filter()}" update=":frmList:patientTable" oncomplete="PF('find').hide()" class="button-volume button-volume--mini" icon="ui-icon-save">
+					<p:commandButton id="btn-confirmfilter" value="Применить" action="#{listmanBean.filter()}" update=":frmList:patientTable" oncomplete="PF('find').hide()" class="button-volume button-volume--mini" icon="ui-icon-save">
 					</p:commandButton>
-					<p:commandButton value="Очистить поля" action="#{filterBean.clearFilter()}" update=":frmFind:pnlDlg" class="button-volume button-volume--mini margin-left--big" icon="ui-icon-clear">
+					<p:commandButton id="filter-clear" value="Очистить поля" action="#{filterBean.clearFilter()}" update=":frmFind:pnlDlg" class="button-volume button-volume--mini margin-left--big" icon="ui-icon-clear">
 			       		<p:ajax resetValues="true" update=":frmFind:pnlDlg" />
 					</p:commandButton>
 			    </p:outputPanel>
@@ -296,7 +296,7 @@
  
 	    <p:dialog id="exceptionDialog" header="Ошибка" widgetVar="exceptionDialog"
 	              height="100px" class="my-overlay filtr--str">
-		  	<p:commandButton value="Закрыть" oncomplete="PF('exceptionDialog').hide()" icon="ui-icon-close" class="button-link button-link--white"/>
+		  	<p:commandButton id="btn-closeexeption" value="Закрыть" oncomplete="PF('exceptionDialog').hide()" icon="ui-icon-close" class="button-link button-link--white"/>
 	        <br/><br/>Сообщение: #{pfExceptionHandler.message} <br/>
 	    </p:dialog>
 	</h:form>
@@ -305,7 +305,7 @@
 		<p:dialog id="dlg" widgetVar="print" modal="true"
 			header="Отчетные формы" resizable="false" class="my-overlay">
 			<div class="button--close-dialog">
-			<p:commandButton value="Закрыть" oncomplete="PF('print').hide()" icon="ui-icon-close" class="button-link button-link--white"/>
+			<p:commandButton id="btn-closereport" value="Закрыть" oncomplete="PF('print').hide()" icon="ui-icon-close" class="button-link button-link--white"/>
 			</div>
 			<p:outputPanel id="pnlDlg" class="move-up report--str" >				  
 			  <p:panel header="Уровень отчета" class="blok-overlay">				
@@ -357,36 +357,36 @@
 					
 					<p:outputPanel class="button-link button-link--blue"> 
 					<p:commandLink class="ui-icon ui-icon-paper" action="#{reportBean.printReport(1, false)}" />
-					<p:commandLink value="Показать на экране" action="#{reportBean.printReport(1, false)}" />
+					<p:commandLink id="btn-showsoc" value="Показать на экране" action="#{reportBean.printReport(1, false)}" />
 					</p:outputPanel>
 					
 					<p:outputPanel class="button-link button-link--blue"> 
 					<p:commandLink class="ui-icon ui-icon-pdf" action="#{reportBean.printReport(1, true)}" />
-					<p:commandLink value="Сформировать в PDF" action="#{reportBean.printReport(1, true)}" />
+					<p:commandLink id="btn-pdfsoc" value="Сформировать в PDF" action="#{reportBean.printReport(1, true)}" />
 					</p:outputPanel>
 					
 					<p:outputLabel value="2. Флюороосмотры декретированных групп населения" />
 					
 					<p:outputPanel class="button-link button-link--blue"> 
 					<p:commandLink class="ui-icon ui-icon-paper" action="#{reportBean.printReport(3, false)}" />						
-					<p:commandLink value="Показать на экране" action="#{reportBean.printReport(3, false)}" />
+					<p:commandLink id="btn-showdec" value="Показать на экране" action="#{reportBean.printReport(3, false)}" />
 					</p:outputPanel>
 					
 					<p:outputPanel class="button-link button-link--blue"> 
 					<p:commandLink class="ui-icon ui-icon-pdf" action="#{reportBean.printReport(3, true)}" />
-					<p:commandLink value="Сформировать в PDF" action="#{reportBean.printReport(3, true)}" />
+					<p:commandLink id="btn-pdfdec" value="Сформировать в PDF" action="#{reportBean.printReport(3, true)}" />
 					</p:outputPanel>
 
 					<p:outputLabel value="3. Флюороосмотры медицинских групп населения" />
 					
 					<p:outputPanel class="button-link button-link--blue">
 					<p:commandLink class="ui-icon ui-icon-paper" action="#{reportBean.printReport(2, false)}" />  
-					<p:commandLink value="Показать на экране" action="#{reportBean.printReport(2, false)}" />
+					<p:commandLink id="btn-showmed" value="Показать на экране" action="#{reportBean.printReport(2, false)}" />
 					</p:outputPanel>
 					
 					<p:outputPanel class="button-link button-link--blue"> 
 					<p:commandLink class="ui-icon ui-icon-pdf" action="#{reportBean.printReport(2, true)}" />
-					<p:commandLink value="Сформировать в PDF" action="#{reportBean.printReport(2, true)}" />
+					<p:commandLink id="btn-pdfmed" value="Сформировать в PDF" action="#{reportBean.printReport(2, true)}" />
 					</p:outputPanel>
 					
 				</h:panelGrid>
