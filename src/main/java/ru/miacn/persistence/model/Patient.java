@@ -69,7 +69,7 @@ public class Patient {
 	private String firstName;
 	@Column(name = "last_name")
 	@NotNull
-	@Size(min=3,max = nameFieldSize, message="Фамилия: должна содержать не менее 3 и не более 64 букв")
+	@Size(max = nameFieldSize, message="Фамилия: должна содержать не более 64 букв")
 	@FIOAnnotation
 	private String lastName;
 	@OneToOne
