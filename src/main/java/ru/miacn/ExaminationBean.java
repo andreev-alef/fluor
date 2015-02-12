@@ -109,7 +109,9 @@ public class ExaminationBean implements Serializable {
     	
     	setEditMode(isEditMode() && !patientIsDead());
     	
-    	haveNotSurvived();
+    	if(lastExam() !=null) {
+    		haveNotSurvived();
+    	}
     }
 
 	public void findExam(int exId) {
@@ -389,9 +391,13 @@ public class ExaminationBean implements Serializable {
 	}
 	
 	private Date lastExam() {
-		String sql="SELECT e.dat FROM examination e WHERE e.patient_id = "+getPatientParentId()+" ORDER BY e.dat DESC LIMIT 1";
-		Query query = em.createNativeQuery(sql);
-		return (Date) query.getResultList().get(0);
+		if(getPatientParentId() != -1) {
+			String sql="SELECT e.dat FROM examination e WHERE e.patient_id = "+getPatientParentId()+" ORDER BY e.dat DESC LIMIT 1";
+			Query query = em.createNativeQuery(sql);
+			return (Date) query.getResultList().get(0);
+		} else {
+			return null;
+		}
 	}
 	
 	private void haveNotSurvived() {
