@@ -78,6 +78,8 @@ public class FilterBean implements Serializable{
 	private Date datStart;
 	private Date datEnd;
 	
+	private Boolean filterClear;
+	
 	@PostConstruct
 	private void init() {
 		setDgConverter(new ListConverter());
@@ -196,6 +198,77 @@ public class FilterBean implements Serializable{
 			setMoPoliclinicList(new ArrayList<RMedicalOrgPoliclinic>());
 		}
 		setSelectedMop(null);
+	}
+	
+	private void FilterClear() {
+		filterClear = true;
+		
+		if(fias.getAddress() != null && !fias.getAddress().isEmpty()){
+			filterClear = false;
+			return;
+		}
+		
+		if (getSelectedRegObs() != null) {
+			filterClear = false;
+			return;
+    	}
+    	if (getSelectedTerObs() != null) {
+			filterClear = false;
+			return;
+    	}
+    	if (getSelectedLpuObs() != null) {
+			filterClear = false;
+			return;
+    	}
+    	if (getSelectedRezType() != null) {
+			filterClear = false;
+			return;
+    	}
+		
+    	if (getSelectedVer() != null) {
+			filterClear = false;
+			return;
+    	}
+
+    	if (getDatStart() != null && getDatEnd() != null) {
+			filterClear = false;
+			return;
+		}
+
+		if (getSelectedMor() != null) {
+			filterClear = false;
+			return;
+    	}
+
+    	if (getSelectedMot() != null) {
+			filterClear = false;
+			return;
+    	}
+
+    	if (getSelectedMom() != null) {
+			filterClear = false;
+			return;
+    	}
+
+    	if (getSelectedMop() != null) {
+			filterClear = false;
+			return;
+    	}
+
+    	if (getSelectedDg() != null) {
+			filterClear = false;
+			return;
+    	}
+
+    	if (getSelectedMg() != null) {
+			filterClear = false;
+			return;
+    	}
+
+    	if (getSelectedSg() != null) {
+			filterClear = false;
+			return;
+    	}
 	}
 
 	public ListConverter getMgConverter() {
@@ -513,4 +586,9 @@ public class FilterBean implements Serializable{
 	public void setSelectedVer(RVerification selectedVer) {
 		this.selectedVer = selectedVer;
 	}
+
+	public Boolean getFilterClear() {
+		FilterClear();
+		return filterClear;
+	}	
 }

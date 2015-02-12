@@ -274,16 +274,17 @@
 					    <p:calendar id="dk" value="#{filterBean.datEnd}" locale="ru" class="data" converterMessage="Период по: Введенная дата имеет неверный формат, пожалуйста введите в формате дд.мм.гггг"/>
 					</p:column>						
 				</h:panelGrid>
-			    </p:panel >
-			    <p:outputPanel rendered="true" class="blok-button--within--down">
+			    </p:panel > 
+			  </p:scrollPanel>
+			  		<p:outputPanel rendered="true" class="blok-button--within--down">
 			    	<p:messages autoUpdate="true"/>
 					<p:commandButton id="btn-confirmfilter" value="Применить" action="#{listmanBean.filter()}" update=":frmList:patientTable" oncomplete="PF('find').hide()" class="button-volume button-volume--mini" icon="ui-icon-save">
 					</p:commandButton>
 					<p:commandButton id="filter-clear" value="Очистить поля" action="#{filterBean.clearFilter()}" update=":frmFind:pnlDlg" class="button-volume button-volume--mini margin-left--big" icon="ui-icon-clear">
 			       		<p:ajax resetValues="true" update=":frmFind:pnlDlg" />
 					</p:commandButton>
+					<p:outputLabel rendered="#{!filterBean.filterClear}" value="Фильтр не был очищен "/>
 			    </p:outputPanel>
-			  </p:scrollPanel>
 		      </p:outputPanel>			   	
 		</p:dialog>
 
