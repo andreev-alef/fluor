@@ -139,8 +139,8 @@
               <h:outputText id="p5" value="#{examinationBean.selectedExamination.RVerification.name}" />
             </h:panelGrid>
 	    	<p:outputPanel class="blok-button--within--down">
-            	<p:commandButton value="Удалить" update=":frmExam:examTable" action="#{examinationBean.delExam()}" oncomplete="PF('delExamVar').hide()" class="button-volume button-volume--mini" icon="ui-icon-delete"/>
-				<p:commandButton value="Отменить" oncomplete="PF('delExamVar').hide()" class="button-volume button-volume--mini margin-left--big" icon="ui-icon-undo"/>
+            	<p:commandButton id="btn-confirmdel" value="Удалить" update=":frmExam:examTable" action="#{examinationBean.delExam()}" oncomplete="PF('delExamVar').hide()" class="button-volume button-volume--mini" icon="ui-icon-delete"/>
+				<p:commandButton id="btn-canceldel" value="Отменить" oncomplete="PF('delExamVar').hide()" class="button-volume button-volume--mini margin-left--big" icon="ui-icon-undo"/>
             </p:outputPanel>
 	  	</p:dialog>
        </p:outputPanel>
