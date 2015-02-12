@@ -13,6 +13,8 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.primefaces.component.datatable.DataTable;
+import org.primefaces.event.data.PageEvent;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
@@ -55,6 +57,7 @@ public class ListmanBean implements Serializable {
 	private List<PatientOrm> patients;
 	private LazyDataModel<PatientOrm> model;
 	private int countPatients;
+	private int paginatorFirst;
 	
 	@PersistenceContext(unitName = "fluor-PU")
 	private EntityManager em;
@@ -316,4 +319,16 @@ public class ListmanBean implements Serializable {
 		this.selectedFIO = last_name+" "+first_name+" "+father_name;
 	}
 
+	public int getPaginatorFirst() {
+		return paginatorFirst;
+	}
+
+	public void setPaginatorFirst(int paginatorFirst) {
+		this.paginatorFirst = paginatorFirst;
+	}
+	
+	public void onPageChange (PageEvent event) {
+			this.setPaginatorFirst( ((DataTable) event.getSource()).getFirst());
+	}
+	
 }

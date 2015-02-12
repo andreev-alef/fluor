@@ -55,11 +55,13 @@
 		  <p:outputPanel class="main clearfix"> 
 			<p:dataTable id="patientTable" value="#{listmanBean.model}" var="v"
 				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				first="#{listmanBean.paginatorFirst}"
 				paginator="true" rows="10" lazy="true"				
 				rowsPerPageTemplate="5, 10, 15"
 				paginatorPosition="bottom"
 				rowStyleClass="#{v.datDeath != null ? 'patient-death--table' : 'patient-living--table'}"				
 				class="my-table my-table--auto patient__table patient__table--str">
+				<p:ajax event="page" listener="#{listmanBean.onPageChange}" />
 				<p:column headerText="Информация о пациенте">				   
 				    <p:link id="view" class="ui-icon ui-icon-open" outcome="viewman">					        
 						<f:param name="patId" value="#{v.id}"/>
