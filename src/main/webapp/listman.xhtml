@@ -281,7 +281,7 @@
 			  </p:scrollPanel>
 			  		<p:outputPanel rendered="true" class="blok-button--within--down" >
 			    	<p:messages id="msg-filter" autoUpdate="false"/>
-					<p:commandButton id="btn-confirmfilter" value="Применить" action="#{listmanBean.filter()}" update=":frmList:patientTable msg-filter" oncomplete="PF('find').hide()" onsuccess="PF('wv').getPaginator().setPage(0)" class="button-volume button-volume--mini" icon="ui-icon-save">
+					<p:commandButton id="btn-confirmfilter" value="Применить" action="#{listmanBean.filter()}" update=":frmList:patientTable msg-filter" oncomplete="if (args &amp;&amp; !args.validationFailed) PF('find').hide()" onsuccess="PF('wv').getPaginator().setPage(0)" class="button-volume button-volume--mini" icon="ui-icon-save">
 					</p:commandButton>
 					<p:commandButton id="filter-clear" value="Очистить поля" action="#{filterBean.clearFilter()}" update=":frmFind:pnlDlg" class="button-volume button-volume--mini margin-left--big" icon="ui-icon-clear">
 			       		<p:ajax resetValues="true" update=":frmFind:pnlDlg" />
