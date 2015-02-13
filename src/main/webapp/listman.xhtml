@@ -57,7 +57,7 @@
 				widgetVar="wv"
 				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				first="#{listmanBean.paginatorFirst}"
-				paginator="true" rows="10" lazy="true"				
+				paginator="true" rows="#{listmanBean.paginatorRowsCount}" lazy="true"				
 				rowsPerPageTemplate="5, 10, 15"
 				paginatorPosition="bottom"
 				rowStyleClass="#{v.datDeath != null ? 'patient-death--table' : 'patient-living--table'}"				
@@ -399,6 +399,5 @@
 		</p:dialog>
 	</h:form>	
 </h:body>
-
 
 </html>

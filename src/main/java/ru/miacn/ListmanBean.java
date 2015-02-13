@@ -58,6 +58,7 @@ public class ListmanBean implements Serializable {
 	private LazyDataModel<PatientOrm> model;
 	private int countPatients;
 	private int paginatorFirst;
+	private int paginatorRowsCount = 10;
 	
 	@PersistenceContext(unitName = "fluor-PU")
 	private EntityManager em;
@@ -329,6 +330,14 @@ public class ListmanBean implements Serializable {
 	
 	public void onPageChange (PageEvent event) {
 			this.setPaginatorFirst( ((DataTable) event.getSource()).getFirst());
+	}
+
+	public int getPaginatorRowsCount() {
+		return paginatorRowsCount;
+	}
+
+	public void setPaginatorRowsCount(int paginatorRowsCount) {
+		this.paginatorRowsCount = paginatorRowsCount;
 	}
 	
 }
