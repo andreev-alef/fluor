@@ -36,16 +36,16 @@
 				<p:outputLabel for="dr" value="Дата рождения" />
 				<p:calendar id="dr" value="#{listmanBean.srcDr}" locale="#{applicationBean.locale.language}" pattern="#{applicationBean.dateFormat.toPattern()}" converterMessage="Дата рождения: введенная дата имеет неверный формат, пожалуйста введите в формате дд.мм.гггг"/>
 				<p:outputPanel></p:outputPanel>
-				<p:commandButton id="search" value="Найти" action="#{listmanBean.search()}" update="patientTable" onsuccess="PF('wv').getPaginator().setPage(0)" class="button-volume button-volume--mini " icon="ui-icon-search" >
+				<p:commandButton id="search" value="Найти" action="#{listmanBean.search()}" update="patientTable msg-search" onsuccess="PF('wv').getPaginator().setPage(0)" class="button-volume button-volume--mini " icon="ui-icon-search" >
 				</p:commandButton>
-			    <p:commandButton id="btn-showall" value="Показать всех" action="#{listmanBean.clearSearch()}" update="searchParams patientTable" onsuccess="PF('wv').getPaginator().setPage(0)" class="button-volume button-volume--mini" icon="ui-icon-all"/>
+			    <p:commandButton id="btn-showall" value="Показать всех" action="#{listmanBean.clearSearch()}" update="searchParams patientTable msg-search" onsuccess="PF('wv').getPaginator().setPage(0)" class="button-volume button-volume--mini" icon="ui-icon-all"/>
 			</h:panelGrid>
 		  </p:outputPanel>
 		  </div>
 		  
 		  
 		  <p:outputPanel rendered="true" class="blok-button--above--right">	
-		    <p:messages autoUpdate="true"/>
+		    <p:messages id="msg-search" autoUpdate="false"/>
     	      <p:commandLink update=":frmFind:pnlDlg" oncomplete="PF('find').show()" class="button-link button-link--blue">
 				<p:outputPanel class="ui-icon ui-icon-filter"/>
 				<h:outputText id="btn-filter" value="Фильтр записей"/>
@@ -279,9 +279,9 @@
 				</h:panelGrid>
 			    </p:panel > 
 			  </p:scrollPanel>
-			  		<p:outputPanel rendered="true" class="blok-button--within--down">
-			    	<p:messages autoUpdate="true"/>
-					<p:commandButton id="btn-confirmfilter" value="Применить" action="#{listmanBean.filter()}" update=":frmList:patientTable" oncomplete="PF('find').hide()" onsuccess="PF('wv').getPaginator().setPage(0)" class="button-volume button-volume--mini" icon="ui-icon-save">
+			  		<p:outputPanel rendered="true" class="blok-button--within--down" >
+			    	<p:messages id="msg-filter" autoUpdate="false"/>
+					<p:commandButton id="btn-confirmfilter" value="Применить" action="#{listmanBean.filter()}" update=":frmList:patientTable msg-filter" oncomplete="PF('find').hide()" onsuccess="PF('wv').getPaginator().setPage(0)" class="button-volume button-volume--mini" icon="ui-icon-save">
 					</p:commandButton>
 					<p:commandButton id="filter-clear" value="Очистить поля" action="#{filterBean.clearFilter()}" update=":frmFind:pnlDlg" class="button-volume button-volume--mini margin-left--big" icon="ui-icon-clear">
 			       		<p:ajax resetValues="true" update=":frmFind:pnlDlg" />
@@ -355,42 +355,42 @@
 				</h:panelGrid>
 			   </p:panel>
 			  <p:panel header="Вид отчета" class="blok-overlay">
-			    <p:messages autoUpdate="true"/>
+			    <p:messages id="msg-rep" autoUpdate="false"/>
 				<h:panelGrid columns="3" class="invis vid-reports--str">
 					<p:outputLabel value="1. Флюороосмотры социальных групп населения" />
 					
 					<p:outputPanel class="button-link button-link--blue"> 
 					<p:commandLink class="ui-icon ui-icon-paper" action="#{reportBean.printReport(1, false)}" />
-					<p:commandLink id="btn-showsoc" value="Показать на экране" action="#{reportBean.printReport(1, false)}" />
+					<p:commandLink id="btn-showsoc" value="Показать на экране" update="msg-rep" action="#{reportBean.printReport(1, false)}" />
 					</p:outputPanel>
 					
 					<p:outputPanel class="button-link button-link--blue"> 
 					<p:commandLink class="ui-icon ui-icon-pdf" action="#{reportBean.printReport(1, true)}" />
-					<p:commandLink id="btn-pdfsoc" value="Сформировать в PDF" action="#{reportBean.printReport(1, true)}" />
+					<p:commandLink id="btn-pdfsoc" value="Сформировать в PDF" update="msg-rep" action="#{reportBean.printReport(1, true)}" />
 					</p:outputPanel>
 					
 					<p:outputLabel value="2. Флюороосмотры декретированных групп населения" />
 					
 					<p:outputPanel class="button-link button-link--blue"> 
 					<p:commandLink class="ui-icon ui-icon-paper" action="#{reportBean.printReport(3, false)}" />						
-					<p:commandLink id="btn-showdec" value="Показать на экране" action="#{reportBean.printReport(3, false)}" />
+					<p:commandLink id="btn-showdec" value="Показать на экране" update="msg-rep" action="#{reportBean.printReport(3, false)}" />
 					</p:outputPanel>
 					
 					<p:outputPanel class="button-link button-link--blue"> 
 					<p:commandLink class="ui-icon ui-icon-pdf" action="#{reportBean.printReport(3, true)}" />
-					<p:commandLink id="btn-pdfdec" value="Сформировать в PDF" action="#{reportBean.printReport(3, true)}" />
+					<p:commandLink id="btn-pdfdec" value="Сформировать в PDF" update="msg-rep" action="#{reportBean.printReport(3, true)}" />
 					</p:outputPanel>
 
 					<p:outputLabel value="3. Флюороосмотры медицинских групп населения" />
 					
 					<p:outputPanel class="button-link button-link--blue">
 					<p:commandLink class="ui-icon ui-icon-paper" action="#{reportBean.printReport(2, false)}" />  
-					<p:commandLink id="btn-showmed" value="Показать на экране" action="#{reportBean.printReport(2, false)}" />
+					<p:commandLink id="btn-showmed" value="Показать на экране" update="msg-rep" action="#{reportBean.printReport(2, false)}" />
 					</p:outputPanel>
 					
 					<p:outputPanel class="button-link button-link--blue"> 
 					<p:commandLink class="ui-icon ui-icon-pdf" action="#{reportBean.printReport(2, true)}" />
-					<p:commandLink id="btn-pdfmed" value="Сформировать в PDF" action="#{reportBean.printReport(2, true)}" />
+					<p:commandLink id="btn-pdfmed" value="Сформировать в PDF" update="msg-rep" action="#{reportBean.printReport(2, true)}" />
 					</p:outputPanel>
 					
 				</h:panelGrid>

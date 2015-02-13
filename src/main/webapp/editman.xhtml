@@ -199,8 +199,8 @@
 		</p:panel>
 		
 		<p:outputPanel class="blok-button--within--down">
-		  <p:messages autoUpdate="true" />
-		  <p:commandButton id="btn-savepat" value="Сохранить" update="adr" action="#{editmanBean.savePatientAndRedirect()}" class="button-volume button-volume--mini" icon="ui-icon-save"/>
+		  <p:messages id="msg-editman" autoUpdate="false" />
+		  <p:commandButton id="btn-savepat" value="Сохранить" update="adr msg-editman" action="#{editmanBean.savePatientAndRedirect()}" class="button-volume button-volume--mini" icon="ui-icon-save"/>
 		  <p:button id="btn-cancelpat" value="Отменить" outcome="listman" class="button-volume button-volume--mini margin-left--big" icon="ui-icon-undo"/>
 		</p:outputPanel>
     </p:panel>
