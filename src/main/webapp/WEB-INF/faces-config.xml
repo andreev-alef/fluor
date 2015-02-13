@@ -8,6 +8,9 @@
 		<el-resolver>
 			org.primefaces.application.exceptionhandler.PrimeExceptionHandlerELResolver
 		</el-resolver>
+		<message-bundle>
+			ru.miacn.localization.Messages
+		</message-bundle>
 	</application>
 	<factory>
 		<exception-handler-factory>

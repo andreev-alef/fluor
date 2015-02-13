@@ -42,7 +42,7 @@
 	        	<p:outputLabel for="fam" value="Фамилия" />
 			</p:column>
 			<p:column colspan="3">
-	        	<p:inputText id="fam" value="#{userBean.user.lastName}" maxlength="#{userBean.user.nameFieldSize}" required="true" requiredMessage="Фамилия: поле не может быть пустым" />
+	        	<p:inputText id="fam" value="#{userBean.user.lastName}" maxlength="#{userBean.user.nameFieldSize}" required="true" />
 	        	</p:column>
 			</p:row>
 			
@@ -51,7 +51,7 @@
 	        	<p:outputLabel for="im" value="Имя" />
 			</p:column>
 			<p:column colspan="3">			  
-			<p:inputText id="im" value="#{userBean.user.firstName}" maxlength="#{userBean.user.nameFieldSize}" required="true" requiredMessage="Имя: поле не может быть пустым" />
+			<p:inputText id="im" value="#{userBean.user.firstName}" maxlength="#{userBean.user.nameFieldSize}" required="true" />
 		        </p:column>
 			</p:row>
 			
@@ -72,7 +72,7 @@
 	        	<p:outputLabel for="log" value="Логин" />
 			</p:column>
 		        <p:column colspan="3">
-			<p:inputText id="log" value="#{userBean.user.login}" required="true" requiredMessage="Логин: поле не может быть пустым" />
+			<p:inputText id="log" value="#{userBean.user.login}" required="true" />
 		        </p:column>
 			</p:row>	
 			
@@ -81,7 +81,7 @@
 	        	<p:outputLabel for="pas" value="Пароль" />
 			</p:column>
 		        <p:column colspan="3">
-			<p:password id="pas" value="#{userBean.user.password}" required="true" requiredMessage="Пароль: поле не может быть пустым" />
+			<p:password id="pas" value="#{userBean.user.password}" required="true" />
 		        </p:column>
 			</p:row>
 				
@@ -90,7 +90,7 @@
 	        	<p:outputLabel for="rol" value="Роль" />
 			</p:column>
 		        <p:column colspan="3">
-		         <p:selectOneMenu id="rol" value="#{userBean.user.userRole}" converter="#{userBean.userRoleConverter}" required="true" requiredMessage="Роль: поле не может быть пустым" class="my-select">
+		         <p:selectOneMenu id="rol" value="#{userBean.user.userRole}" converter="#{userBean.userRoleConverter}" required="true" class="my-select">
 		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
 		          <f:selectItems value="#{userBean.userRoleList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
 		        </p:selectOneMenu>
