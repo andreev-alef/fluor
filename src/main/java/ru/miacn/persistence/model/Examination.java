@@ -26,7 +26,7 @@ public class Examination {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 
-	@Past(message="Дата обследования: выбранная дата еще не наступила")
+	@Past
 	@Temporal(TemporalType.DATE)
 	private Date dat;
 

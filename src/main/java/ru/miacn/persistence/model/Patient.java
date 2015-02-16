@@ -49,27 +49,27 @@ public class Patient {
 	@Column(name = "dat_birth")
 	@Temporal(TemporalType.DATE)
 	@NotNull
-	@Past(message="Дата рождения: выбранная дата еще не наступила")
+	@Past
 	private Date datBirth;
 	@Column(name = "dat_death")
 	@Temporal(TemporalType.DATE)
-	@Past(message="Дата смерти: выбранная дата еще не наступила")
+	@Past
 	private Date datDeath;
 	@OneToOne
 	@JoinColumn(name = "decr_group_id")
 	private RDecrGroup decrGroup;
 	@Column(name = "father_name")
-	@Size(max = nameFieldSize, message="Отчество: должно содержать не более 64 букв")
+	@Size(max = nameFieldSize)
 	@FIOAnnotation
 	private String fatherName;
 	@Column(name = "first_name")
 	@NotNull
-	@Size(max = nameFieldSize, message="Имя: должно содержать не более 64 букв")
+	@Size(max = nameFieldSize)
 	@FIOAnnotation
 	private String firstName;
 	@Column(name = "last_name")
 	@NotNull
-	@Size(max = nameFieldSize, message="Фамилия: должна содержать не более 64 букв")
+	@Size(max = nameFieldSize)
 	@FIOAnnotation
 	private String lastName;
 	@OneToOne
