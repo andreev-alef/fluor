@@ -7,7 +7,7 @@
 		<jta-data-source>java:/datasources/fluor-DS</jta-data-source>
 		<class>ru.miacn.persistence.reference.RVerification</class>
 	</persistence-unit>
-	<persistence-unit name="FiasPU">
-		<jta-data-source>java:jboss/datasources/FiasDS</jta-data-source>
+	<persistence-unit name="Fias-PU">
+		<jta-data-source>java:/datasources/Fias-DS</jta-data-source>
 	</persistence-unit>
 </persistence>

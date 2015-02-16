@@ -17,7 +17,7 @@ import javax.persistence.TypedQuery;
 public class FiasEditor implements Serializable {
 	private static final long serialVersionUID = 5089683425177113868L;
 
-	@PersistenceContext(unitName = "FiasPU")
+	@PersistenceContext(unitName = "Fias-PU")
 	private EntityManager em;
 	
 	private FiasElement region;
