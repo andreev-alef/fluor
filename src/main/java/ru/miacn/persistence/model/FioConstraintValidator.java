@@ -3,8 +3,6 @@ package ru.miacn.persistence.model;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
@@ -12,12 +10,12 @@ public class FioConstraintValidator implements ConstraintValidator<FIOAnnotation
 
 	@Override
 	public void initialize(FIOAnnotation ca) {
+		
 	}
 
 	@Override
 	public boolean isValid(String value, ConstraintValidatorContext cvc) {
 		boolean hasErrors = false;
-		FacesContext fc = FacesContext.getCurrentInstance();
 		Pattern p;
 		Matcher m;
 		
@@ -26,49 +24,49 @@ public class FioConstraintValidator implements ConstraintValidator<FIOAnnotation
 			m = p.matcher(value);
 			if (!m.matches()){
 				hasErrors = true;
-				fc.addMessage(null, getErrorMessage("В поле \"ФИО\" : "+(value)+" введены недопустимые символы."));
+				cvc.disableDefaultConstraintViolation();
+	            cvc.buildConstraintViolationWithTemplate("{FioAnnotation.error}").addConstraintViolation();
 			}
 
 			p = Pattern.compile("(\\ \\ |\\ \\-|\\ Ьь|\\ Ъъ)", Pattern.UNICODE_CHARACTER_CLASS);
 			m = p.matcher(value);
 			if (m.find()){
 				hasErrors = true;
-				fc.addMessage(null, getErrorMessage("В поле \"ФИО\" : "+(value)+" введены недопустимые символы после пробела."));
+				cvc.disableDefaultConstraintViolation();
+	            cvc.buildConstraintViolationWithTemplate("{FioAnnotation.illegalCharSpaceError}").addConstraintViolation();
 			}
 
 			p = Pattern.compile("(\\-\\ |\\-\\-|\\-Ьь|\\-Ъъ)", Pattern.UNICODE_CHARACTER_CLASS);
 			m = p.matcher(value);
 			if (m.find()){
 				hasErrors = true;
-				fc.addMessage(null, getErrorMessage("В поле \"ФИО\" : "+(value)+" введены недопустимые символы после дефиса."));
+				cvc.disableDefaultConstraintViolation();
+	            cvc.buildConstraintViolationWithTemplate("{FioAnnotation.illegalCharDef}").addConstraintViolation();
 			}
 			p = Pattern.compile("^[а-яА-ЯёЁ&&[^ЬьЪъ]]", Pattern.UNICODE_CHARACTER_CLASS);
 			m = p.matcher(value);
 			if (!m.find()){
 				hasErrors = true;
-				fc.addMessage(null, getErrorMessage("В поле \"ФИО\" : "+(value)+" введен недопустимый первый символ."));
+				cvc.disableDefaultConstraintViolation();
+	            cvc.buildConstraintViolationWithTemplate("{FioAnnotation.illegalFirstChar}").addConstraintViolation();
 			}
 			
 			p = Pattern.compile("(\\ |\\-)$", Pattern.UNICODE_CHARACTER_CLASS);
 			m = p.matcher(value);
 			if (m.find()){
 				hasErrors = true;
-				fc.addMessage(null, getErrorMessage("В поле \"ФИО\" : "+(value)+" введен недопустимый последний символ."));
+				cvc.disableDefaultConstraintViolation();
+	            cvc.buildConstraintViolationWithTemplate("{FioAnnotation.illegalLastChar}").addConstraintViolation();
 			}
 			
 			p = Pattern.compile("[УЕЫАОЭЯИЮЁуеыаоэяиюё]", Pattern.UNICODE_CHARACTER_CLASS);
 			m = p.matcher(value);
 			if (!m.find()){
 				hasErrors = true;
-				fc.addMessage(null, getErrorMessage("Поле \"ФИО\" : "+(value)+" должно содержать хотя бы одну гласную букву."));
+				cvc.disableDefaultConstraintViolation();
+	            cvc.buildConstraintViolationWithTemplate("{FioAnnotation.glasnReq}").addConstraintViolation();
 			}
 		}
 		return !hasErrors;
-	}
-
-	private FacesMessage getErrorMessage(String text) {
-		FacesMessage msg = new FacesMessage(text);
-		msg.setSeverity(FacesMessage.SEVERITY_ERROR);
-		return msg;
 	}
 }
