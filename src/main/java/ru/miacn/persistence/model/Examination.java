@@ -27,6 +27,7 @@ public class Examination {
 	private Integer id;
 
 	@Past
+	@MinDate
 	@Temporal(TemporalType.DATE)
 	private Date dat;
 

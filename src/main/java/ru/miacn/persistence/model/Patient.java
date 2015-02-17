@@ -50,10 +50,12 @@ public class Patient {
 	@Temporal(TemporalType.DATE)
 	@NotNull
 	@Past
+	@MinDate
 	private Date datBirth;
 	@Column(name = "dat_death")
 	@Temporal(TemporalType.DATE)
 	@Past
+	@MinDate
 	private Date datDeath;
 	@OneToOne
 	@JoinColumn(name = "decr_group_id")
