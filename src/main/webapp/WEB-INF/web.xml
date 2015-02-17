@@ -34,12 +34,6 @@
    <form-error-page>/login.xhtml</form-error-page>
   </form-login-config>
  </login-config> 
-  <security-role>
-  <role-name>USER</role-name>
- </security-role>
- <security-role>
-  <role-name>MANAGER</role-name>
- </security-role>
  <security-constraint>
   <web-resource-collection>
    <web-resource-name>all</web-resource-name>
