@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -33,9 +34,11 @@ public class LoginBean implements Serializable {
 	private User authedUser;
 	private String originalURL;
 	private String authedUserFIO;
-
+	
+	private String profile;
+	
 	@PostConstruct
-	public void init() {
+	public void init() throws IOException, NoSuchAlgorithmException {
 		ExternalContext externalContext = FacesContext.getCurrentInstance()
 				.getExternalContext();
 		originalURL = (String) externalContext.getRequestMap().get(
@@ -51,6 +54,7 @@ public class LoginBean implements Serializable {
 				originalURL += "?" + originalQuery;
 			}
 		}
+		getDevProperties();
 	}
 
 	public void login() throws IOException, NoSuchAlgorithmException {
@@ -122,5 +126,15 @@ public class LoginBean implements Serializable {
 
 	public String getAuthedUserFIO() {
 		return authedUserFIO;
-	}	
+	}
+	
+	private void getDevProperties() throws IOException, NoSuchAlgorithmException {
+		ResourceBundle rb = ResourceBundle.getBundle("developer");
+		profile = rb.getString("activeProfile");
+		if (profile.equals("development")) {
+			login = rb.getString("dev.login");
+			password = rb.getString("dev.password");
+			login();
+		}
+	}
 }

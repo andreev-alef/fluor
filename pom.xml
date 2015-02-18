@@ -13,6 +13,9 @@
 		<maven.compiler.source>1.7</maven.compiler.source>
 		<maven.compiler.target>1.7</maven.compiler.target>
 		<maven.properties.quiet>false</maven.properties.quiet>
+		<profile.active>${profilename}</profile.active>
+		<developer.login>${dev.login}</developer.login>
+		<developer.password>${dev.password}</developer.password>
 	</properties>
 
 	<dependencies>
@@ -67,6 +70,12 @@
 	</dependencies>
 
 	<build>
+		<resources>
+			<resource>
+        		<directory>src/main/resources</directory>
+        		<filtering>true</filtering>
+      		</resource>
+    	</resources>
 		<finalName>${project.artifactId}</finalName>
 		<plugins>
 			<plugin>
@@ -84,6 +93,7 @@
 							<files>
 								<file>db-creds.properties</file>
 								<file>web-creds.properties</file>
+								<file>dev-creds.properties</file>
 							</files>
 						</configuration>
 					</execution>
@@ -161,6 +171,7 @@
     			<properties>
     				<enable.security.start>&lt;!--</enable.security.start> 
     				<enable.security.end>--&gt;</enable.security.end>
+    				<profilename>production</profilename>
     			</properties>
   		</profile>
   		<profile>
@@ -168,6 +179,7 @@
     		<properties>
     			<enable.security.start></enable.security.start> 
     			<enable.security.end></enable.security.end>
+    			<profilename>development</profilename>
     		</properties>
   		</profile>
 	</profiles>
