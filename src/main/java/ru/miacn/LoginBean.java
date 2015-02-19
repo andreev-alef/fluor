@@ -129,7 +129,7 @@ public class LoginBean implements Serializable {
 	}
 	
 	private void getDevProperties() throws IOException, NoSuchAlgorithmException {
-		ResourceBundle rb = ResourceBundle.getBundle("developer");
+		ResourceBundle rb = ResourceBundle.getBundle("properties/developer");
 		profile = rb.getString("activeProfile");
 		if (profile.equals("development")) {
 			login = rb.getString("dev.login");

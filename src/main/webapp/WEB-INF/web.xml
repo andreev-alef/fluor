@@ -46,12 +46,10 @@
    <http-method>GET</http-method>
    <http-method>POST</http-method>
   </web-resource-collection>
-  <!-- ${enable.security.end}
   <auth-constraint>
    <role-name>USER</role-name>
    <role-name>MANAGER</role-name>
   </auth-constraint>
-  ${enable.security.start} -->
  </security-constraint>
  <security-constraint>
   <web-resource-collection>
@@ -60,11 +58,9 @@
    <http-method>GET</http-method>
    <http-method>POST</http-method>
   </web-resource-collection>
-  <!-- ${enable.security.end}
   <auth-constraint>
    <role-name>MANAGER</role-name>
   </auth-constraint>
-  ${enable.security.start} -->
  </security-constraint>
  <security-constraint>
   <web-resource-collection>

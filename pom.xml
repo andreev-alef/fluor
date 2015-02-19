@@ -70,14 +70,30 @@
 	</dependencies>
 
 	<build>
+		<finalName>${project.artifactId}</finalName>
+		
 		<resources>
 			<resource>
         		<directory>src/main/resources</directory>
         		<filtering>true</filtering>
       		</resource>
     	</resources>
-		<finalName>${project.artifactId}</finalName>
+    	
 		<plugins>
+			<plugin>
+          		<artifactId>maven-resources-plugin</artifactId>
+          		<version>2.7</version>
+          		<configuration>
+            		<encoding>UTF-8</encoding>
+            		<nonFilteredFileExtensions>
+              			<nonFilteredFileExtension>xls</nonFilteredFileExtension>
+              			<nonFilteredFileExtension>xlsx</nonFilteredFileExtension>
+              			<nonFilteredFileExtension>jrxml</nonFilteredFileExtension>
+              			<nonFilteredFileExtension>jasper</nonFilteredFileExtension>
+            		</nonFilteredFileExtensions>
+          		</configuration>
+        	</plugin>
+        	
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>properties-maven-plugin</artifactId>
@@ -93,7 +109,6 @@
 							<files>
 								<file>db-creds.properties</file>
 								<file>web-creds.properties</file>
-								<file>dev-creds.properties</file>
 							</files>
 						</configuration>
 					</execution>
@@ -169,16 +184,12 @@
   		<profile>
     		<id>production</id> 
     			<properties>
-    				<enable.security.start>&lt;!--</enable.security.start> 
-    				<enable.security.end>--&gt;</enable.security.end>
     				<profilename>production</profilename>
     			</properties>
   		</profile>
   		<profile>
     		<id>development</id>
     		<properties>
-    			<enable.security.start></enable.security.start> 
-    			<enable.security.end></enable.security.end>
     			<profilename>development</profilename>
     		</properties>
   		</profile>
