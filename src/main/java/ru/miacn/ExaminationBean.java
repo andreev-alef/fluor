@@ -391,10 +391,14 @@ public class ExaminationBean implements Serializable {
 	}
 	
 	private Date lastExam() {
-		if(getPatientParentId() != -1) {
+		if (getPatientParentId() != -1) {
 			String sql="SELECT e.dat FROM examination e WHERE e.patient_id = "+getPatientParentId()+" ORDER BY e.dat DESC LIMIT 1";
 			Query query = em.createNativeQuery(sql);
-			return (Date) query.getResultList().get(0);
+			if (query.getResultList().size() > 0) {
+				return (Date) query.getResultList().get(0);
+			} else {
+				return null;
+			}
 		} else {
 			return null;
 		}
