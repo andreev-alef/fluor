@@ -12,14 +12,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import ru.miacn.fias.FiasEditor;
 import net.sf.jasperreports.engine.JRException;
+import ru.miacn.fias.FiasEditorEditman;
 
 public class ReportServlet extends HttpServlet {
 	private static final long serialVersionUID = 9063662138458031340L;
 	
 	@Inject
-	private FiasEditor fias;
+	private FiasEditorEditman fias;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

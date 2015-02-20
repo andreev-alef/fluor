@@ -5,9 +5,9 @@ import javax.inject.Named;
 
 @Named
 @SessionScoped
-public class FiasEditorFilter extends FiasEditor {
+public class FiasEditorEditman extends FiasEditor {
 
-	private static final long serialVersionUID = -4930806372965059688L;
+	private static final long serialVersionUID = -2331152485479663906L;
 
 	public static void main(String[] args) {
 

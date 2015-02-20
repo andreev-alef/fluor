@@ -6,15 +6,11 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-@Named
-@SessionScoped
-public class FiasEditor implements Serializable {
+public abstract class FiasEditor implements Serializable {
 	private static final long serialVersionUID = 5089683425177113868L;
 
 	@PersistenceContext(unitName = "Fias-PU")

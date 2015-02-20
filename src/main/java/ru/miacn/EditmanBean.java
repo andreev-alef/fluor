@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
 
-import ru.miacn.fias.FiasEditor;
+import ru.miacn.fias.FiasEditorEditman;
 import ru.miacn.fias.FiasElement;
 import ru.miacn.persistence.model.Address;
 import ru.miacn.persistence.model.Patient;
@@ -48,7 +48,7 @@ public class EditmanBean implements Serializable {
 	@Inject
 	private ExaminationBean exam;
 	@Inject
-	private FiasEditor fias;
+	private FiasEditorEditman fias;
 	@Inject
 	private LoginBean login;
 	

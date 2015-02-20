@@ -7,6 +7,7 @@
   xmlns:cc="http://java.sun.com/jsf/composite"
   xmlns:p="http://primefaces.org/ui">
   <cc:interface>
+  	<cc:attribute name="managedBean"/>
   </cc:interface>
   
   <cc:implementation>
@@ -17,7 +18,7 @@
           <p:outputLabel for="fias_reg" value="Регион" />
         </p:column>
         <p:column colspan="3">
-          <p:autoComplete id="fias_reg" value="#{fiasEditor.region}" completeMethod="#{fiasEditor.filterRegion}" converter="#{fiasEditor.regionConverter}" var="r" itemLabel="#{r.formalname}" itemValue="#{r}">
+          <p:autoComplete id="fias_reg" value="#{cc.attrs.managedBean.region}" completeMethod="#{cc.attrs.managedBean.filterRegion}" converter="#{cc.attrs.managedBean.regionConverter}" var="r" itemLabel="#{r.formalname}" itemValue="#{r}">
             <p:ajax />
             <p:ajax event="itemSelect" />
           </p:autoComplete>
@@ -29,7 +30,7 @@
           <p:outputLabel for="fias_gorod" value="Населенный пункт" />
         </p:column>
         <p:column colspan="3">
-          <p:autoComplete id="fias_gorod" value="#{fiasEditor.gorod}" completeMethod="#{fiasEditor.filterGorod}" converter="#{fiasEditor.gorodConverter}" var="r" itemLabel="#{r.formalname}" itemValue="#{r}">
+          <p:autoComplete id="fias_gorod" value="#{cc.attrs.managedBean.gorod}" completeMethod="#{cc.attrs.managedBean.filterGorod}" converter="#{cc.attrs.managedBean.gorodConverter}" var="r" itemLabel="#{r.formalname}" itemValue="#{r}">
             <p:ajax />
             <p:ajax event="itemSelect" />
           </p:autoComplete>
@@ -41,7 +42,7 @@
           <p:outputLabel for="fias_ulica" value="Улица" />
         </p:column>
         <p:column colspan="3">
-          <p:autoComplete id="fias_ulica" value="#{fiasEditor.ulica}" completeMethod="#{fiasEditor.filterUlica}" converter="#{fiasEditor.ulicaConverter}" var="r" itemLabel="#{r.formalname}" itemValue="#{r}">
+          <p:autoComplete id="fias_ulica" value="#{cc.attrs.managedBean.ulica}" completeMethod="#{cc.attrs.managedBean.filterUlica}" converter="#{cc.attrs.managedBean.ulicaConverter}" var="r" itemLabel="#{r.formalname}" itemValue="#{r}">
             <p:ajax />
             <p:ajax event="itemSelect" />
           </p:autoComplete>
@@ -53,14 +54,14 @@
           <p:outputLabel for="fias_dom" value="Дом" />
         </p:column>
         <p:column>
-          <p:inputText id="fias_dom" value="#{fiasEditor.dom}" />
+          <p:inputText id="fias_dom" value="#{cc.attrs.managedBean.dom}" />
         </p:column>
         
         <p:column>
           <p:outputLabel for="fias_korp" value="Корпус" />
         </p:column>
         <p:column>
-          <p:inputText id="fias_korp" value="#{fiasEditor.korp}" />
+          <p:inputText id="fias_korp" value="#{cc.attrs.managedBean.korp}" />
         </p:column>
       </p:row>
       
@@ -69,14 +70,14 @@
           <p:outputLabel for="fias_str" value="Строение" />
         </p:column>
         <p:column>
-          <p:inputText id="fias_str" value="#{fiasEditor.str}" />
+          <p:inputText id="fias_str" value="#{cc.attrs.managedBean.str}" />
         </p:column>
         
         <p:column>
           <p:outputLabel for="fias_kv" value="Квартира" />
         </p:column>
         <p:column>
-          <p:inputText id="fias_kv" value="#{fiasEditor.kv}" />
+          <p:inputText id="fias_kv" value="#{cc.attrs.managedBean.kv}" />
         </p:column>
       </p:row>
     </p:panelGrid>
