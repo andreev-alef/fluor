@@ -108,7 +108,7 @@
 				</p:column>
 
 				<p:column headerText="Дата последнего обследования">
-				  <p:commandLink value="#{v.exam.dat}" id="data-exam" update=":browseExamId" oncomplete="PF('browseExamVar').show()" actionListener="#{listmanBean.setSelectedFIO(v.lastName, v.firstName, v.fatherName)}" action="#{examinationBean.loadExam(v.id, v.patientId.id, false)}" class="link-only">
+				  <p:commandLink value="#{v.exam.dat}" id="data-exam" update=":browseExamId" oncomplete="PF('browseExamVar').show()" actionListener="#{listmanBean.setSelectedFIO(v.lastName, v.firstName, v.fatherName)}" action="#{examinationBean.loadExam(v.id, v.patientId.id, false)}" class="#{examinationBean.NotSurveyed(v.id, v.patientId.id, v.exam.dat) ? 'link-only--red' : 'link-only'}">
 					<h:outputText>
 					  <f:convertDateTime locale="#{applicationBean.locale.language}" />
 					</h:outputText>

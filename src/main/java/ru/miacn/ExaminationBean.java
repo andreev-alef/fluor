@@ -72,6 +72,7 @@ public class ExaminationBean implements Serializable {
 	
 	private boolean editMode;
 	private boolean haveNotSurveyed;
+	private Date lastExam;
 	
 	@PostConstruct
 	private void init() {
@@ -403,12 +404,19 @@ public class ExaminationBean implements Serializable {
 	}
 	
 	private void haveNotSurvived() {
-		Date lastExam = lastExam();
-		if (lastExam != null) {
+		Date last;
+		
+		if (this.lastExam == null) {
+			last = lastExam();
+		} else {
+			last = lastExam;
+		}
+		
+		if (last != null && !patientIsDead()) {
 			Date now = new Date();
 			int daysToExam = 730;
 			Patient pat = em.find(Patient.class, getPatientId());
-			long difference = now.getTime()- lastExam.getTime() ;
+			long difference = now.getTime()- last.getTime() ;
 			long days = difference / (24 * 60 * 60 * 1000);
 
 			if((pat.getDecrGroup() != null) || (pat.getMedGroup() != null)) {
@@ -427,6 +435,15 @@ public class ExaminationBean implements Serializable {
 		} else {
 			setHaveNotSurveyed(false);
 		}
+	}
+	
+	public Boolean NotSurveyed(int patientId, int parentId, Date lastExam) {
+		setPatientId(patientId);
+		setPatientParentId(parentId);
+		this.lastExam = lastExam;
+		haveNotSurvived();
+		this.lastExam = null;
+		return isHaveNotSurveyed();
 	}
 
 	public List<RExamMethod> getExmList() {
