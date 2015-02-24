@@ -109,9 +109,7 @@ public class ExaminationBean implements Serializable {
     	
     	setEditMode(isEditMode() && !patientIsDead());
     	
-    	if(lastExam() !=null) {
-    		haveNotSurvived();
-    	}
+    	haveNotSurvived();
     }
 
 	public void findExam(int exId) {
@@ -405,23 +403,27 @@ public class ExaminationBean implements Serializable {
 	}
 	
 	private void haveNotSurvived() {
-		Date now = new Date();
-		int daysToExam = 730;
-		Patient pat = em.find(Patient.class, getPatientId());
-		
-		long difference = now.getTime()- lastExam().getTime() ;
-		long days = difference / (24 * 60 * 60 * 1000);
+		Date lastExam = lastExam();
+		if (lastExam != null) {
+			Date now = new Date();
+			int daysToExam = 730;
+			Patient pat = em.find(Patient.class, getPatientId());
+			long difference = now.getTime()- lastExam.getTime() ;
+			long days = difference / (24 * 60 * 60 * 1000);
 
-		if((pat.getDecrGroup() != null) || (pat.getMedGroup() != null)) {
+			if((pat.getDecrGroup() != null) || (pat.getMedGroup() != null)) {
 			daysToExam=365;
-		}
+			}
 		
-		if(pat.getSocGroup() !=null) {
-			daysToExam = 182;
-		}
+			if(pat.getSocGroup() !=null) {
+				daysToExam = 182;
+			}
 		
-		if(days > daysToExam){
-			setHaveNotSurveyed(true);
+			if(days > daysToExam){
+				setHaveNotSurveyed(true);
+			} else {
+				setHaveNotSurveyed(false);
+			}
 		} else {
 			setHaveNotSurveyed(false);
 		}
