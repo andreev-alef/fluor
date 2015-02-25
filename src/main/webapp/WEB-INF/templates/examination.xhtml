@@ -25,7 +25,7 @@
        	 	</p:outputPanel>  
 		</p:outputPanel>  
 	<p:scrollPanel mode="native" style="max-height: 350px"> 
-	<p:dataTable id="examTable" var="item" value="#{examinationBean.examinations}" class="my-table exam my-table--fixed">
+	<p:dataTable id="examTable" var="item" value="#{examinationBean.examinations}" class="my-table exam my-table--fixed" emptyMessage="#{msg['ExamList.Empty']}">
         <p:column headerText="Дата"> 
 			<p:outputPanel class="move">  
 			  <h:outputText value="#{item.dat}" >

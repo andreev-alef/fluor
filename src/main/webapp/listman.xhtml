@@ -61,7 +61,7 @@
 				rowsPerPageTemplate="5, 10, 15"
 				paginatorPosition="bottom"
 				rowStyleClass="#{v.datDeath != null ? 'patient-death--table' : 'patient-living--table'}"				
-				class="my-table my-table--auto patient__table patient__table--str">
+				class="my-table my-table--auto patient__table patient__table--str" emptyMessage="#{msg['PatList.Empty']}">
 				<p:ajax event="page" listener="#{listmanBean.onPageChange}" />
 				<p:column headerText="Информация о пациенте">				   
 				    <p:link id="view" class="ui-icon ui-icon-open" outcome="viewman">					        
