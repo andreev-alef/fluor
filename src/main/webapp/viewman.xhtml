@@ -38,12 +38,12 @@
      
   <p:panel header="Информация о пациенте" class="blok-out">
   
-  <p:outputPanel rendered="#{editmanBean.patient.datDeath != null}" class="blok-button--above--left"> 
-      <p:outputPanel class="button-link patient-death">
-      <p:outputPanel class="ui-icon ui-icon-warning"/>
-      <p:outputLabel value="Пациент числится умершим"/>
-      </p:outputPanel>  
-  </p:outputPanel>
+  	<p:outputPanel rendered="#{editmanBean.patient.datDeath != null}" class="blok-button--above--left"> 
+      	<p:outputPanel class="button-link patient-death">
+      		<p:outputPanel class="ui-icon ui-icon-warning"/>
+     		<p:outputLabel value="Пациент числится умершим"/>
+ 	 	</p:outputPanel>  
+     </p:outputPanel>
   
   <div class="blok-button--above--right">   
        <p:link outcome="editman" class="button-link button-link--blue">
@@ -129,19 +129,11 @@
   <p:panel class="blok odin-blok" >
     <div class="blok__name">Обследования</div>
     <div class="blok__content--under">
-    
-    <ui:include src="WEB-INF/templates/examination.xhtml" />
+    	<ui:include src="WEB-INF/templates/examination.xhtml" />
     </div>
   </p:panel>
-  
   </p:panel>
   </p:outputPanel>
   </p:outputPanel>
-
-
-
-
-  
-
 </h:body>
 </html>

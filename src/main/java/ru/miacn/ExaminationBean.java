@@ -1,5 +1,6 @@
 package ru.miacn;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,6 +11,7 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -17,6 +19,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import ru.miacn.persistence.model.Examination;
@@ -178,7 +183,7 @@ public class ExaminationBean implements Serializable {
 		}
     }
 	
-	private Boolean patientIsDead() {
+	public Boolean patientIsDead() {
 		Patient pat = em.find(Patient.class, getPatientId());
 		
 		if (pat == null)
@@ -444,6 +449,18 @@ public class ExaminationBean implements Serializable {
 		haveNotSurvived();
 		this.lastExam = null;
 		return isHaveNotSurveyed();
+	}
+	
+	public void printReport(int id, boolean pdf) throws IOException, ServletException {
+		FacesContext ctx = FacesContext.getCurrentInstance();
+		ExternalContext ec = ctx.getExternalContext();
+		HttpServletRequest req = (HttpServletRequest) ec.getRequest();
+		HttpSession ses = req.getSession();
+		
+		ses.setAttribute("id", id);
+		ses.setAttribute("pdf", pdf);
+		ses.setAttribute("patId", getPatientId());
+		ec.redirect("report");
 	}
 
 	public List<RExamMethod> getExmList() {

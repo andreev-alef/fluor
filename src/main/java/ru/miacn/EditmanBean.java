@@ -1,6 +1,5 @@
 package ru.miacn;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,16 +9,11 @@ import java.util.UUID;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
 
 import ru.miacn.fias.FiasEditorEditman;
@@ -265,18 +259,6 @@ public class EditmanBean implements Serializable {
 		addr.setLivFacility(fias.getKorp());
 		addr.setLivBuilding(fias.getStr());
 		addr.setLivFlat(fias.getKv());
-	}
-	
-	public void printReport(int id, boolean pdf) throws IOException, ServletException {
-		FacesContext ctx = FacesContext.getCurrentInstance();
-		ExternalContext ec = ctx.getExternalContext();
-		HttpServletRequest req = (HttpServletRequest) ec.getRequest();
-		HttpSession ses = req.getSession();
-		
-		ses.setAttribute("id", id);
-		ses.setAttribute("pdf", pdf);
-		ses.setAttribute("patId", getPatient().getId());
-		ec.redirect("report");
 	}
 	
 	public Patient getPatient() {

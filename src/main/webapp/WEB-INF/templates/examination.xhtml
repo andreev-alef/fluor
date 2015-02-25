@@ -7,13 +7,23 @@
   xmlns:p="http://primefaces.org/ui">
   <h:body>
   <h:form id="frmExam">
-        <p:panel class="move-up exam--str">
-	<p:outputPanel rendered="#{examinationBean.editMode}" class="blok-button--within">
-	  <p:outputPanel class="not-overlay button-link button-link--blue"> 
-	  <p:commandLink class="ui-icon ui-icon-Document-Add"  update=":frmEdtExamId:pnlExamEdtId" oncomplete="PF('edtExamVar').show()" action="#{examinationBean.findExam(0)}"/>
-          <p:commandLink id="btn-addexam" value="Добавить обследование" update=":frmEdtExamId:pnlExamEdtId" oncomplete="PF('edtExamVar').show()" action="#{examinationBean.findExam(0)}"/>
-          </p:outputPanel>
-	</p:outputPanel>  
+  	<p:panel class="move-up exam--str">
+		<p:outputPanel rendered="#{!examinationBean.patientIsDead()}" class="blok-button--within">
+	  		<p:outputPanel class="not-overlay button-link button-link--blue" style="#{examinationBean.editMode ? 'display:inline-block' : 'display:none'}"> 
+	  			<p:commandLink class="ui-icon ui-icon-Document-Add"  update=":frmEdtExamId:pnlExamEdtId" oncomplete="PF('edtExamVar').show()" action="#{examinationBean.findExam(0)}"/>
+          		<p:commandLink id="btn-addexam" value="Добавить обследование" update=":frmEdtExamId:pnlExamEdtId" oncomplete="PF('edtExamVar').show()" action="#{examinationBean.findExam(0)}"/>
+          	</p:outputPanel>
+          	<p:outputPanel class="not-overlay button-link button-link--blue margin-left--big" style="#{!examinationBean.patientIsDead() ? 'display:inline-block' : 'display:none'}">
+          		<p:commandLink id="btn-print" action="#{examinationBean.printReport(4, true)}">
+			  		<p:outputPanel class="ui-icon ui-icon-lett" />
+              		<h:outputText value="Печать направления на флюорографию" />
+         		</p:commandLink>
+         	</p:outputPanel>
+      	 	<p:outputPanel  id="surveyedmsg" class="not-overlay button-link patient-death margin-left--big"  style="#{examinationBean.haveNotSurveyed ? 'display:inline-block' : 'display:none'}">
+      	 		<p:outputPanel class="ui-icon ui-icon-warning"/>
+      			<p:outputLabel value="Пациент давно не проходил обследование"/>
+       	 	</p:outputPanel>  
+		</p:outputPanel>  
 	<p:scrollPanel mode="native" style="max-height: 350px"> 
 	<p:dataTable id="examTable" var="item" value="#{examinationBean.examinations}" class="my-table exam my-table--fixed">
         <p:column headerText="Дата"> 
@@ -114,7 +124,7 @@
 	      
 		<p:outputPanel class="blok-button--within--down">
 			<p:messages id="msg-exam" autoUpdate="false" />
-			<p:commandButton id="btn-saveexam" value="Сохранить" update=":frmExam:examTable msg-exam" action="#{examinationBean.saveExam()}" oncomplete="if (args &amp;&amp; !args.validationFailed) PF('edtExamVar').hide()" class="button-volume button-volume--mini" icon="ui-icon-save"/>
+			<p:commandButton id="btn-saveexam" value="Сохранить" update=":frmExam:examTable msg-exam :frmExam:surveyedmsg" action="#{examinationBean.saveExam()}" oncomplete="if (args &amp;&amp; !args.validationFailed) PF('edtExamVar').hide()" class="button-volume button-volume--mini" icon="ui-icon-save"/>
 			<p:commandButton id="btn-cancelexam" value="Отменить" immediate="true" oncomplete="PF('edtExamVar').hide()" class="button-volume button-volume--mini margin-left--big" icon="ui-icon-undo"/>
 	       </p:outputPanel>
 	      </p:outputPanel>
@@ -139,7 +149,7 @@
               <h:outputText id="p5" value="#{examinationBean.selectedExamination.RVerification.name}" />
             </h:panelGrid>
 	    	<p:outputPanel class="blok-button--within--down">
-            	<p:commandButton id="btn-confirmdel" value="Удалить" update=":frmExam:examTable" action="#{examinationBean.delExam()}" oncomplete="PF('delExamVar').hide()" class="button-volume button-volume--mini" icon="ui-icon-delete"/>
+            	<p:commandButton id="btn-confirmdel" value="Удалить" update=":frmExam:examTable :frmExam:surveyedmsg" action="#{examinationBean.delExam()}" oncomplete="PF('delExamVar').hide()" class="button-volume button-volume--mini" icon="ui-icon-delete"/>
 				<p:commandButton id="btn-canceldel" value="Отменить" oncomplete="PF('delExamVar').hide()" class="button-volume button-volume--mini margin-left--big" icon="ui-icon-undo"/>
             </p:outputPanel>
 	  	</p:dialog>
