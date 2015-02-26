@@ -40,8 +40,12 @@ public abstract class FiasEditor implements Serializable {
 	public List<FiasElement> filterRegion(String cond) {
 		TypedQuery<FiasElement> q = em.createQuery("SELECT r FROM " + FiasElement.class.getName() + " r WHERE (LOWER(r.formalname) LIKE ?1) AND (r.aolevel = 1) AND (r.actstatus = 1) ORDER BY r.formalname", FiasElement.class);
 		
-		q.setParameter(1, cond.toLowerCase() + "%");
-		setRegionList(q.getResultList());
+		cond = cond.replaceAll("^\\s+", "");
+		
+		if (!cond.isEmpty()) {	
+			q.setParameter(1, cond.toLowerCase() + "%");
+			setRegionList(q.getResultList());
+		}
 		
 		return getRegionList();
 	}
@@ -50,9 +54,14 @@ public abstract class FiasEditor implements Serializable {
 		if ((getRegion() != null) && (!getRegion().getAoid().isEmpty())) {
 			TypedQuery<FiasElement> q = em.createQuery("SELECT r FROM " + FiasElement.class.getName() + " r WHERE (LOWER(r.formalname) LIKE ?1) AND (r.regioncode = ?2) AND (r.aolevel BETWEEN 4 AND 6) AND (r.actstatus = 1) ORDER BY r.formalname", FiasElement.class);
 			
-			q.setParameter(1, cond.toLowerCase() + "%");
-			q.setParameter(2, getRegion().getRegioncode());
-			setGorodList(q.getResultList());
+			cond = cond.replaceAll("^\\s+", "");
+			
+			if (!cond.isEmpty()) {
+				q.setParameter(1, cond.toLowerCase() + "%");
+				q.setParameter(2, getRegion().getRegioncode());
+				setGorodList(q.getResultList());
+			}
+			
 		} else {
 			setGorodList(new ArrayList<FiasElement>());
 		}
@@ -65,11 +74,16 @@ public abstract class FiasEditor implements Serializable {
 				(getGorod() != null) && (!getGorod().getAoid().isEmpty())) {
 			TypedQuery<FiasElement> q = em.createQuery("SELECT r FROM " + FiasElement.class.getName() + " r WHERE (LOWER(r.formalname) LIKE ?1) AND (r.regioncode = ?2) AND (r.citycode = ?3) AND (r.placecode = ?4) AND (r.aolevel = 7) AND (r.actstatus = 1) ORDER BY r.formalname", FiasElement.class);
 			
-			q.setParameter(1, cond.toLowerCase() + "%");
-			q.setParameter(2, getRegion().getRegioncode());
-			q.setParameter(3, getGorod().getCitycode());
-			q.setParameter(4, getGorod().getPlacecode());
-			setUlicaList(q.getResultList());
+			cond = cond.replaceAll("^\\s+", "");
+			
+			if (!cond.isEmpty()) {
+				q.setParameter(1, cond.toLowerCase() + "%");
+				q.setParameter(2, getRegion().getRegioncode());
+				q.setParameter(3, getGorod().getCitycode());
+				q.setParameter(4, getGorod().getPlacecode());
+				setUlicaList(q.getResultList());
+			}
+			
 		} else {
 			setUlicaList(new ArrayList<FiasElement>());
 		}
