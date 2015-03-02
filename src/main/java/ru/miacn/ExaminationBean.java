@@ -173,6 +173,7 @@ public class ExaminationBean implements Serializable {
 			setSelectedMor(null);
 			setSelectedMot(null);
 			setSelectedMom(null);
+			moFromUser();
 		}
     }
 
@@ -217,8 +218,6 @@ public class ExaminationBean implements Serializable {
 		}
 	}
 	
-	
-
 	public List<Examination> getExaminations() {
 		return examinations;
 	}
@@ -504,6 +503,18 @@ public class ExaminationBean implements Serializable {
 		ses.setAttribute("pdf", pdf);
 		ses.setAttribute("patId", getPatientId());
 		ec.redirect("report");
+	}
+	
+	public void moFromUser() {
+		if (login.getAuthedUser().getrMedicalOrgPoliclinic() != null) {
+			setSelectedMor(login.getAuthedUser().getrMedicalOrgPoliclinic().getRMedicalOrgMain().getRMedicalOrgTer().getRMedicalOrgRegion());
+			morSelected();
+			
+			setSelectedMot(login.getAuthedUser().getrMedicalOrgPoliclinic().getRMedicalOrgMain().getRMedicalOrgTer());
+			motSelected();
+			
+			setSelectedMom(login.getAuthedUser().getrMedicalOrgPoliclinic().getRMedicalOrgMain());
+		}
 	}
 
 	public List<RExamMethod> getExmList() {
