@@ -102,6 +102,7 @@ public class EditmanBean implements Serializable {
 		setMedList(em.createQuery("SELECT r FROM " + RMedGroup.class.getName() + " r ORDER BY r.id", RMedGroup.class).getResultList());
 		setSocList(em.createQuery("SELECT r FROM " + RSocGroup.class.getName() + " r ORDER BY r.id", RSocGroup.class).getResultList());
 		setMoRegionList(em.createQuery("SELECT r FROM " + RMedicalOrgRegion.class.getName() + " r ORDER BY r.id", RMedicalOrgRegion.class).getResultList());
+		
 	}
 	
 	public void loadPatient(String idStr) {
@@ -118,6 +119,7 @@ public class EditmanBean implements Serializable {
 			setMoTerList(new ArrayList<RMedicalOrgTer>());
 			setMoMainList(new ArrayList<RMedicalOrgMain>());
 			setMoPoliclinicList(new ArrayList<RMedicalOrgPoliclinic>());
+			morFromUser();
 			
 			newPatient = true;
 		} else {
@@ -163,6 +165,13 @@ public class EditmanBean implements Serializable {
 			
 			exam.loadExam(id, getPatient().getPatientId().getId(), isEditMode());
 			setFiasValues();
+		}
+	}
+	
+	private void morFromUser() {
+		if (login.getAuthedUser().getrMedicalOrgPoliclinic() != null) {
+			setSelectedMor(login.getAuthedUser().getrMedicalOrgPoliclinic().getRMedicalOrgMain().getRMedicalOrgTer().getRMedicalOrgRegion());
+			morSelected();
 		}
 	}
 	
