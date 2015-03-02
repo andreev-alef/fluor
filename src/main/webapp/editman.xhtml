@@ -187,15 +187,23 @@
 		
 		<p:outputPanel class="blok-button--within--down">
 		  <p:messages id="msg-editman" autoUpdate="false" />
-		  <p:commandButton id="btn-savepat" value="Сохранить" update="adr msg-editman" action="#{editmanBean.savePatientAndRedirect()}" class="button-volume button-volume--mini" icon="ui-icon-save"/>
+		  <p:commandButton id="btn-savepat" value="Сохранить" update="adr msg-editman" 
+		  	action="#{editmanBean.savePatientAndRedirect()}"
+		  	oncomplete="if (args &amp;&amp; !args.validationFailed) PF('cd').show()" class="button-volume button-volume--mini" icon="ui-icon-save"/>
 		  <p:button id="btn-cancelpat" value="Отменить" outcome="listman" class="button-volume button-volume--mini margin-left--big" icon="ui-icon-undo"/>
 		</p:outputPanel>
     </p:panel>
+    	<p:confirmDialog message="Добавить обследование пациенту или вернуться на главную страницу?" 
+    		header="Выберите действие" widgetVar="cd" class="my-overlay" rendered="#{editmanBean.newPatient}">
+    		<p:outputPanel class="blok-button--within--down">	
+    			<p:commandLink id="addexambtn" value="Добавить обследования" action="#{editmanBean.redirectEditman()}" class="button-volume button-volume--link"/>
+    			<p:commandLink id="gotolistbtn" value="Вернуться на главную" action="listman.xhtml?faces-redirect=true" class="button-volume button-volume--link margin-left--big"/>
+    		</p:outputPanel>
+    	</p:confirmDialog>
 	</h:form>
 
 </p:outputPanel>	
 </p:outputPanel>
-   	
    	<h:form id="frmException" >
 	    <p:ajaxExceptionHandler type="java.lang.Exception"
 	                            update="exceptionDialog"

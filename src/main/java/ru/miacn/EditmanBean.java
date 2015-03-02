@@ -78,6 +78,7 @@ public class EditmanBean implements Serializable {
 	private List<RMedicalOrgPoliclinic> moPoliclinicList;
 	
 	private boolean editMode = false;
+	private boolean newPatient;
 	
 	@PostConstruct
 	private void init() {
@@ -117,10 +118,14 @@ public class EditmanBean implements Serializable {
 			setMoTerList(new ArrayList<RMedicalOrgTer>());
 			setMoMainList(new ArrayList<RMedicalOrgMain>());
 			setMoPoliclinicList(new ArrayList<RMedicalOrgPoliclinic>());
+			
+			newPatient = true;
 		} else {
 			int id = Integer.parseInt(idStr);
 			
 			setPatient(em.find(Patient.class, id));
+			
+			newPatient = false;
 			
 			if (getPatient().getRMedicalOrgPoliclinic() != null) {
 				for (i = 0; i < moRegionList.size(); i++) {
@@ -193,7 +198,15 @@ public class EditmanBean implements Serializable {
 	public String savePatientAndRedirect() throws Exception {
 		savePatient();
 		
-		return "listman.xhtml?faces-redirect=true";
+		if (newPatient) {
+			return "";
+		} else {		
+			return "listman.xhtml?faces-redirect=true";
+		}
+	}
+	
+	public String redirectEditman(){
+		return "editman.xhtml?faces-redirect=true&patId="+patient.getId()+"&editable=true";
 	}
 	
 	public void savePatient() throws Exception {
@@ -529,5 +542,13 @@ public class EditmanBean implements Serializable {
 
 	public void setEditMode(boolean editMode) {
 		this.editMode = editMode;
+	}
+
+	public boolean isNewPatient() {
+		return newPatient;
+	}
+
+	public void setNewPatient(boolean newPatient) {
+		this.newPatient = newPatient;
 	}
 }
