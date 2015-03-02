@@ -24,8 +24,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
+import ru.miacn.orm.PatientGroupsOrm;
+import ru.miacn.orm.PatientOrm;
 import ru.miacn.persistence.model.Examination;
-import ru.miacn.persistence.model.Patient;
 import ru.miacn.persistence.model.PatientId;
 import ru.miacn.persistence.reference.ListConverter;
 import ru.miacn.persistence.reference.RExamMethod;
@@ -76,8 +77,11 @@ public class ExaminationBean implements Serializable {
 	private RVerification selectedVer;
 	
 	private boolean editMode;
+	
 	private boolean haveNotSurveyed;
-	private Date lastExam;
+	private PatientOrm patientOrm;
+	private PatientGroupsOrm patientGroups;
+	
 	
 	@PostConstruct
 	private void init() {
@@ -112,11 +116,29 @@ public class ExaminationBean implements Serializable {
    		params.put("id", getPatientParentId());
     	
     	setExaminations(JpaUtils.getNativeResultList(em, sql, params, Examination.class));
+		
+    	getGroupsAndDateDeath();
     	
     	setEditMode(isEditMode() && !patientIsDead());
     	
-    	haveNotSurvived();
+    	haveNotSurveyed();
     }
+	
+	private void getGroupsAndDateDeath() {
+		String sqlGroups = ""
+    			+ "SELECT  p.id, "
+    			+ "p.soc_group_id AS socGroup, p.med_group_id AS medGroup, p.decr_group_id AS decrGroup, "
+    			+ "p.dat_death AS datDeath "
+    			+ "FROM patient p "
+    			+ "WHERE p.id = :patientId";
+				
+		Query query = em.createNativeQuery(sqlGroups, PatientGroupsOrm.class);
+		query.setParameter("patientId", getPatientId());
+		
+		if (query.getResultList().size() > 0) {
+			patientGroups = (PatientGroupsOrm) query.getResultList().get(0);
+		}
+	}
 
 	public void findExam(int exId) {
 		if (exId == 0){
@@ -184,13 +206,18 @@ public class ExaminationBean implements Serializable {
     }
 	
 	public Boolean patientIsDead() {
-		Patient pat = em.find(Patient.class, getPatientId());
-		
-		if (pat == null)
+		if (patientGroups != null) {
+			if (patientGroups.getDatDeath() == null) {
+				return false;
+			} else {
+				return true;
+			}
+		} else {
 			return false;
-		else
-			return pat.getDatDeath() != null;
+		}
 	}
+	
+	
 
 	public List<Examination> getExaminations() {
 		return examinations;
@@ -394,10 +421,12 @@ public class ExaminationBean implements Serializable {
 		setSelectedMom(null);
 	}
 	
+	
 	private Date lastExam() {
-		if (getPatientParentId() != -1) {
-			String sql="SELECT e.dat FROM examination e WHERE e.patient_id = "+getPatientParentId()+" ORDER BY e.dat DESC LIMIT 1";
+		if (getPatientId() != -1) {
+			String sql="SELECT e.dat FROM examination e WHERE e.patient_id = :patientParentId ORDER BY e.dat DESC LIMIT 1";
 			Query query = em.createNativeQuery(sql);
+			query.setParameter("patientParentId", getPatientParentId());
 			if (query.getResultList().size() > 0) {
 				return (Date) query.getResultList().get(0);
 			} else {
@@ -408,31 +437,47 @@ public class ExaminationBean implements Serializable {
 		}
 	}
 	
-	private void haveNotSurvived() {
+	private void haveNotSurveyed() {
 		Date last;
+		Date datDeath;
+		Integer medGroupId;
+		Integer socGroupId;
+		Integer decrGroupId;
 		
-		if (this.lastExam == null) {
-			last = lastExam();
+		if (this.patientOrm == null) {
+			if (patientGroups != null) {
+					last = lastExam();
+					datDeath = patientGroups.getDatDeath();
+					medGroupId = patientGroups.getMedGroup();
+					socGroupId = patientGroups.getSocGroup();
+					decrGroupId = patientGroups.getDecrGroup();
+			} else {
+				setHaveNotSurveyed(false);
+				return;
+			}
 		} else {
-			last = lastExam;
+			last = patientOrm.getLastExam();
+			datDeath = patientOrm.getDatDeath();
+			medGroupId = patientOrm.getMedGroup();
+			socGroupId = patientOrm.getSocGroup();
+			decrGroupId = patientOrm.getDecrGroup();
 		}
 		
-		if (last != null && !patientIsDead()) {
+		if (last != null && datDeath == null) {
 			Date now = new Date();
 			int daysToExam = 730;
-			Patient pat = em.find(Patient.class, getPatientId());
 			long difference = now.getTime()- last.getTime() ;
 			long days = difference / (24 * 60 * 60 * 1000);
 
-			if((pat.getDecrGroup() != null) || (pat.getMedGroup() != null)) {
-			daysToExam=365;
+			if ((decrGroupId != null) || (medGroupId != null)) {
+				daysToExam=365;
 			}
 		
-			if(pat.getSocGroup() !=null) {
+			if (socGroupId !=null) {
 				daysToExam = 182;
 			}
 		
-			if(days > daysToExam){
+			if (days > daysToExam) {
 				setHaveNotSurveyed(true);
 			} else {
 				setHaveNotSurveyed(false);
@@ -442,13 +487,11 @@ public class ExaminationBean implements Serializable {
 		}
 	}
 	
-	public Boolean NotSurveyed(int patientId, int parentId, Date lastExam) {
-		setPatientId(patientId);
-		setPatientParentId(parentId);
-		this.lastExam = lastExam;
-		haveNotSurvived();
-		this.lastExam = null;
-		return isHaveNotSurveyed();
+	public Boolean NotSurveyed(PatientOrm patientOrm) {
+		this.patientOrm =patientOrm;
+		haveNotSurveyed();
+		this.patientOrm = null;
+		return haveNotSurveyed;
 	}
 	
 	public void printReport(int id, boolean pdf) throws IOException, ServletException {

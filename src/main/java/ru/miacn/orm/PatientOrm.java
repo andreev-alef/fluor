@@ -6,17 +6,11 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 import ru.miacn.persistence.model.Address;
-import ru.miacn.persistence.model.Examination;
-import ru.miacn.persistence.model.PatientId;
-import ru.miacn.persistence.reference.RGender;
 
 @Entity
 public class PatientOrm {
@@ -26,10 +20,8 @@ public class PatientOrm {
 	private Boolean verActive;
 	@Column(name = "_ver_creation_date")
 	private Date verCreationDate;
-	@ManyToOne
-	@JoinColumn(name = "_ver_parent_id")
 	@NotNull
-	private PatientId patientId;
+	private Integer patientId;
 	@Column(name = "dat_birth")
 	@Temporal(TemporalType.DATE)
 	private Date datBirth;
@@ -42,14 +34,16 @@ public class PatientOrm {
 	private String firstName;
 	@Column(name = "last_name")
 	private String lastName;
-	@OneToOne
-	@JoinColumn(name = "sex_id")
-	private RGender gender;
+	private String gender;
 	@Embedded
 	private Address address;
-	@OneToOne
-	@JoinColumn(name = "last_exam_id")
-	private Examination exam;
+	@Temporal(TemporalType.DATE)
+	private Date lastExam;
+	private String result;
+	private String verification;
+	private Integer socGroup;
+	private Integer medGroup;
+	private Integer decrGroup;
 
 	public Integer getId() {
 		return this.id;
@@ -73,14 +67,6 @@ public class PatientOrm {
 
 	public void setVerCreationDate(Date verCreationDate) {
 		this.verCreationDate = verCreationDate;
-	}
-
-	public PatientId getPatientId() {
-		return this.patientId;
-	}
-
-	public void setPatientId(PatientId patientId) {
-		this.patientId = patientId;
 	}
 
 	public Date getDatBirth() {
@@ -123,14 +109,6 @@ public class PatientOrm {
 		this.lastName = lastName;
 	}
 
-	public RGender getGender() {
-		return gender;
-	}
-
-	public void setGender(RGender gender) {
-		this.gender = gender;
-	}
-
 	public Address getAddress() {
 		return address;
 	}
@@ -139,11 +117,67 @@ public class PatientOrm {
 		this.address = address;
 	}
 
-	public Examination getExam() {
-		return exam;
+	public Date getLastExam() {
+		return lastExam;
 	}
 
-	public void setExam(Examination exam) {
-		this.exam = exam;
+	public void setLastExam(Date lastExam) {
+		this.lastExam = lastExam;
+	}
+
+	public String getResult() {
+		return result;
+	}
+
+	public void setResult(String result) {
+		this.result = result;
+	}
+
+	public String getVerification() {
+		return verification;
+	}
+
+	public void setVerification(String verification) {
+		this.verification = verification;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public Integer getPatientId() {
+		return patientId;
+	}
+
+	public void setPatientId(Integer patientId) {
+		this.patientId = patientId;
+	}
+
+	public Integer getSocGroup() {
+		return socGroup;
+	}
+
+	public void setSocGroup(Integer socGroup) {
+		this.socGroup = socGroup;
+	}
+
+	public Integer getMedGroup() {
+		return medGroup;
+	}
+
+	public void setMedGroup(Integer medGroup) {
+		this.medGroup = medGroup;
+	}
+
+	public Integer getDecrGroup() {
+		return decrGroup;
+	}
+
+	public void setDecrGroup(Integer decrGroup) {
+		this.decrGroup = decrGroup;
 	}
 }
