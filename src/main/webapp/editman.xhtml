@@ -43,6 +43,12 @@
   <h:form id="frmInf">
     
     <p:panel header="Информация о пациенте" class="blok-out">
+      	<p:outputPanel rendered="#{editmanBean.patient.datDeath != null}" class="blok-button--above--left"> 
+	      	<p:outputPanel class="button-link patient-death">
+	      		<p:outputPanel class="ui-icon ui-icon-warning"/>
+	     		<p:outputLabel value="Пациент числится умершим"/>
+	 	 	</p:outputPanel>  
+	     </p:outputPanel>
 	 <p:panel header="Персональные данные" class="blok dva-bloka">
 	     <p:panelGrid class="invis invis--colspan personal-data--str">
 		  <p:row> <p:column></p:column> <p:column></p:column> <p:column></p:column> <p:column></p:column> </p:row> 		
