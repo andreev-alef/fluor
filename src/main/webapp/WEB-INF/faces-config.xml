@@ -8,6 +8,9 @@
 		<el-resolver>
 			org.primefaces.application.exceptionhandler.PrimeExceptionHandlerELResolver
 		</el-resolver>
+		<locale-config>
+			<default-locale>ru_RU</default-locale>
+		</locale-config>
 		<message-bundle>
 			Messages
 		</message-bundle>
