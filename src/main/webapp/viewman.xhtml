@@ -63,7 +63,9 @@
       <p:outputLabel id="fio" value="#{editmanBean.patient.lastName} #{editmanBean.patient.firstName} #{editmanBean.patient.fatherName}" />
       
       <p:outputLabel for="dr" value="Дата рождения" />
-      <p:outputLabel id="dr" value="#{editmanBean.patient.datBirth}" />
+      <p:outputLabel id="dr" value="#{editmanBean.patient.datBirth}">
+		  <f:convertDateTime locale="#{applicationBean.locale.language}" />
+      </p:outputLabel>
       
       <p:outputLabel for="sex" value="Пол" />
       <p:outputLabel id="sex" value="#{editmanBean.patient.gender.name}" />
@@ -72,7 +74,9 @@
       <p:outputLabel id="grj" value="#{editmanBean.patient.citizen.name}" />
       
       <p:outputLabel for="ds" value="Дата смерти" rendered="#{editmanBean.patient.datDeath != null}"/>
-      <p:outputLabel id="ds" value="#{editmanBean.patient.datDeath}" rendered="#{editmanBean.patient.datDeath != null}"/>
+      <p:outputLabel id="ds" value="#{editmanBean.patient.datDeath}" rendered="#{editmanBean.patient.datDeath != null}">
+		  <f:convertDateTime locale="#{applicationBean.locale.language}" />
+      </p:outputLabel>
       
       <p:outputLabel for="addr" value="Адрес" />
       <p:outputLabel id="addr" value="#{editmanBean.getAddress()}" />
