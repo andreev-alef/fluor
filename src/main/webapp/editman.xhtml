@@ -84,7 +84,8 @@
 	        	<p:outputLabel for="dr" value="Дата рождения" />
 			</p:column>
 			<p:column>
-				<p:calendar id="dr" value="#{editmanBean.patient.datBirth}" required="true" locale="ru" pattern="#{applicationBean.dateFormat.toPattern()}" />
+				<p:calendar id="dr" value="#{editmanBean.patient.datBirth}" required="true" locale="ru" pattern="#{applicationBean.dateFormat.toPattern()}"
+					binding="#{birthDateComponent}" />
 			</p:column>
 			
 			<p:column>
@@ -115,7 +116,10 @@
 	        	<p:outputLabel for="ds" value="Дата смерти" />
 			</p:column>
 			<p:column colspan="3">
-				<p:calendar id="ds" value="#{editmanBean.patient.datDeath}" locale="ru" pattern="#{applicationBean.dateFormat.toPattern()}" class="data"/>
+				<p:calendar id="ds" value="#{editmanBean.patient.datDeath}" locale="ru" pattern="#{applicationBean.dateFormat.toPattern()}" class="data">
+					<f:validator validatorId="dateDeathValidator" />
+    				<f:attribute name="birthDateComponent" value="#{birthDateComponent}" />
+				</p:calendar>
 			</p:column>
 			</p:row>
 			
