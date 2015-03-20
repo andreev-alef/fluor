@@ -184,39 +184,11 @@
 			    </p:panel>
 			
 			    <p:panel header="МО прикрепления пациентa по ОМС" class="blok-overlay">				
-				<h:panelGrid columns="2" class="invis">
-		        	<p:outputLabel for="regmo"  value="Регион" />
-			        <p:selectOneMenu id="regmo"  value="#{filterBean.selectedMor}" converter="#{filterBean.morConverter}" class="my-select">
-			          <p:ajax listener="#{filterBean.morSelected}" update="npmo mo clmo" />
-			          <f:selectItem itemLabel="-- Ничего не выбрано --" itemValue="#{null}" />
-			          <f:selectItems value="#{filterBean.moRegionList}" var="r" itemLabel="#{r.regId} - #{r.name}" itemValue="#{r}" />
-			        </p:selectOneMenu>
-
-					<p:outputLabel for="npmo" value="Населенный пункт" />
-				  <p:selectOneMenu id="npmo" value="#{filterBean.selectedMot}" converter="#{filterBean.motConverter}" class="my-select" style="#{filterBean.moTerList.size() == 0 ?'color:#d7d7d7;' : 'color:#00000;'}">
-			          <p:ajax listener="#{filterBean.motSelected}" update="mo clmo" />
-	                  <f:selectItem itemLabel="#{filterBean.moTerList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
-			          <f:selectItems value="#{filterBean.moTerList}" var="r" itemLabel="#{r.id.terId} - #{r.name}" itemValue="#{r}" />
-					</p:selectOneMenu>
-
-					<p:outputLabel for="mo" value="ЛПУ" />
-			          <p:selectOneMenu id="mo" value="#{filterBean.selectedMom}" converter="#{filterBean.momConverter}" class="my-select" style="#{filterBean.moMainList.size() == 0 ?'color:#d7d7d7;' : 'color:#00000;'}">
-			          <p:ajax listener="#{filterBean.momSelected}" update="clmo" />
-	                  <f:selectItem itemLabel="#{filterBean.moMainList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
-			          <f:selectItems value="#{filterBean.moMainList}" var="r" itemLabel="#{r.id.lpuId} - #{r.name}" itemValue="#{r}" />
-					</p:selectOneMenu>
-
-					<p:outputLabel for="clmo" value="Поликлиника" />
-					<p:selectOneMenu id="clmo" value="#{filterBean.selectedMop}" converter="#{filterBean.mopConverter}" class="my-select" style="#{filterBean.moPoliclinicList.size() == 0 ?'color:#d7d7d7;' : 'color:#00000;'}">
-	                  <f:selectItem itemLabel="#{filterBean.moPoliclinicList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
-			          <f:selectItems value="#{filterBean.moPoliclinicList}" var="r" itemLabel="#{r.id.polId} - #{r.name}" itemValue="#{r}" />
-					</p:selectOneMenu>
-				</h:panelGrid>
+					<cc:medical_org managedBean="#{filterBean}" />
 			    </p:panel>
 			    <p:panel header="Контингенты населения" class="blok-overlay">					
 					<cc:patient_groups managedBean="#{filterBean}" decrGroupValue="#{filterBean.selectedDg}" 
-						medGroupValue="#{filterBean.selectedMg}" riskGroupValue="#{filterBean.selectedSg}"
-						riskGroupText="Социальная группа"/>
+						medGroupValue="#{filterBean.selectedMg}" riskGroupValue="#{filterBean.selectedSg}"/>
 			    </p:panel>
 			    <p:panel header="Обследования" class="blok-overlay">					
 				<h:panelGrid columns="2" class="invis">
@@ -297,34 +269,7 @@
 			</div>
 			<p:outputPanel id="pnlDlg" class="move-up report--str" >				  
 			  <p:panel header="Уровень отчета" class="blok-overlay">				
-				<h:panelGrid columns="2" class="invis report-uroven--str">
-		        	<p:outputLabel for="rep_reg"  value="Регион" />
-			        <p:selectOneMenu id="rep_reg"  value="#{reportBean.selectedMor}" converter="#{reportBean.morConverter}" class="my-select">
-			          <p:ajax listener="#{reportBean.morSelected}" update="rep_npmo rep_mo rep_clmo" />
-			          <f:selectItem itemLabel="-- Ничего не выбрано --" itemValue="#{null}" />
-			          <f:selectItems value="#{reportBean.moRegionList}" var="r" itemLabel="#{r.regId} - #{r.name}" itemValue="#{r}" />
-			        </p:selectOneMenu>
-
-					<p:outputLabel for="rep_npmo" value="Населенный пункт" />
-					<p:selectOneMenu id="rep_npmo" value="#{reportBean.selectedMot}" converter="#{reportBean.motConverter}" class="my-select">
-			          <p:ajax listener="#{reportBean.motSelected}" update="rep_mo rep_clmo" />
-	                  <f:selectItem itemLabel="#{reportBean.moTerList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
-			          <f:selectItems value="#{reportBean.moTerList}" var="r" itemLabel="#{r.id.terId} - #{r.name}" itemValue="#{r}" />
-					</p:selectOneMenu>
-
-					<p:outputLabel for="rep_mo" value="ЛПУ" />
-					<p:selectOneMenu id="rep_mo" value="#{reportBean.selectedMom}" converter="#{reportBean.momConverter}" class="my-select">
-			          <p:ajax listener="#{reportBean.momSelected}" update="rep_clmo" />
-	                  <f:selectItem itemLabel="#{reportBean.moMainList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
-			          <f:selectItems value="#{reportBean.moMainList}" var="r" itemLabel="#{r.id.lpuId} - #{r.name}" itemValue="#{r}" />
-					</p:selectOneMenu>
-
-					<p:outputLabel rendered="false" for="rep_clmo" value="Поликлиника" />
-					<p:selectOneMenu rendered="false" id="rep_clmo" value="#{reportBean.selectedMop}" converter="#{reportBean.mopConverter}" class="my-select">
-	                  <f:selectItem itemLabel="#{reportBean.moPoliclinicList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
-			          <f:selectItems value="#{reportBean.moPoliclinicList}" var="r" itemLabel="#{r.id.polId} - #{r.name}" itemValue="#{r}" />
-					</p:selectOneMenu>
-				</h:panelGrid>
+				<cc:medical_org managedBean="#{reportBean}" renderedPoliclinic="false" />
 			  </p:panel>
 			  <p:panel header="Период" class="blok-overlay">
 				<h:panelGrid columns="2" class="invis report-uroven--str">
