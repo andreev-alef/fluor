@@ -5,7 +5,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:fias="http://java.sun.com/jsf/composite/components">
+	xmlns:cc="http://java.sun.com/jsf/composite/components">
 
 <h:head>
   <title>Флюорокартотека</title>
@@ -127,7 +127,7 @@
 		</p:panel>
 		
 		<p:panel id="adr" header="Адрес проживания в Российской Федерации" class="blok dva-bloka">
-			<fias:fias_addr  managedBean="#{fiasEditorEditman}"/>
+			<cc:fias_addr  managedBean="#{fiasEditorEditman}"/>
 		</p:panel>
 		
 		<p:panel header="Контактные данные" class="blok odin-blok">
@@ -174,25 +174,9 @@
 		</p:panel>
 		
 		<p:panel header="Контингент населения" class="blok odin-blok">
-			<h:panelGrid columns="2" class="invis rguppa--str">
-	        	<p:outputLabel for="dg" value="Декретированная группа" />
-		        <p:selectOneMenu id="dg" value="#{editmanBean.patient.decrGroup}" converter="#{editmanBean.dgConverter}" class="my-select">
-		          <f:selectItem itemLabel="-- отсутствует --" itemValue="#{null}" />
-		          <f:selectItems value="#{editmanBean.decrList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
-		        </p:selectOneMenu>
-
-	        	<p:outputLabel for="mg" value="Медицинская группа" />
-		        <p:selectOneMenu id="mg" value="#{editmanBean.patient.medGroup}" converter="#{editmanBean.mgConverter}" class="my-select">
-		          <f:selectItem itemLabel="-- отсутствует --" itemValue="#{null}" />
-		          <f:selectItems value="#{editmanBean.medList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
-		        </p:selectOneMenu>
-
-	        	<p:outputLabel for="rg" value="Группа риска (осмотр 2 раза в год)" />
-		        <p:selectOneMenu id="rg" value="#{editmanBean.patient.socGroup}" converter="#{editmanBean.sgConverter}" class="my-select">
-		          <f:selectItem itemLabel="-- отсутствует --" itemValue="#{null}" />
-		          <f:selectItems value="#{editmanBean.socList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
-		        </p:selectOneMenu>
-			</h:panelGrid>
+			<cc:patient_groups managedBean="#{editmanBean}" decrGroupValue="#{editmanBean.patient.decrGroup}" 
+				medGroupValue="#{editmanBean.patient.medGroup}" riskGroupValue="#{editmanBean.patient.socGroup}"
+				riskGroupText="Группа риска (осмотр 2 раза в год)"/>
 		</p:panel>
 		
 		<p:outputPanel class="blok-button--within--down">

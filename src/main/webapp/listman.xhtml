@@ -4,7 +4,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:fias="http://java.sun.com/jsf/composite/components">
+	xmlns:cc="http://java.sun.com/jsf/composite/components">
 <h:head>
   <title>Флюорокартотека</title>
   <h:outputScript library="js" name="locale.js" />  
@@ -179,7 +179,7 @@
 			  <p:scrollPanel mode="native" style="max-height: 600px">				
 			    <p:panel header="Адрес проживания" class="blok-overlay">
 			      <p:outputPanel style="padding-left: 40px">
-					<fias:fias_addr  managedBean="#{fiasEditorFilter}"/>
+					<cc:fias_addr  managedBean="#{fiasEditorFilter}"/>
 			      </p:outputPanel>	
 			    </p:panel>
 			
@@ -214,25 +214,9 @@
 				</h:panelGrid>
 			    </p:panel>
 			    <p:panel header="Контингенты населения" class="blok-overlay">					
-				<h:panelGrid columns="2" class="invis">
-		        	<p:outputLabel for="dg" value="Декретированная группа" />
-			        <p:selectOneMenu id="dg" value="#{filterBean.selectedDg}" converter="#{filterBean.dgConverter}" class="my-select">
-			          <f:selectItem  itemLabel="-- отсутствует --" itemValue="#{null}" noSelectionOption="true"/>
-			          <f:selectItems value="#{filterBean.decrList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
-			        </p:selectOneMenu>
-				
-		        	<p:outputLabel for="mg" value="Медицинская группа" />
-			        <p:selectOneMenu id="mg" value="#{filterBean.selectedMg}" converter="#{filterBean.mgConverter}" class="my-select">
-			          <f:selectItem itemLabel="-- отсутствует --" itemValue="#{null}" />
-			          <f:selectItems value="#{filterBean.medList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
-			        </p:selectOneMenu>
-	
-		        	<p:outputLabel for="rg" value="Социальная группа" />
-			        <p:selectOneMenu id="rg" value="#{filterBean.selectedSg}" converter="#{filterBean.sgConverter}" class="my-select">
-			          <f:selectItem itemLabel="-- отсутствует --" itemValue="#{null}" />
-			          <f:selectItems value="#{filterBean.socList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
-			        </p:selectOneMenu>
-				</h:panelGrid>
+					<cc:patient_groups managedBean="#{filterBean}" decrGroupValue="#{filterBean.selectedDg}" 
+						medGroupValue="#{filterBean.selectedMg}" riskGroupValue="#{filterBean.selectedSg}"
+						riskGroupText="Социальная группа"/>
 			    </p:panel>
 			    <p:panel header="Обследования" class="blok-overlay">					
 				<h:panelGrid columns="2" class="invis">

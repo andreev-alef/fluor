@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:cc="http://java.sun.com/jsf/composite"
+  xmlns:p="http://primefaces.org/ui">
+  <cc:interface>
+  	<cc:attribute name="managedBean"/>
+  	<cc:attribute name="decrGroupValue" type="ru.miacn.persistence.reference.RDecrGroup"></cc:attribute>
+  	<cc:attribute name="medGroupValue" type="ru.miacn.persistence.reference.RMedGroup"></cc:attribute>
+  	<cc:attribute name="riskGroupValue" type="ru.miacn.persistence.reference.RSocGroup"></cc:attribute>
+  	<cc:attribute name="riskGroupText" type="java.lang.String"></cc:attribute>
+  </cc:interface>
+  
+  <cc:implementation>
+  	<h:panelGrid columns="2" class="invis rguppa--str">
+       	<p:outputLabel for="dg" value="Декретированная группа" />
+        <p:selectOneMenu id="dg" value="#{cc.attrs.decrGroupValue}" converter="#{cc.attrs.managedBean.dgConverter}" class="my-select">
+          <f:selectItem itemLabel="-- отсутствует --" itemValue="#{null}" />
+          <f:selectItems value="#{cc.attrs.managedBean.decrList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
+        </p:selectOneMenu>
+
+       	<p:outputLabel for="mg" value="Медицинская группа" />
+        <p:selectOneMenu id="mg" value="#{cc.attrs.medGroupValue}" converter="#{cc.attrs.managedBean.mgConverter}" class="my-select">
+          <f:selectItem itemLabel="-- отсутствует --" itemValue="#{null}" />
+          <f:selectItems value="#{cc.attrs.managedBean.medList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
+        </p:selectOneMenu>
+
+       	<p:outputLabel for="rg" value="#{cc.attrs.riskGroupText}" />
+        <p:selectOneMenu id="rg" value="#{cc.attrs.riskGroupValue}" converter="#{cc.attrs.managedBean.sgConverter}" class="my-select">
+          <f:selectItem itemLabel="-- отсутствует --" itemValue="#{null}" />
+          <f:selectItems value="#{cc.attrs.managedBean.socList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
+        </p:selectOneMenu>
+	</h:panelGrid>
+  </cc:implementation>
+</html>
