@@ -7,10 +7,10 @@
   xmlns:cc="http://java.sun.com/jsf/composite"
   xmlns:p="http://primefaces.org/ui">
   <cc:interface>
-  	<cc:attribute name="managedBean"/>
-  	<cc:attribute name="decrGroupValue" type="ru.miacn.persistence.reference.RDecrGroup"></cc:attribute>
-  	<cc:attribute name="medGroupValue" type="ru.miacn.persistence.reference.RMedGroup"></cc:attribute>
-  	<cc:attribute name="riskGroupValue" type="ru.miacn.persistence.reference.RSocGroup"></cc:attribute>
+  	<cc:attribute name="managedBean" required="true"/>
+  	<cc:attribute name="decrGroupValue" type="ru.miacn.persistence.reference.RDecrGroup" required="true"></cc:attribute>
+  	<cc:attribute name="medGroupValue" type="ru.miacn.persistence.reference.RMedGroup" required="true"></cc:attribute>
+  	<cc:attribute name="riskGroupValue" type="ru.miacn.persistence.reference.RSocGroup" required="true"></cc:attribute>
   	<cc:attribute name="riskGroupText" type="java.lang.String" default="Социальная группа"></cc:attribute>
   </cc:interface>
   
