@@ -10,10 +10,11 @@
   	<cc:attribute name="managedBean" required="true"/>
   	<cc:attribute name="renderedPoliclinic" type="java.lang.Boolean" default="true"/>
   	<cc:attribute name="renderedAdress" type="java.lang.Boolean" default="false"/>
+  	<cc:attribute name="styleClass" default="invis oms--str"/>
   </cc:interface>
   
   <cc:implementation>
-  	<h:panelGrid columns="2" class="invis oms--str">
+  	<h:panelGrid columns="2" class="#{cc.attrs.styleClass}">
        	<p:outputLabel for="regmo"  value="Регион" />
         <p:selectOneMenu id="regmo"  value="#{cc.attrs.managedBean.selectedMor}" converter="#{cc.attrs.managedBean.morConverter}" class="my-select"> 
           <p:ajax listener="#{cc.attrs.managedBean.morSelected}" update="npmo mo clmo adrmo" />

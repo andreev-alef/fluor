@@ -184,7 +184,7 @@
 			    </p:panel>
 			
 			    <p:panel header="МО прикрепления пациентa по ОМС" class="blok-overlay">				
-					<cc:medical_org managedBean="#{filterBean}" />
+					<cc:medical_org managedBean="#{filterBean}" styleClass="invis"/>
 			    </p:panel>
 			    <p:panel header="Контингенты населения" class="blok-overlay">					
 					<cc:patient_groups managedBean="#{filterBean}" decrGroupValue="#{filterBean.selectedDg}" 
@@ -269,7 +269,7 @@
 			</div>
 			<p:outputPanel id="pnlDlg" class="move-up report--str" >				  
 			  <p:panel header="Уровень отчета" class="blok-overlay">				
-				<cc:medical_org managedBean="#{reportBean}" renderedPoliclinic="false" />
+				<cc:medical_org managedBean="#{reportBean}" renderedPoliclinic="false" styleClass="invis report-uroven--str"/>
 			  </p:panel>
 			  <p:panel header="Период" class="blok-overlay">
 				<h:panelGrid columns="2" class="invis report-uroven--str">
