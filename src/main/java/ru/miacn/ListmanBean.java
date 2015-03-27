@@ -108,16 +108,22 @@ public class ListmanBean implements Serializable {
 			    	Map<String, Object> params = new HashMap<>();
 
 			    	if (getSrcFam() != null && !getSrcFam().isEmpty()) {
-			    		sql_params += "AND p.last_name ILIKE :last_name ";
-			    		params.put("last_name", getSrcFam() + "%");
+			    		String fSrcFam = getSrcFam().substring(0, 1).toUpperCase() + getSrcFam().substring(1).toLowerCase();
+			    		
+			    		sql_params += "AND p.last_name LIKE :last_name ";
+			    		params.put("last_name", fSrcFam + "%");
 			    	}
 			    	if (getSrcIm() != null && !getSrcIm().isEmpty()) {
-			    		sql_params += "AND p.first_name ILIKE :first_name ";
-			    		params.put("first_name", getSrcIm() + "%");
+			    		String fSrcIm = getSrcIm().substring(0, 1).toUpperCase() + getSrcIm().substring(1).toLowerCase();
+			    		
+			    		sql_params += "AND p.first_name LIKE :first_name ";
+			    		params.put("first_name", fSrcIm + "%");
 			    	}
 			    	if (getSrcOt() != null && !getSrcOt().isEmpty()) {
-			    		sql_params += "AND p.father_name ILIKE :father_name ";
-			    		params.put("father_name", getSrcOt() + "%");
+			    		String fSrcOt = getSrcOt().substring(0, 1).toUpperCase() + getSrcOt().substring(1).toLowerCase();
+			    		
+			    		sql_params += "AND p.father_name LIKE :father_name ";
+			    		params.put("father_name", fSrcOt + "%");
 			    	}
 			    	if (getSrcDr() != null) {
 			    		sql_params += "AND p.dat_birth = :dat_birth ";
