@@ -36,9 +36,11 @@
 				<p:outputLabel for="dr" value="Дата рождения" />
 				<p:calendar id="dr" value="#{listmanBean.srcDr}" locale="#{applicationBean.locale.language}" pattern="#{applicationBean.dateFormat.toPattern()}" />
 				<p:outputPanel></p:outputPanel>
-				<p:commandButton id="search" value="Найти" action="#{listmanBean.search()}" update="patientTable msg-search" onsuccess="PF('wv').getPaginator().setPage(0)" class="button-volume button-volume--mini " icon="ui-icon-search" >
-				</p:commandButton>
+				<p:commandButton id="search" value="Найти" action="#{listmanBean.search()}" update="patientTable msg-search" onsuccess="PF('wv').getPaginator().setPage(0)" class="button-volume button-volume--mini " icon="ui-icon-search" />
 			    <p:commandButton id="btn-showall" value="Показать всех" action="#{listmanBean.clearSearch()}" update="searchParams patientTable msg-search" onsuccess="PF('wv').getPaginator().setPage(0)" class="button-volume button-volume--mini" icon="ui-icon-all"/>
+				<p:blockUI block="frmList" trigger="search" >
+       				 <p:graphicImage name="/image/search.gif"/>
+				</p:blockUI>
 			</h:panelGrid>
 		  </p:outputPanel>
 		  </div>
