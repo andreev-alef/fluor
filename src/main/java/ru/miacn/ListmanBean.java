@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -137,6 +138,8 @@ public class ListmanBean implements Serializable {
 			    	return patients;
 	    	   	}
 	    	};
+	    	
+	    	dataTableSetFirst();
         } catch (Exception e) {
         	throw new Exception("Произошла ошибка при выполнении поиска пациентов");
     	}
@@ -258,13 +261,21 @@ public class ListmanBean implements Serializable {
 					setRowCount(((Number) JpaUtils.getNativeQuery(em, String.format(countSql, sql_params), params).getSingleResult()).intValue());
 
 			    	return patients;
-					
 				}
 	    	};
+	    	
+	    	dataTableSetFirst();
         } catch (Exception e) {
         	throw new Exception("Произошла ошибка при выполнении фильтра записей");
     	}
-
+	}
+	
+	public void dataTableSetFirst() {
+		final DataTable patientTable = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent("frmList:patientTable");
+		
+		if (patientTable != null){
+			patientTable.setFirst(0);
+		}
 	}
 		
     public void clearSearch() throws Exception {
