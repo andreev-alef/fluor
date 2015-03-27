@@ -77,7 +77,7 @@
   	</web-resource-collection>
 </security-constraint>
 <session-config>
-	<session-timeout>480</session-timeout>
+	<session-timeout>33</session-timeout>
 </session-config>
 <welcome-file-list>
 	<welcome-file>listman.xhtml</welcome-file>
