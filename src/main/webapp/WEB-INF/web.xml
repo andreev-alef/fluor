@@ -39,33 +39,81 @@
    <form-login-page>/login.xhtml</form-login-page>
    <form-error-page>/login.xhtml</form-error-page>
   </form-login-config>
- </login-config> 
+ </login-config>
+  	<security-role>
+		<role-name>Базовый</role-name>
+	</security-role>
+	<security-role>
+		<role-name>Первичный</role-name>
+	</security-role>
+	<security-role>
+		<role-name>Расширенный</role-name>
+	</security-role>
+	<security-role>
+		<role-name>Экспертный</role-name>
+	</security-role>
+	<security-role>
+		<role-name>Полный</role-name>
+	</security-role>
+	<security-role>
+		<role-name>Технический</role-name>
+	</security-role>		 
  <security-constraint>
   <web-resource-collection>
-   <web-resource-name>all</web-resource-name>
+   <web-resource-name>Просмотр</web-resource-name>
    <url-pattern>/listman.xhtml</url-pattern>
-   <url-pattern>/editman.xhtml</url-pattern>
-   <url-pattern>/planman.xhtml</url-pattern>
-   <url-pattern>/upload.xhtml</url-pattern>
    <url-pattern>/viewman.xhtml</url-pattern>
+   <url-pattern>/report</url-pattern>
    <url-pattern>/resources/components/*</url-pattern>
    <http-method>GET</http-method>
    <http-method>POST</http-method>
   </web-resource-collection>
   <auth-constraint>
-   <role-name>USER</role-name>
-   <role-name>MANAGER</role-name>
+   <role-name>Базовый</role-name>
+   <role-name>Первичный</role-name>
+   <role-name>Расширенный</role-name>
+   <role-name>Экспертный</role-name>
+   <role-name>Полный</role-name>
+   <role-name>Технический</role-name>
   </auth-constraint>
  </security-constraint>
  <security-constraint>
-  <web-resource-collection>
-   <web-resource-name>administration</web-resource-name>
-   <url-pattern>/administration/*</url-pattern>
+ <web-resource-collection>
+  <web-resource-name>редактирование</web-resource-name>
+   <url-pattern>/editman.xhtml</url-pattern>
    <http-method>GET</http-method>
    <http-method>POST</http-method>
   </web-resource-collection>
   <auth-constraint>
-   <role-name>MANAGER</role-name>
+   <role-name>Первичный</role-name>
+   <role-name>Расширенный</role-name>
+   <role-name>Экспертный</role-name>
+   <role-name>Полный</role-name>
+   <role-name>Технический</role-name>
+  </auth-constraint>
+ </security-constraint>
+  <security-constraint>
+ <web-resource-collection>
+  <web-resource-name>Полный</web-resource-name>
+   <url-pattern>/planman.xhtml</url-pattern>
+   <http-method>GET</http-method>
+   <http-method>POST</http-method>
+  </web-resource-collection>
+  <auth-constraint>
+   <role-name>Полный</role-name>
+   <role-name>Технический</role-name>
+  </auth-constraint>
+ </security-constraint>
+ <security-constraint>
+  <web-resource-collection>
+   <web-resource-name>Администрирование</web-resource-name>
+   <url-pattern>/administration/*</url-pattern>
+   <url-pattern>/upload.xhtml</url-pattern>
+   <http-method>GET</http-method>
+   <http-method>POST</http-method>
+  </web-resource-collection>
+  <auth-constraint>
+   <role-name>Технический</role-name>
   </auth-constraint>
  </security-constraint>
  <security-constraint>

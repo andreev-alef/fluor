@@ -74,7 +74,7 @@
 				    </p:link>
 				    <p:tooltip for="view" value="Просмотр" class="my-tooltip"/>
 				   
-				    <p:link id="edit" class="ui-icon ui-icon-Editor" outcome="editman">					        
+				    <p:link id="edit" class="ui-icon ui-icon-Editor" outcome="editman" rendered="#{roleBean.editPermission()}">					        
 						<f:param name="patId" value="#{v.id}"/>
 						<f:param name="editable" value="true"/>
 				    </p:link>
@@ -139,7 +139,7 @@
   </p:outputPanel>
   
 	  <p:outputPanel class="footer">
-		      <p:outputPanel class="blok-button--within--down">		
+		      <p:outputPanel class="blok-button--within--down" rendered="#{roleBean.editPermission()}">		
 				 							
 				<p:link outcome="editman" class="button-volume button-volume--link">
 				    <p:outputPanel class="ui-icon ui-icon-User-Add"/>
@@ -147,17 +147,17 @@
 					<h:outputText value="Добавить пациента"/>											     
 				</p:link>
 				
-				<p:commandLink id="btn-report" update=":frmPrint:pnlDlg" oncomplete="PF('print').show()" class="button-volume button-volume--link margin-left--big" >
+				<p:commandLink id="btn-report" update=":frmPrint:pnlDlg" oncomplete="PF('print').show()" class="button-volume button-volume--link margin-left--big" rendered="#{roleBean.VerifyAndReportPermission()}">
 					<p:outputPanel class="ui-icon ui-icon-reports"/>
 					<h:outputText value="Отчетные формы"/>
 				</p:commandLink>
 				
-				<p:link outcome="upload" class="button-volume button-volume--link margin-left--big" >
+				<p:link outcome="upload" class="button-volume button-volume--link margin-left--big" rendered="#{roleBean.uploadFilePermission()}">
 					<p:outputPanel class="ui-icon ui-icon ui-icon-xls"/>
 					<h:outputText value="Загрузить из файла"/>
 				</p:link>
 				
-				<p:link outcome="planman" class="button-volume button-volume--link margin-left--big">
+				<p:link outcome="planman" class="button-volume button-volume--link margin-left--big" rendered="#{roleBean.planPermission()}">
 				    <p:outputPanel class="ui-icon ui-icon-plan"/>
 					<f:param name="editable" value="true"/>
 					<h:outputText value="Редактировать план на год"/>											     

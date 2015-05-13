@@ -49,7 +49,7 @@
      </p:outputPanel>
   
   <div class="blok-button--above--right">   
-       <p:link outcome="editman" class="button-link button-link--blue">
+       <p:link outcome="editman" class="button-link button-link--blue" rendered="#{roleBean.editPermission()}">
          <f:param name="patId" value="#{param['patId']}"/>
 	     <f:param name="editable" value="true"/>
          <p:outputPanel class="ui-icon ui-icon-Editormini"/>
