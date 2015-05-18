@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -184,15 +183,15 @@ public class EditmanBean implements Serializable {
 		if (addr.getLivRegId() != null)
 			fias.setRegion(fias.getElementById(addr.getLivRegId()));
 		else
-			fias.setRegion(new FiasElement("", addr.getLivReg()));
+			fias.setRegion(new FiasElement(null, addr.getLivReg()));
 		if (addr.getLivCityId() != null)
 			fias.setGorod(fias.getElementById(addr.getLivCityId()));
 		else
-			fias.setGorod(new FiasElement("", addr.getLivCity()));
+			fias.setGorod(new FiasElement(null, addr.getLivCity()));
 		if (addr.getLivStreetId() != null)
 			fias.setUlica(fias.getElementById(addr.getLivStreetId()));
 		else
-			fias.setUlica(new FiasElement("", addr.getLivStreet()));
+			fias.setUlica(new FiasElement(null, addr.getLivStreet()));
 		
 		fias.setDom(addr.getLivHouse());
 		fias.setKorp(addr.getLivFacility());
@@ -261,18 +260,18 @@ public class EditmanBean implements Serializable {
 	private void getFiasValues() {
 		Address addr = getPatient().getAddress();
 		
-		if (!fias.getRegion().getAoid().isEmpty())
-			addr.setLivRegId(UUID.fromString(fias.getRegion().getAoid()));
+		if (fias.getRegion().getAoid() != null)
+			addr.setLivRegId(fias.getRegion().getAoid());
 		else
 			addr.setLivRegId(null);
 		addr.setLivReg(fias.getRegion().getFormalname());
-		if (!fias.getGorod().getAoid().isEmpty())
-			addr.setLivCityId(UUID.fromString(fias.getGorod().getAoid()));
+		if (fias.getGorod().getAoid() != null)
+			addr.setLivCityId(fias.getGorod().getAoid());
 		else
 			addr.setLivCityId(null);
 		addr.setLivCity(fias.getGorod().getFormalname());
-		if (!fias.getUlica().getAoid().isEmpty())
-			addr.setLivStreetId(UUID.fromString(fias.getUlica().getAoid()));
+		if (fias.getUlica().getAoid() != null)
+			addr.setLivStreetId(fias.getUlica().getAoid());
 		else
 			addr.setLivStreetId(null);
 		addr.setLivStreet(fias.getUlica().getFormalname());

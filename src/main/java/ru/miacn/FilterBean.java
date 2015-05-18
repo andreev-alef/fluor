@@ -105,9 +105,9 @@ public class FilterBean implements Serializable{
 	}
 	
  	public void clearFilter(){
-		fias.setRegion(new FiasElement("", null));
-		fias.setGorod(new FiasElement("", null));
-		fias.setUlica(new FiasElement("", null));
+		fias.setRegion(new FiasElement(null, null));
+		fias.setGorod(new FiasElement(null, null));
+		fias.setUlica(new FiasElement(null, null));
 		fias.setDom(null);
 		fias.setKorp(null);
 		fias.setStr(null);

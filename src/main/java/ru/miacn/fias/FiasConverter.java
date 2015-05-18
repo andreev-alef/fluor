@@ -26,7 +26,7 @@ public class FiasConverter implements Converter {
 		if (elem != null)
 			this.elem = elem;
 		else
-			this.elem = new FiasElement("", "");
+			this.elem = new FiasElement(null, null);
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class FiasConverter implements Converter {
 			if ((getElem() != null) && (getElem().toString().equals(value)))
 				return getElem();
 			else
-				return new FiasElement("", value);
+				return new FiasElement(null, value);
 		}
 		
 		return null;

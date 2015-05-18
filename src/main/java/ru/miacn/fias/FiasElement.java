@@ -1,14 +1,19 @@
 package ru.miacn.fias;
 
+import java.util.UUID;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name = "addrobj")
 public class FiasElement {
 	@Id
-	private String aoid;
+	@Type(type = "pg-uuid")
+	private UUID aoid;
 	private int aolevel;
 	private String regioncode;
 	private String autocode;
@@ -25,24 +30,33 @@ public class FiasElement {
 		
 	}
 	
-	public FiasElement(String aoid, String formalname) {
+	public FiasElement(UUID aoid, String formalname) {
 		setAoid(aoid);
 		setFormalname(formalname);
 	}
 	
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof FiasElement)
-			return ((FiasElement) obj).getAoid().equals(getAoid());
-		else
+		if (obj instanceof FiasElement) {
+			if (((FiasElement) obj).getAoid() != null && getAoid() != null) {
+				return ((FiasElement) obj).getAoid().equals(getAoid());
+			} else {
+				if (((FiasElement) obj).getAoid() == null && getAoid() == null) {
+					return true;
+				}
+				
+				return false;
+			}
+		} else {
 			return false;
+		}
 	}
-
-	public String getAoid() {
+	
+	public UUID getAoid() {
 		return aoid;
 	}
 
-	public void setAoid(String aoid) {
+	public void setAoid(UUID aoid) {
 		this.aoid = aoid;
 	}
 

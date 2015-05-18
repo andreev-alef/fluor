@@ -51,7 +51,7 @@ public abstract class FiasEditor implements Serializable {
 	}
 	
 	public List<FiasElement> filterGorod(String cond) {
-		if ((getRegion() != null) && (!getRegion().getAoid().isEmpty())) {
+		if ((getRegion() != null) && (getRegion().getAoid()!= null)) {
 			TypedQuery<FiasElement> q = em.createQuery("SELECT r FROM " + FiasElement.class.getName() + " r WHERE (LOWER(r.formalname) LIKE ?1) AND (r.regioncode = ?2) AND (r.aolevel BETWEEN 4 AND 6) AND (r.actstatus = 1) ORDER BY r.formalname", FiasElement.class);
 			
 			cond = cond.replaceAll("^\\s+", "");
@@ -70,8 +70,8 @@ public abstract class FiasEditor implements Serializable {
 	}
 	
 	public List<FiasElement> filterUlica(String cond) {
-		if ((getRegion() != null) && (!getRegion().getAoid().isEmpty()) &&
-				(getGorod() != null) && (!getGorod().getAoid().isEmpty())) {
+		if ((getRegion() != null) && (getRegion().getAoid()!= null) &&
+				(getGorod() != null) && (getGorod().getAoid()!= null)) {
 			TypedQuery<FiasElement> q = em.createQuery("SELECT r FROM " + FiasElement.class.getName() + " r WHERE (LOWER(r.formalname) LIKE ?1) AND (r.regioncode = ?2) AND (r.citycode = ?3) AND (r.placecode = ?4) AND (r.aolevel = 7) AND (r.actstatus = 1) ORDER BY r.formalname", FiasElement.class);
 			
 			cond = cond.replaceAll("^\\s+", "");
@@ -92,21 +92,21 @@ public abstract class FiasEditor implements Serializable {
 	}
 	
 	public FiasElement getElementById(UUID id) {
-		return em.find(FiasElement.class, id.toString());
+		return em.find(FiasElement.class, id);
 	}
 	
 	public String getAddress() {
 		String addr = "";
 		
-		if ((getRegion() != null) && (!getRegion().getAoid().isEmpty()))
+		if ((getRegion() != null) && (getRegion().getAoid() != null))
 			addr += getRegion().getFormalname() + " " + getRegion().getShortname() + ", ";
 		else if ((getRegion() != null) && (getRegion().getFormalname() != null) && (!getRegion().getFormalname().isEmpty()))
 			addr += getRegion().getFormalname() + ", ";
-		if ((getGorod() != null) && (!getGorod().getAoid().isEmpty()))
+		if ((getGorod() != null) && (getGorod().getAoid()!= null))
 			addr += getGorod().getShortname() + " " + getGorod().getFormalname() + ", ";
 		else if ((getGorod() != null) && (getGorod().getFormalname() != null) && (!getGorod().getFormalname().isEmpty()))
 			addr += getGorod().getFormalname() + ", ";
-		if ((getUlica() != null) && (!getUlica().getAoid().isEmpty()))
+		if ((getUlica() != null) && (getUlica().getAoid()!= null))
 			addr += getUlica().getShortname() + " " + getUlica().getFormalname() + ", ";
 		else if ((getUlica() != null) && (getUlica().getFormalname() != null) && (!getUlica().getFormalname().isEmpty()))
 			addr += getUlica().getFormalname() + ", ";

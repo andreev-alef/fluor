@@ -42,19 +42,19 @@ public class ReportForm057u extends JasperReport {
 			if (rs.getObject("liv_reg_id") != null)
 				elem = fias.getElementById((UUID) rs.getObject("liv_reg_id"));
 			else
-				elem = new FiasElement("", rs.getString("liv_reg"));
+				elem = new FiasElement(null, rs.getString("liv_reg"));
 			fias.setRegion(elem);
 			
 			if (rs.getObject("liv_city_id") != null)
 				elem = fias.getElementById((UUID) rs.getObject("liv_city_id"));
 			else
-				elem = new FiasElement("", rs.getString("liv_city"));
+				elem = new FiasElement(null, rs.getString("liv_city"));
 			fias.setGorod(elem);
 			
 			if (rs.getObject("liv_street_id") != null)
 				elem = fias.getElementById((UUID) rs.getObject("liv_street_id"));
 			else
-				elem = new FiasElement("", rs.getString("liv_street"));
+				elem = new FiasElement(null, rs.getString("liv_street"));
 			fias.setUlica(elem);
 			
 			fias.setDom(rs.getString("liv_house"));		
