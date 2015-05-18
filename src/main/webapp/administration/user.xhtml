@@ -104,31 +104,24 @@
 			<h:panelGrid columns="2" class="invis oms--str">
 	        	<p:outputLabel for="regmo"  value="Регион" />
 		        <p:selectOneMenu id="regmo"  value="#{userBean.selectedMor}" converter="#{userBean.morConverter}" class="my-select"> 
-		          <p:ajax listener="#{userBean.morSelected}" update="npmo mo clmo adrmo" />
+		          <p:ajax listener="#{userBean.morSelected}" update="npmo mo adrmo" />
 		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
 		          <f:selectItems value="#{userBean.moRegionList}" var="r" itemLabel="#{r.regId} - #{r.name}" itemValue="#{r}" />
 		        </p:selectOneMenu>
 		        
 	        	<p:outputLabel for="npmo" value="Населенный пункт" />
 		        <p:selectOneMenu id="npmo"  value="#{userBean.selectedMot}" converter="#{userBean.motConverter}" class="my-select">
-		          <p:ajax listener="#{userBean.motSelected}" update="mo clmo adrmo" />
+		          <p:ajax listener="#{userBean.motSelected}" update="mo adrmo" />
                   <f:selectItem itemLabel="#{userBean.moTerList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
 		          <f:selectItems value="#{userBean.moTerList}" var="r" itemLabel="#{r.id.terId} - #{r.name}" itemValue="#{r}" />
 		        </p:selectOneMenu>
 		        
 	        	<p:outputLabel for="mo" value="Наименование МО" />
 		        <p:selectOneMenu id="mo" value="#{userBean.selectedMom}" converter="#{userBean.momConverter}" class="my-select">
-		          <p:ajax listener="#{userBean.momSelected}" update="clmo adrmo" />
+		          <p:ajax listener="#{userBean.momSelected}" update="adrmo" />
                   <f:selectItem itemLabel="#{userBean.moMainList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
 		          <f:selectItems value="#{userBean.moMainList}" var="r" itemLabel="#{r.id.lpuId} - #{r.name}" itemValue="#{r}" />
-		        </p:selectOneMenu>
-		        
-	        	<p:outputLabel for="clmo" value="Поликлиника" />
-		        <p:selectOneMenu id="clmo" value="#{userBean.selectedMop}" converter="#{userBean.mopConverter}" class="my-select">
-		          <p:ajax update="adrmo" />
-                  <f:selectItem itemLabel="#{userBean.moPoliclinicList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
-		          <f:selectItems value="#{userBean.moPoliclinicList}" var="r" itemLabel="#{r.id.polId} - #{r.name}" itemValue="#{r}" />
-		        </p:selectOneMenu>	        
+		        </p:selectOneMenu>        
 			
 	        	<p:outputLabel for="adrmo" value="Адрес:" />		
 				<p:outputLabel id="adrmo" value="#{userBean.selectedMom.addr}" class="select-onlyread--label"/>			

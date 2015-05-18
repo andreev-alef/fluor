@@ -61,14 +61,13 @@ public class UserBean implements Serializable {
 	
 	@Transactional
 	public void saveUser() {
-			if ((selectedMor != null) && (selectedMot != null) && (selectedMom != null) && (selectedMop != null)) {
-				user.setrMedicalOrgPoliclinic(new RMedicalOrgPoliclinic());
-				user.getrMedicalOrgPoliclinic().getRMedicalOrgMain().getRMedicalOrgTer().getRMedicalOrgRegion().setRegId(selectedMor.getRegId());
-				user.getrMedicalOrgPoliclinic().getRMedicalOrgMain().getRMedicalOrgTer().setId(selectedMot.getId());
-				user.getrMedicalOrgPoliclinic().getRMedicalOrgMain().setId(selectedMom.getId());
-				user.getrMedicalOrgPoliclinic().setId(selectedMop.getId());
+			if ((selectedMor != null) && (selectedMot != null) && (selectedMom != null)) {
+				user.setrMedicalOrgMain(new RMedicalOrgMain());
+				user.getrMedicalOrgMain().getRMedicalOrgTer().getRMedicalOrgRegion().setRegId(selectedMor.getRegId());
+				user.getrMedicalOrgMain().getRMedicalOrgTer().setId(selectedMot.getId());
+				user.getrMedicalOrgMain().setId(selectedMom.getId());
 			} else {
-				user.setrMedicalOrgPoliclinic(null);
+				user.setrMedicalOrgMain(null);
 			}
 			em.persist(user);
 	}

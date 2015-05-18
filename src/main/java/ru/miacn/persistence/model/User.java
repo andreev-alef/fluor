@@ -15,7 +15,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import ru.miacn.persistence.reference.RMedicalOrgPoliclinic;
+import ru.miacn.persistence.reference.RMedicalOrgMain;
 import ru.miacn.persistence.reference.RUserRole;
 import ru.miacn.utils.Md5;
 
@@ -54,16 +54,15 @@ public class User {
 	@JoinColumns({
 			@JoinColumn(name = "med_city_id", referencedColumnName = "ter_id"),
 			@JoinColumn(name = "med_lpu_id", referencedColumnName = "lpu_id"),
-			@JoinColumn(name = "med_pol_id", referencedColumnName = "pol_id"),
 			@JoinColumn(name = "med_reg_id", referencedColumnName = "reg_id") })
-	private RMedicalOrgPoliclinic rMedicalOrgPoliclinic;
+	private RMedicalOrgMain rMedicalOrgMain;
 	
 	public int getNameFieldSize() {
 		return nameFieldSize;
 	}
 	
 	public User() {
-		rMedicalOrgPoliclinic = new RMedicalOrgPoliclinic();
+		rMedicalOrgMain = new RMedicalOrgMain();
 		userRole = new RUserRole();
 	}
 	
@@ -123,11 +122,11 @@ public class User {
 		this.lastName = lastName;
 	}
 
-	public RMedicalOrgPoliclinic getrMedicalOrgPoliclinic() {
-		return rMedicalOrgPoliclinic;
+	public RMedicalOrgMain getrMedicalOrgMain() {
+		return rMedicalOrgMain;
 	}
 
-	public void setrMedicalOrgPoliclinic(RMedicalOrgPoliclinic rMedicalOrgPoliclinic) {
-		this.rMedicalOrgPoliclinic = rMedicalOrgPoliclinic;
+	public void setrMedicalOrgMain(RMedicalOrgMain rMedicalOrgMain) {
+		this.rMedicalOrgMain = rMedicalOrgMain;
 	}
 }

@@ -506,14 +506,14 @@ public class ExaminationBean implements Serializable {
 	}
 	
 	public void moFromUser() {
-		if (login.getAuthedUser().getrMedicalOrgPoliclinic() != null) {
-			setSelectedMor(login.getAuthedUser().getrMedicalOrgPoliclinic().getRMedicalOrgMain().getRMedicalOrgTer().getRMedicalOrgRegion());
+		if (login.getAuthedUser().getrMedicalOrgMain() != null) {
+			setSelectedMor(login.getAuthedUser().getrMedicalOrgMain().getRMedicalOrgTer().getRMedicalOrgRegion());
 			morSelected();
 			
-			setSelectedMot(login.getAuthedUser().getrMedicalOrgPoliclinic().getRMedicalOrgMain().getRMedicalOrgTer());
+			setSelectedMot(login.getAuthedUser().getrMedicalOrgMain().getRMedicalOrgTer());
 			motSelected();
 			
-			setSelectedMom(login.getAuthedUser().getrMedicalOrgPoliclinic().getRMedicalOrgMain());
+			setSelectedMom(login.getAuthedUser().getrMedicalOrgMain());
 		}
 	}
 

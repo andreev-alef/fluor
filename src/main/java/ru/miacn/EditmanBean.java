@@ -168,8 +168,8 @@ public class EditmanBean implements Serializable {
 	}
 	
 	private void morFromUser() {
-		if (login.getAuthedUser().getrMedicalOrgPoliclinic() != null) {
-			setSelectedMor(login.getAuthedUser().getrMedicalOrgPoliclinic().getRMedicalOrgMain().getRMedicalOrgTer().getRMedicalOrgRegion());
+		if (login.getAuthedUser().getrMedicalOrgMain() != null) {
+			setSelectedMor(login.getAuthedUser().getrMedicalOrgMain().getRMedicalOrgTer().getRMedicalOrgRegion());
 			morSelected();
 		}
 	}
