@@ -275,6 +275,7 @@ public class ListmanBean implements Serializable {
 		
 		if (patientTable != null){
 			patientTable.setFirst(0);
+			paginatorFirst = 0;
 		}
 	}
 		
