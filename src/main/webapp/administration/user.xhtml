@@ -13,32 +13,16 @@
 </h:head>
 
 <h:body>
-<h:outputStylesheet library="css" name="reset.css"/>
-<h:outputStylesheet library="css" name="fl-custom.css"/>
-<h:outputText value="&lt;!--[if lte IE 8]&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;/fluor/javax.faces.resource/ie8.css.xhtml?ln=css&quot;/&gt;&lt;![endif]--&gt;" escape="false" />
-
 <ui:include src="/WEB-INF/templates/timeout.xhtml" />
 
-<p:outputPanel class="wrap">
-  <p:outputPanel class="div-return">  
-  <p:outputPanel class="div-return__fixed">       
-  <h:form id="frmIn" class="form-wrap">      
-      <p:link outcome="/listman" class="return">
-        <p:outputPanel class="ui-icon ui-icon-return"/>
-        <h:outputText value="Вернуться"  escape="false"/>
-      </p:link>
-  </h:form>    
-  </p:outputPanel>
-  </p:outputPanel>
+<p:outputPanel>
+      <p:link value="Вернуться" outcome="/listman" />
   
-  <p:outputPanel class="content">
-  	
-  <h:form id="frmInf" class="form-wrap">
-    
-    <p:panel header="Информация о пользователе" class="blok-out">
-	 <p:panel header="Персональные данные" class="blok dva-bloka">
-	     <p:panelGrid class="invis invis--colspan personal-data--str">
-		  <p:row> <p:column></p:column> <p:column></p:column> <p:column></p:column> <p:column></p:column> </p:row> 		
+  <p:outputPanel>
+  <h:form id="frmInf">
+    <p:panel header="Информация о пользователе">
+	 <p:panel header="Персональные данные">
+	     <p:panelGrid>
 			<p:row>
 			<p:column>
 	        	<p:outputLabel for="fam" value="Фамилия" />
@@ -68,70 +52,52 @@
 			</p:panelGrid>
 		</p:panel>	
 		
-		<p:panel header="Данные для входа в систему" class="blok dva-bloka">
-			<p:row>
-			<p:column>  
+		<p:panel header="Данные для входа в систему">
 	        	<p:outputLabel for="log" value="Логин" />
-			</p:column>
-		        <p:column colspan="3">
 			<p:inputText id="log" value="#{userBean.user.login}" required="true" />
-		        </p:column>
-			</p:row>	
 			
-			<p:row>
-			<p:column>  
 	        	<p:outputLabel for="pas" value="Пароль" />
-			</p:column>
-		        <p:column colspan="3">
 			<p:password id="pas" value="#{userBean.user.password}" required="true" />
-		        </p:column>
-			</p:row>
 				
-			<p:row>
-			<p:column>  
 	        	<p:outputLabel for="rol" value="Роль" />
-			</p:column>
-		        <p:column colspan="3">
-		         <p:selectOneMenu id="rol" value="#{userBean.user.userRole}" converter="#{userBean.userRoleConverter}" required="true" class="my-select">
+		         <p:selectOneMenu id="rol" value="#{userBean.user.userRole}" converter="#{userBean.userRoleConverter}" required="true">
 		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
 		          <f:selectItems value="#{userBean.userRoleList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
 		        </p:selectOneMenu>
-		        </p:column>
-			</p:row>	
 		</p:panel>		   
 		
-		<p:panel header="Медицинская организация, в которой работает пользователь" class="blok odin-blok">
-			<h:panelGrid columns="2" class="invis oms--str">
+		<p:panel header="Медицинская организация, в которой работает пользователь">
+			<h:panelGrid columns="2">
 	        	<p:outputLabel for="regmo"  value="Регион" />
-		        <p:selectOneMenu id="regmo"  value="#{userBean.selectedMor}" converter="#{userBean.morConverter}" class="my-select"> 
+		        <p:selectOneMenu id="regmo"  value="#{userBean.selectedMor}" converter="#{userBean.morConverter}"> 
 		          <p:ajax listener="#{userBean.morSelected}" update="npmo mo adrmo" />
 		          <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
 		          <f:selectItems value="#{userBean.moRegionList}" var="r" itemLabel="#{r.regId} - #{r.name}" itemValue="#{r}" />
 		        </p:selectOneMenu>
 		        
 	        	<p:outputLabel for="npmo" value="Населенный пункт" />
-		        <p:selectOneMenu id="npmo"  value="#{userBean.selectedMot}" converter="#{userBean.motConverter}" class="my-select">
+		        <p:selectOneMenu id="npmo"  value="#{userBean.selectedMot}" converter="#{userBean.motConverter}">
 		          <p:ajax listener="#{userBean.motSelected}" update="mo adrmo" />
                   <f:selectItem itemLabel="#{userBean.moTerList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
 		          <f:selectItems value="#{userBean.moTerList}" var="r" itemLabel="#{r.id.terId} - #{r.name}" itemValue="#{r}" />
 		        </p:selectOneMenu>
 		        
 	        	<p:outputLabel for="mo" value="Наименование МО" />
-		        <p:selectOneMenu id="mo" value="#{userBean.selectedMom}" converter="#{userBean.momConverter}" class="my-select">
+		        <p:selectOneMenu id="mo" value="#{userBean.selectedMom}" converter="#{userBean.momConverter}">
 		          <p:ajax listener="#{userBean.momSelected}" update="adrmo" />
                   <f:selectItem itemLabel="#{userBean.moMainList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
 		          <f:selectItems value="#{userBean.moMainList}" var="r" itemLabel="#{r.id.lpuId} - #{r.name}" itemValue="#{r}" />
 		        </p:selectOneMenu>        
 			
 	        	<p:outputLabel for="adrmo" value="Адрес:" />		
-				<p:outputLabel id="adrmo" value="#{userBean.selectedMom.addr}" class="select-onlyread--label"/>			
+				<p:outputLabel id="adrmo" value="#{userBean.selectedMom.addr}" />			
 			</h:panelGrid>
 		</p:panel>
 				
-		<p:outputPanel class="blok-button--within--down">
+		<p:outputPanel>
 		  <p:messages autoUpdate="true" />
-		  <p:commandButton value="Сохранить" action="#{userBean.saveUser}" class="button-volume button-volume--mini" icon="ui-icon-save"/>
-		  <p:button value="Отменить" outcome="/listman" class="button-volume button-volume--mini margin-left--big" icon="ui-icon-undo"/>
+		  <p:commandButton value="Сохранить" action="#{userBean.saveUser}" />
+		  <p:button value="Отменить" outcome="/listman" />
 		</p:outputPanel>
     </p:panel>
 	</h:form>
@@ -144,12 +110,10 @@
 	                            update="exceptionDialog"
 	                            onexception="PF('exceptionDialog').show();" />
 	 
-	    <p:dialog id="exceptionDialog" header="Ошибка" widgetVar="exceptionDialog"
-	              height="100px" class="my-overlay filtr--str">
-		  	<p:commandButton value="Закрыть" oncomplete="PF('exceptionDialog').hide()" icon="ui-icon-close" class="button-link button-link--white"/>
+	    <p:dialog id="exceptionDialog" header="Ошибка" widgetVar="exceptionDialog" height="100px">
+		  	<p:commandButton value="Закрыть" oncomplete="PF('exceptionDialog').hide()" />
 	        <br/><br/>Сообщение: #{pfExceptionHandler.message} <br/>
 	    </p:dialog>
 	</h:form>
-
 </h:body>
 </html>
