@@ -9,48 +9,30 @@
   <title>Флюорокартотека - подгрузка данных</title>
 </h:head>
 <h:body>
-  <h:outputStylesheet library="css" name="reset.css"/>
-  <h:outputStylesheet library="css" name="fl-custom.css"/>
-  <h:outputText value="&lt;!--[if lte IE 8]&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;/fluor/javax.faces.resource/ie8.css.xhtml?ln=css&quot;/&gt;&lt;![endif]--&gt;" escape="false" />
-  
   <ui:include src="/WEB-INF/templates/timeout.xhtml" />
   
-  <p:outputPanel class="wrap">
-      <p:outputPanel class="div-return">   
-      <p:outputPanel class="div-return__fixed">       
-        <h:form id="frmInf" class="form-wrap">      
-            <p:link outcome="listman" class="return">
-              <p:outputPanel class="ui-icon ui-icon-return"/>
-              <h:outputText value="Вернуться"/>
-            </p:link>
-        </h:form>    
-      </p:outputPanel>
-    </p:outputPanel>
-      
-  <p:outputPanel class="content content--mini">
-    
+  <p:outputPanel>
+      <p:link value="Вернуться" outcome="listman" />
+  		<p:outputPanel>
    
   <h:form>
-    
-    <p:panel header="Загрузка шаблона для формирования файла подгрузки" class="blok-out"> 
-      <p:panelGrid columns="1" class="invis invis--big-padding align-left--text">
-        <p:commandButton id="btn-xls" value="Скачать шаблон в формате XLS" ajax="false" class="button-link button-link--blue button-link--button" icon="ui-icon-xlsbig">
+    <p:panel header="Загрузка шаблона для формирования файла подгрузки"> 
+      <p:panelGrid columns="1">
+        <p:commandButton id="btn-xls" value="Скачать шаблон в формате XLS" ajax="false">
           <p:fileDownload value="#{uploadBean.fileXls}"  />
         </p:commandButton>
-        <p:commandButton id="btn-xlsx" value="Скачать шаблон в формате XLSX" ajax="false" class="button-link button-link--blue button-link--button" icon="ui-icon-xlsxbig">
+        <p:commandButton id="btn-xlsx" value="Скачать шаблон в формате XLSX" ajax="false">
           <p:fileDownload value="#{uploadBean.fileXlsx}" />
         </p:commandButton>
       </p:panelGrid>
     </p:panel>
     
-    <p:panel header="Подгрузка данных из файла" class="blok-out">
-      <div style="margin: auto">
-      <p:panelGrid columns="1" class="invis align-left--text">
-        <p:fileUpload label="Выбрать файл" uploadLabel="Начать подгрузку" update="uploadCount uploadMessage" allowTypes="/(\.|\/)(xls|xlsx)$/" sizeLimit="10485760" fileLimit="1" fileUploadListener="#{uploadBean.fileUpload}" class="my-file"/>
+    <p:panel header="Подгрузка данных из файла">
+      <p:panelGrid columns="1">
+        <p:fileUpload label="Выбрать файл" uploadLabel="Начать подгрузку" update="uploadCount uploadMessage" allowTypes="/(\.|\/)(xls|xlsx)$/" sizeLimit="10485760" fileLimit="1" fileUploadListener="#{uploadBean.fileUpload}" />
         <p:outputLabel id="uploadCount" value="#{uploadBean.countMessage}" />
         <p:outputLabel id="uploadMessage" value="#{uploadBean.uploadMessage}" />
       </p:panelGrid>
-      </div>
     </p:panel>   
   </h:form>
   
