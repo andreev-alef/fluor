@@ -10,58 +10,30 @@
 <h:head>
   <title>Флюорокартотека - просмотр информации на пациента</title>
   <h:outputScript library="js" name="locale.js" />
-  <h:outputScript library="js" name="JS.js" />
-  <h:outputText value="&lt;!--[if lte IE 8]&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;/fluor/javax.faces.resource/ie8.css.xhtml?ln=css&quot;/&gt;&lt;![endif]--&gt;" escape="false" />
   <f:metadata>
     <f:viewAction action="#{editmanBean.loadPatient(param['patId'])}" />
     <f:viewParam name="editable" value="#{editmanBean.editMode}" />
   </f:metadata>
 </h:head>
 
-<h:body class="viewman">
-  <h:outputStylesheet library="css" name="reset.css"/>
-  <h:outputStylesheet library="css" name="fl-custom.css"/>  
-  
+<h:body>
   <ui:include src="/WEB-INF/templates/timeout.xhtml" />
-  
-<p:outputPanel class="wrap">
-  
-    <p:outputPanel class="div-return">   
-      <p:outputPanel class="div-return__fixed">       
-        <h:form id="frmInf" class="form-wrap">      
-            <p:link outcome="listman" class="return">
-              <p:outputPanel class="ui-icon ui-icon-return"/>
-              <h:outputText value="Вернуться"/>
-            </p:link>
-        </h:form>    
-      </p:outputPanel>
-    </p:outputPanel>
-  
-  <p:outputPanel class="content"> 
-     
-  <p:panel header="Информация о пациенте" class="blok-out">
-  
-  	<p:outputPanel rendered="#{editmanBean.patient.datDeath != null}" class="blok-button--above--left"> 
-      	<p:outputPanel class="button-link patient-death">
-      		<p:outputPanel class="ui-icon ui-icon-warning"/>
-     		<p:outputLabel value="Пациент числится умершим"/>
- 	 	</p:outputPanel>  
+	<p:outputPanel>
+	<p:link value="Вернуться" outcome="listman" />
+	
+	<p:outputPanel> 
+	  <p:panel header="Информация о пациенте">
+  	<p:outputPanel rendered="#{editmanBean.patient.datDeath != null}"> 
+     	<p:outputLabel value="Пациент числится умершим"/>
      </p:outputPanel>
   
-  <div class="blok-button--above--right">   
-       <p:link outcome="editman" class="button-link button-link--blue" rendered="#{roleBean.editPermission()}">
+       <p:link value="Редактировать" outcome="editman" rendered="#{roleBean.editPermission()}">
          <f:param name="patId" value="#{param['patId']}"/>
 	     <f:param name="editable" value="true"/>
-         <p:outputPanel class="ui-icon ui-icon-Editormini"/>
-         <h:outputText value="Редактировать"/>
       </p:link>      
-  </div>
   
-  <p:panel class="blok odin-blok">
-    <div class="blok__name">Персональные данные</div>
-    <div class="blok__content">    
-    
-    <p:panelGrid columns="2" class="invis rguppa--str rguppa--str--big">
+  <p:panel header="Персональные данные">
+    <p:panelGrid columns="2">
       <p:outputLabel for="fio" value="ФИО" />
       <p:outputLabel id="fio" value="#{editmanBean.patient.lastName} #{editmanBean.patient.firstName} #{editmanBean.patient.fatherName}" />
       
@@ -87,16 +59,11 @@
       <p:outputLabel for="tl" value="Телефон" />
       <p:outputLabel id="tl" value="#{editmanBean.patient.tel}" />
     </p:panelGrid>
-     </div>
   </p:panel>
   
     
-  <p:panel class="blok odin-blok">
-    <div class="blok__name">Медицинская организация по ОМС</div>
-    <div class="blok__content">
-
-  
-    <h:panelGrid columns="2" class="invis rguppa--str">
+  <p:panel header="Медицинская организация по ОМС">
+    <p:panelGrid columns="2">
       <p:outputLabel for="regmo" value="Регион" />
       <p:outputLabel id="regmo" value="#{editmanBean.selectedMor.name}" />
       
@@ -111,33 +78,24 @@
       
       <p:outputLabel for="adrmo" value="Адрес" />        
       <p:outputLabel id="adrmo" value="#{editmanBean.selectedMom.addr}" />
-    </h:panelGrid>
-     </div>
+    </p:panelGrid>
   </p:panel>
   
-  <p:panel class="blok odin-blok">
-    <div class="blok__name">Контингент населения</div>
-    <div class="blok__content">
- 
- 
-    <h:panelGrid columns="2" class="invis rguppa--str">
-      <p:outputLabel for="dg" value="Декретированная &lt;br/&gt; группа" escape="false"/>   
+  <p:panel header="Контингент населения">
+    <p:panelGrid columns="2">
+      <p:outputLabel for="dg" value="Декретированная группа" />   
       <p:outputLabel id="dg" value="#{editmanBean.patient.decrGroup.name}" />
       
-      <p:outputLabel for="mg" value="Медицинская &lt;br/&gt; группа" escape="false"/>
+      <p:outputLabel for="mg" value="Медицинская группа" />
       <p:outputLabel id="mg" value="#{editmanBean.patient.medGroup.name}" />
       
-      <p:outputLabel for="rg" value="Группа риска &lt;br/&gt; (осмотр 2 раза в год)"  escape="false"/>
+      <p:outputLabel for="rg" value="Группа риска (осмотр 2 раза в год)" />
       <p:outputLabel id="rg" value="#{editmanBean.patient.socGroup.name}" />
-    </h:panelGrid>
-      </div>
+    </p:panelGrid>
   </p:panel>
   
-  <p:panel class="blok odin-blok" >
-    <div class="blok__name">Обследования</div>
-    <div class="blok__content--under">
-    	<ui:include src="WEB-INF/templates/examination.xhtml" />
-    </div>
+  <p:panel header="Обследования">
+   	<ui:include src="WEB-INF/templates/examination.xhtml" />
   </p:panel>
   </p:panel>
   </p:outputPanel>
