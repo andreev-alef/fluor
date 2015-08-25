@@ -15,21 +15,21 @@
   </cc:interface>
   
   <cc:implementation>
-  	<h:panelGrid columns="2" class="invis rguppa--str">
+  	<h:panelGrid columns="2">
        	<p:outputLabel for="dg" value="Декретированная группа" />
-        <p:selectOneMenu id="dg" value="#{cc.attrs.decrGroupValue}" converter="#{cc.attrs.managedBean.dgConverter}" class="my-select">
+        <p:selectOneMenu id="dg" value="#{cc.attrs.decrGroupValue}" converter="#{cc.attrs.managedBean.dgConverter}">
           <f:selectItem itemLabel="-- отсутствует --" itemValue="#{null}" />
           <f:selectItems value="#{cc.attrs.managedBean.decrList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
         </p:selectOneMenu>
 
        	<p:outputLabel for="mg" value="Медицинская группа" />
-        <p:selectOneMenu id="mg" value="#{cc.attrs.medGroupValue}" converter="#{cc.attrs.managedBean.mgConverter}" class="my-select">
+        <p:selectOneMenu id="mg" value="#{cc.attrs.medGroupValue}" converter="#{cc.attrs.managedBean.mgConverter}">
           <f:selectItem itemLabel="-- отсутствует --" itemValue="#{null}" />
           <f:selectItems value="#{cc.attrs.managedBean.medList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
         </p:selectOneMenu>
 
        	<p:outputLabel for="rg" value="#{cc.attrs.riskGroupText}" />
-        <p:selectOneMenu id="rg" value="#{cc.attrs.riskGroupValue}" converter="#{cc.attrs.managedBean.sgConverter}" class="my-select">
+        <p:selectOneMenu id="rg" value="#{cc.attrs.riskGroupValue}" converter="#{cc.attrs.managedBean.sgConverter}">
           <f:selectItem itemLabel="-- отсутствует --" itemValue="#{null}" />
           <f:selectItems value="#{cc.attrs.managedBean.socList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
         </p:selectOneMenu>

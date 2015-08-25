@@ -10,41 +10,40 @@
   	<cc:attribute name="managedBean" required="true"/>
   	<cc:attribute name="renderedPoliclinic" type="java.lang.Boolean" default="true"/>
   	<cc:attribute name="renderedAdress" type="java.lang.Boolean" default="false"/>
-  	<cc:attribute name="styleClass" default="invis oms--str"/>
   </cc:interface>
   
   <cc:implementation>
-  	<h:panelGrid columns="2" class="#{cc.attrs.styleClass}">
+  	<h:panelGrid columns="2">
        	<p:outputLabel for="regmo"  value="Регион" />
-        <p:selectOneMenu id="regmo"  value="#{cc.attrs.managedBean.selectedMor}" converter="#{cc.attrs.managedBean.morConverter}" class="my-select"> 
+        <p:selectOneMenu id="regmo"  value="#{cc.attrs.managedBean.selectedMor}" converter="#{cc.attrs.managedBean.morConverter}"> 
           <p:ajax listener="#{cc.attrs.managedBean.morSelected}" update="npmo mo clmo adrmo" />
           <f:selectItem itemLabel="-- Выберите --" itemValue="#{null}" />
           <f:selectItems value="#{cc.attrs.managedBean.moRegionList}" var="r" itemLabel="#{r.regId} - #{r.name}" itemValue="#{r}" />
         </p:selectOneMenu>
         
        	<p:outputLabel for="npmo" value="Населенный пункт" />
-        <p:selectOneMenu id="npmo"  value="#{cc.attrs.managedBean.selectedMot}" converter="#{cc.attrs.managedBean.motConverter}" class="my-select">
+        <p:selectOneMenu id="npmo"  value="#{cc.attrs.managedBean.selectedMot}" converter="#{cc.attrs.managedBean.motConverter}">
           <p:ajax listener="#{cc.attrs.managedBean.motSelected}" update="mo clmo adrmo" />
                 <f:selectItem itemLabel="#{cc.attrs.managedBean.moTerList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
           <f:selectItems value="#{cc.attrs.managedBean.moTerList}" var="r" itemLabel="#{r.id.terId} - #{r.name}" itemValue="#{r}" />
         </p:selectOneMenu>
         
        	<p:outputLabel for="mo" value="Наименование МО" />
-        <p:selectOneMenu id="mo" value="#{cc.attrs.managedBean.selectedMom}" converter="#{cc.attrs.managedBean.momConverter}" class="my-select">
+        <p:selectOneMenu id="mo" value="#{cc.attrs.managedBean.selectedMom}" converter="#{cc.attrs.managedBean.momConverter}">
           <p:ajax listener="#{cc.attrs.managedBean.momSelected}" update="clmo adrmo" />
                 <f:selectItem itemLabel="#{cc.attrs.managedBean.moMainList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
           <f:selectItems value="#{cc.attrs.managedBean.moMainList}" var="r" itemLabel="#{r.id.lpuId} - #{r.name}" itemValue="#{r}" />
         </p:selectOneMenu>
         
 	       	<p:outputLabel for="clmo" value="Поликлиника" rendered="#{cc.attrs.renderedPoliclinic}"/>
-	        <p:selectOneMenu id="clmo" value="#{cc.attrs.managedBean.selectedMop}" converter="#{cc.attrs.managedBean.mopConverter}" class="my-select" rendered="#{cc.attrs.renderedPoliclinic}">
+	        <p:selectOneMenu id="clmo" value="#{cc.attrs.managedBean.selectedMop}" converter="#{cc.attrs.managedBean.mopConverter}" rendered="#{cc.attrs.renderedPoliclinic}">
 	          <p:ajax update="adrmo" />
 	                <f:selectItem itemLabel="#{cc.attrs.managedBean.moPoliclinicList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
 	          <f:selectItems value="#{cc.attrs.managedBean.moPoliclinicList}" var="r" itemLabel="#{r.id.polId} - #{r.name}" itemValue="#{r}" />
 	        </p:selectOneMenu>	        
 		
 	       	<p:outputLabel for="adrmo" value="Адрес:" rendered="#{cc.attrs.renderedAdress}"/>		
-			<p:outputLabel id="adrmo" value="#{cc.attrs.managedBean.selectedMom.addr}" class="select-onlyread--label" rendered="#{cc.attrs.renderedAdress}"/>		
+			<p:outputLabel id="adrmo" value="#{cc.attrs.managedBean.selectedMom.addr}" rendered="#{cc.attrs.renderedAdress}"/>		
 	</h:panelGrid>
   </cc:implementation>
 </html>
