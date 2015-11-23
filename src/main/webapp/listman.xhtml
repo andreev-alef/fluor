@@ -1,268 +1,268 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:cc="http://java.sun.com/jsf/composite/components">
-<h:head>
-  <title>Флюорокартотека</title>
-  <h:outputScript library="js" name="locale.js" />  
-  <f:metadata>
-    <f:viewAction action="#{listmanBean.searchOrFilter()}" />
-  </f:metadata>
-</h:head>
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:cc="http://java.sun.com/jsf/composite/components">
+    <h:head>
+        <title>Флюорокартотека</title>
+        <h:outputScript library="js" name="locale.js" />  
+        <f:metadata>
+            <f:viewAction action="#{listmanBean.searchOrFilter()}" />
+        </f:metadata>
+    </h:head>
 
-<h:body>
-  <ui:include src="/WEB-INF/templates/timeout.xhtml" />
+    <h:body>
+        <ui:include src="/WEB-INF/templates/timeout.xhtml" />
+        
+        <h:form id="frmList">
+            <p:outputPanel>
+                <p:panel header="Пользователь">
+                    <ui:include src="/WEB-INF/templates/userpanel.xhtml" />
+                </p:panel>
+                <p:panel header="Поиск пациента">
+                    <h:panelGrid id="searchParams" columns="10" focus="fam">
+                        <p:outputLabel for="fam" value="Фамилия" />
+                        <p:inputText id="fam" value="#{listmanBean.srcFam}" />
+                        <p:outputLabel for="im" value="Имя" />
+                        <p:inputText id="im" value="#{listmanBean.srcIm}" />
+                        <p:outputLabel for="ot" value="Отчество" />
+                        <p:inputText id="ot" value="#{listmanBean.srcOt}" />
+                        <p:outputLabel for="dr" value="Дата рождения" />
+                        <p:calendar id="dr" value="#{listmanBean.srcDr}" locale="#{applicationBean.locale.language}" pattern="#{applicationBean.dateFormat.toPattern()}" />
+                        <p:commandButton id="search" value="Найти" action="#{listmanBean.search()}" update="patientTable msg-search" />
+                        <p:commandButton id="btn-showall" value="Показать всех" action="#{listmanBean.clearSearch()}" update="searchParams patientTable msg-search" />
+                        <p:blockUI block="frmList" trigger="search" />
+                    </h:panelGrid>
+                </p:panel>
 
-  <h:form id="frmList">
-  <p:outputPanel>
-	<p:panel header="Пользователь">
-		<ui:include src="/WEB-INF/templates/userpanel.xhtml" />
-	</p:panel>
-	<p:panel header="Поиск пациента">
-		<h:panelGrid id="searchParams" columns="10" focus="fam">
-			<p:outputLabel for="fam" value="Фамилия" />
-			<p:inputText id="fam" value="#{listmanBean.srcFam}" />
-			<p:outputLabel for="im" value="Имя" />
-			<p:inputText id="im" value="#{listmanBean.srcIm}" />
-			<p:outputLabel for="ot" value="Отчество" />
-			<p:inputText id="ot" value="#{listmanBean.srcOt}" />
-			<p:outputLabel for="dr" value="Дата рождения" />
-			<p:calendar id="dr" value="#{listmanBean.srcDr}" locale="#{applicationBean.locale.language}" pattern="#{applicationBean.dateFormat.toPattern()}" />
-			<p:commandButton id="search" value="Найти" action="#{listmanBean.search()}" update="patientTable msg-search" />
-			<p:commandButton id="btn-showall" value="Показать всех" action="#{listmanBean.clearSearch()}" update="searchParams patientTable msg-search" />
-			<p:blockUI block="frmList" trigger="search" />
-		</h:panelGrid>
-	</p:panel>
+                <p:outputPanel>	
+                    <p:messages id="msg-search" autoUpdate="false"/>
+                    <p:commandLink value="Фильтр записей" update=":frmFind:pnlDlg" oncomplete="PF('find').show()" />
+                </p:outputPanel>
 
-	<p:outputPanel>	
-		<p:messages id="msg-search" autoUpdate="false"/>
-		<p:commandLink value="Фильтр записей" update=":frmFind:pnlDlg" oncomplete="PF('find').show()" />
-	</p:outputPanel>
+                <p:outputPanel> 
+                    <p:dataTable id="patientTable" value="#{listmanBean.model}" var="v"
+                                 widgetVar="wv"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 first="#{listmanBean.paginatorFirst}"
+                                 paginator="true" rows="#{listmanBean.paginatorRowsCount}" lazy="true"				
+                                 rowsPerPageTemplate="5, 10, 15"
+                                 paginatorPosition="bottom"
+                                 emptyMessage="#{msg['PatList.Empty']}">
+                        <p:ajax event="page" listener="#{listmanBean.onPageChange}" />
+                        <p:column headerText="Информация о пациенте">				   
+                            <p:link id="view" value="Просмотр" outcome="viewman">					        
+                                <f:param name="patId" value="#{v.id}"/>
+                                <f:param name="editable" value="false"/>
+                            </p:link>
+                            <p:tooltip for="view" value="Просмотр" />
 
-	<p:outputPanel> 
-		<p:dataTable id="patientTable" value="#{listmanBean.model}" var="v"
-			widgetVar="wv"
-			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-			first="#{listmanBean.paginatorFirst}"
-			paginator="true" rows="#{listmanBean.paginatorRowsCount}" lazy="true"				
-			rowsPerPageTemplate="5, 10, 15"
-			paginatorPosition="bottom"
-			emptyMessage="#{msg['PatList.Empty']}">
-			<p:ajax event="page" listener="#{listmanBean.onPageChange}" />
-			<p:column headerText="Информация о пациенте">				   
-			    <p:link id="view" value="Просмотр" outcome="viewman">					        
-					<f:param name="patId" value="#{v.id}"/>
-					<f:param name="editable" value="false"/>
-			    </p:link>
-			    <p:tooltip for="view" value="Просмотр" />
-			   
-			    <p:link id="edit" value="Редактирование" outcome="editman" rendered="#{roleBean.editPermission()}">					        
-					<f:param name="patId" value="#{v.id}"/>
-					<f:param name="editable" value="true"/>
-			    </p:link>
-			    <p:tooltip for="edit" value="Редактирование" />
-			</p:column>
-							
-			<p:column headerText="Фамилия">
-				<h:outputText value="#{v.lastName}" />
-			</p:column>
-			
-			<p:column headerText="Имя">
-				<h:outputText value="#{v.firstName}" />
-			</p:column>
-		
-			<p:column headerText="Отчество">
-				<h:outputText value="#{v.fatherName}" />
-			</p:column>
-			<p:column headerText="Дата рождения">
-				<h:outputText value="#{v.datBirth}">
-				  <f:convertDateTime locale="#{applicationBean.locale.language}" />
-				</h:outputText>
-			</p:column>
-		
-			<p:column headerText="Пол" rendered="false">
-				<h:outputText value="#{v.gender}" />
-			</p:column>
-		
-			<p:column headerText="Населенный пункт" >
-				<h:outputText value="#{v.address.livCity}"/>
-			</p:column>		
-			
-		
-			<p:column headerText="Адрес" rendered="false">
-				<h:outputText value="#{v.address.livStreet} #{v.address.livHouse} - #{v.address.livFlat}" />
-			</p:column>
-		
-			<p:column headerText="Дата последнего обследования">
-				<p:commandLink id="data-exam" update=":browseExamId" oncomplete="PF('browseExamVar').show()" actionListener="#{listmanBean.setSelectedFIO(v.lastName, v.firstName, v.fatherName)}" action="#{examinationBean.loadExam(v.id, v.patientId, false)}">
-					<h:outputText value="#{v.lastExam}">
-						<f:convertDateTime locale="#{applicationBean.locale.language}" />
-					</h:outputText>
-				</p:commandLink>
-				<p:tooltip for="data-exam" value="Просмотр исследований"/>
-			</p:column>
-		
-			<p:column headerText="Результат">
-				<h:outputText value="#{v.result}" />
-			</p:column>
-		
-			<p:column headerText="Верификация">
-				<h:outputText value="#{v.verification}" />
-			</p:column>
-			
-			<p:column headerText="Дата смерти" rendered="false">
-				<h:outputText value="#{v.datDeath}" />
-			</p:column>
-		</p:dataTable>	
-	</p:outputPanel>
-  </p:outputPanel>
+                            <p:link id="edit" value="Редактирование" outcome="editman" rendered="#{roleBean.editPermission()}">					        
+                                <f:param name="patId" value="#{v.id}"/>
+                                <f:param name="editable" value="true"/>
+                            </p:link>
+                            <p:tooltip for="edit" value="Редактирование" />
+                        </p:column>
 
-  <p:outputPanel rendered="#{roleBean.editPermission()}">
-	<p:link value="Добавить пациента" outcome="editman">
-		<f:param name="editable" value="true"/>
-	</p:link>
+                        <p:column headerText="Фамилия">
+                            <h:outputText value="#{v.lastName}" />
+                        </p:column>
 
-	<p:commandLink id="btn-report" value="Отчетные формы" update=":frmPrint:pnlDlg" oncomplete="PF('print').show()" rendered="#{roleBean.VerifyAndReportPermission()}" />
+                        <p:column headerText="Имя">
+                            <h:outputText value="#{v.firstName}" />
+                        </p:column>
 
-	<p:link value="Загрузить из файла" outcome="upload" rendered="#{roleBean.uploadFilePermission()}" />
+                        <p:column headerText="Отчество">
+                            <h:outputText value="#{v.fatherName}" />
+                        </p:column>
+                        <p:column headerText="Дата рождения">
+                            <h:outputText value="#{v.datBirth}">
+                                <f:convertDateTime locale="#{applicationBean.locale.language}" />
+                            </h:outputText>
+                        </p:column>
 
-	<p:link value="Редактировать план на год" outcome="planman" rendered="#{roleBean.planPermission()}">
-		<f:param name="editable" value="true"/>
-	</p:link>				
-  </p:outputPanel>		      
-  </h:form>
+                        <p:column headerText="Пол" rendered="false">
+                            <h:outputText value="#{v.gender}" />
+                        </p:column>
 
-	<p:dialog id="browseExamId" widgetVar="browseExamVar" modal="true" header="Пациент: #{listmanBean.selectedFIO}" resizable="false">
-	  <p:commandButton id="btn-closeexamid" value="Закрыть" oncomplete="PF('browseExamVar').hide()" /> 
-	  <ui:include src="WEB-INF/templates/examination.xhtml" />
-	</p:dialog>
+                        <p:column headerText="Населенный пункт" >
+                            <h:outputText value="#{v.address.livCity}"/>
+                        </p:column>		
 
-    <h:form id="frmFind" >
-		<p:dialog id="dlg" widgetVar="find" modal="true" header="Фильтр записей" resizable="false">			
-    		  <p:commandButton id="btn-filterclose" value="Закрыть" oncomplete="PF('find').hide()" />
-			<p:outputPanel id="pnlDlg">
-			  <p:scrollPanel mode="native" style="max-height: 600px;max-width: 600px">				
-			    <p:panel header="Адрес проживания">
-					<cc:fias_addr  managedBean="#{fiasEditorFilter}" />
-			    </p:panel>
-			
-			    <p:panel header="МО прикрепления пациентa по ОМС">				
-					<cc:medical_org managedBean="#{filterBean}" />
-			    </p:panel>
-			    <p:panel header="Контингенты населения">					
-					<cc:patient_groups managedBean="#{filterBean}" decrGroupValue="#{filterBean.selectedDg}" 
-						medGroupValue="#{filterBean.selectedMg}" riskGroupValue="#{filterBean.selectedSg}" />
-			    </p:panel>
-			    <p:panel header="Обследования">					
-				<h:panelGrid columns="2">
-			        <p:outputLabel for="regobs" value="Регион" />
-				    <p:selectOneMenu id="regobs" value="#{filterBean.selectedRegObs}" converter="#{filterBean.mor2Converter}">
-						<p:ajax listener="#{filterBean.regobsSelected}" update="npobs mobs" />
-						<f:selectItem itemLabel="#{filterBean.moRegionObsList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
-						<f:selectItems value="#{filterBean.moRegionObsList}" var="r" itemLabel="#{r.regId} - #{r.name}" itemValue="#{r}" />
-				     </p:selectOneMenu>
 
-			        <p:outputLabel for="npobs" value="Населенный пункт" />
-				  <p:selectOneMenu id="npobs" value="#{filterBean.selectedTerObs}" converter="#{filterBean.mot2Converter}">
-				      <p:ajax listener="#{filterBean.motobsSelected}" update="mobs" />
-			          <f:selectItem itemLabel="#{filterBean.moTerList2.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
-				      <f:selectItems value="#{filterBean.moTerList2}" var="r" itemLabel="#{r.id.terId} - #{r.name}" itemValue="#{r}" />
-				    </p:selectOneMenu>
-				    
-			        <p:outputLabel for="mobs" value="ЛПУ" />
-				  <p:selectOneMenu id="mobs" value="#{filterBean.selectedLpuObs}" converter="#{filterBean.mom2Converter}">
-			          <f:selectItem itemLabel="#{filterBean.moMainList2.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
-				      <f:selectItems value="#{filterBean.moMainList2}" var="r" itemLabel="#{r.id.lpuId} - #{r.name}" itemValue="#{r}" />
-				    </p:selectOneMenu>
-	    
-			        <h:outputLabel for="rez" value="Результат" />
-				   <p:selectOneMenu id="rez" value="#{filterBean.selectedRezType}"  converter="#{filterBean.restypeConverter}">
-			          <f:selectItem itemLabel="#{filterBean.restypeList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
-				      <f:selectItems value="#{filterBean.restypeList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
-				    </p:selectOneMenu>
+                        <p:column headerText="Адрес" rendered="false">
+                            <h:outputText value="#{v.address.livStreet} #{v.address.livHouse} - #{v.address.livFlat}" />
+                        </p:column>
 
-					<p:outputLabel for="ver" value="Верификация" />
-				    <p:selectOneMenu id="ver" value="#{filterBean.selectedVer}" converter="#{filterBean.verConverter}">
-			          <f:selectItem itemLabel="#{filterBean.verList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
-				      <f:selectItems value="#{filterBean.verList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
-				    </p:selectOneMenu>
-					
-					<p:column>
-			   			<p:outputLabel value="Период: c " />
-					</p:column>
-					<p:column>						    
-					    <p:calendar id="dn" value="#{filterBean.datStart}" locale="ru" />
-					    <p:outputLabel value="по" />
-					    <p:calendar id="dk" value="#{filterBean.datEnd}" locale="ru" />
-					</p:column>						
-				</h:panelGrid>
-			    </p:panel > 
-			  </p:scrollPanel>
-			  		<p:outputPanel rendered="true">
-			    	<p:messages id="msg-filter" autoUpdate="false"/>
-					<p:commandButton id="btn-confirmfilter" value="Применить" action="#{listmanBean.filter()}" update=":frmList:patientTable msg-filter" oncomplete="if (args &amp;&amp; !args.validationFailed) PF('find').hide()" />
-					<p:commandButton id="filter-clear" value="Очистить поля" action="#{filterBean.clearFilter()}" update=":frmFind:pnlDlg">
-			       		<p:ajax resetValues="true" update=":frmFind:pnlDlg" />
-					</p:commandButton>
-					<p:outputLabel rendered="#{!filterBean.filterClear}" value="Фильтр не был очищен "/>
-			    </p:outputPanel>
-		      </p:outputPanel>			   	
-		</p:dialog>
-	</h:form>
+                        <p:column headerText="Дата последнего обследования">
+                            <p:commandLink id="data-exam" update=":browseExamId" oncomplete="PF('browseExamVar').show()" actionListener="#{listmanBean.setSelectedFIO(v.lastName, v.firstName, v.fatherName)}" action="#{examinationBean.loadExam(v.id, v.patientId, false)}">
+                                <h:outputText value="#{v.lastExam}">
+                                    <f:convertDateTime locale="#{applicationBean.locale.language}" />
+                                </h:outputText>
+                            </p:commandLink>
+                            <p:tooltip for="data-exam" value="Просмотр исследований"/>
+                        </p:column>
 
-  	<h:form id="frmException" >
-	    <p:ajaxExceptionHandler type="java.lang.Exception"
-                            update="exceptionDialog"
-                            onexception="PF('exceptionDialog').show();" />
- 
-	    <p:dialog id="exceptionDialog" header="Ошибка" widgetVar="exceptionDialog" height="100px">
-		  	<p:commandButton id="btn-closeexeption" value="Закрыть" oncomplete="PF('exceptionDialog').hide()" />
-	        <br/><br/>Сообщение: #{pfExceptionHandler.message} <br/>
-	    </p:dialog>
-	</h:form>
-             
-	<h:form id="frmPrint">
-		<p:dialog id="dlg" widgetVar="print" modal="true"
-			header="Отчетные формы" resizable="false">
-			<p:commandButton id="btn-closereport" value="Закрыть" oncomplete="PF('print').hide()" />
-			<p:outputPanel id="pnlDlg">				  
-			  <p:panel header="Уровень отчета">				
-				<cc:medical_org managedBean="#{reportBean}" renderedPoliclinic="false" />
-			  </p:panel>
-			  <p:panel header="Период">
-				<h:panelGrid columns="2">
-				    <p:column>
-				        <p:outputLabel value="Сформировать отчет: с" />  
-				    </p:column>
-				    <p:column>						
-					<p:calendar id="dn" value="#{reportBean.datStart}" locale="ru" />
-					<p:outputLabel value="по" />
-					<p:calendar id="dk" value="#{reportBean.datEnd}" locale="ru" />
-				    </p:column>
-				</h:panelGrid>
-			   </p:panel>
-			  <p:panel header="Вид отчета">
-			    <p:messages id="msg-rep" autoUpdate="false"/>
-				<h:panelGrid columns="3">
-					<p:outputLabel value="1. Флюороосмотры социальных групп населения" />
-					<p:commandLink id="btn-showsoc" value="Показать на экране" update="msg-rep" action="#{reportBean.printReport(1, false)}" />
-					<p:commandLink id="btn-pdfsoc" value="Сформировать в PDF" update="msg-rep" action="#{reportBean.printReport(1, true)}" />
-					
-					<p:outputLabel value="2. Флюороосмотры декретированных групп населения" />
-					<p:commandLink id="btn-showdec" value="Показать на экране" update="msg-rep" action="#{reportBean.printReport(3, false)}" />
-					<p:commandLink id="btn-pdfdec" value="Сформировать в PDF" update="msg-rep" action="#{reportBean.printReport(3, true)}" />
+                        <p:column headerText="Результат">
+                            <h:outputText value="#{v.result}" />
+                        </p:column>
 
-					<p:outputLabel value="3. Флюороосмотры медицинских групп населения" />
-					<p:commandLink id="btn-showmed" value="Показать на экране" update="msg-rep" action="#{reportBean.printReport(2, false)}" />
-					<p:commandLink id="btn-pdfmed" value="Сформировать в PDF" update="msg-rep" action="#{reportBean.printReport(2, true)}" />
-				</h:panelGrid>
-			  </p:panel>
-			</p:outputPanel>
-		</p:dialog>
-	</h:form>	
-</h:body>
+                        <p:column headerText="Верификация">
+                            <h:outputText value="#{v.verification}" />
+                        </p:column>
+
+                        <p:column headerText="Дата смерти" rendered="false">
+                            <h:outputText value="#{v.datDeath}" />
+                        </p:column>
+                    </p:dataTable>	
+                </p:outputPanel>
+            </p:outputPanel>
+
+            <p:outputPanel rendered="#{roleBean.editPermission()}">
+                <p:link value="Добавить пациента" outcome="editman">
+                    <f:param name="editable" value="true"/>
+                </p:link>
+
+                <p:commandLink id="btn-report" value="Отчетные формы" update=":frmPrint:pnlDlg" oncomplete="PF('print').show()" rendered="#{roleBean.VerifyAndReportPermission()}" />
+
+                <p:link value="Загрузить из файла" outcome="upload" rendered="#{roleBean.uploadFilePermission()}" />
+
+                <p:link value="Редактировать план на год" outcome="planman" rendered="#{roleBean.planPermission()}">
+                    <f:param name="editable" value="true"/>
+                </p:link>				
+            </p:outputPanel>		      
+        </h:form>
+
+        <p:dialog id="browseExamId" widgetVar="browseExamVar" modal="true" header="Пациент: #{listmanBean.selectedFIO}" resizable="false">
+            <p:commandButton id="btn-closeexamid" value="Закрыть" oncomplete="PF('browseExamVar').hide()" /> 
+            <ui:include src="WEB-INF/templates/examination.xhtml" />
+        </p:dialog>
+
+        <h:form id="frmFind" >
+            <p:dialog id="dlg" widgetVar="find" modal="true" header="Фильтр записей" resizable="false">			
+                <p:commandButton id="btn-filterclose" value="Закрыть" oncomplete="PF('find').hide()" />
+                <p:outputPanel id="pnlDlg">
+                    <p:scrollPanel mode="native" style="max-height: 600px;max-width: 600px">				
+                        <p:panel header="Адрес проживания">
+                            <cc:fias_addr  managedBean="#{fiasEditorFilter}" />
+                        </p:panel>
+
+                        <p:panel header="МО прикрепления пациентa по ОМС">				
+                            <cc:medical_org managedBean="#{filterBean}" />
+                        </p:panel>
+                        <p:panel header="Контингенты населения">					
+                            <cc:patient_groups managedBean="#{filterBean}" decrGroupValue="#{filterBean.selectedDg}" 
+                                               medGroupValue="#{filterBean.selectedMg}" riskGroupValue="#{filterBean.selectedSg}" />
+                        </p:panel>
+                        <p:panel header="Обследования">					
+                            <h:panelGrid columns="2">
+                                <p:outputLabel for="regobs" value="Регион" />
+                                <p:selectOneMenu id="regobs" value="#{filterBean.selectedRegObs}" converter="#{filterBean.mor2Converter}">
+                                    <p:ajax listener="#{filterBean.regobsSelected}" update="npobs mobs" />
+                                    <f:selectItem itemLabel="#{filterBean.moRegionObsList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
+                                    <f:selectItems value="#{filterBean.moRegionObsList}" var="r" itemLabel="#{r.regId} - #{r.name}" itemValue="#{r}" />
+                                </p:selectOneMenu>
+
+                                <p:outputLabel for="npobs" value="Населенный пункт" />
+                                <p:selectOneMenu id="npobs" value="#{filterBean.selectedTerObs}" converter="#{filterBean.mot2Converter}">
+                                    <p:ajax listener="#{filterBean.motobsSelected}" update="mobs" />
+                                    <f:selectItem itemLabel="#{filterBean.moTerList2.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
+                                    <f:selectItems value="#{filterBean.moTerList2}" var="r" itemLabel="#{r.id.terId} - #{r.name}" itemValue="#{r}" />
+                                </p:selectOneMenu>
+
+                                <p:outputLabel for="mobs" value="ЛПУ" />
+                                <p:selectOneMenu id="mobs" value="#{filterBean.selectedLpuObs}" converter="#{filterBean.mom2Converter}">
+                                    <f:selectItem itemLabel="#{filterBean.moMainList2.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
+                                    <f:selectItems value="#{filterBean.moMainList2}" var="r" itemLabel="#{r.id.lpuId} - #{r.name}" itemValue="#{r}" />
+                                </p:selectOneMenu>
+
+                                <h:outputLabel for="rez" value="Результат" />
+                                <p:selectOneMenu id="rez" value="#{filterBean.selectedRezType}"  converter="#{filterBean.restypeConverter}">
+                                    <f:selectItem itemLabel="#{filterBean.restypeList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
+                                    <f:selectItems value="#{filterBean.restypeList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
+                                </p:selectOneMenu>
+
+                                <p:outputLabel for="ver" value="Верификация" />
+                                <p:selectOneMenu id="ver" value="#{filterBean.selectedVer}" converter="#{filterBean.verConverter}">
+                                    <f:selectItem itemLabel="#{filterBean.verList.size() == 0 ? '-- Список пуст --' : '-- Ничего не выбрано --'}" itemValue="#{null}" noSelectionOption="true" />
+                                    <f:selectItems value="#{filterBean.verList}" var="r" itemLabel="#{r.id} - #{r.name}" itemValue="#{r}" />
+                                </p:selectOneMenu>
+
+                                <p:column>
+                                    <p:outputLabel value="Период: c " />
+                                </p:column>
+                                <p:column>						    
+                                    <p:calendar id="dn" value="#{filterBean.datStart}" locale="ru" />
+                                    <p:outputLabel value="по" />
+                                    <p:calendar id="dk" value="#{filterBean.datEnd}" locale="ru" />
+                                </p:column>						
+                            </h:panelGrid>
+                        </p:panel > 
+                    </p:scrollPanel>
+                    <p:outputPanel rendered="true">
+                        <p:messages id="msg-filter" autoUpdate="false"/>
+                        <p:commandButton id="btn-confirmfilter" value="Применить" action="#{listmanBean.filter()}" update=":frmList:patientTable msg-filter" oncomplete="if (args &amp;&amp; !args.validationFailed) PF('find').hide()" />
+                        <p:commandButton id="filter-clear" value="Очистить поля" action="#{filterBean.clearFilter()}" update=":frmFind:pnlDlg">
+                            <p:ajax resetValues="true" update=":frmFind:pnlDlg" />
+                        </p:commandButton>
+                        <p:outputLabel rendered="#{!filterBean.filterClear}" value="Фильтр не был очищен "/>
+                    </p:outputPanel>
+                </p:outputPanel>			   	
+            </p:dialog>
+        </h:form>
+
+        <h:form id="frmException" >
+            <p:ajaxExceptionHandler type="java.lang.Exception"
+                                    update="exceptionDialog"
+                                    onexception="PF('exceptionDialog').show();" />
+
+            <p:dialog id="exceptionDialog" header="Ошибка" widgetVar="exceptionDialog" height="100px">
+                <p:commandButton id="btn-closeexeption" value="Закрыть" oncomplete="PF('exceptionDialog').hide()" />
+                <br/><br/>Сообщение: #{pfExceptionHandler.message} <br/>
+            </p:dialog>
+        </h:form>
+
+        <h:form id="frmPrint">
+            <p:dialog id="dlg" widgetVar="print" modal="true"
+                      header="Отчетные формы" resizable="false">
+                <p:commandButton id="btn-closereport" value="Закрыть" oncomplete="PF('print').hide()" />
+                <p:outputPanel id="pnlDlg">				  
+                    <p:panel header="Уровень отчета">				
+                        <cc:medical_org managedBean="#{reportBean}" renderedPoliclinic="false" />
+                    </p:panel>
+                    <p:panel header="Период">
+                        <h:panelGrid columns="2">
+                            <p:column>
+                                <p:outputLabel value="Сформировать отчет: с" />  
+                            </p:column>
+                            <p:column>						
+                                <p:calendar id="dn" value="#{reportBean.datStart}" locale="ru" />
+                                <p:outputLabel value="по" />
+                                <p:calendar id="dk" value="#{reportBean.datEnd}" locale="ru" />
+                            </p:column>
+                        </h:panelGrid>
+                    </p:panel>
+                    <p:panel header="Вид отчета">
+                        <p:messages id="msg-rep" autoUpdate="false"/>
+                        <h:panelGrid columns="3">
+                            <p:outputLabel value="1. Флюороосмотры социальных групп населения" />
+                            <p:commandLink id="btn-showsoc" value="Показать на экране" update="msg-rep" action="#{reportBean.printReport(1, false)}" />
+                            <p:commandLink id="btn-pdfsoc" value="Сформировать в PDF" update="msg-rep" action="#{reportBean.printReport(1, true)}" />
+
+                            <p:outputLabel value="2. Флюороосмотры декретированных групп населения" />
+                            <p:commandLink id="btn-showdec" value="Показать на экране" update="msg-rep" action="#{reportBean.printReport(3, false)}" />
+                            <p:commandLink id="btn-pdfdec" value="Сформировать в PDF" update="msg-rep" action="#{reportBean.printReport(3, true)}" />
+
+                            <p:outputLabel value="3. Флюороосмотры медицинских групп населения" />
+                            <p:commandLink id="btn-showmed" value="Показать на экране" update="msg-rep" action="#{reportBean.printReport(2, false)}" />
+                            <p:commandLink id="btn-pdfmed" value="Сформировать в PDF" update="msg-rep" action="#{reportBean.printReport(2, true)}" />
+                        </h:panelGrid>
+                    </p:panel>
+                </p:outputPanel>
+            </p:dialog>
+        </h:form>	
+    </h:body>
 
 </html>
