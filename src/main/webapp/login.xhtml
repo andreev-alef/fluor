@@ -1,24 +1,25 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
-	<h:head>
-		<title>Флюорокартотека: Вход в систему</title>
-	</h:head>
-	<h:body>
-			<h:form id="login">
-				<p:panel>
-				<p:messages id="messages" autoUpdate="false" closable="true" />
-   				<h:panelGrid columns="1">
-       				<p:outputLabel for="username" value="Имя пользователя" />
-        			<p:inputText id="username" name="username" required="true" value="#{loginBean.login}"/>            
-					<p:outputLabel for="password" value="Пароль" />
-        			<p:password id="password" name="password" required="true"  value="#{loginBean.password}"/>
-				</h:panelGrid>
-				</p:panel>
-				<p:commandButton  id="btn-login" value="Войти в систему" update="messages" actionListener="#{loginBean.login}" ajax="false" />
-				</h:form>
-	</h:body>
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <h:outputStylesheet name="/main.css" library="css" />
+        <title>Флюорокартотека: Вход в систему</title>
+    </h:head>
+    <h:body>
+        <h:form id="login">
+            <p:panel>
+                <p:messages id="messages" autoUpdate="false" closable="true" />
+                <h:panelGrid columns="1">
+                    <p:outputLabel for="username" value="Имя пользователя" styleClass="user_name" />
+                    <p:inputText id="username" name="username" required="true" value="#{loginBean.login}"/>            
+                    <p:outputLabel for="password" value="Пароль" />
+                    <p:password id="password" name="password" required="true"  value="#{loginBean.password}"/>
+                </h:panelGrid>
+            </p:panel>
+            <p:commandButton  id="btn-login" value="Войти в систему" update="messages" actionListener="#{loginBean.login}" ajax="false" />
+        </h:form>
+    </h:body>
 </html>
