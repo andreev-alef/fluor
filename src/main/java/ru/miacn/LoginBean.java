@@ -38,23 +38,28 @@ public class LoginBean implements Serializable {
 	private String profile;
 	
 	@PostConstruct
-	public void init() throws IOException, NoSuchAlgorithmException {
-		ExternalContext externalContext = FacesContext.getCurrentInstance()
-				.getExternalContext();
-		originalURL = (String) externalContext.getRequestMap().get(
-				RequestDispatcher.FORWARD_REQUEST_URI);
+	public void init() /*throws IOException/*, NoSuchAlgorithmException*/ {
+	           try {
+                
+                       ExternalContext externalContext = FacesContext.getCurrentInstance()
+                               .getExternalContext();
+                       originalURL = (String) externalContext.getRequestMap().get(
+                               RequestDispatcher.FORWARD_REQUEST_URI);
 
-		if (originalURL == null) {
-			originalURL = externalContext.getRequestContextPath();
-		} else {
-			String originalQuery = (String) externalContext.getRequestMap()
-					.get(RequestDispatcher.FORWARD_QUERY_STRING);
+                       if (originalURL == null) {
+                           originalURL = externalContext.getRequestContextPath();
+                       } else {
+                           String originalQuery = (String) externalContext.getRequestMap()
+                                   .get(RequestDispatcher.FORWARD_QUERY_STRING);
 
-			if (originalQuery != null) {
-				originalURL += "?" + originalQuery;
-			}
-		}
-		getDevProperties();
+                           if (originalQuery != null) {
+                               originalURL += "?" + originalQuery;
+                           }
+                       }
+                       getDevProperties();
+            } catch (Exception e) {
+            }
+	
 	}
 
 	public void login() throws IOException, NoSuchAlgorithmException {

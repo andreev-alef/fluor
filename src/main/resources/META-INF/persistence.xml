@@ -4,10 +4,12 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
  http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="fluor-PU">
+		<!--<jta-data-source>java/datasources/fluor-DS</jta-data-source>-->
 		<jta-data-source>java:/datasources/fluor-DS</jta-data-source>
 		<class>ru.miacn.persistence.reference.RVerification</class>
 	</persistence-unit>
 	<persistence-unit name="Fias-PU">
+		<!--<jta-data-source>java/datasources/Fias-DS</jta-data-source>-->
 		<jta-data-source>java:/datasources/Fias-DS</jta-data-source>
 	</persistence-unit>
 </persistence>
