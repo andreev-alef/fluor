@@ -5,7 +5,6 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <h:outputStylesheet name="/main.css" library="css" />
         <title>Флюорокартотека: Вход в систему</title>
     </h:head>
     <h:body>
@@ -13,7 +12,7 @@
             <p:panel>
                 <p:messages id="messages" autoUpdate="false" closable="true" />
                 <h:panelGrid columns="1">
-                    <p:outputLabel for="username" value="Имя пользователя" styleClass="user_name" />
+                    <p:outputLabel for="username" value="Имя пользователя" />
                     <p:inputText id="username" name="username" required="true" value="#{loginBean.login}"/>            
                     <p:outputLabel for="password" value="Пароль" />
                     <p:password id="password" name="password" required="true"  value="#{loginBean.password}"/>
