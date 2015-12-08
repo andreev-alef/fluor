@@ -1,0 +1,62 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 03.12.2015, 14:54:55
+    Author     : andreev_af
+*/
+
+@font-face{
+    font-family: Cuprum;
+    src:
+        url("#{resource['fonts:cuprum-regular.ttf']}"),
+        url("#{resource['fonts:cuprum-regular.eot']}");
+}
+@font-face{
+    font-family: 'Noto Serif';
+    src:
+        url("#{resource['fonts:notoserif-regular.ttf']}"),
+        url("#{resource['fonts:notoserif-regular.eot']}");
+}
+
+@font-face{
+    font-family: 'PT Sans';
+    src:
+        url("#{resource['fonts:pt-sans.ttf']}"),
+        url("#{resource['fonts:pt-sans.eot']}");
+}
+@font-face{
+    font-family: 'PT Serif';
+    src:
+        url("#{resource['fonts:pt_serif-web-regular.ttf']}"),
+        url("#{resource['fonts:pt_serif-web-regular.eot']}");
+}
+@font-face{
+    font-family: 'Open Sans';
+    src:
+        url("#{resource['fonts:opensans-regular.ttf']}"),
+        url("#{resource['fonts:opensans-regular.eot']}");
+}
+
+@font-face{
+    font-family: 'Open Sans Light';
+    src:
+        url("#{resource['fonts:opensans-light.ttf']}"),
+        url("#{resource['fonts:opensans-light.eot']}");
+}
+
+@font-face{
+    font-family: Exo2;
+    src:
+        url("#{resource['fonts:exo2-regular.ttf']}"),
+        url("#{resource['fonts:exo2-regular.eot']}");
+}
+@font-face{
+    font-family: 'Exo2 Light';
+    src:
+        url("#{resource['fonts:exo2-light.ttf']}"),
+        url("#{resource['fonts:exo2-light.eot']}");
+}
+

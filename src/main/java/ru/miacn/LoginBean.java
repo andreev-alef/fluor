@@ -24,122 +24,130 @@ import ru.miacn.utils.Md5;
 @Named
 @SessionScoped
 public class LoginBean implements Serializable {
-	private static final long serialVersionUID = 271781091507093732L;
 
-	@PersistenceContext(unitName = "fluor-PU")
-	private EntityManager em;
-	private List<User> usersList;
-	private String login;
-	private String password;
-	private User authedUser;
-	private String originalURL;
-	private String authedUserFIO;
-	
-	private String profile;
-	
-	@PostConstruct
-	public void init() /*throws IOException/*, NoSuchAlgorithmException*/ {
-	           try {
-                
-                       ExternalContext externalContext = FacesContext.getCurrentInstance()
-                               .getExternalContext();
-                       originalURL = (String) externalContext.getRequestMap().get(
-                               RequestDispatcher.FORWARD_REQUEST_URI);
+    private static final long serialVersionUID = 271781091507093732L;
 
-                       if (originalURL == null) {
-                           originalURL = externalContext.getRequestContextPath();
-                       } else {
-                           String originalQuery = (String) externalContext.getRequestMap()
-                                   .get(RequestDispatcher.FORWARD_QUERY_STRING);
+    @PersistenceContext(unitName = "fluor-PU")
+    private EntityManager em;
+    private List<User> usersList;
+    private String login;
+    private String password;
+    private User authedUser;
+    private String originalURL;
+    private String authedUserFIO;
+    private String profile;
+    private String buttonCaption;
 
-                           if (originalQuery != null) {
-                               originalURL += "?" + originalQuery;
-                           }
-                       }
-                       getDevProperties();
-            } catch (Exception e) {
+    @PostConstruct
+    public void init() /*throws IOException/*, NoSuchAlgorithmException*/ {
+        try {
+
+            ExternalContext externalContext = FacesContext.getCurrentInstance()
+                    .getExternalContext();
+            originalURL = (String) externalContext.getRequestMap().get(
+                    RequestDispatcher.FORWARD_REQUEST_URI);
+
+            if (originalURL == null) {
+                originalURL = externalContext.getRequestContextPath();
+            } else {
+                String originalQuery = (String) externalContext.getRequestMap()
+                        .get(RequestDispatcher.FORWARD_QUERY_STRING);
+
+                if (originalQuery != null) {
+                    originalURL += "?" + originalQuery;
+                }
             }
-	
-	}
+            getDevProperties();
+        } catch (Exception e) {
+        }
 
-	public void login() throws IOException, NoSuchAlgorithmException {
-		FacesContext context = FacesContext.getCurrentInstance();
-		ExternalContext externalContext = context.getExternalContext();
-		HttpServletRequest request = (HttpServletRequest) externalContext
-				.getRequest();
+    }
 
-		try {	
-			request.login(login, password);
-			searchUser();
-			externalContext.redirect(originalURL);
-			authedUserFIO=authedUser.getLastName()+" "+authedUser.getFirstName()+" "+authedUser.getFatherName();
-		} catch (ServletException e) {
-			context.addMessage(null, new FacesMessage(
-					FacesMessage.SEVERITY_ERROR,
-					"Ошибка входа, введены неверные данные",
-					"Введены неверные данные"));
-		}
-	}
+    public void login() throws IOException, NoSuchAlgorithmException {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = context.getExternalContext();
+        HttpServletRequest request = (HttpServletRequest) externalContext
+                .getRequest();
 
-	public void logout() throws IOException {
-		ExternalContext externalContext = FacesContext.getCurrentInstance()
-				.getExternalContext();
-		
-		externalContext.invalidateSession();
-		externalContext.redirect(externalContext.getRequestContextPath()
-				+ "/login.xhtml");
-	}
+        try {
+            request.login(login, password);
+            searchUser();
+            externalContext.redirect(originalURL);
+            authedUserFIO = authedUser.getLastName() + " " + authedUser.getFirstName() + " " + authedUser.getFatherName();
+        } catch (ServletException e) {
+            context.addMessage(null, new FacesMessage(
+                    FacesMessage.SEVERITY_ERROR,
+                    "Ошибка входа, введены неверные данные",
+                    "Введены неверные данные"));
+        }
+    }
 
-	public String getLogin() {
-		return login;
-	}
+    public void logout() throws IOException {
+        ExternalContext externalContext = FacesContext.getCurrentInstance()
+                .getExternalContext();
 
-	public void setLogin(String login) {
-		this.login = login;
-	}
+        externalContext.invalidateSession();
+        externalContext.redirect(externalContext.getRequestContextPath()
+                + "/login.xhtml");
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public String getLogin() {
+        return login;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setLogin(String login) {
+        this.login = login;
+    }
 
-	public void searchUser() throws NoSuchAlgorithmException {
-		setUsersList(em.createQuery(
-				"SELECT u FROM " + User.class.getName() + " u WHERE u.login= '"
-						+ getLogin() + "'", User.class).getResultList());
-		if (getUsersList().size() > 0
-				&& getUsersList().get(0).getPassword().equals(Md5.md5Custom(password))) {
-			authedUser = getUsersList().get(0);
-		}
-		usersList.clear();
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	private List<User> getUsersList() {
-		return usersList;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	private void setUsersList(List<User> list) {
-		this.usersList = list;
-	}
+    public void searchUser() throws NoSuchAlgorithmException {
+        setUsersList(em.createQuery(
+                "SELECT u FROM " + User.class.getName() + " u WHERE u.login= '"
+                + getLogin() + "'", User.class).getResultList());
+        if (getUsersList().size() > 0
+                && getUsersList().get(0).getPassword().equals(Md5.md5Custom(password))) {
+            authedUser = getUsersList().get(0);
+        }
+        usersList.clear();
+    }
 
-	public User getAuthedUser() {
-		return authedUser;
-	}
+    private List<User> getUsersList() {
+        return usersList;
+    }
 
-	public String getAuthedUserFIO() {
-		return authedUserFIO;
-	}
-	
-	private void getDevProperties() throws IOException, NoSuchAlgorithmException {
-		ResourceBundle rb = ResourceBundle.getBundle("properties/developer");
-		profile = rb.getString("activeProfile");
-		if (profile.equals("development")) {
-			login = rb.getString("dev.login");
-			password = rb.getString("dev.password");
-			login();
-		}
-	}
+    private void setUsersList(List<User> list) {
+        this.usersList = list;
+    }
+
+    public User getAuthedUser() {
+        return authedUser;
+    }
+
+    public String getAuthedUserFIO() {
+        return authedUserFIO;
+    }
+
+    private void getDevProperties() throws IOException, NoSuchAlgorithmException {
+        ResourceBundle rb = ResourceBundle.getBundle("properties/developer");
+        profile = rb.getString("activeProfile");
+        if (profile.equals("development")) {
+            login = rb.getString("dev.login");
+            password = rb.getString("dev.password");
+            login();
+        }
+    }
+
+    public String getButtonCaption() {
+        buttonCaption = "ВОЙТИ <span class=\"glyphicon glyphicon-log-in\"></span>";
+//        buttonCaption = "ВОЙТИ";
+        return buttonCaption;
+    }
+
 }

@@ -6,6 +6,7 @@
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Флюорокартотека: Вход в систему</title>
+        <meta charset="utf-8" />
         <h:outputStylesheet library="styles" name="main.css" />
     </h:head>
     <h:body styleClass="root">
@@ -15,15 +16,16 @@
                 <h:panelGrid columns="1" styleClass="login_block_content">
                     <h1 class="header_fluor">
                         <span class="fluoro">Флюоро</span>картотека
+                        <!--<span class="glyphicon glyphicon-log-in"></span>-->
                     </h1>
-                    <!--<p:outputLabel for="username" value="Имя пользователя" />-->
-                    <p:inputText id="username" name="username" required="true" value="#{loginBean.login}" placeholder="Имя пользователя"/>
-                    <!--<p:outputLabel for="password" value="Пароль" />-->
-                    <p:password id="password" name="password" required="true"  value="#{loginBean.password}" placeholder="Пароль"/>
+                    <p:inputText id="username" styleClass="input_user_name" required="true" value="#{loginBean.login}" placeholder="Имя пользователя"/>
+                    <p:password id="password" styleClass="input_user_password" required="true"  value="#{loginBean.password}" placeholder="Пароль"/>
                 </h:panelGrid>
+                <p:commandButton styleClass="btn_login" id="btn-login" value="#{loginBean.buttonCaption}" update="messages" actionListener="#{loginBean.login}" ajax="false" escape="false" />
             </p:panel>
-            <p:commandButton styleClass="btn_login" id="btn-login" value="ВОЙТИ" update="messages" actionListener="#{loginBean.login}" ajax="false" />
         </h:form>
     </h:body>
 </html>
+<!--<p:outputLabel for="password" value="Пароль" />-->
+<!--<p:outputLabel for="username" value="Имя пользователя" />-->
 <!--Войти в систему-->

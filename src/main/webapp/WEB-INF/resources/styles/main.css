@@ -11,58 +11,7 @@ and open the template in the editor.
 
 @import "#{resource['styles:gi.css']}";
 
-@font-face{
-    font-family: Cuprum;
-    src:
-        url("#{resource['fonts:cuprum-regular.ttf']}"),
-        url("#{resource['fonts:cuprum-regular.eot']}");
-}
-@font-face{
-    font-family: 'Noto Serif';
-    src:
-        url("#{resource['fonts:notoserif-regular.ttf']}"),
-        url("#{resource['fonts:notoserif-regular.eot']}");
-}
-
-@font-face{
-    font-family: 'PT Sans';
-    src:
-        url("#{resource['fonts:pt-sans.ttf']}"),
-        url("#{resource['fonts:pt-sans.eot']}");
-}
-@font-face{
-    font-family: 'PT Serif';
-    src:
-        url("#{resource['fonts:pt_serif-web-regular.ttf']}"),
-        url("#{resource['fonts:pt_serif-web-regular.eot']}");
-}
-@font-face{
-    font-family: 'Open Sans';
-    src:
-        url("#{resource['fonts:opensans-regular.ttf']}"),
-        url("#{resource['fonts:opensans-regular.eot']}");
-}
-
-@font-face{
-    font-family: 'Open Sans Light';
-    src:
-        url("#{resource['fonts:opensans-light.ttf']}"),
-        url("#{resource['fonts:opensans-light.eot']}");
-}
-
-@font-face{
-    font-family: Exo2;
-    src:
-        url("#{resource['fonts:exo2-regular.ttf']}"),
-        url("#{resource['fonts:exo2-regular.eot']}");
-}
-@font-face{
-    font-family: 'Exo2 Light';
-    src:
-        url("#{resource['fonts:exo2-light.ttf']}"),
-        url("#{resource['fonts:exo2-light.eot']}");
-}
-
+@import "#{resource['styles:free-fonts.css']}";
 
 /*----------------------------------------------------------------------------*/
 .root{
@@ -71,9 +20,8 @@ and open the template in the editor.
 }
 
 .header_fluor{
-    /*font-family: "Exo2 Light";*/
     font-family: "PT Serif";
-    font-size: 27px;
+    font-size: 24px;
     text-transform: uppercase;
     text-align: center;
 }
@@ -89,19 +37,22 @@ and open the template in the editor.
     margin-left: -150px;
     margin-top: -100px;
     border: solid 0px #000;
-    /*border-left: solid #234386 3px;*/
-    padding-left: 10px;
+    border-radius: 13px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-right: 0px;
+    /*padding-left: 10px;*/
+    padding-left: 18px !important;
     background-color: #fff;
 }
 
-.login_block_content{
+.login_block > .ui-panel-content{
     padding: 0 !important;
 }
 
-.label_user_name, .label_user_password, .input_user_name{
-    /*font-family: "Exo2";*/
+/*.label_user_name, .label_user_password, .input_user_name{
     font-family: "PT Sans" !important;;
-}
+}*/
 .input_user_name, .input_user_password{
     color: #000070;
     font-family: "PT Sans" !important;;
@@ -112,7 +63,7 @@ and open the template in the editor.
     border-radius: 0px;
     height: 30px;
     width: 270px;
-    margin-top: 15px;
+    margin-top: 15px !important;
 }
 .btn_login{
     /*font-family: "Open Sans";*/
