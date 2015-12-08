@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
 
 @Entity
 public class PatientGroupsOrm {
@@ -12,7 +13,8 @@ public class PatientGroupsOrm {
 	private Integer socGroup;
 	private Integer medGroup;
 	private Integer decrGroup;
-	private Date datDeath;
+//        @Temporal(javax.persistence.TemporalType.DATE)
+        private Date datDeath;
 	public Integer getSocGroup() {
 		return socGroup;
 	}

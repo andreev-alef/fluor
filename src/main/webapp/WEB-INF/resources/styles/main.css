@@ -1,0 +1,141 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+ Created on : 18.11.2015, 16:11:28
+ Author  : alef
+*/
+
+
+@import "#{resource['styles:gi.css']}";
+
+@font-face{
+    font-family: Cuprum;
+    src:
+        url("#{resource['fonts:cuprum-regular.ttf']}"),
+        url("#{resource['fonts:cuprum-regular.eot']}");
+}
+@font-face{
+    font-family: 'Noto Serif';
+    src:
+        url("#{resource['fonts:notoserif-regular.ttf']}"),
+        url("#{resource['fonts:notoserif-regular.eot']}");
+}
+
+@font-face{
+    font-family: 'PT Sans';
+    src:
+        url("#{resource['fonts:pt-sans.ttf']}"),
+        url("#{resource['fonts:pt-sans.eot']}");
+}
+@font-face{
+    font-family: 'PT Serif';
+    src:
+        url("#{resource['fonts:pt_serif-web-regular.ttf']}"),
+        url("#{resource['fonts:pt_serif-web-regular.eot']}");
+}
+@font-face{
+    font-family: 'Open Sans';
+    src:
+        url("#{resource['fonts:opensans-regular.ttf']}"),
+        url("#{resource['fonts:opensans-regular.eot']}");
+}
+
+@font-face{
+    font-family: 'Open Sans Light';
+    src:
+        url("#{resource['fonts:opensans-light.ttf']}"),
+        url("#{resource['fonts:opensans-light.eot']}");
+}
+
+@font-face{
+    font-family: Exo2;
+    src:
+        url("#{resource['fonts:exo2-regular.ttf']}"),
+        url("#{resource['fonts:exo2-regular.eot']}");
+}
+@font-face{
+    font-family: 'Exo2 Light';
+    src:
+        url("#{resource['fonts:exo2-light.ttf']}"),
+        url("#{resource['fonts:exo2-light.eot']}");
+}
+
+
+/*----------------------------------------------------------------------------*/
+.root{
+    margin: 0px;
+    background-color: #e0e0e0;
+}
+
+.header_fluor{
+    /*font-family: "Exo2 Light";*/
+    font-family: "PT Serif";
+    font-size: 27px;
+    text-transform: uppercase;
+    text-align: center;
+}
+.fluoro{
+    color: #6D1B81;
+}
+.login_block{
+    position: absolute;
+    width: 300px;
+    height: 280px;
+    left: 50%;
+    top: 38%;
+    margin-left: -150px;
+    margin-top: -100px;
+    border: solid 0px #000;
+    /*border-left: solid #234386 3px;*/
+    padding-left: 10px;
+    background-color: #fff;
+}
+
+.login_block_content{
+    padding: 0 !important;
+}
+
+.label_user_name, .label_user_password, .input_user_name{
+    /*font-family: "Exo2";*/
+    font-family: "PT Sans" !important;;
+}
+.input_user_name, .input_user_password{
+    color: #000070;
+    font-family: "PT Sans" !important;;
+    font-size: 20px !important; 
+    border: solid 1px #e0e0e0 !important;
+    border-left: solid 2px #009000 !important;
+    box-shadow: none !important;
+    border-radius: 0px;
+    height: 30px;
+    width: 270px;
+    margin-top: 15px;
+}
+.btn_login{
+    /*font-family: "Open Sans";*/
+    font-family: "Exo2";
+    font-family: "Exo2 Light";
+    letter-spacing: 2px;
+    font-size: 24px;
+    font-weight: normal  !important;;
+    border: none  !important;
+    border-radius: 0;
+    background-color: #6D1B81 !important;
+    background-image: none !important;
+    margin-left: 3px;
+    margin-top: 10px;
+    padding: 4px;
+    width: 281px;
+}
+.ui-button-text{
+    color: #FFF;
+    text-shadow: none;
+}
+.btn_login:hover{
+    background-color: #6D1B81 !important;
+    /*box-shadow: none;*/
+    /*border: none  !important;*/
+}
